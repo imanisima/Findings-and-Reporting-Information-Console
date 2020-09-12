@@ -1,26 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './FRIC_gui/FRIC_gui_main.css';
+import React from "react";
+import ReactDOM from "react-dom";
 import * as serviceWorker from './serviceWorker';
 
-class Main extends React.Component {
-  render(){
-      return (
-          <h2>Welcome to FRIC</h2>
-      )
-  }
-}
-
-
-
-
-
+import './FRIC_gui/assets/FRIC_gui_main.css';
+import FRIC from './FRIC.js';
 
 
 // render application
 ReactDOM.render(
   <React.StrictMode>
-    <Main />
+    <FRIC />
   </React.StrictMode>,
   document.getElementById('root')
 );
