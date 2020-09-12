@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+
 import logo from './logo.svg';
 import './FRIC.css';
-import Main from './FRIC_gui/pages/FRIC_gui_main.js'
+
+import Main from './FRIC_gui/pages/FRIC_gui_main.js';
 
 class FRIC extends Component {
   render() {
@@ -14,12 +16,13 @@ class FRIC extends Component {
         <p className="FRIC-intro">
           The information console for tracking vulnerabilities and findings.
         </p>
+
         <Main displaytext="Main Component Data"/>
+
       </div>
-);
+    );
   }
 }
-
 
 
 export default FRIC;
