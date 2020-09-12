@@ -6,7 +6,7 @@ let React = require('react')
 let ReactDOM = require('react-dom')
 
 class SetupContentView extends React.Component {
-	constructor(props) { }
+	constructor(props) {  }
 
 	render() {
 		return (
@@ -27,3 +27,5 @@ class SetupContentView extends React.Component {
 		)
 	}
 }
+
+ReactDOM.render(<SetupContentView />, document.getElementById('root'))
