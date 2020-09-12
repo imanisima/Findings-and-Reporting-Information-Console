@@ -1,0 +1,16 @@
+{
+  "name": "workspace",
+  "version": "0.1.0",
+  "description": "Software II project developed for the Cyber Experimentation & Analysis Division (CEAD).",
+  "homepage": "https://github.com/Imanisima/Findings-and-Reporting-Information-Console",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Imanisima/Findings-and-Reporting-Information-Console"
+  },
+  "private": true,
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3"
+  }
+}
