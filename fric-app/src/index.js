@@ -2,9 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from './serviceWorker';
 
+// css
 import './FRIC_gui/assets/FRIC_gui_main.css';
-import FRIC from './FRIC.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+// components
+import FRIC from './FRIC.js';
 
 // render application
 ReactDOM.render(
