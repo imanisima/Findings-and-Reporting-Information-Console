@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Tab, Row, Col, Nav} from 'react-bootstrap';
-import TableDisplay from '../bootstrap/FRIC_gui_table.js';
+import Accordian from './FRIC_gui_accordian.js';
 
 class TabDisplay extends Component{
   render(){
@@ -42,8 +42,7 @@ class TabDisplay extends Component{
                 <Col sm={9}>
                 <Tab.Content>
                     <Tab.Pane eventKey="tasks">
-                      This is where tasks go.
-                      <TableDisplay/>
+                      <Accordian/>
                       
                         {/* <tasks /> */}
                     </Tab.Pane>

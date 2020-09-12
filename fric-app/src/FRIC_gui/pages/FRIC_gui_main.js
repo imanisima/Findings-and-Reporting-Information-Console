@@ -12,8 +12,6 @@ export default class Main extends Component {
             <div>
                 <MainNav />
                     <body>
-                        <h2> Welcome to F.R.I.C.</h2>
-
                         <TabDisplay />
                     </body>
             </div>
