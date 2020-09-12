@@ -1,12 +1,24 @@
 import React, {Component} from 'react';
+import ReactDOM from "react-dom";
+import TabDisplay from '../bootstrap/FRIC_gui_tabs.js';
+
+import MainNav from '../bootstrap/FRIC_gui_navbar.js';
 
 export default class Main extends Component {
     render() {
-            const element = (<div>Text from Element</div>)
-            return (<div className="comptext">
-            <h3>Tasks</h3>
-                {this.props.displaytext}
-                {element}
-            </div>)
-            }
-        }
+        return(
+        ReactDOM.render(
+            <container>
+            <div>
+                <MainNav />
+                    <body>
+                        <h2> Welcome to F.R.I.C.</h2>
+
+                        <TabDisplay />
+                    </body>
+            </div>
+            </container>, document.getElementById('FRIC'))
+        );
+
+    }
+}
