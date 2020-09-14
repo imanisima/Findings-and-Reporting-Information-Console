@@ -1,3 +1,4 @@
+import {React, Route, IndexRoute} from 'react';
 
 import Main from './FRIC_gui/pages/FRIC_gui_main.js';
 import Archive from './FRIC_gui/pages/FRIC_gui_archive.js';
@@ -10,7 +11,7 @@ import Summary from './FRIC_gui/pages/FRIC_gui_summary.js';
 
 
 export default(
-     <Route path="/" component={FRIC}>
+     <Route path="/" component={Main}>
         <IndexRoute component={Main} />
         <Route path="/archive" component={Archive}/>
         <Route path="/event" component={Event}/>
