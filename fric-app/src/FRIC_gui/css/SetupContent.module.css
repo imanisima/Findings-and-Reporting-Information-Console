@@ -1,0 +1,16 @@
+
+.center {
+	align-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.setupContentForm {
+	width: 30em;
+	padding: 1em;
+}
+
+.setupContentButton {
+	margin: 0.8em;
+	width: 7em;
+}
