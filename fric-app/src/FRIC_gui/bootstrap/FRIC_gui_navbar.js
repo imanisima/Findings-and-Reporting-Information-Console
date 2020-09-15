@@ -1,6 +1,20 @@
 import React, {Component} from 'react';
 import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
 
+
+const handleClick = (action) => {
+  switch(action){
+    case 'system':
+      console.log('System touched');
+      window.location.href = '/systems'
+      window.open(window.location.href)
+      break;
+    default:
+      console.log('default');
+      break;
+  }
+}
+
 class MainNav extends Component{
   render(){
 
@@ -15,8 +29,8 @@ class MainNav extends Component{
                 <NavDropdown title="View" id="collasible-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Tasks</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">Archives</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Systems</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Summary</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3" onClick={() => handleClick('system')}>Systems</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.4">Summary</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link href="#events">Events</Nav.Link>
               </Nav>

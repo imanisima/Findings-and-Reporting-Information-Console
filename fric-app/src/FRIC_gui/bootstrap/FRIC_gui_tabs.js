@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Tab, Row, Col, Nav} from 'react-bootstrap';
 import Accordian from './FRIC_gui_accordian.js';
+import Findings from './../components/findings/FRIC_gui_findings_content'
 
 class TabDisplay extends Component{
   render(){
@@ -47,8 +48,7 @@ class TabDisplay extends Component{
                         {/* <tasks /> */}
                     </Tab.Pane>
                     <Tab.Pane eventKey="findings">
-                    This is where findings may go.
-                        {/* <findings /> */}
+                      {<Findings> </Findings>}
                     </Tab.Pane>
                     <Tab.Pane eventKey="archives">
                     This is where archives can be found.
