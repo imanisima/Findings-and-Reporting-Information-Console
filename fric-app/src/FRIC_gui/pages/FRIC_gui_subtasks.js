@@ -1,11 +1,11 @@
 
 import React, {Component} from 'react';
-import SubtasksView from '../components/SubtasksView'
+import SubtasksContentView from '../components/SubtasksContentView'
 
 export default class Subtasks extends Component {
     render() {
         return(
-            <SubtasksView />
+            <SubtasksContentView />
         );
     }
 }

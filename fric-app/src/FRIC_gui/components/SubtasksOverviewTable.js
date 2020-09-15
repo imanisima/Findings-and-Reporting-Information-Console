@@ -22,7 +22,7 @@ export default class SubtasksOverviewTable extends Component {
 						<th>Due Date</th>
 					</thead>
 					<tbody>
-						{this.props.data.map((item, n) => {
+						{this.props.data.map((item) => {
 							return <SubtasksOverviewTableRow 
 							id={item.id} 
 							title={item.title} 

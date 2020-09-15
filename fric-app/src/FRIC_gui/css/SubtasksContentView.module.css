@@ -1,0 +1,43 @@
+
+.subtaskTableCard {
+	display: inline-block;
+	min-width: 30em;
+	min-height: 40em;
+	width: 40em;
+}
+
+.subtaskDetailCard {
+	display: inline-block;
+	max-width: 30em;
+	max-height: 100%;
+	min-height: 40em;
+	height: 40em;
+	overflow: scroll;
+	
+}
+
+.menuButtonContainer {
+	display:inline-block;
+}
+
+.menuButton {
+	margin: 0.3em;
+}
+
+.addButtonContainer {
+	float: right;
+}
+
+.addButton {
+	margin: 0.3em;
+}
+
+.alignCenter {
+	text-align: center;
+	align-items: center;
+	align-content: center;
+	align-self: center;
+
+	vertical-align: middle;
+	display: inline-block;
+}

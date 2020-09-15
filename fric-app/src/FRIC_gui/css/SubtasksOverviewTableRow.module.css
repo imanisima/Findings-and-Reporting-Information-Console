@@ -1,0 +1,24 @@
+
+.alignCenter {
+	text-align: center;
+	align-items: center;
+	align-content: center;
+	align-self: center;
+
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.alignLeft {
+	text-align: left;
+	align-items: cenleftter;
+	align-content: left;
+	align-self: left;
+}
+
+.alignRight {
+	text-align: right;
+	align-items: right;
+	align-content: right;
+	align-self: right;
+}
