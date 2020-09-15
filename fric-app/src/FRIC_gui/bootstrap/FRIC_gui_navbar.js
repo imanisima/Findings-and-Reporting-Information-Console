@@ -15,6 +15,8 @@ const handleClick = (action) => {
 }
 
 class MainNav extends Component{
+  
+  
   render(){
 
     return (
@@ -34,7 +36,10 @@ class MainNav extends Component{
                 <Nav.Link href="#events">Events</Nav.Link>
               </Nav>
               <Nav>
-              <Nav.Link href="#notification">Notifications</Nav.Link>
+              <Nav.Link href="#notification" 
+               onClick={()=> this.handleClickNav()}
+              >Notifications
+              </Nav.Link>
                 <NavDropdown title="Settings" id="collasible-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Configurations</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">Settings</NavDropdown.Item>
@@ -51,6 +56,11 @@ class MainNav extends Component{
 
     );
     
+  }
+  
+  handleClickNav() {
+    window.location.href = '/notification'
+    window.open(window.location.href)
   }
   
 }

@@ -36,7 +36,7 @@ class TabDisplay extends Component{
                         <Nav.Link eventKey="findings">Findings</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey="archives">Archives</Nav.Link>
+                        <Nav.Link eventKey="archives">Archive</Nav.Link>
                     </Nav.Item>
                 </Nav>
                 </Col>
@@ -51,8 +51,7 @@ class TabDisplay extends Component{
                       {<Findings> </Findings>}
                     </Tab.Pane>
                     <Tab.Pane eventKey="archives">
-                    This is where archives can be found.
-                        {/* <archives /> */}
+                        {}
                     </Tab.Pane>
                 </Tab.Content>
                 </Col>
