@@ -1,4 +1,4 @@
-/*
+/**
  *
  */
 
@@ -27,6 +27,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
+import SubtasksOverviewTableHead from './SubtasksOverviewTableHead'
+import SubtasksOverviewTableToolbar from './SubtasksOverviewTableToolbar'
+
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -52,128 +55,6 @@ function stableSort(array, comparator) {
   });
   return stabilizedThis.map((el) => el[0]);
 }
-
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === 'light'
-			? {
-					color: theme.palette.common.white,
-					backgroundColor: lighten("#066ff9", 0.1) //lighten(theme.palette.primary.dark, 0.20) 
-				}
-			: {
-					color: theme.palette.text.primary,
-					backgroundColor: theme.palette.primary.light,
-				},
-  title: {
-    flex: '1 1 100%',
-  },
-}));
-
-const AddButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.common.white,
-    backgroundColor: "#066ff9",
-    '&:hover': {
-      backgroundColor: darken("#066ff9", 0.13),
-    },
-  },
-}))(Button);
-
-const CustomTableToolbar = (props) => {
-  const classes = useToolbarStyles();
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <container className={classes.title}>
-					<AddButton variant="contained" color="#066ff9" startIcon={<AddIcon />}>
-						New
-					</AddButton>
-				</container>
-      )}
-
-      {numSelected > 0 ? (
-				<Tooltip title="Edit">
-					<IconButton aria-label="edit" style={{color: "dark-grey", backgroundColor: "#ffffff"}}><EditIcon  /></IconButton>
-				</Tooltip>
-				// <Button variant="contained" endIcon={<EditIcon />}>Edit</Button>
-			) : (
-				<Tooltip title="Filter list">
-					<Button variant="contained" endIcon={<FilterListIcon />}>Filter</Button>
-				</Tooltip>
-			)}
-    </Toolbar>
-  );
-};
-
-CustomTableToolbar.propTypes = { numSelected: PropTypes.number.isRequired, };
-
-function CustomTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-						inputProps={{ 'aria-label': 'select all desserts' }}
-						style={{color: "#066ff9"}}
-          />
-        </TableCell>
-        {props.headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-CustomTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -228,7 +109,7 @@ const StyledTableCell = withStyles((theme) => ({
 export default function SubtasksOverviewTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('title');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
@@ -285,7 +166,7 @@ export default function SubtasksOverviewTable(props) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <CustomTableToolbar numSelected={selected.length} />
+				<SubtasksOverviewTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -293,7 +174,7 @@ export default function SubtasksOverviewTable(props) {
             size={dense ? 'small' : 'medium'}
             aria-label="custom table"
           >
-            <CustomTableHead
+						<SubtasksOverviewTableHead
 							headCells={props.headings}
               classes={classes}
               numSelected={selected.length}

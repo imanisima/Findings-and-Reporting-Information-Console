@@ -3,10 +3,9 @@
  */
 
 import React from 'react'
+import SubtasksOverviewTable from './SubtasksOverviewTable'
 import SubtaskDetailView from './SubtaskDetailView'
 import styles from '../css/SubtasksContentView.module.css'
-import SubtasksOverviewTable from './SubtasksOverviewTable'
-
 
 /* TODO: Testing data, delete when file is connected to production system */
 // Available options for detail view
