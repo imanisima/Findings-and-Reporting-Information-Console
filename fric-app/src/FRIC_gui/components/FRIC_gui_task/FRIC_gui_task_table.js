@@ -1,6 +1,6 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory from "react-bootstrap-table2-paginator";
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
 const tasks = [
@@ -39,23 +39,28 @@ const columns = [
   {
     dataField: "name",
     text: "Task",
-    sort: true
+    sort: true,
+    footer: 'Task',
   },
   {
     dataField: "system",
     text: "System",
+    footer: 'System',
   },
   {
     dataField: "status",
     text: "Status",
+    footer: 'Status',
   },
   {
     dataField: "priority",
     text: "Priority",
+    footer: 'Priority',
   },
   {
     dataField: "duedate",
     text: "Due Date",
+    footer: 'Due Date',
   }
 ];
 
@@ -94,6 +99,7 @@ function onAfterInsertRow(row) {
   alert('The new row is:\n ' + newRowStr);
 }
 
+
 const options = {
   sizePerPageRenderer,
   afterInsertRow: onAfterInsertRow
@@ -103,6 +109,7 @@ const { SearchBar } = Search;
 const BasicTable = () => {
   return (
 
+    // <BootstrapTable
     <BootstrapTable
       keyField="id"
       data={ tasks }
@@ -111,10 +118,12 @@ const BasicTable = () => {
       insertRow={ true }
       options={ options }
       striped
+
+      
+      
       hover
-      condensed
       pagination={ paginationFactory(options)}
-      search
+      
     >
 
 
