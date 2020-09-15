@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
 
-
 const handleClick = (action) => {
   switch(action){
     case 'system':

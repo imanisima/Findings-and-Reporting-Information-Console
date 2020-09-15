@@ -18,7 +18,6 @@ export default(
         <Route path="/setup" component={Setup}/>
         <Route path="/context" component={Context}/>
         <Route path="/summary" component={Summary}/>
-
     </Route>
 
 );
