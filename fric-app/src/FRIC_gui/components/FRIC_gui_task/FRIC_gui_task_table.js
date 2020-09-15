@@ -1,6 +1,8 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import paginationFactory, { PaginationProvider, PaginationListStandalone } from 'react-bootstrap-table2-paginator';
+import filterFactory, { selectFilter } from 'react-bootstrap-table2-filter';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
 const tasks = [
@@ -9,7 +11,7 @@ const tasks = [
     name: 'Check Errors',
     system: 'Wells Fargo ATM',
     status: 'In Progress',
-    priority: 'M',
+    priority: 'Moderate',
     duedate: '08/20/2020',
     id: 'AC'
   }, {
@@ -17,7 +19,7 @@ const tasks = [
     name: 'Blind SQL Injection',
     system: 'Wells Fargo ATM',
     status: 'Completed',
-    priority: 'H',
+    priority: 'High',
     duedate: '09/05/2020',
     id: 'DB'
   }, {
@@ -25,11 +27,26 @@ const tasks = [
     name: 'Run Wireshark',
     system: 'Wells Fargo Switch #5',
     status: 'Ackowledged',
-    priority: 'L',
+    priority: 'Low',
     duedate: '09/20/2020',
     id: 'IE'
   }
 ];
+
+// filtering
+const selectPriorityOptions = {
+  0: 'low',
+  1: 'moderate',
+  2: 'high'
+};
+
+const selectStatusOptions = {
+  0: 'Acknowledged',
+  1: 'In Progress',
+  2: 'Complete',
+  3: 'Not do-able'
+};
+
 
 const columns = [
   {
@@ -41,26 +58,71 @@ const columns = [
     text: "Task",
     sort: true,
     footer: 'Task',
+    // filter: textFilter()
   },
   {
     dataField: "system",
     text: "System",
     footer: 'System',
+    sort: true,
+    // filter: textFilter()
   },
   {
     dataField: "status",
     text: "Status",
     footer: 'Status',
+    sort: true,
+
+    editor: {
+      type: Type.SELECT,
+      getOptions: (setOptions, { row, column }) => {
+        console.log(`current editing row id: ${row.id}`);
+        console.log(`current editing column: ${column.dataField}`);
+        return [{
+          value: 'In Progress',
+          label: 'In Progress',
+        }, {
+          value: 'Acknowledged',
+          label: 'Acknowledged',
+        }, {
+          value: 'Complete',
+          label: 'Complete',
+        }, {
+          value: 'Not do-able',
+          label: 'Not do-able',
+        }];
+      }
+    }
   },
   {
     dataField: "priority",
     text: "Priority",
     footer: 'Priority',
+    sort: true,
+
+    editor: {
+      type: Type.SELECT,
+      getOptions: (setOptions, { row, column }) => {
+        console.log(`current editing row id: ${row.id}`);
+        console.log(`current editing column: ${column.dataField}`);
+        return [{
+          value: 'High',
+          label: 'High',
+        }, {
+          value: 'Moderate',
+          label: 'Moderate',
+        }, {
+          value: 'Low',
+          label: 'Low',
+        }];
+      }
+    }
   },
   {
     dataField: "duedate",
     text: "Due Date",
     footer: 'Due Date',
+    sort: true
   }
 ];
 
@@ -89,6 +151,7 @@ const sizePerPageRenderer = ({
   </div>
 );
 
+
 /* Insert */
 function onAfterInsertRow(row) {
   let newRowStr = '';
@@ -98,6 +161,12 @@ function onAfterInsertRow(row) {
   }
   alert('The new row is:\n ' + newRowStr);
 }
+
+/* Sorting */
+const defaultSorted = [{
+  dataField: 'duedate',
+  order: 'desc'
+}];
 
 
 const options = {
@@ -118,11 +187,12 @@ const BasicTable = () => {
       insertRow={ true }
       options={ options }
       striped
-
+      defaultSorted={ defaultSorted } 
       
+      cellEdit={ cellEditFactory({ mode: 'click', blurToSave: true }) }
       
       hover
-      pagination={ paginationFactory(options)}
+      // pagination={ paginationFactory(options)}
       
     >
 
