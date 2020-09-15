@@ -10,11 +10,10 @@ import Summary from './FRIC_gui/pages/FRIC_gui_summary.js';
 
 
 export default(
-     <Route path="/" component={FRIC}>
-        <IndexRoute component={Main} />
+        <Route path="/" component={FRIC}>
         <Route path="/archive" component={Archive}/>
         <Route path="/event" component={Event}/>
-        <Route path="/findings" component={Findings}/>
+        <Route path="/findings/new" component={Findings}/>
         <Route path="/configuration" component={Configuration}/>
         <Route path="/setup" component={Setup}/>
         <Route path="/context" component={Context}/>
