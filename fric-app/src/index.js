@@ -1,4 +1,6 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 
 import React from "react";
 import ReactDOM from "react-dom";

@@ -1,73 +1,143 @@
-import React, {Component} from 'react';
-// import Table from 'react-bootstrap/Table'
-// import BootstrapTable from 'react-bootstrap-table-next';
-// import InputGroup from 'react-bootstrap/InputGroup'
-// import Button from 'react-bootstrap/Button'
+import React from "react";
+import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
-// import { BrowserRouter as Router} from 'react-router-dom'
-
-// import Tasks from './FRIC_gui_task';
-import TaskRow from './FRIC_gui_taskrow';
-// import '../../css/findings/FRIC_gui_findings_table.css'
-
-
-class TasksTable extends Component {
-
-  render() {
-
-    // var onTaskTableUpdate = this.props.onTaskTableUpdate;
-
-    if (this.props.tasks) {
-      var onTaskTableUpdate = this.props.onTaskTableUpdate;
-      var task = this.props.tasks.map(function (task){
-          return (
-            <div>
-             <TaskRow onTaskTableUpdate={onTaskTableUpdate} task={task}  key={task.id}/>
-            </div>
-          );
-      });
-    }else{
-      return(
-        <div> 
-          <h3 align="center">Woah. So Empty. </h3>
-          <p align="center">Woah. So Empty. No tasks to display. </p>
-        
-        </div>
-      )
-    }
-    
-
-    return (
-      <container>
-          <div>
-
-            <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
-          
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Assigned</th>
-                  <th>Task</th>
-                  <th>System</th>
-                  <th>Status</th>
-                  <th>Priority</th>
-                  <th>Due Date</th>
-                  <th>ID</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {task}
-
-              </tbody>
-
-            </table>
-
-
-          </div>
-        </container>
-    );
+const tasks = [
+  {
+    tasknum: 1,
+    name: 'Check Errors',
+    system: 'Wells Fargo ATM',
+    status: 'In Progress',
+    priority: 'M',
+    duedate: '08/20/2020',
+    id: 'AC'
+  }, {
+    tasknum: 2,
+    name: 'Blind SQL Injection',
+    system: 'Wells Fargo ATM',
+    status: 'Completed',
+    priority: 'H',
+    duedate: '09/05/2020',
+    id: 'DB'
+  }, {
+    tasknum: 3,
+    name: 'Run Wireshark',
+    system: 'Wells Fargo Switch #5',
+    status: 'Ackowledged',
+    priority: 'L',
+    duedate: '09/20/2020',
+    id: 'IE'
   }
+];
+
+const columns = [
+  {
+    dataField: "id",
+    hidden: true
+  },
+  {
+    dataField: "name",
+    text: "Task",
+    sort: true
+  },
+  {
+    dataField: "system",
+    text: "System",
+  },
+  {
+    dataField: "status",
+    text: "Status",
+  },
+  {
+    dataField: "priority",
+    text: "Priority",
+  },
+  {
+    dataField: "duedate",
+    text: "Due Date",
+  }
+];
+
+/* Pagination */
+const sizePerPageRenderer = ({
+  options,
+  currSizePerPage,
+  onSizePerPageChange
+}) => (
+  <div className="btn-group" role="group">
+    {
+      options.map((option) => {
+        const isSelect = currSizePerPage === `${option.page}`;
+        return (
+          <button
+            key={ option.text }
+            type="button"
+            onClick={ () => onSizePerPageChange(option.page) }
+            className={ `btn ${isSelect ? 'btn-secondary' : 'btn-warning'}` }
+          >
+            { option.text }
+          </button>
+        );
+      })
+    }
+  </div>
+);
+
+/* Insert */
+function onAfterInsertRow(row) {
+  let newRowStr = '';
+
+  for (const prop in row) {
+    newRowStr += prop + ': ' + row[prop] + ' \n';
+  }
+  alert('The new row is:\n ' + newRowStr);
 }
 
-export default TasksTable
+const options = {
+  sizePerPageRenderer,
+  afterInsertRow: onAfterInsertRow
+};
+
+const { SearchBar } = Search;
+const BasicTable = () => {
+  return (
+
+    <BootstrapTable
+      keyField="id"
+      data={ tasks }
+      columns={ columns }
+
+      insertRow={ true }
+      options={ options }
+      striped
+      hover
+      condensed
+      pagination={ paginationFactory(options)}
+      search
+    >
+
+
+      {
+        props => (
+          <div>
+            <h3>Input something at below input field:</h3>
+            <SearchBar
+              { ...props.searchProps }
+              className="custome-search-field"
+              style={ { color: 'black' } }
+              delay={ 100 }
+              placeholder="Search..."
+            />
+            <hr />
+            <BootstrapTable
+              { ...props.baseProps }
+            />
+          </div>
+        )
+      }
+    </BootstrapTable>
+  );
+};
+
+export default BasicTable;
