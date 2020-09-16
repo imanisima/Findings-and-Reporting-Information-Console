@@ -16,6 +16,7 @@ import FindingsDetails from './FRIC_gui/components/findings/FRIC_gui_finding_det
 import Setup from './FRIC_gui/pages/FRIC_gui_setup.js';
 import Summary from './FRIC_gui/pages/FRIC_gui_summary.js';
 import Notification from './FRIC_gui/pages/FRIC_gui_notification.js';
+import Subtasks from './FRIC_gui/pages/FRIC_gui_subtasks.js';
 
 // css
 import './FRIC_gui/css/FRIC_gui_main.css';
@@ -47,6 +48,7 @@ ReactDOM.render(
     <Route path="/main" component={Main}/>
     <Route path="/setup" component={Setup}/>
     <Route path="/notification" component={Notification}/>
+    <Route path="/subtasks" component={Subtasks} />
   </Router>,
   document.getElementById('FRIC')
 );
