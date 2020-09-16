@@ -13,7 +13,7 @@ class TabDisplay extends Component{
       width: '100%',
       display: 'table'
     };
-    
+   
     const subContainerStyles = {
       position: 'relative',
       height: '100%',

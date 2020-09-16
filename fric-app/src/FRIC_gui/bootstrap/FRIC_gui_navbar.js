@@ -7,7 +7,12 @@ const handleClick = (action) => {
       console.log('System touched');
       window.location.href = '/systems'
       window.open(window.location.href)
-      break;
+          break;
+      case 'event':
+          console.log('Event touched');
+          window.location.href = '/event'
+          window.open(window.location.href)
+          break;
     default:
       console.log('default');
       break;
@@ -56,10 +61,7 @@ class MainNav extends Component{
               </Nav>
             </Navbar.Collapse>
           </Navbar>
-
           </div>
-
-
     );
     
   }
