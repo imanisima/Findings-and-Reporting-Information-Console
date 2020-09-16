@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import Table from 'react-bootstrap/Table'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
-import '../../css/tasks/FRIC_gui_task_table.css'
+import '../../css/tasks/FRIC_gui_tasks_table.css'
 
 
 
 
-class TaskTable extends Component {
+class TasksTable extends Component {
   
   constructor(props) {
     super(props);
@@ -77,4 +77,4 @@ class TaskTable extends Component {
   }
 }
 
-export default TaskTable
+export default TasksTable

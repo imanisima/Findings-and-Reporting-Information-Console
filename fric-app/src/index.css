@@ -1,4 +1,4 @@
-body {
+div {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Century Gothic', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -13,10 +13,3 @@ code {
     monospace;
 }
 
-ol, ul {
-  padding-left: 30px;
-}
-
-.status {
-  margin-bottom: 10px;
-}
