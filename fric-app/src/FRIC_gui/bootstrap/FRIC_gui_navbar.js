@@ -23,7 +23,7 @@ class MainNav extends Component{
       <div >
 
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-            <Navbar.Brand href="#home">F.R.I.C.</Navbar.Brand>
+            <Navbar.Brand href="#home" onClick={()=>this.handleClicks('/main')}>F.R.I.C.</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
@@ -31,12 +31,12 @@ class MainNav extends Component{
                   <NavDropdown.Item href="#action/3.1">Tasks</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">Archives</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.3" onClick={() => handleClick('system')}>Systems</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.4" onClick={()=> this.handleClickSum()}>Summary</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.4" onClick={()=> this.handleClicks('/summary')}>Summary</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link href="#events">Events</Nav.Link>
               </Nav>
               <Nav>
-              <Nav.Link href="#notification" onClick={()=> this.handleClickNav()}>Notifications</Nav.Link>
+              <Nav.Link href="#notification" onClick={()=> this.handleClicks('/notification')}>Notifications</Nav.Link>
                 <NavDropdown title="Settings" id="collasible-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Configurations</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">Settings</NavDropdown.Item>
@@ -55,12 +55,9 @@ class MainNav extends Component{
     
   }
   
-  handleClickNav() {
-    window.location.href = '/notification'
-    window.open(window.location.href)
-  }
-  handleClickSum() {
-    window.location.href = '/summary'
+  
+  handleClicks(place) {
+    window.location.href = place
     window.open(window.location.href)
   }
   
