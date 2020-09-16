@@ -1,3 +1,6 @@
+/**
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -8,12 +11,12 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 export default function SubtasksOverviewTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
+	const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+	const createSortHandler = (property) => (event) => {
 	onRequestSort(event, property);
-  };
+	};
 
-  return (
+	return (
 	<TableHead>
 		<TableRow>
 			<TableCell padding="checkbox">
@@ -48,15 +51,15 @@ export default function SubtasksOverviewTableHead(props) {
 			))}
 		</TableRow>
 	</TableHead>
-  );
+	);
 }
 
 SubtasksOverviewTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+	classes: PropTypes.object.isRequired,
+	numSelected: PropTypes.number.isRequired,
+	onRequestSort: PropTypes.func.isRequired,
+	onSelectAllClick: PropTypes.func.isRequired,
+	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+	orderBy: PropTypes.string.isRequired,
+	rowCount: PropTypes.number.isRequired,
 };

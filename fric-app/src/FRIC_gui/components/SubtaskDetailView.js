@@ -2,204 +2,167 @@
  *
  */
 
-import React, {Component, useState} from 'react'
-import Button from 'react-bootstrap/Button'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
-import Form from 'react-bootstrap/Form'
+import 'date-fns';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types';
+import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import Tooltip from 'react-bootstrap/Tooltip'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import DatePicker from 'react-datepicker'
-// import { Multiselect } from 'multiselect-react-dropdown';
-import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
+import Form from 'react-bootstrap/Form'
+import Multiselect from './Multiselect.js'
+// import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 
 
-//TODO: Implement multiselector functions
-function onSelect(selectedList, selectedItem) {
-    return <></>
+/* Begin test data TODO: delete when putting into production */
+const Progression = {
+	NOTSTARTED: 'Not Started',
+	ASSIGNED: 'Assigned',
+	TRANSFERRED: 'Transferred',
+	INPROGRESS: 'In Progress',
+	COMPLETE: 'Complete',
+	NOTAPPLICABLE: 'Not Applicable',
 }
-
-function onRemove(selectedList, removedItem) {
-    return <></>
-}
-
-const renderTooltip = (props) => (
-	<Tooltip id="button-tooltip" {...props}>
-		Helpful tooltip goes here...
-	</Tooltip>
-);
-
-function test() {
-  const [startDate, setStartDate] = SubtaskDetailView.useState(new Date());
-  return (
-    <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
-  );
-};
+const Priority = { LOW: 'Low', MEDIUM: 'Medium', HIGH: 'High' }
+const names = [
+	'Oliver Hansen',
+	'Van Henry',
+	'April Tucker',
+	'Ralph Hubbard',
+	'Omar Alexander',
+	'Carlos Abbott',
+	'Miriam Wagner',
+	'Bradley Wilkerson',
+	'Virginia Andrews',
+	'Kelly Snyder',
+];
+/* End Test Data */
 
 
-export default class SubtaskDetailView extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			dueDate: props.selected.dueDate,
+const useStyles = makeStyles((theme) => ({
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
+	},
+}));
 
-			analysts: props.analysts,
-			collaborators: props.collaborators,
+export default function SubtaskDetailView(props) {
+	const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+	const [progress, setProgress] = React.useState();
 
-			selectedProgress: null,
-			selectedAnalyst: null,
-			selectedCollaborators: [],
-			selectedTask: null,
-			selectedSubtask: null,
+	const classes = useStyles();
+	const renderTooltip = (props) => (
+		<Tooltip id="button-tooltip" {...props}>
+			Simple tooltip
+		</Tooltip>
+	);
 
-
-			options: [{name: 'Srigar', id: 1}, {name: 'Sam', id: 2}]
-		}
-	}
-
-	render() {
-		return (
-			<>
-				<Form>
-					<div>
-					<h4 class="test">Subtask Detail View</h4>
-					{/* <Button variant="light"><HelpOutlineRoundedIcon /></Button> */}
-					<OverlayTrigger className="test" placement="bottom" delay={{ show: 200, hide: 300 }} overlay={renderTooltip}>
-						<HelpOutlineRoundedIcon />
+	return (
+		<>
+			<Paper style={{maxWidth: "25em", padding: "2.3em", overflowY: "scroll"}}>
+			<Form>
+				<div style={{ textAlign: "center"}}>
+					<h4 style={{ display: "inline-block", padding: "0.3em"}}>Subtask Detail View</h4>
+					<OverlayTrigger
+						placement="right"
+						delay={{ show: 320, hide: 200 }}
+						overlay={renderTooltip}
+					>
+						<HelpOutlineRoundedIcon size="large" style={{verticalAlign: "middle"}}/>
 					</OverlayTrigger>
-					</div>
+				</div>
+				{/* <Button variant="light"><HelpOutlineRoundedIcon /></Button> */}
+				
 
-					{/* Title Text Field */}
-					<Form.Group>
-						<Form.Label>Title</Form.Label>
-						<Form.Control type="text" placeholder="Title" />
-					</Form.Group>
+				{/* Title Text Field */}
+				<Form.Group>
+					<Form.Label style={{ display: "block" }}>Title</Form.Label>
+					<Form.Control type="text" placeholder="Title" />
+				</Form.Group>
 
-					{/* Description Text Field */}
-					<Form.Group>
-						<Form.Label>Description</Form.Label>
-						<Form.Control as="textarea" rows="3" placeholder="Description" />
-					</Form.Group>
+				{/* Description Text Field */}
+				<Form.Group>
+					<Form.Label style={{ display: "block" }}>Description</Form.Label>
+					<Form.Control as="textarea" rows="3" placeholder="Description" />
+				</Form.Group>
 
-					{/* Date Picker */}
-					<Form.Group>
-						<Form.Label>Date</Form.Label>
+				{/* Date Picker */}
+				<Form.Group>
+					<Form.Label style={{ display: "block" }}>Date</Form.Label>
+					<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<KeyboardDatePicker
+							disableToolbar
+							variant="inline"
+							format="MM/dd/yyyy"
+							margin="normal"
+							id="date-picker"
+							label=""
+							value={selectedDate}
+							onChange={date => {setSelectedDate(date)}}
+							KeyboardButtonProps={{ 'aria-label': 'change date', }}
+						/>
+					</MuiPickersUtilsProvider>
+				</Form.Group>
 
-						<DatePicker selected={this.state.dueDate} onChange={date => {this.setState({dueDate: date})}} />
-					</Form.Group>
-
-					{/* Progress Selector */}
-					<Form.Group>
-						<Form.Label>Progress</Form.Label>
-						<DropdownButton variant="primary" id="dropdown-progress" title={(this.state.selectedProgress == null) ? "Choose..." : this.state.selectedProgress} size="sm">
-							{this.props.progressOptions.map((prog) => {
-								return <Dropdown.Item onClick={() => {
-									this.setState(() => {
-										return {selectedProgress: prog}
-									})
-								}} key={prog} value={prog}>{prog}</Dropdown.Item>
+				{/* Progress Selector */}
+				<Form.Group>
+					<Form.Label style={{ display: "block" }}>Progress</Form.Label>
+					<FormControl className={classes.formControl}>
+						{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
+						<Select
+							labelId="select-outlined-label"
+							id="select-outlined"
+							value={progress}
+							onChange={val => {setProgress(val)}}
+							label=""
+						>
+							{props.options.progress.map((el) => {
+								return <MenuItem value={el}>{el}</MenuItem>
 							})}
-						</DropdownButton>
-					</Form.Group>
+						</Select>
+					</FormControl>
+				</Form.Group>
 
-					{/* Analysts Multiselector */}
-					<Form.Group>
-						<Form.Label>Select Analyst</Form.Label>
-						{/* TODO: Implement analysts multiselector and remove dropdown menu */}
-						{/* <Multiselect
-							options={this.state.options} // Options to display in the dropdown
-							selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-							onSelect={this.onSelect} // Function will trigger on select event
-							onRemove={this.onRemove} // Function will trigger on remove event
-							displayValue="name" // Property name to display in the dropdown options
-						/> */}
-						<DropdownButton id="dropdown-analysts" title="Choose..." size="sm">
-							{this.props.analystOptions.map((analyst) => {
-								return <Dropdown.Item onClick={() => {
-									this.setState(() => {
-										return {selectedAnalyst: analyst}
-									})
-								}} key={analyst} value={analyst}>{analyst}</Dropdown.Item>
-							})}
-						</DropdownButton>
-					</Form.Group>
+				<Form.Group style={{display: "inline-block"}}>
+					<Form.Label style={{ display: "block" }}>Select Analyst</Form.Label>
+					<Multiselect options={props.options.analysts} label="Analysts" />
+				</Form.Group>
 
-					{/* Collaborators Multiselector */}
-					<Form.Group>
-						<Form.Label>Select Collaborators</Form.Label>
-						{/* TODO: Implement collaborators multiselector and remove dropdown menu */}
-						{/* <Multiselect
-							options={this.state.options} // Options to display in the dropdown
-							selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-							onSelect={this.onSelect} // Function will trigger on select event
-							onRemove={this.onRemove} // Function will trigger on remove event
-							displayValue="name" // Property name to display in the dropdown options
-						/> */}
-						<DropdownButton id="dropdown-collaborators" title="Choose..." size="sm">
-							{this.props.collabOptions.map((collaborator) => {
-									return <Dropdown.Item onClick={() => {
-										this.setState(state=> {
-											return {selectedCollaborator: [...state.selectedCollaborators, collaborator]}
-										})
-									}} key={collaborator} value={collaborator}>{collaborator}</Dropdown.Item>
-							})}
-						</DropdownButton>
-						
-					</Form.Group>
+				<Form.Group style={{display: "inline-block"}}>
+					<Form.Label style={{ display: "block" }}>Select Collaborators</Form.Label>
+					<Multiselect options={props.options.collabs} label="Collabs" />
+				</Form.Group>
 
-					{/* Tasks Multiselector */}
-					<Form.Group>
-						<Form.Label>Select Tasks</Form.Label>
-						{/* TODO: Implement tasks multiselector and remove dropdown menu */}
-						<DropdownButton id="dropdown-tasks" title="Choose..." size="sm">
-							{this.props.taskOptions.map((task) => {
-									return <Dropdown.Item onClick={() => {
-										this.setState(state=> {
-											return {selectedTask: task}
-										})
-									}} key={task} value={task}>{task}</Dropdown.Item>
-							})}
-						</DropdownButton>
-						{/* <Multiselect
-							options={this.state.options} // Options to display in the dropdown
-							selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-							onSelect={this.onSelect} // Function will trigger on select event
-							onRemove={this.onRemove} // Function will trigger on remove event
-							displayValue="name" // Property name to display in the dropdown options
-						/> */}
-					</Form.Group>
+				<Form.Group style={{display: "inline-block"}}>
+					<Form.Label style={{ display: "block" }}>Select Tasks</Form.Label>
+					<Multiselect options={props.options.tasks} label="Tasks" />
+				</Form.Group>
 
-					{/* Subtasks Multiselector */}
-					<Form.Group>
-						<Form.Label>Select Subtasks</Form.Label>
-						{/* TODO: Implement subtasks multiselector and remove dropdown menu */}
-						{/* <Multiselect
-							options={this.state.options} // Options to display in the dropdown
-							selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-							onSelect={this.onSelect} // Function will trigger on select event
-							onRemove={this.onRemove} // Function will trigger on remove event
-							displayValue="name" // Property name to display in the dropdown options
-						/> */}
-						<DropdownButton id="dropdown-subtasks" title="Choose..." size="sm">
-							{this.props.subtaskOptions.map((subtask) => {
-									return <Dropdown.Item onClick={() => {
-										this.setState(state => {
-											return {selectedTask: subtask}
-										})
-									}} key={subtask} value={subtask}>{subtask}</Dropdown.Item>
-							})}
-						</DropdownButton>
-					</Form.Group>
-					
-					{/* File Attachment Selector */}
-					<Form.Group>
-						<Form.Label>Attachments</Form.Label>
-						{/* TODO: Display selected file in file attachment selector */}
-						<Form.File id="custom-file" label="No File Selected" feedback custom />
-					</Form.Group>
-				</Form>
-			</>
-		)
-	}
+				<Form.Group style={{display: "inline-block"}}>
+					<Form.Label>Select Subtasks</Form.Label>
+					<Multiselect options={props.options.subtasks} label="Subtasks" />
+				</Form.Group>
+				
+				<Form.Group>
+					<Form.Label>Attachments</Form.Label>
+					<Form.File id="custom-file" label="No File Selected" feedback custom />
+				</Form.Group>
+			</Form>
+			</Paper>
+		</>
+	);
 }
 
+SubtaskDetailView.propTypes = {
+	selectedTask: PropTypes.object.isRequired,
+	options: PropTypes.object.isRequired,
+}

@@ -9,18 +9,34 @@ import styles from '../css/SubtasksContentView.module.css'
 
 /* TODO: Testing data, delete when file is connected to production system */
 // Available options for detail view
-let analysts = ['MS', 'NO', 'SD', 'WE', 'VD', 'WO']
-let collabs = ['MS', 'NO', 'SD', 'WE', 'VD', 'WO']
-let tasks = ['task1', 'task2', 'task3', 'task4']
-let subtasks = ['subtask1', 'subtask2', 'subtask3', 'subtask4', 'subtask5']
-let progOptions = [33,55,66,35,78,74,21]
+const Progression = {
+	NOTSTARTED: 'Not Started',
+	ASSIGNED: 'Assigned',
+	TRANSFERRED: 'Transferred',
+	INPROGRESS: 'In Progress',
+	COMPLETE: 'Complete',
+	NOTAPPLICABLE: 'Not Applicable',
+}
+const Priority = { LOW: 'Low', MEDIUM: 'Medium', HIGH: 'High' }
+
+let options = {
+	analysts: ['MS', 'NO', 'SD', 'WE', 'VD', 'WO'],
+	collabs: ['MS', 'NO', 'SD', 'WE', 'VD', 'WO'],
+	tasks: ['task1', 'task2', 'task3', 'task4'],
+	subtasks: ['subtask1', 'subtask2', 'subtask3', 'subtask4', 'subtask5'],
+	progress: Object.values(Progression),
+}
 let taskObject = {
 	title: 'Task Test Object',
 	description: 'Voluptate anim non amet cupidatat ut pariatur amet deserunt do irure incididunt nostrud.',
-	progress: 99,
-	task: 'Aliquip sit duis veniam qui.',
+	progress: Progression.INPROGRESS,
+	priority: Priority.HIGH,
 	subtask: 'Nulla nisi consectetur ipsum ex proident.',
+	analysts: [options.analysts[2], options.analysts[4]],
+	task: 'Aliquip sit duis veniam qui.',
 	dueDate: new Date(),
+	attachment: null,
+	archiveStatus: 0,
 }
 
 // Data passed into overview table
@@ -44,8 +60,11 @@ const headings = [
 
 export default function SubtasksContentView() {
 	return (
-		<container className="sytles.subtaskContentView">
-			<SubtasksOverviewTable rows={data} headings={headings}/>
-		</container>
+		<>
+			<container className="sytles.subtaskContentView">
+				<SubtasksOverviewTable rows={data} headings={headings}/>
+				<SubtaskDetailView selectedTask={taskObject} options={options} />
+			</container>
+		</>
 	)
 }
