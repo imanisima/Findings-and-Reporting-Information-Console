@@ -30,7 +30,11 @@ class MainNav extends Component{
       <div >
 
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
+<<<<<<< HEAD
             <Navbar.Brand href="/main">F.R.I.C.</Navbar.Brand>
+=======
+            <Navbar.Brand href="#home" onClick={()=>this.handleClicks('/main')}>F.R.I.C.</Navbar.Brand>
+>>>>>>> 442e3081... Fixed navigation back to main
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
@@ -39,13 +43,17 @@ class MainNav extends Component{
                   <NavDropdown.Item href="/archive">Archives</NavDropdown.Item>
                   <NavDropdown.Item href="/summary">Summary</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.3" onClick={() => handleClick('system')}>Systems</NavDropdown.Item>
+<<<<<<< HEAD
                   <Nav.Link href="/event">Events</Nav.Link>
+=======
+                  <NavDropdown.Item href="#action/3.4" onClick={()=> this.handleClicks('/summary')}>Summary</NavDropdown.Item>
+>>>>>>> 442e3081... Fixed navigation back to main
                 </NavDropdown>
                 <Nav.Link href="#events">Events</Nav.Link>
                 <Nav.Link onClick = {this.eventTreeHandler}>Events Tree</Nav.Link>
               </Nav>
               <Nav>
-              <Nav.Link href="#notification" onClick={()=> this.handleClickNav()}>Notifications</Nav.Link>
+              <Nav.Link href="#notification" onClick={()=> this.handleClicks('/notification')}>Notifications</Nav.Link>
                 <NavDropdown title="Settings" id="collasible-nav-dropdown">
                   <NavDropdown.Item href="/configuration">Configurations</NavDropdown.Item>
                   <NavDropdown.Item href="/setup">Settings</NavDropdown.Item>
@@ -64,12 +72,9 @@ class MainNav extends Component{
     
   }
   
-  handleClickNav() {
-    window.location.href = '/notification'
-    window.open(window.location.href)
-  }
-  handleClickSum() {
-    window.location.href = '/summary'
+  
+  handleClicks(place) {
+    window.location.href = place
     window.open(window.location.href)
   }
   
