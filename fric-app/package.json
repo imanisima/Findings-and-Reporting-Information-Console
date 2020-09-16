@@ -33,8 +33,9 @@
     "date-fns": "^2.16.1"
   },
   "devDependencies": {
-    "react-scripts": "latest",
-    "typescript": "^3.9.7"
+    "html-webpack-plugin": "^4.4.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -56,10 +57,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "html-webpack-plugin": "^4.4.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
   }
 }
