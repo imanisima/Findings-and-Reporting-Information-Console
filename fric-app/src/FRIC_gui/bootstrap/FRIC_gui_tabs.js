@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Tab, Row, Col, Nav} from 'react-bootstrap';
 // import Accordian from './FRIC_gui_accordian.js';
-import TasksOverview from '../components/FRIC_gui_task/FRIC_gui_tasks_overview.js'
+import TasksOverview from '../components/FRIC_gui_task/FRIC_gui_tasks_overview.js';
 
 class TabDisplay extends Component{
   render(){
@@ -25,7 +25,21 @@ class TabDisplay extends Component{
       <div style={parentContainerStyles}>
         <div style={subContainerStyles}>
 
-        <Tab.Container id="left-tabs-example" defaultActiveKey="tasks">
+        {/* <Nav variant="tabs" defaultActiveKey="/tasks">
+          <Nav.Item>
+            <Nav.Link href="/tasks">Tasks</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="findings">Findings</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="archives">Archives</Nav.Link>
+              Disabled
+            </Nav.Link>
+          </Nav.Item>
+        </Nav> */}
+
+        <Tab.Container id="left-tabs-example" class="main-table" defaultActiveKey="tasks">
             <Row>
                 <Col sm={3}>
                 <Nav variant="pills" className="flex-column">

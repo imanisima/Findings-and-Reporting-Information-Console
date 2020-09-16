@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
 code {
@@ -17,5 +18,5 @@ ol, ul {
 }
 
 .status {
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
