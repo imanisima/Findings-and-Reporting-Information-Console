@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 
 //Components
 import FRIC from './FRIC.js';
+import Main from './FRIC_gui/pages/FRIC_gui_main.js';
 import Archive from './FRIC_gui/pages/FRIC_gui_archive.js';
 import Configuration from './FRIC_gui/pages/FRIC_gui_config.js';
 import Context from './FRIC_gui/pages/FRIC_gui_context.js';
@@ -14,6 +15,7 @@ import Event from './FRIC_gui/pages/FRIC_gui_event.js';
 import FindingsDetails from './FRIC_gui/components/findings/FRIC_gui_finding_details';
 import Setup from './FRIC_gui/pages/FRIC_gui_setup.js';
 import Summary from './FRIC_gui/pages/FRIC_gui_summary.js';
+import Notification from './FRIC_gui/pages/FRIC_gui_notification.js';
 
 // css
 import './FRIC_gui/css/FRIC_gui_main.css';
@@ -38,11 +40,13 @@ ReactDOM.render(
     <Route path="/event" component={Event}/>
     <Route exact path="/findings/new" component={FindingsDetails}/>
     <Route path="/configuration" component={Configuration}/>
-    <Route path="/setup" component={Setup}/>
     <Route exact path="/systems" component={SystemsOverview}/>
     <Route exact path="/systems/new" component={SystemDetail}/>
     <Route path="/context" component={Context}/>
     <Route path="/summary" component={Summary}/>
+    <Route path="/main" component={Main}/>
+    <Route path="/setup" component={Setup}/>
+    <Route path="/notification" component={Notification}/>
   </Router>,
   document.getElementById('FRIC')
 );

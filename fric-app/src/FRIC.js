@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
 
 import logo from './logo.svg';
 import './FRIC.css';
 
 import Main from './FRIC_gui/pages/FRIC_gui_main.js';
 import MainNav from './FRIC_gui/bootstrap/FRIC_gui_navbar.js';
+
 
 class FRIC extends Component {
   render() {
@@ -19,7 +19,7 @@ class FRIC extends Component {
           The information console for tracking vulnerabilities and findings.
         </p>
 
-        <MainNav />
+       <MainNav />
         <Main displaytext="Main Component Data"/>
         
 
