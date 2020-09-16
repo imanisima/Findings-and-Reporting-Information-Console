@@ -19,32 +19,6 @@ import Form from 'react-bootstrap/Form'
 import Multiselect from './Multiselect.js'
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 
-
-/* Begin test data TODO: delete when putting into production */
-const Progression = {
-	NOTSTARTED: 'Not Started',
-	ASSIGNED: 'Assigned',
-	TRANSFERRED: 'Transferred',
-	INPROGRESS: 'In Progress',
-	COMPLETE: 'Complete',
-	NOTAPPLICABLE: 'Not Applicable',
-}
-const Priority = { LOW: 'Low', MEDIUM: 'Medium', HIGH: 'High' }
-const names = [
-	'Oliver Hansen',
-	'Van Henry',
-	'April Tucker',
-	'Ralph Hubbard',
-	'Omar Alexander',
-	'Carlos Abbott',
-	'Miriam Wagner',
-	'Bradley Wilkerson',
-	'Virginia Andrews',
-	'Kelly Snyder',
-];
-/* End Test Data */
-
-
 const useStyles = makeStyles((theme) => ({
 	formControl: {
 		margin: theme.spacing(1),
@@ -60,9 +34,10 @@ export default function SubtaskDetailView(props) {
 	const [progress, setProgress] = React.useState();
 
 	const classes = useStyles();
+
 	const renderTooltip = (props) => (
-		<Tooltip id="button-tooltip" {...props}>
-			Simple tooltip
+		<Tooltip id="help-tooltip" {...props} >
+			Helpful tooltip goes here...
 		</Tooltip>
 	);
 
@@ -73,7 +48,7 @@ export default function SubtaskDetailView(props) {
 				<div style={{ textAlign: "center"}}>
 					<h4 style={{ display: "inline-block", padding: "0.3em"}}>Subtask Detail View</h4>
 					<OverlayTrigger
-						placement="right"
+						placement="bottom"
 						delay={{ show: 320, hide: 200 }}
 						overlay={renderTooltip}
 					>

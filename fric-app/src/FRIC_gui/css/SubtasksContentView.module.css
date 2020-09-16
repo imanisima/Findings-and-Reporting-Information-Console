@@ -1,43 +1,18 @@
 
-.subtaskTableCard {
+.tableView {
 	display: inline-block;
-	min-width: 30em;
-	min-height: 40em;
-	width: 40em;
+	height: 60em;
+	min-height: 60em;
+	max-height: 60em;
+	max-width: 70%;
 }
 
-.subtaskDetailCard {
+.detailView {
 	display: inline-block;
-	max-width: 30em;
-	max-height: 100%;
-	min-height: 40em;
-	height: 40em;
-	overflow: scroll;
-	
+	/* overflow-y: auto; */
+	height: 60em;
+	min-height: 60em;
+	max-height: 60em;
+	max-width: 30%;
 }
 
-.menuButtonContainer {
-	display:inline-block;
-}
-
-.menuButton {
-	margin: 0.3em;
-}
-
-.addButtonContainer {
-	float: right;
-}
-
-.addButton {
-	margin: 0.3em;
-}
-
-.alignCenter {
-	text-align: center;
-	align-items: center;
-	align-content: center;
-	align-self: center;
-
-	vertical-align: middle;
-	display: inline-block;
-}

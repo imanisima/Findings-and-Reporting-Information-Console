@@ -61,10 +61,12 @@ const headings = [
 export default function SubtasksContentView() {
 	return (
 		<>
-			<container className="sytles.subtaskContentView">
-				<SubtasksOverviewTable rows={data} headings={headings}/>
+			<div className={styles.tableView}>
+				<SubtasksOverviewTable rows={data} headings={headings} />
+			</div>
+			<div className={styles.detailView}>
 				<SubtaskDetailView selectedTask={taskObject} options={options} />
-			</container>
+			</div>
 		</>
 	)
 }

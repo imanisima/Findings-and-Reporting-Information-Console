@@ -13,10 +13,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-// import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
+import CancelIcon from '@material-ui/icons/Cancel';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import SaveIcon from '@material-ui/icons/Save';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Switch from '@material-ui/core/Switch';
-
 import SubtasksOverviewTableHead from './SubtasksOverviewTableHead'
 import SubtasksOverviewTableToolbar from './SubtasksOverviewTableToolbar'
 
@@ -103,7 +106,7 @@ export default function SubtasksOverviewTable(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
-  const [rowsPerPage, setRowsPerPage] = React.useState(11);
+  const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -163,6 +166,7 @@ export default function SubtasksOverviewTable(props) {
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
             aria-label="custom table"
+            stickyHeader
           >
 						<SubtasksOverviewTableHead
 							headCells={props.headings}
@@ -206,7 +210,7 @@ export default function SubtasksOverviewTable(props) {
                       <StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
                       <StyledTableCell align="right" padding="none">{row.progress}</StyledTableCell>
                       <StyledTableCell align="left" >{row.findings}</StyledTableCell>
-                      <StyledTableCell align="left" padding="none">{row.dueDate.toLocaleString()}</StyledTableCell>
+                      <StyledTableCell align="left" padding="left">{row.dueDate.toLocaleString()}</StyledTableCell>
                     </StyledTableRow>
                   );
                 })}
@@ -218,6 +222,12 @@ export default function SubtasksOverviewTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
+        <div style={{display: "inline-block", verticalAlign: "bottom"}}>
+          <Button variant="contained" startIcon={<ArchiveIcon />} style={{ backgroundColor: "#066ff9", color: "white", margin: "0.5em", }}>Archive</Button>
+          <Button variant="contained" startIcon={<ArrowUpwardIcon />} style={{ backgroundColor: "#29a745", color: "white", margin: "0.5em", }}>Promote</Button>
+          <Button variant="contained" startIcon={<SaveIcon />} style={{ backgroundColor: "#ffc108", color: "white", margin: "0.5em", }}>Save</Button>
+          <Button variant="contained" startIcon={<CancelIcon />} style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}>Cancel</Button>
+        </div>
         <TablePagination
           rowsPerPageOptions={[10]}
           component="div"
