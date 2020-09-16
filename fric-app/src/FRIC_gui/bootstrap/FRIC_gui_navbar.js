@@ -45,10 +45,7 @@ class MainNav extends Component{
                 <Nav.Link onClick = {this.eventTreeHandler}>Events Tree</Nav.Link>
               </Nav>
               <Nav>
-              <Nav.Link href="#notification" 
-               onClick={()=> this.handleClickNav()}
-              >Notifications
-              </Nav.Link>
+              <Nav.Link href="#notification" onClick={()=> this.handleClickNav()}>Notifications</Nav.Link>
                 <NavDropdown title="Settings" id="collasible-nav-dropdown">
                   <NavDropdown.Item href="/configuration">Configurations</NavDropdown.Item>
                   <NavDropdown.Item href="/setup">Settings</NavDropdown.Item>
@@ -69,6 +66,10 @@ class MainNav extends Component{
   
   handleClickNav() {
     window.location.href = '/notification'
+    window.open(window.location.href)
+  }
+  handleClickSum() {
+    window.location.href = '/summary'
     window.open(window.location.href)
   }
   

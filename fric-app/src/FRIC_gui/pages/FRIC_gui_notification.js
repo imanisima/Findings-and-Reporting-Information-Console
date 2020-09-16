@@ -11,11 +11,12 @@ export default class Notification extends Component {
                
                 <MainNav />
                 <body>
-        
-                    <h1>Notification</h1>
-            
+                
+                    
+                <h1>***</h1>
+                <h1>Notification</h1>     
                     <Table striped bordered hover> 
-                        
+                   
                     <thead>
                     <tr>
                     
