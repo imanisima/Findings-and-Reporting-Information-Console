@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Tab, Row, Col, Nav} from 'react-bootstrap';
-// import Accordian from './FRIC_gui_accordian.js';
 import TasksOverview from '../components/FRIC_gui_task/FRIC_gui_tasks_overview.js';
+import Findings from './../components/findings/FRIC_gui_findings_content'
 
 class TabDisplay extends Component{
   render(){
@@ -50,7 +50,7 @@ class TabDisplay extends Component{
                         <Nav.Link eventKey="findings">Findings</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey="archives">Archives</Nav.Link>
+                        <Nav.Link eventKey="archives">Archive</Nav.Link>
                     </Nav.Item>
                 </Nav>
                 </Col>
@@ -62,12 +62,10 @@ class TabDisplay extends Component{
                         {/* <tasks /> */}
                     </Tab.Pane>
                     <Tab.Pane eventKey="findings">
-                    This is where findings may go.
-                        {/* <findings /> */}
+                      {<Findings> </Findings>}
                     </Tab.Pane>
                     <Tab.Pane eventKey="archives">
-                    This is where archives can be found.
-                        {/* <archives /> */}
+                        {}
                     </Tab.Pane>
                 </Tab.Content>
                 </Col>

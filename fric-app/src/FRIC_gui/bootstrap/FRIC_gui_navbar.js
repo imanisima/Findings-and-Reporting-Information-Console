@@ -1,7 +1,22 @@
 import React, {Component} from 'react';
 import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
 
+const handleClick = (action) => {
+  switch(action){
+    case 'system':
+      console.log('System touched');
+      window.location.href = '/systems'
+      window.open(window.location.href)
+      break;
+    default:
+      console.log('default');
+      break;
+  }
+}
+
 class MainNav extends Component{
+  
+  
   render(){
 
     return (
@@ -15,13 +30,16 @@ class MainNav extends Component{
                 <NavDropdown title="View" id="collasible-nav-dropdown">
                   <NavDropdown.Item href="/tasks/new">Tasks</NavDropdown.Item>
                   <NavDropdown.Item href="/archive">Archives</NavDropdown.Item>
-                  <NavDropdown.Item href="/systems/new">Systems</NavDropdown.Item>
                   <NavDropdown.Item href="/summary">Summary</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3" onClick={() => handleClick('system')}>Systems</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link href="/event">Events</Nav.Link>
               </Nav>
               <Nav>
-              <Nav.Link href="/notification">Notifications</Nav.Link>
+              <Nav.Link href="#notification" 
+               onClick={()=> this.handleClickNav()}
+              >Notifications
+              </Nav.Link>
                 <NavDropdown title="Settings" id="collasible-nav-dropdown">
                   <NavDropdown.Item href="/configuration">Configurations</NavDropdown.Item>
                   <NavDropdown.Item href="/setup">Settings</NavDropdown.Item>
@@ -38,6 +56,11 @@ class MainNav extends Component{
 
     );
     
+  }
+  
+  handleClickNav() {
+    window.location.href = '/notification'
+    window.open(window.location.href)
   }
   
 }

@@ -9,6 +9,9 @@ import Setup from './FRIC_gui/pages/FRIC_gui_setup.js';
 import Summary from './FRIC_gui/pages/FRIC_gui_summary.js';
 import Notification from './FRIC_gui/pages/FRIC_gui_notification.js';
 
+// css
+import './FRIC_gui/css/FRIC_gui_main.css'
+import './index.css'
 
 export default(
     <Route path="/" component={FRIC}>
@@ -21,7 +24,8 @@ export default(
     <Route path="/context" component={Context}/>
     <Route path="/summary" component={Summary}/>
     <Route path="/notification" component={Notification}/>
-</Router>,
-document.getElementById('FRIC')
+    </Router>,
+    document.getElementById('FRIC')
 );
+
 ServiceWorker.unregsiter();
