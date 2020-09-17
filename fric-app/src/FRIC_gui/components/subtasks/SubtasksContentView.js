@@ -6,6 +6,7 @@ import React from 'react'
 import SubtasksOverviewTable from './SubtasksOverviewTable'
 import SubtaskDetailView from './SubtaskDetailView'
 import styles from '../../css/subtasks/SubtasksContentView.module.css'
+import MainNav from '../../bootstrap/FRIC_gui_navbar';
 
 /* TODO: Testing data, delete when file is connected to production system */
 // Available options for detail view
@@ -61,11 +62,14 @@ const headings = [
 export default function SubtasksContentView() {
 	return (
 		<>
-			<div className={styles.tableView}>
-				<SubtasksOverviewTable rows={data} headings={headings} />
-			</div>
-			<div className={styles.detailView}>
-				<SubtaskDetailView selectedTask={taskObject} options={options} />
+			<MainNav />
+			<div className={styles.contentContainer}>
+				<div className={styles.tableView}>
+					<SubtasksOverviewTable rows={data} headings={headings} />
+				</div>
+				<div className={styles.detailView}>
+					<SubtaskDetailView selectedTask={taskObject} options={options} />
+				</div>
 			</div>
 		</>
 	)
