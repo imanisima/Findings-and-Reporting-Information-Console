@@ -58,7 +58,7 @@ class MainNav extends Component{
               <Nav>
               <Nav.Link href="#notification" onClick={()=> this.handleClicks('/notification')}>Notifications</Nav.Link>
                 <NavDropdown title="Settings" id="collasible-nav-dropdown">
-                  <NavDropdown.Item href="/configuration">Configurations</NavDropdown.Item>
+                <NavDropdown.Item href="configuration">Configurations</NavDropdown.Item>
                   <NavDropdown.Item href="/setup">Settings</NavDropdown.Item>
                   <NavDropdown.Item href="#help">Help</NavDropdown.Item>
                   {/* <NavDropdown.Divider /> */}
