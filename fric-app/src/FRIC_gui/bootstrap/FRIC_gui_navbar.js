@@ -14,9 +14,16 @@ const handleClick = (action) => {
   }
 }
 
+
+
+
 class MainNav extends Component{
-  
-  
+
+  eventTreeHandler(){
+    window.location.href = '/event_tree'
+    window.open(window.location.href)
+}
+
   render(){
 
     return (
@@ -32,8 +39,10 @@ class MainNav extends Component{
                   <NavDropdown.Item href="/archive">Archives</NavDropdown.Item>
                   <NavDropdown.Item href="/summary">Summary</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.3" onClick={() => handleClick('system')}>Systems</NavDropdown.Item>
+                  <Nav.Link href="/event">Events</Nav.Link>
                 </NavDropdown>
-                <Nav.Link href="/event">Events</Nav.Link>
+                <Nav.Link href="#events">Events</Nav.Link>
+                <Nav.Link onClick = {this.eventTreeHandler}>Events Tree</Nav.Link>
               </Nav>
               <Nav>
               <Nav.Link href="#notification" 
