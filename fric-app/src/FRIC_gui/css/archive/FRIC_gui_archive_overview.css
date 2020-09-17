@@ -1,0 +1,30 @@
+.buttons{
+    display: flex;
+    overflow-x: scroll;
+    padding: 10px;
+    padding-left: 40px;
+    
+}
+
+/* Delete scrollbar*/
+.buttons::-webkit-scrollbar{
+    display: none;
+}
+.buttons{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.buttons >h1{
+    cursor:pointer;
+    margin-right: auto;
+    margin-left: auto;
+    font-weight: 500;
+    opacity: .7;
+    transition: transform 50ms ease-out;
+}
+
+.buttons >h1:hover{
+    opacity: 1;
+    scale: 1.2;
+}

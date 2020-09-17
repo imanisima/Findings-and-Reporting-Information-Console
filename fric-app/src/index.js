@@ -18,6 +18,11 @@ import Setup from './FRIC_gui/pages/FRIC_gui_setup.js';
 import Summary from './FRIC_gui/pages/FRIC_gui_summary.js';
 import Notification from './FRIC_gui/pages/FRIC_gui_notification.js';
 import Subtasks from './FRIC_gui/pages/FRIC_gui_subtasks.js';
+import ArchiveTask from './FRIC_gui/components/archive/FRIC_gui_archive_task'
+import ArchiveSubtask from './FRIC_gui/components/archive/FRIC_gui_archive_subtask'
+import ArchiveSystem from './FRIC_gui/components/archive/FRIC_gui_archive_system'
+import ArchiveFinding from './FRIC_gui/components/archive/FRIC_gui_archive_findings'
+import EventTree from './FRIC_gui/components/FRIC_gui_event_tree.js'
 
 // css
 import './FRIC_gui/css/FRIC_gui_main.css';
@@ -43,15 +48,19 @@ ReactDOM.render(
     <Route exact path="/tasks/new" component={TasksDetails}/>
     <Route path="/configuration" component={Configuration}/>
     <Route exact path="/findings/new" component={FindingsDetails}/>
-    <Route path="/configuration" component={Configuration}/>
+    <Route path="/setup" component={Setup}/>
     <Route exact path="/systems" component={SystemsOverview}/>
     <Route exact path="/systems/new" component={SystemDetail}/>
     <Route path="/context" component={Context}/>
     <Route path="/summary" component={Summary}/>
     <Route path="/main" component={Main}/>
-    <Route path="/setup" component={Setup}/>
     <Route path="/notification" component={Notification}/>
     <Route path="/subtasks" component={Subtasks} />
+    <Route exact path="/archive/archive_task_view" component={ArchiveTask}/>
+    <Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask}/>
+    <Route exact path="/archive/archive_system_view" component={ArchiveSystem}/>
+    <Route exact path="/archive/archive_finding_view" component={ArchiveFinding}/>
+    <Route path="/event_tree" component={EventTree}/>
   </Router>,
   document.getElementById('FRIC')
 );

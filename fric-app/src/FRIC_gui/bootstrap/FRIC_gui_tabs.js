@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Tab, Row, Col, Nav} from 'react-bootstrap';
 import TasksOverview from '../components/FRIC_gui_task/FRIC_gui_tasks_overview.js';
 import Findings from './../components/findings/FRIC_gui_findings_content'
+import Archive from './../components/archive/FRIC_gui_archive_content'
 
 class TabDisplay extends Component{
   render(){
@@ -65,7 +66,7 @@ class TabDisplay extends Component{
                       {<Findings> </Findings>}
                     </Tab.Pane>
                     <Tab.Pane eventKey="archives">
-                        {}
+                      {<Archive/>}
                     </Tab.Pane>
                 </Tab.Content>
                 </Col>
