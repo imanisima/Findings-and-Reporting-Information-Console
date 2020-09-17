@@ -1,22 +1,20 @@
-/*
+/**
+ * This component contains the form that is embedded in the SetupModal.
  * 
+ * Created by Marco Soto
  */
+
+import React, { useState } from 'react'
 import styles from '../../css/setup/SetupContent.module.css'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import Modal from 'react-bootstrap/Modal'
 
-const React = require('react')
-const ReactDOM = require('react-dom')
+export default function SetupContentView(props) {
+	const [showingIPForm, showIPForm] = useState(false);
 
-export default class SetupContentView extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {showLeadIPForm: false}
-	}
-
-	render() {
-		return (
+	return (
+		<>
+			<h5 className={styles.title}>Findings and Reportings Information Console (FRIC)</h5>
 			<Form id="setupContentForm" className={styles.setupContentForm}>
 				<Form.Group controlId="">
 					<Form.Label>There is no existing event in your local system</Form.Label>
@@ -29,20 +27,20 @@ export default class SetupContentView extends React.Component {
 				</Form.Group>
 				
 				<Form.Group controlId="">
-					<Form.Check custom id="eventCheckbox" type="checkbox" label="Create as new event" />
-					<Form.Check custom onClick={() => this.setState({showLeadIPForm: !this.state.showLeadIPForm})} id="syncCheckbox" type="checkbox" label="First time sync with lead analyst" />
+					<Form.Check custom id="eventCheckbox" type="checkbox" label="Create as new event" className={styles.eventCheckbox} />
+					<Form.Check custom onClick={() => showIPForm(!showingIPForm)} id="syncCheckbox" type="checkbox" label="First time sync with lead analyst" />
 				</Form.Group>
 
-				{this.state.showLeadIPForm && <Form.Group controlId="">
+				{showingIPForm && <Form.Group controlId="">
 					<Form.Label>Please enter the lead analysts IP address.</Form.Label>
 					<Form.Control type="text" placeholder="Enter lead analyst IP address." />
 				</Form.Group>}
 
 				<Form.Group className={styles.center}>
 					<Button className={styles.setupContentButton} variant="primary">Submit</Button>
-					<Button className={styles.setupContentButton} variant="danger">Cancel</Button>
+					<Button onClick={props.onCancel} className={styles.setupContentButton} variant="danger">Cancel</Button>
 				</Form.Group>
 			</Form>
-		)
-	}
+		</>
+	);
 }
