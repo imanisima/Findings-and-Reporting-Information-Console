@@ -48,7 +48,7 @@ ReactDOM.render(
       </React.StrictMode>
     </Route>
     <Route path="/archive" component={Archive}/>
-    <Route path="/event" component={Event}/>
+    <Route exact path="/event" component={Event}/>
     <Route exact path="/tasks/new" component={TasksDetails}/>
     <Route exact path="/findings/new" component={FindingsDetails}/>
     <Route exact path="/event/new" component={EventInformation} />
