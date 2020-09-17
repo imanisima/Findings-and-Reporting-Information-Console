@@ -3,7 +3,7 @@
  */
 
 import React, {Component, useState} from 'react';
-import SetupContentView from '../components/SetupContentView'
+import SetupContentView from '../components/setup/SetupContentView'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
