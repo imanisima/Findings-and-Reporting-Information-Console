@@ -24,6 +24,7 @@ export default(
     <Route path="/context" component={Context}/>
     <Route path="/summary" component={Summary}/>
     <Route path="/notification" component={Notification}/>
+    <Route path="/event/new" component={Event} />
     </Router>,
     document.getElementById('FRIC')
 );

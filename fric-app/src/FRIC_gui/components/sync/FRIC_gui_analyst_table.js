@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 
 
 
-class EventTeamTable extends Component {
+class SyncAnalystTable extends Component {
   
   constructor(props) {
     super(props);
@@ -28,11 +28,9 @@ class EventTeamTable extends Component {
           {
             this.state.showComponents ? 
               <>
-                <Button className="arch_btn" variant="primary" onClick={() => this.props.history.push('eventID')}>Edit</Button> 
-                <Button className="save_btn" variant="danger">Archive</Button>  
-                <Button className="sync_btn" variant="secondary">Sync</Button>  
+               <Button className="save_btn" variant="danger">Archive</Button>  
+                        
               </> :
-
               console.log("Should not be rendering")
           }
           <Table responsive>
@@ -45,10 +43,8 @@ class EventTeamTable extends Component {
                     </InputGroup.Prepend>
                   </InputGroup>
                 </th>
-                        <th>Lead Analysts</th>
-                        <th> Lead Analyst Initials </th>
-                        <th>Analyst</th>
-                        <th> Analyst Initials </th>
+                <th>Analyst Initials</th>
+                <th>IP Address </th>
               </tr>
             </thead>
             <tbody>
@@ -60,11 +56,11 @@ class EventTeamTable extends Component {
                     </InputGroup.Prepend>
                   </InputGroup>
                 </td>
-                        <td>Erick Nugget</td>
-                        <td>EN</td>
-                        <td>Raphael Turtle</td>
-                        <td>RT</td>
-                    </tr>
+                <td>CP</td>
+                <td>1.1.1.1</td>
+              </tr>
+                </tbody>
+                <tbody>
                     <tr>
                         <td>
                             <InputGroup className="mb-6">
@@ -73,28 +69,13 @@ class EventTeamTable extends Component {
                                 </InputGroup.Prepend>
                             </InputGroup>
                         </td>
-                        <td>Erick Nugget</td>
-                        <td>EN</td>
-                        <td>Chris P. Bacon</td>
-                        <td>CP</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <InputGroup className="mb-6">
-                                <InputGroup.Prepend>
-                                    <InputGroup.Checkbox aria-label="Checkbox for following text input" onClick={() => this.showButtons()} />
-                                </InputGroup.Prepend>
-                            </InputGroup>
-                        </td>
-                        <td>Erick Nugget</td>
-                        <td>EN</td>
-                        <td>Anita Break</td>
                         <td>AB</td>
+                        <td>3.3.3.3</td>
                     </tr>
-            </tbody>
+                </tbody>
           </Table>  
         </div>
     );
   }
 }
-export default EventTeamTable
+export default SyncAnalystTable

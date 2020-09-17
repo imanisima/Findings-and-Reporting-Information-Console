@@ -4,11 +4,16 @@ import {Row, Col} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 
 class EventTeamInformation extends Component {
+    handleClick() {
+        window.location.href = '/event/newLead'
+        window.open(window.location.href)
+    }
+
     render() {
         return (
             <div>
                 <h3>Event Team Basic Information</h3>
-
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Add new Lead Analyst</Button>
                 <Form className='event-team-info-form'>
                     <Form.Group as={Row} controlId="formHorizontalLeadAnalyst">
                         <Form.Label column sm={2}>

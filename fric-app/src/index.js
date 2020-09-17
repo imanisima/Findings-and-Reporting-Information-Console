@@ -12,8 +12,14 @@ import Archive from './FRIC_gui/pages/FRIC_gui_archive.js';
 import Configuration from './FRIC_gui/pages/FRIC_gui_config.js';
 import Context from './FRIC_gui/pages/FRIC_gui_context.js';
 import Event from './FRIC_gui/pages/FRIC_gui_event.js';
+<<<<<<< HEAD
 import TasksDetails from './FRIC_gui/components/FRIC_gui_task/FRIC_gui_tasks_details.js';
+=======
+import Sync from './FRIC_gui/pages/FRIC_gui_sync'
+>>>>>>> 2d442c28... updated Event page, and added Sync to the Nav bar
 import EventDetailView from './FRIC_gui/components/event/FRIC_gui_event_detailview';
+import EventInformation from './FRIC_gui/components/event/FRIC_gui_event_information'
+import EventAnalystInformation from './FRIC_gui/components/event/FRIC_gui_event_analyst_information'
 import FindingsDetails from './FRIC_gui/components/findings/FRIC_gui_finding_details';
 import Setup from './FRIC_gui/pages/FRIC_gui_setup.js';
 import Summary from './FRIC_gui/pages/FRIC_gui_summary.js';
@@ -48,7 +54,9 @@ ReactDOM.render(
     <Route path="/event" component={Event}/>
     <Route exact path="/tasks/new" component={TasksDetails}/>
     <Route exact path="/findings/new" component={FindingsDetails}/>
-    <Route exact path="/event/new" component={EventDetailView} />
+    <Route exact path="/event/new" component={EventInformation} />
+    <Route exact path="/event/newAnalyst" component={EventAnalystInformation} />
+    <Route exact path="/sync" component={Sync} />
     <Route path="/configuration" component={Configuration}/>
     <Route exact path="/findings/new" component={FindingsDetails}/>
     <Route path="/setup" component={Setup}/>

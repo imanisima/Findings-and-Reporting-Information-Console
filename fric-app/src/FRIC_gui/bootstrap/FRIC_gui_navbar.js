@@ -13,6 +13,11 @@ const handleClick = (action) => {
           window.location.href = '/event'
           window.open(window.location.href)
           break;
+      case 'sync':
+          console.log('sync touched');
+          window.location.href = '/sync'
+          window.open(window.location.href)
+          break;
     default:
       console.log('default');
       break;
@@ -46,8 +51,9 @@ class MainNav extends Component{
                   <NavDropdown.Item href="#action/3.3" onClick={() => handleClick('system')}>Systems</NavDropdown.Item>
                   <Nav.Link href="/event">Events</Nav.Link>
                 </NavDropdown>
-                <Nav.Link href="#events">Events</Nav.Link>
                 <Nav.Link onClick = {this.eventTreeHandler}>Events Tree</Nav.Link>
+              <Nav.Link href="event">Events</Nav.Link>
+              <Nav.Link href="sync">Sync</Nav.Link>
               </Nav>
               <Nav>
               <Nav.Link href="#notification" onClick={()=> this.handleClicks('/notification')}>Notifications</Nav.Link>

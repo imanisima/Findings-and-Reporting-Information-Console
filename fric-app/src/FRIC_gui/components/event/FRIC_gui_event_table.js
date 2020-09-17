@@ -60,10 +60,10 @@ class EventTable extends Component {
                             </InputGroup>
                         </td>
                         <td>1</td>
-                        <td>"Event Name"</td>
-                        <td>"10"</td>
-                        <td>"47"</td>
-                        <td>"55%"</td>
+                        <td>Event 1</td>
+                        <td>10</td>
+                        <td>47</td>
+                        <td>55%</td>
                     </tr>
                 </tbody>
           </Table>  
