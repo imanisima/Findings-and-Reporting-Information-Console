@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
-import EventsOverview from '../components/event/FRIC_gui_event_overview'
-import EventDetailView from '../components/event/FRIC_gui_event_detailview'
- // import EventTable from '../components/event/FRIC_gui_event_table'
+import ConfigurationOverview from '../components/configuration/FRIC_gui_configuration_overview'
+
+// import EventTable from '../components/event/FRIC_gui_event_table'
 
 import MainNav from '../bootstrap/FRIC_gui_navbar.js';
 
-export default class Event extends Component {
+export default class Configuration extends Component {
     render() {
-      return (
+        return (
             ReactDOM.render(
                 <container>
                     <div>
                         <MainNav />
                         <body>
-                            <EventsOverview />
-                            <EventDetailView/>
+                            <ConfigurationOverview/>
                         </body>
                     </div>
                 </container>, document.getElementById('FRIC'))
-  );
+        );
     }
-  }
+}
 
 
     // end of code

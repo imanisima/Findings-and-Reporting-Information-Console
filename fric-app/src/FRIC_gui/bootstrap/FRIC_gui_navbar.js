@@ -7,7 +7,17 @@ const handleClick = (action) => {
       console.log('System touched');
       window.location.href = '/systems'
       window.open(window.location.href)
-      break;
+          break;
+      case 'event':
+          console.log('Event touched');
+          window.location.href = '/event'
+          window.open(window.location.href)
+          break;
+      case 'sync':
+          console.log('sync touched');
+          window.location.href = '/sync'
+          window.open(window.location.href)
+          break;
     default:
       console.log('default');
       break;
@@ -41,13 +51,14 @@ class MainNav extends Component{
                   <NavDropdown.Item href="#action/3.3" onClick={() => handleClick('system')}>Systems</NavDropdown.Item>
                   <Nav.Link href="/event">Events</Nav.Link>
                 </NavDropdown>
-                <Nav.Link href="#events">Events</Nav.Link>
                 <Nav.Link onClick = {this.eventTreeHandler}>Events Tree</Nav.Link>
+              <Nav.Link href="event">Events</Nav.Link>
+              <Nav.Link href="sync">Sync</Nav.Link>
               </Nav>
               <Nav>
               <Nav.Link href="#notification" onClick={()=> this.handleClicks('/notification')}>Notifications</Nav.Link>
                 <NavDropdown title="Settings" id="collasible-nav-dropdown">
-                  <NavDropdown.Item href="/configuration">Configurations</NavDropdown.Item>
+                <NavDropdown.Item href="configuration">Configurations</NavDropdown.Item>
                   <NavDropdown.Item href="/setup">Settings</NavDropdown.Item>
                   <NavDropdown.Item href="#help">Help</NavDropdown.Item>
                   {/* <NavDropdown.Divider /> */}
@@ -56,10 +67,7 @@ class MainNav extends Component{
               </Nav>
             </Navbar.Collapse>
           </Navbar>
-
           </div>
-
-
     );
     
   }
