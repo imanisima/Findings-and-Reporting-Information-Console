@@ -10,7 +10,7 @@ export default class Main extends Component {
         ReactDOM.render(
             <container>
             <div>
-                <MainNav />
+                <header><MainNav /></header>
                     <body>
                         <TabDisplay />
                     </body>
