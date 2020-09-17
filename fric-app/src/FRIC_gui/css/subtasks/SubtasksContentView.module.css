@@ -1,0 +1,18 @@
+
+.tableView {
+	display: inline-block;
+	height: 60em;
+	min-height: 60em;
+	max-height: 60em;
+	max-width: 70%;
+}
+
+.detailView {
+	display: inline-block;
+	/* overflow-y: auto; */
+	height: 60em;
+	min-height: 60em;
+	max-height: 60em;
+	max-width: 30%;
+}
+
