@@ -30,11 +30,7 @@ class MainNav extends Component{
       <div >
 
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-<<<<<<< HEAD
             <Navbar.Brand href="/main">F.R.I.C.</Navbar.Brand>
-=======
-            <Navbar.Brand href="#home" onClick={()=>this.handleClicks('/main')}>F.R.I.C.</Navbar.Brand>
->>>>>>> 442e30811c1c180051a4380e8f7ad2a0d120a55c
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
@@ -43,11 +39,7 @@ class MainNav extends Component{
                   <NavDropdown.Item href="/archive">Archives</NavDropdown.Item>
                   <NavDropdown.Item href="/summary">Summary</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.3" onClick={() => handleClick('system')}>Systems</NavDropdown.Item>
-<<<<<<< HEAD
                   <Nav.Link href="/event">Events</Nav.Link>
-=======
-                  <NavDropdown.Item href="#action/3.4" onClick={()=> this.handleClicks('/summary')}>Summary</NavDropdown.Item>
->>>>>>> 442e30811c1c180051a4380e8f7ad2a0d120a55c
                 </NavDropdown>
                 <Nav.Link href="#events">Events</Nav.Link>
                 <Nav.Link onClick = {this.eventTreeHandler}>Events Tree</Nav.Link>

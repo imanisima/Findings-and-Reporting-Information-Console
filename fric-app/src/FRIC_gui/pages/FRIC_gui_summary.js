@@ -4,7 +4,6 @@ import MainNav from '../bootstrap/FRIC_gui_navbar.js';
 import ReactDOM from "react-dom";
 import Findings from '../components/findings/FRIC_gui_findings_table'
 import Systems from '../components/system/FRIC_gui_system_table'
-<<<<<<< HEAD
 import Tasks from '../components/FRIC_gui_task/FRIC_gui_tasks_table'
 import '../css/tasks/FRIC_gui_tasks_table.css'
 import Table from 'react-bootstrap/Table'
@@ -26,9 +25,6 @@ export default class Notification extends Component {
     console.log(this.state.showComponents)
   }
 
-=======
-export default class Notification extends Component {
->>>>>>> 442e30811c1c180051a4380e8f7ad2a0d120a55c
     render() {
       return (
         ReactDOM.render(
@@ -52,7 +48,6 @@ export default class Notification extends Component {
                   <ProgressBar variant="danger" now={80} />
                   <h5>Systems</h5>
                 </div>
-<<<<<<< HEAD
                     <h2>Tasks Overview Table</h2>
                     <Tasks></Tasks>
                     <h2>Subtasks Overview Table</h2>
@@ -105,9 +100,6 @@ export default class Notification extends Component {
           </Table>  
         </div>
                     <h2>Findings Overview Table</h2>
-=======
-                <h2>Findings Overview Table</h2>
->>>>>>> 442e30811c1c180051a4380e8f7ad2a0d120a55c
                     <Findings></Findings>
                     
                     <h2>Systems Overview Table </h2>
