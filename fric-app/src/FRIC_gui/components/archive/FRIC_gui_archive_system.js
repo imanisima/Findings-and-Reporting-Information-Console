@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import MainNav from '../../bootstrap/FRIC_gui_navbar';
 import '../../css/archive/FRIC_gui_archive_system.css'
+import SystemTable from '../system/FRIC_gui_system_table'
 
 function FRIC_gui_archive_system() {
     return (
@@ -10,7 +11,7 @@ function FRIC_gui_archive_system() {
 
           <h1>Archived Systems</h1>
 
-           <h2>Insert System Overview Table </h2>
+           <SystemTable />
         
           <div className="button">
           <Button>Restore</Button>
