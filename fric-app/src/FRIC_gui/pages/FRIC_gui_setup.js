@@ -1,13 +1,14 @@
+/**
+ * 
+ */
+
 import React, {Component} from 'react';
+import SetupModal from '../components/setup/SetupModal';
 
 export default class Setup extends Component {
-    render() {
-      return (
-        <h2>Setup Page</h2>
-  );
-    }
-  }
-
-
-    // end of code
-    // export default Setup;
+	render() {
+		return (
+			<SetupModal />
+		);
+	}
+}
