@@ -38,7 +38,12 @@
     "typescript": "^3.9.7",
     "@material-ui/pickers": "^3.2.10",
     "@date-io/date-fns": "v1",
-    "date-fns": "^2.16.1"
+    "date-fns": "^2.16.1",
+    "express": "latest",
+    "cors": "latest",
+    "mongoose": "latest",
+    "dotenv": "latest",
+    "nodemon": "latest"
   },
   "devDependencies": {
     "html-webpack-plugin": "^4.4.1",
