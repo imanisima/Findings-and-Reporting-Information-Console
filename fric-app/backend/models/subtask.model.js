@@ -5,13 +5,15 @@
 const mongoose = require('mongoose');
 
 const subtasksSchema = new mongoose.Schema({
-	id: { type: Number, required: true },
-	name: { type: String, required: true, },
-	task: { type: String, required: true },
-	analyst: { type: String, required: true },
-	progress: { type: Number, required: true },
-	findings: { type: String, required: false },
-	dueDate: { type: Date, required: true },
+	title: { type: String, required: true, },
+	description: {type: String, required: true, },
+	progress: { type: Number, required: true, },
+	dueDate: { type: Date, required: true, },
+	attachment: { type: String, required: false, },
+	associations: { type: Array, required: true, },
+	analysts: { type: Array, required: true, },
+	collaborators: { type: Array, required: true, },
+	archived: { type: Boolean, required: true, },
 }, {
 	timestamps: true,
 });
