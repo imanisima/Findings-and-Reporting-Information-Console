@@ -24,7 +24,7 @@ router.route('/add').post((req, res) => {
 		description: req.body.description,
 		type: req.body.type,
 		version: Number(req.body.version),
-		assesmentDate: Date.parse(req.body.assessmentDate),
+		assessmentDate: Date.parse(req.body.assessmentDate),
 		organization: req.body.organization,
 		securityGuide: req.body.securityGuide,
 		classification: req.body.classification,

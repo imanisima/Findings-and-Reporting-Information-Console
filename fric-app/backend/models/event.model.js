@@ -9,12 +9,12 @@ const eventSchema = new mongoose.Schema({
 	description: { type: String, required: false },
 	type: { type: String, required: true },
 	version: { type: Number, required: true },
-	assesmentDate: { type: Date, required: true },
+	assessmentDate: { type: String, required: true }, //Date
 	organization: { type: String, required: true },
 	securityGuide: { type: String, required: true },
 	classification: { type: String, required: true },
-	declassified: { type: Date, required: true },
-	customer: { type: Date, required: true },
+	declassified: { type: String, required: true }, //Date
+	customer: { type: String, required: true }, //Date
 	archived: { type: Boolean, required: true },
 	team: { type: Array, required: true },
 }, {

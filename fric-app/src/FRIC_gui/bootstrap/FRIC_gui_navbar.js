@@ -16,7 +16,7 @@ const handleClick = (action) => {
       case 'sync':
           console.log('sync touched');
           window.location.href = '/sync'
-          window.open(window.location.href)
+          window.open(window.location.href, '_self')
           break;
     default:
       console.log('default');
@@ -32,11 +32,12 @@ class MainNav extends Component{
   eventTreeHandler(){
     window.location.href = '/event_tree'
     window.open(window.location.href)
-}
+  }
 
   render(){
 
     return (
+
       <div >
 
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">

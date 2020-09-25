@@ -3,10 +3,32 @@ import {Tab, Row, Col, Nav} from 'react-bootstrap';
 import TasksOverview from '../components/FRIC_gui_task/FRIC_gui_tasks_overview.js';
 import Findings from './../components/findings/FRIC_gui_findings_content'
 import Archive from './../components/archive/FRIC_gui_archive_content'
+import { getEvent } from '../services/services.js';
+import axios from 'axios'
+import { event } from 'jquery';
 
 class TabDisplay extends Component{
-  render(){
+  constructor (props) {
+    super(props);
 
+    this.state ={
+      events: null
+    };
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:5000/events/')
+    .then(response =>  {
+        console.log(response.data);
+        this.setState({ events: response.data})
+    })
+    .catch(error => {
+        console.log(error)
+    });
+  }
+
+  render(){
+    console.log(this.state.events)
     const parentContainerStyles = {
       position: 'absolute',
       height: '100%',
