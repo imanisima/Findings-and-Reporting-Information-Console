@@ -4,13 +4,14 @@ const postEvent = function() {
 
 }
 
-export const getEvent = async () => {
-    axios.get('http://localhost:5000/events/')
+/*export const getEvent = async () => {
+    await axios.get('http://localhost:5000/events/')
     .then( (response) =>  {
-        return response.data;
+        const data = response.data;
+        return data
     })
     .catch(error => {
         console.log(error)
     });
 };
-
+*/

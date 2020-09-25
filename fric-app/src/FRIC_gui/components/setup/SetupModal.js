@@ -8,7 +8,6 @@ import React, { useState } from 'react'
 import SetupContentView from './SetupForm'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import { getEvent } from '../../services/services'
 
 export default function SetupModal() {
 	const [show, setShow] = useState(false);
@@ -17,7 +16,7 @@ export default function SetupModal() {
 
 	return (
 		<>
-			<Button variant="primary" onClick={getEvent}>Launch Setup Modal View</Button>
+			<Button variant="primary" onClick={handleShow}>Launch Setup Modal View</Button>
 			<Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
 				<SetupContentView onCancel={handleClose} />
 			</Modal>
