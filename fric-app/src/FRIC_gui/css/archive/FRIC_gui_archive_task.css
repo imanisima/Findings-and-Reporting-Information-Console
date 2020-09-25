@@ -7,16 +7,20 @@
     padding-top: 30px;
   }
    
-   button{
+   .button{
      cursor: pointer;
      margin-left: 30px;
      margin-right: 30px;
      font-weight: 500;
      opacity: .7;
      transition: tranform 50ms ease-out;
-   }
+     -webkit-transition: tranform 50ms ease-out;
+     -moz-transition: tranform 50ms ease-out;
+     -ms-transition: tranform 50ms ease-out;
+     -o-transition: tranform 50ms ease-out;
+}
    
-   button:hover{
+   .button:hover{
      opacity: 1;
      transform:scale(1.2) ;
    }
