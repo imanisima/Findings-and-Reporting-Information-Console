@@ -14,9 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import CancelIcon from '@material-ui/icons/Cancel';
 import ArchiveIcon from '@material-ui/icons/Archive';
-import SaveIcon from '@material-ui/icons/Save';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Switch from '@material-ui/core/Switch';
@@ -223,10 +221,8 @@ export default function SubtasksOverviewTable(props) {
           </Table>
         </TableContainer>
         <div style={{display: "inline-block", verticalAlign: "bottom"}}>
-          <Button variant="contained" startIcon={<ArchiveIcon />} style={{ backgroundColor: "#066ff9", color: "white", margin: "0.5em", }}>Archive</Button>
+          <Button variant="contained" startIcon={<ArchiveIcon />} style={{ color: "black", margin: "0.5em", }}>Archive</Button>
           <Button variant="contained" startIcon={<ArrowUpwardIcon />} style={{ backgroundColor: "#29a745", color: "white", margin: "0.5em", }}>Promote</Button>
-          <Button variant="contained" startIcon={<SaveIcon />} style={{ backgroundColor: "#ffc108", color: "white", margin: "0.5em", }}>Save</Button>
-          <Button variant="contained" startIcon={<CancelIcon />} style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}>Cancel</Button>
         </div>
         <TablePagination
           rowsPerPageOptions={[10]}

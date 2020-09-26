@@ -17,6 +17,9 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Form from 'react-bootstrap/Form'
 import Multiselect from './Multiselect.js'
+import Button from '@material-ui/core/Button';
+import CancelIcon from '@material-ui/icons/Cancel';
+import SaveIcon from '@material-ui/icons/Save';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,8 +45,7 @@ export default function SubtaskDetailView(props) {
 	);
 
 	return (
-		<>
-			<Paper style={{maxWidth: "25em", padding: "2.3em", overflowY: "scroll"}}>
+		<Paper style={{maxWidth: "25em", padding: "2.3em", overflowY: "scroll"}}>
 			<Form>
 				<div style={{ textAlign: "center"}}>
 					<h4 style={{ display: "inline-block", padding: "0.3em"}}>Subtask Detail View</h4>
@@ -131,13 +133,15 @@ export default function SubtaskDetailView(props) {
 					<Form.Label>Attachments</Form.Label>
 					<Form.File id="custom-file" label="No File Selected" feedback custom />
 				</Form.Group>
+				
+				<Button variant="contained" startIcon={<SaveIcon />} style={{ backgroundColor: "#ffc108", color: "white", margin: "0.5em", }}>Save</Button>
+				<Button variant="contained" startIcon={<CancelIcon />} style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}>Cancel</Button>
 			</Form>
-			</Paper>
-		</>
+		</Paper>
 	);
 }
 
 SubtaskDetailView.propTypes = {
-	selectedTask: PropTypes.object.isRequired,
+	selectedSubtask: PropTypes.object.isRequired,
 	options: PropTypes.object.isRequired,
 }
