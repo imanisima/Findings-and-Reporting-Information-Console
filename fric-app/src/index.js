@@ -26,7 +26,7 @@ import ArchiveTask from './FRIC_gui/components/archive/FRIC_gui_archive_task'
 import ArchiveSubtask from './FRIC_gui/components/archive/FRIC_gui_archive_subtask'
 import ArchiveSystem from './FRIC_gui/components/archive/FRIC_gui_archive_system'
 import ArchiveFinding from './FRIC_gui/components/archive/FRIC_gui_archive_findings'
-import EventTree from './FRIC_gui/components/FRIC_gui_event_tree.js'
+import EventTree from './FRIC_gui/components/event-tree/FRIC_gui_event_tree.js'
 
 // css
 import './FRIC_gui/css/FRIC_gui_main.css';

@@ -1,7 +1,7 @@
 import React from 'react'
-import MainNav from '../bootstrap/FRIC_gui_navbar' ;
-import '../css/FRIC_gui_event_tree.css'
-import EventTreeView from '../components/FRIC_gui_event_tree_table'
+import MainNav from '../../bootstrap/FRIC_gui_navbar' ;
+import '../../css/FRIC_gui_event_tree.css'
+import EventTreeView from './FRIC_gui_event_tree_table'
 
 function FRIC_gui_event_tree() {
     return (
