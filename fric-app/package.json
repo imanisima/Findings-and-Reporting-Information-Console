@@ -18,7 +18,7 @@
     {
       "name": "Jose Marquez",
       "email": "ja-marqquezz@hotmail.com"
-    }
+    },
     {
       "name": "Marco Soto",
       "email": "msoto9940@gmail.com"
@@ -30,7 +30,7 @@
     {
       "name": "Raquel Gonzalez",
       "email": "raqugonza10@gmail.com"
-    },
+    }
   ],
   "private": true,
   "dependencies": {
