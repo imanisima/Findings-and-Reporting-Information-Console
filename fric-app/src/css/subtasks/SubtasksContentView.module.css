@@ -4,21 +4,21 @@
 }
 
 .tableView {
-	display: inline-block;
+	/* display: inline-block;
 	height: 60em;
 	min-height: 60em;
 	max-height: 60em;
-	max-width: 70%;
+	max-width: 70%; */
 	vertical-align: top;
 }
 
 .detailView {
-	display: inline-block;
-	/* overflow-y: auto; */
+	/* display: inline-block;
+	overflow-y: auto;
 	height: 60em;
 	min-height: 60em;
 	max-height: 60em;
 	max-width: 30%;
-	vertical-align: top;
+	vertical-align: top; */
 }
 

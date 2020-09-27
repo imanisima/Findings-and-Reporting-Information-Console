@@ -12,8 +12,8 @@ export const Progression = {
 const Priority = { LOW: 'Low', MEDIUM: 'Medium', HIGH: 'High' }
 
 export const options = {
-	analysts: ['MS', 'NO', 'SD', 'WE', 'VD', 'WO'],
-	collabs: ['MS', 'NO', 'SD', 'WE', 'VD', 'WO'],
+	analysts: ['sarko moto', 'Ben dover', 'Don Glover', 'mike Hunt', 'Harry Beaver', 'P. Huck Hughson'],
+	collabs: ['sarko moto', 'Ben dover', 'Don Glover', 'mike Hunt', 'Harry Beaver', 'P. Huck Hughson'],
 	tasks: ['task1', 'task2', 'task3', 'task4'],
 	subtasks: ['subtask1', 'subtask2', 'subtask3', 'subtask4', 'subtask5'],
 	progress: Object.values(Progression),

@@ -9,6 +9,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+import { getInitials } from '../general/stringOps';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -59,7 +61,13 @@ export default function Multiselect(props) {
 					renderValue={selected => (
 						<div className={classes.chips}>
 							{selected.map((value) => (
-								<Chip key={value} label={value} className={classes.chip} />
+								<Chip
+									key={value}
+									label={value}
+									color={(props.withInitialsAvatar) ? "primary" : ""}
+									avatar={props.withInitialsAvatar && <Avatar>{getInitials(value)}</Avatar>}
+									className={classes.chip}
+								/>
 							))}
 						</div>
 					)}
@@ -77,4 +85,4 @@ export default function Multiselect(props) {
 	);
 }
 
-Multiselect.propTypes = { options: PropTypes.object.isRequired,}
+Multiselect.propTypes = { options: PropTypes.object.isRequired }

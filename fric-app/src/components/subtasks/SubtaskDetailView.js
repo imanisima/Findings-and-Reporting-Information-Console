@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -45,108 +45,103 @@ export default function SubtaskDetailView(props) {
 	);
 
 	return (
-		<Paper style={{maxWidth: "25em", padding: "2.3em", overflowY: "scroll"}}>
-			<Form>
-				<div style={{ textAlign: "center"}}>
-					<h4 style={{ display: "inline-block", padding: "0.3em"}}>Subtask Detail View</h4>
-					<OverlayTrigger
-						placement="bottom"
-						delay={{ show: 320, hide: 200 }}
-						overlay={renderTooltip}
+		<Form style={{ padding: "3em 4em 3em 4em" }}>
+			<div style={{ textAlign: "center"}}>
+				<h4 style={{ display: "inline-block", padding: "0.3em"}}>Subtask Detail View</h4>
+				<OverlayTrigger
+					placement="bottom"
+					delay={{ show: 320, hide: 200 }}
+					overlay={renderTooltip}
+				>
+					<HelpOutlineRoundedIcon size="large" style={{verticalAlign: "middle"}}/>
+				</OverlayTrigger>
+			</div>
+			{/* <Button variant="light"><HelpOutlineRoundedIcon /></Button> */}
+			
+
+			{/* Title Text Field */}
+			<Form.Group>
+				<Form.Label style={{ display: "block" }}>Title</Form.Label>
+				<Form.Control type="text" placeholder="Title" />
+			</Form.Group>
+
+			{/* Description Text Field */}
+			<Form.Group>
+				<Form.Label style={{ display: "block" }}>Description</Form.Label>
+				<Form.Control as="textarea" rows="3" placeholder="Description" />
+			</Form.Group>
+
+			{/* Due Date Picker */}
+			<Form.Group>
+				<Form.Label style={{ display: "block" }}>Date</Form.Label>
+				<MuiPickersUtilsProvider utils={DateFnsUtils}>
+					<KeyboardDatePicker
+						disableToolbar
+						variant="inline"
+						format="MM/dd/yyyy"
+						margin="normal"
+						id="date-picker"
+						label=""
+						value={selectedDate}
+						onChange={date => {setSelectedDate(date)}}
+						KeyboardButtonProps={{ 'aria-label': 'change date', }}
+					/>
+				</MuiPickersUtilsProvider>
+			</Form.Group>
+
+			{/* Progress Selector */}
+			<Form.Group>
+				<Form.Label style={{ display: "block" }}>Progress</Form.Label>
+				<FormControl className={classes.formControl}>
+					{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
+					<Select
+						labelId="select-outlined-label"
+						id="select-outlined"
+						value={progress}
+						onChange={val => {setProgress(val)}}
+						label=""
 					>
-						<HelpOutlineRoundedIcon size="large" style={{verticalAlign: "middle"}}/>
-					</OverlayTrigger>
-				</div>
-				{/* <Button variant="light"><HelpOutlineRoundedIcon /></Button> */}
-				
+						{props.options.progress.map((el) => {
+							return <MenuItem value={el}>{el}</MenuItem>
+						})}
+					</Select>
+				</FormControl>
+			</Form.Group>
 
-				{/* Title Text Field */}
-				<Form.Group>
-					<Form.Label style={{ display: "block" }}>Title</Form.Label>
-					<Form.Control type="text" placeholder="Title" />
-				</Form.Group>
+			{/* Analysts Multiselect */}
+			<Form.Group style={{display: "inline-block"}}>
+				<Form.Label style={{ display: "block" }}>Select Analyst</Form.Label>
+				<Multiselect options={props.options.analysts} withInitialsAvatar={true} label="Analysts" />
+			</Form.Group>
 
-				{/* Description Text Field */}
-				<Form.Group>
-					<Form.Label style={{ display: "block" }}>Description</Form.Label>
-					<Form.Control as="textarea" rows="3" placeholder="Description" />
-				</Form.Group>
+			{/* Collaborators Multiselect */}
+			<Form.Group style={{display: "inline-block"}}>
+				<Form.Label style={{ display: "block" }}>Select Collaborators</Form.Label>
+				<Multiselect options={props.options.collabs} withInitialsAvatar={true} label="Collabs" />
+			</Form.Group>
 
-				{/* Due Date Picker */}
-				<Form.Group>
-					<Form.Label style={{ display: "block" }}>Date</Form.Label>
-					<MuiPickersUtilsProvider utils={DateFnsUtils}>
-						<KeyboardDatePicker
-							disableToolbar
-							variant="inline"
-							format="MM/dd/yyyy"
-							margin="normal"
-							id="date-picker"
-							label=""
-							value={selectedDate}
-							onChange={date => {setSelectedDate(date)}}
-							KeyboardButtonProps={{ 'aria-label': 'change date', }}
-						/>
-					</MuiPickersUtilsProvider>
-				</Form.Group>
-
-				{/* Progress Selector */}
-				<Form.Group>
-					<Form.Label style={{ display: "block" }}>Progress</Form.Label>
-					<FormControl className={classes.formControl}>
-						{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
-						<Select
-							labelId="select-outlined-label"
-							id="select-outlined"
-							value={progress}
-							onChange={val => {setProgress(val)}}
-							label=""
-						>
-							{props.options.progress.map((el) => {
-								return <MenuItem value={el}>{el}</MenuItem>
-							})}
-						</Select>
-					</FormControl>
-				</Form.Group>
-
-				{/* Analysts Multiselect */}
-				<Form.Group style={{display: "inline-block"}}>
-					<Form.Label style={{ display: "block" }}>Select Analyst</Form.Label>
-					<Multiselect options={props.options.analysts} label="Analysts" />
-				</Form.Group>
-
-				{/* Collaborators Multiselect */}
-				<Form.Group style={{display: "inline-block"}}>
-					<Form.Label style={{ display: "block" }}>Select Collaborators</Form.Label>
-					<Multiselect options={props.options.collabs} label="Collabs" />
-				</Form.Group>
-
-				{/* Tasks Multiselect */}
-				<Form.Group style={{display: "inline-block"}}>
-					<Form.Label style={{ display: "block" }}>Select Tasks</Form.Label>
-					<Multiselect options={props.options.tasks} label="Tasks" />
-				</Form.Group>
-				
-				{/* Subtasks Multiselect */}
-				<Form.Group style={{display: "inline-block"}}>
-					<Form.Label>Select Subtasks</Form.Label>
-					<Multiselect options={props.options.subtasks} label="Subtasks" />
-				</Form.Group>
-				
-				{/* Attachment file selector */}
-				<Form.Group>
-					<Form.Label>Attachments</Form.Label>
-					<Form.File id="custom-file" label="No File Selected" feedback custom />
-				</Form.Group>
-				
-				<Button variant="contained" startIcon={<SaveIcon />} style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}>Save</Button>
-				<Button variant="contained" startIcon={<CancelIcon />} style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}>Cancel</Button>
-			</Form>
-		</Paper>
+			{/* Tasks Multiselect */}
+			<Form.Group style={{display: "inline-block"}}>
+				<Form.Label style={{ display: "block" }}>Select Tasks</Form.Label>
+				<Multiselect options={props.options.tasks} label="Tasks" />
+			</Form.Group>
+			
+			{/* Subtasks Multiselect */}
+			<Form.Group style={{display: "inline-block"}}>
+				<Form.Label>Select Subtasks</Form.Label>
+				<Multiselect options={props.options.subtasks} label="Subtasks" />
+			</Form.Group>
+			
+			{/* Attachment file selector */}
+			<Form.Group>
+				<Form.Label>Attachments</Form.Label>
+				<Form.File id="custom-file" label="No File Selected" feedback custom />
+			</Form.Group>
+		</Form>
 	);
 }
 
 SubtaskDetailView.propTypes = {
 	selectedSubtask: PropTypes.object.isRequired,
-	options: PropTypes.object.isRequired,
+	options: PropTypes.array.isRequired,
 }

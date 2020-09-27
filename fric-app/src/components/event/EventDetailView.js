@@ -15,7 +15,6 @@ import Select from '@material-ui/core/Select';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
 import Multiselect from '../general/Multiselect.js';
 import Button from '@material-ui/core/Button';
 import CancelIcon from '@material-ui/icons/Cancel';

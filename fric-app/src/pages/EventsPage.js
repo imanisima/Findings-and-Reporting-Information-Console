@@ -9,7 +9,7 @@ import EventContentView from '../components/event/EventContentView'
 export default function EventsPage() {
 	return (
 		<>
-			{/* <MainNav /> */}
+			<MainNav />
 			<EventContentView />
 		</>
 	);

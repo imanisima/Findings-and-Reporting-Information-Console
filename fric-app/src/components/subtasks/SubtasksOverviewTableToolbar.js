@@ -22,14 +22,14 @@ const useToolbarStyles = makeStyles((theme) => ({
 	},
 	highlight:
 	theme.palette.type === 'light'
-			? {
-					color: theme.palette.common.white,
-					backgroundColor: lighten("#066ff9", 0.1) //lighten(theme.palette.primary.dark, 0.20) 
-				}
-			: {
-					color: theme.palette.text.primary,
-					backgroundColor: theme.palette.primary.light,
-				},
+		? {
+				color: theme.palette.common.white,
+				backgroundColor: lighten("#066ff9", 0.1) //lighten(theme.palette.primary.dark, 0.20) 
+			}
+		: {
+				color: theme.palette.text.primary,
+				backgroundColor: theme.palette.primary.light,
+			},
 	title: {
 	flex: '1 1 100%',
 	},
@@ -55,27 +55,34 @@ export default function SubtasksOverviewTableToolbar(props) {
 			[classes.highlight]: numSelected > 0,
 			})}
 		>
-		{numSelected > 0 ? (
-			<Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-				{numSelected} selected
-			</Typography>
+		{
+			numSelected > 0 ? (
+				<Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+					{numSelected} selected
+				</Typography>
 			) : (
-			<container className={classes.title}>
-				<AddButton variant="contained" color="#066ff9" startIcon={<AddIcon />}>
-					New
-				</AddButton>
-			</container>
-		)}
-		{numSelected > 0 ? (
-			<Tooltip title="Edit">
-				<IconButton aria-label="edit" style={{color: "dark-grey", backgroundColor: "#ffffff"}}><EditIcon  /></IconButton>
-			</Tooltip>
-			// <Button variant="contained" endIcon={<EditIcon />}>Edit</Button>
-			) : (
-			<Tooltip title="Filter list">
-				<Button variant="contained" endIcon={<FilterListIcon />}>Filter</Button>
-			</Tooltip>
-		)}
+				<div className={classes.title}>
+					<AddButton variant="contained" color="#066ff9" startIcon={<AddIcon />}>
+						New
+					</AddButton>
+				</div>
+			)
+		}
+		{
+			false && numSelected === 1 && (
+				<Tooltip title="Edit">
+					<IconButton aria-label="edit" style={{color: "dark-grey", backgroundColor: "#ffffff"}}><EditIcon  /></IconButton>
+				</Tooltip>
+				// <Button variant="contained" endIcon={<EditIcon />}>Edit</Button>
+			)
+		}
+		{ 
+			numSelected === 0 && (
+				<Tooltip title="Filter list">
+					<Button variant="contained" endIcon={<FilterListIcon />}>Filter</Button>
+				</Tooltip>
+			)
+		}
 	</Toolbar>
 	);
 };

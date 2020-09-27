@@ -30,6 +30,8 @@ import EventTree from './components/event-tree/FRIC_gui_event_tree'
 import SystemsOverview from './components/system/FRIC_gui_system_overview';
 import SystemDetail from './components/system/FRIC_gui_system_details';
 import EventsPage from './pages/EventsPage';
+import PageLayout from './components/general/PageLayout';
+import TestPage from './pages/TestPage';
 
 function App() {
 	return (
@@ -58,7 +60,9 @@ function App() {
 					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />
 					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
 					<Route exact path="/event_tree" component={EventTree} />
-					<Route exact path="/event2" component={EventsPage} />
+					<Route exact path="/event2.0" component={EventsPage} />
+					<Route exact path="/general" component={PageLayout} />
+					<Route exact path="/testpage" component={TestPage} />
 				</Switch>
 			</Router>
 		</>

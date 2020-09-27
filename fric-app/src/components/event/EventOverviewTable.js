@@ -14,8 +14,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 // import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
 // import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
 import CustomTableHead from '../general/CustomTableHead';
