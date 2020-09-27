@@ -2,12 +2,12 @@
  *
  */
 
-import React from 'react'
-import SubtasksOverviewTable from './SubtasksOverviewTable'
-import SubtaskDetailView from './SubtaskDetailView'
-import styles from '../../css/subtasks/SubtasksContentView.module.css'
+import React from 'react';
+import SubtasksOverviewTable from './SubtasksOverviewTable';
+import SubtaskDetailView from './SubtaskDetailView';
+import styles from '../../css/subtasks/SubtasksContentView.module.css';
 import MainNav from '../../bootstrap/FRIC_gui_navbar';
-import { data, headings, subtaskTestObject, options } from '../general/subtaskstestdata'; //TODO: remove test data import when connected to backend
+import { data, headings, subtaskTestObject, options } from '../general/test/subtaskstestdata'; //TODO: remove test data import when connected to backend
 
 export default function SubtasksContentView() {
 	return (
@@ -22,5 +22,5 @@ export default function SubtasksContentView() {
 				</div>
 			</div>
 		</>
-	)
+	);
 }

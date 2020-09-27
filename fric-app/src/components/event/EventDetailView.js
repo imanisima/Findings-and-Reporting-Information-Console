@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
 export default function EventDetailView(props) {
 	const [assessDate, setAssessDate] = useState(new Date('2014-08-18T21:11:54'));
 	const [declassDate, setDeclassDate] = useState(new Date());
-	const [progress, setProgress] = useState();
+	const [eventType, setEventType] = useState();
+	const [leadAnalyst, setLeadAnalyst] = useState();
 
 	const classes = useStyles();
 
@@ -81,11 +82,11 @@ export default function EventDetailView(props) {
 						<Select
 							labelId="select-outlined-label"
 							id="select-outlined"
-							value={progress}
-							onChange={val => { setProgress(val) }}
+							value={eventType}
+							onChange={val => { setEventType(val) }}
 							label=""
 						>
-							{props.options.progress.map((el) => {
+							{props.options.types.map((el) => {
 								return <MenuItem value={el}>{el}</MenuItem>
 							})}
 						</Select>
@@ -152,8 +153,45 @@ export default function EventDetailView(props) {
 					<Form.Control type="text" placeholder="Customer Name" />
 				</Form.Group>
 
-				<Button variant="contained" startIcon={<SaveIcon />} style={{ backgroundColor: "#ffc108", color: "white", margin: "0.5em", }}>Save</Button>
-				<Button variant="contained" startIcon={<CancelIcon />} style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}>Cancel</Button>
+				<div style={{ textAlign: "center" }}>
+					<h4 style={{ display: "inline-block", padding: "0.3em" }}>Team Information</h4>
+					<OverlayTrigger
+						placement="bottom"
+						delay={{ show: 320, hide: 200 }}
+						overlay={renderTooltip}
+					>
+						<HelpOutlineRoundedIcon size="large" style={{ verticalAlign: "middle" }} />
+					</OverlayTrigger>
+				</div>
+
+				{/* Lead Analyst Dropdown */}
+				<Form.Group>
+					<Form.Label style={{ display: "block" }}>Lead Analysts</Form.Label>
+					<FormControl className={classes.formControl}>
+						<Select
+							labelId="select-outlined-label"
+							id="select-outlined"
+							value={leadAnalyst}
+							onChange={val => { setLeadAnalyst(val) }}
+							label=""
+						>
+							{props.options.analysts.map((el) => {
+								return <MenuItem value={el}>{el}</MenuItem>
+							})}
+						</Select>
+					</FormControl>
+				</Form.Group>
+
+				{/* Collaborators Multiselect */}
+				<Form.Group style={{ display: "inline-block" }}>
+					<Form.Label style={{ display: "block" }}>Select Collaborators</Form.Label>
+					<Multiselect options={props.options.analysts}  />
+				</Form.Group>
+				
+				<Form.Group>
+					<Button variant="contained" startIcon={<SaveIcon />} style={{ backgroundColor: "#ffc108", color: "white", margin: "0.5em", }}>Save</Button>
+					<Button variant="contained" startIcon={<CancelIcon />} style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}>Cancel</Button>
+				</Form.Group>
 			</Form>
 		</Paper>
 	);

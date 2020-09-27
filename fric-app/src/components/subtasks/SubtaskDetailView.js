@@ -72,7 +72,7 @@ export default function SubtaskDetailView(props) {
 					<Form.Control as="textarea" rows="3" placeholder="Description" />
 				</Form.Group>
 
-				{/* Date Picker */}
+				{/* Due Date Picker */}
 				<Form.Group>
 					<Form.Label style={{ display: "block" }}>Date</Form.Label>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -109,32 +109,37 @@ export default function SubtaskDetailView(props) {
 					</FormControl>
 				</Form.Group>
 
+				{/* Analysts Multiselect */}
 				<Form.Group style={{display: "inline-block"}}>
 					<Form.Label style={{ display: "block" }}>Select Analyst</Form.Label>
 					<Multiselect options={props.options.analysts} label="Analysts" />
 				</Form.Group>
 
+				{/* Collaborators Multiselect */}
 				<Form.Group style={{display: "inline-block"}}>
 					<Form.Label style={{ display: "block" }}>Select Collaborators</Form.Label>
 					<Multiselect options={props.options.collabs} label="Collabs" />
 				</Form.Group>
 
+				{/* Tasks Multiselect */}
 				<Form.Group style={{display: "inline-block"}}>
 					<Form.Label style={{ display: "block" }}>Select Tasks</Form.Label>
 					<Multiselect options={props.options.tasks} label="Tasks" />
 				</Form.Group>
-
+				
+				{/* Subtasks Multiselect */}
 				<Form.Group style={{display: "inline-block"}}>
 					<Form.Label>Select Subtasks</Form.Label>
 					<Multiselect options={props.options.subtasks} label="Subtasks" />
 				</Form.Group>
 				
+				{/* Attachment file selector */}
 				<Form.Group>
 					<Form.Label>Attachments</Form.Label>
 					<Form.File id="custom-file" label="No File Selected" feedback custom />
 				</Form.Group>
 				
-				<Button variant="contained" startIcon={<SaveIcon />} style={{ backgroundColor: "#ffc108", color: "white", margin: "0.5em", }}>Save</Button>
+				<Button variant="contained" startIcon={<SaveIcon />} style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}>Save</Button>
 				<Button variant="contained" startIcon={<CancelIcon />} style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}>Cancel</Button>
 			</Form>
 		</Paper>

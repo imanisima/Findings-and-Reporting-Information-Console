@@ -220,10 +220,12 @@ export default function SubtasksOverviewTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
-        <div style={{display: "inline-block", verticalAlign: "bottom"}}>
-          <Button variant="contained" startIcon={<ArchiveIcon />} style={{ color: "black", margin: "0.5em", }}>Archive</Button>
-          <Button variant="contained" startIcon={<ArrowUpwardIcon />} style={{ backgroundColor: "#29a745", color: "white", margin: "0.5em", }}>Promote</Button>
-        </div>
+        { // Render buttons when rows are selected
+          selected.length > 0 && <div style={{display: "inline-block", verticalAlign: "bottom"}}>
+            <Button variant="contained" startIcon={<ArchiveIcon />} style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}>Archive</Button>
+            <Button variant="contained" startIcon={<ArrowUpwardIcon />} style={{ backgroundColor: "#29a745", color: "white", margin: "0.5em", }}>Promote</Button>
+          </div>
+        }
         <TablePagination
           rowsPerPageOptions={[10]}
           component="div"

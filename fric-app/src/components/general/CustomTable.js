@@ -16,8 +16,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Switch from '@material-ui/core/Switch';
+// import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
+// import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
 import CustomTableHead from './CustomTableHead';
 import CustomTableToolbar from './CustomTableToolbar'
 
@@ -103,8 +103,8 @@ export default function CustomTable(props) {
 	const [orderBy, setOrderBy] = React.useState('title');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [dense, setDense] = React.useState(true);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
+	const [dense, setDense] = React.useState(true); // For toggling the dense row setting
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -148,7 +148,7 @@ export default function CustomTable(props) {
 		setPage(0);
 	};
 
-	const handleChangeDense = (event) => { setDense(event.target.checked); };
+	// const handleChangeDense = (event) => { setDense(event.target.checked); }; // For toggling the dense row setting
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -184,6 +184,7 @@ export default function CustomTable(props) {
 									const labelId = `custom-table-checkbox-${index}`;
 
 									return (
+
 										<StyledTableRow
 											hover
 											onClick={(event) => handleClick(event, row.id)}
@@ -208,7 +209,8 @@ export default function CustomTable(props) {
 											<StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
 											<StyledTableCell align="right" padding="none">{row.progress}</StyledTableCell>
 											<StyledTableCell align="left" >{row.findings}</StyledTableCell>
-											<StyledTableCell align="left" padding="left">{row.dueDate.toLocaleString()}</StyledTableCell>
+											{/* <StyledTableCell align="left" padding="left">{row.dueDate.toLocaleString()}</StyledTableCell> */}
+										
 										</StyledTableRow>
 									);
 								})}
@@ -234,6 +236,7 @@ export default function CustomTable(props) {
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 			</Paper>
+			{/* For toggling the dense row setting */}
 			{/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
