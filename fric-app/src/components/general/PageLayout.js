@@ -37,6 +37,10 @@ import SyncIcon from '@material-ui/icons/Sync'
 // Navbar Icons
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
+// Detail View Icons
+import CancelIcon from '@material-ui/icons/Cancel';
+import SaveIcon from '@material-ui/icons/Save';
+
 // Test Content
 import SubtasksContentView from '../subtasks/SubtasksContentView';
 import SubtasksDetailView from '../subtasks/SubtaskDetailView';
@@ -246,7 +250,20 @@ export default function PageLayout() {
 						<Drawer anchor="right" open={detailOpen}>
 							<div style={{ width: "60em" }}>
 								<SubtasksDetailView selectedSubtask={subtaskTestObject} options={options} saveAction={handleDetailDrawerClose} cancelAction={handleDetailDrawerClose} />
-								
+								<Button
+									onClick={handleDetailDrawerClose}
+									variant="contained"
+									size="large"
+									startIcon={<SaveIcon />}
+									style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
+								>Save</Button>
+								<Button
+									onClick={handleDetailDrawerClose}
+									variant="contained"
+									size="large"
+									startIcon={<CancelIcon />}
+									style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}
+								>Cancel</Button>
 							</div>
 						</Drawer>
 					</React.Fragment>
