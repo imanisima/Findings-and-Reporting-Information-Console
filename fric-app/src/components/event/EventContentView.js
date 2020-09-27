@@ -6,8 +6,8 @@ import { data, headings, eventTestObject, options } from "../general/eventstestd
 export default function EventContentView() {
 	return (
 		<>
-			{/* <EventOverviewTable rows={data} headings={headings} /> */}
-			<EventDetailView selectedEvent={eventTestObject} options={options} />
+			<EventOverviewTable rows={data} headings={headings} />
+			{/* <EventDetailView selectedEvent={eventTestObject} options={options} /> */}
 		</>
 	);
 }
