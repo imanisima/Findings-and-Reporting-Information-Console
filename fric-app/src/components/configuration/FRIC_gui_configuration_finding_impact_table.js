@@ -1,10 +1,10 @@
+/**
+ * 
+ */
+
 import React, {Component} from 'react';
 import Table from 'react-bootstrap/Table'
 import InputGroup from 'react-bootstrap/InputGroup'
-import Button from 'react-bootstrap/Button'
-
-
-
 
 class FindingImpactTable extends Component {
 

@@ -14,11 +14,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-// import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
-// import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
 import CustomTableHead from '../general/CustomTableHead';
 import CustomTableToolbar from '../general/CustomTableToolbar'
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -103,7 +102,6 @@ export default function EventOverviewTable(props) {
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
-	const [dense, setDense] = React.useState(true); // For toggling the dense row setting
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -147,8 +145,6 @@ export default function EventOverviewTable(props) {
 		setPage(0);
 	};
 
-	// const handleChangeDense = (event) => { setDense(event.target.checked); }; // For toggling the dense row setting
-
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
@@ -161,7 +157,7 @@ export default function EventOverviewTable(props) {
 					<Table
 						className={classes.table}
 						aria-labelledby="tableTitle"
-						size={dense ? 'small' : 'medium'}
+						size="small"
 						aria-label="custom table"
 						stickyHeader
 					>
@@ -211,7 +207,7 @@ export default function EventOverviewTable(props) {
 									);
 								})}
 							{emptyRows > 0 && (
-								<TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+								<TableRow style={{ height: 33 * emptyRows }}>
 									<TableCell colSpan={6} />
 								</TableRow>
 							)}
@@ -219,11 +215,25 @@ export default function EventOverviewTable(props) {
 					</Table>
 				</TableContainer>
 				
-				{ // Only render delete button when items are selected
-					selected.length > 0 && <div style={{ display: "inline-block", verticalAlign: "bottom" }}>
-						<Button variant="contained" startIcon={<DeleteIcon />} style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}>Delete</Button>
-					</div>
-				}
+				<div style={{display: "inline-block", marginLeft: "1em",}}>
+					{/* Edit Button */}
+					<Button
+						onClick={props.openDetailAction}
+						disabled={selected.length !== 1}
+						variant="contained"
+						startIcon={<EditIcon />}
+						style={{ backgroundColor: "#066ff9", margin: "0.5em", }}
+						size="large"
+					>Edit</Button>
+					{/* Delete Button */}
+					<Button
+						disabled={selected.length === 0}
+						variant="contained"
+						startIcon={<DeleteIcon />}
+						style={{ backgroundColor: "#dc3545", margin: "0.5em", }}
+						size="large"
+					>Delete</Button>
+				</div>
 				
 				<TablePagination
 					rowsPerPageOptions={[10]}
@@ -235,16 +245,12 @@ export default function EventOverviewTable(props) {
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 			</Paper>
-			{/* For toggling the dense row setting */}
-			{/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
 		</div>
 	);
 }
 
 EventOverviewTable.propTypes = {
-	rows: PropTypes.object.isRequired,
-	headings: PropTypes.object.isRequired,
+	rows: PropTypes.array.isRequired,
+	headings: PropTypes.array.isRequired,
+	openDetailAction: PropTypes.func,
 }

@@ -37,11 +37,11 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const AddButton = withStyles((theme) => ({
 	root: {
-	color: theme.palette.common.white,
-	backgroundColor: "#066ff9",
-	'&:hover': {
-		backgroundColor: darken("#066ff9", 0.13),
-	},
+		color: theme.palette.common.white,
+		backgroundColor: "#066ff9",
+		'&:hover': {
+			backgroundColor: darken("#066ff9", 0.13),
+		},
 	},
 }))(Button);
 
@@ -62,7 +62,7 @@ export default function SubtasksOverviewTableToolbar(props) {
 				</Typography>
 			) : (
 				<div className={classes.title}>
-					<AddButton variant="contained" color="#066ff9" startIcon={<AddIcon />}>
+					<AddButton size="large" variant="contained" startIcon={<AddIcon />}>
 						New
 					</AddButton>
 				</div>
@@ -79,7 +79,7 @@ export default function SubtasksOverviewTableToolbar(props) {
 		{ 
 			numSelected === 0 && (
 				<Tooltip title="Filter list">
-					<Button variant="contained" endIcon={<FilterListIcon />}>Filter</Button>
+					<Button size="large" variant="contained" endIcon={<FilterListIcon />}>Filter</Button>
 				</Tooltip>
 			)
 		}

@@ -11,14 +11,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-// import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import EditIcon from '@material-ui/icons/Edit';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Switch from '@material-ui/core/Switch';
 import SubtasksOverviewTableHead from './SubtasksOverviewTableHead'
 import SubtasksOverviewTableToolbar from './SubtasksOverviewTableToolbar'
 
@@ -104,7 +102,6 @@ export default function SubtasksOverviewTable(props) {
 	const [orderBy, setOrderBy] = React.useState('title');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [dense, setDense] = React.useState(true); // For toggling the dense row setting
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
 	const handleRequestSort = (event, property) => {
@@ -149,23 +146,19 @@ export default function SubtasksOverviewTable(props) {
 		setPage(0);
 	};
 
-	const handleEditAction = (event) => props.editAction(event.target.value);
-
-	//const handleChangeDense = (event) => { setDense(event.target.checked); }; // For toggling the dense row setting
-
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
 
 	return (
 		<div className={classes.root}>
-			{/* <Paper className={classes.paper}> */}
+			<Paper className={classes.paper}>
 				<SubtasksOverviewTableToolbar numSelected={selected.length} />
 				<TableContainer>
 					<Table
 						className={classes.table}
 						aria-labelledby="tableTitle"
-						size={dense ? 'small' : 'medium'}
+						size="small"
 						aria-label="custom table"
 						stickyHeader
 					>
@@ -216,7 +209,7 @@ export default function SubtasksOverviewTable(props) {
 									);
 								})}
 							{emptyRows > 0 && (
-								<TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+								<TableRow style={{ height: 33 * emptyRows }}>
 									<TableCell colSpan={6} />
 								</TableRow>
 							)}
@@ -231,6 +224,7 @@ export default function SubtasksOverviewTable(props) {
 						variant="contained"
 						startIcon={<ArchiveIcon />}
 						style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
+						size="large"
 					>
 						Archive
 					</Button>
@@ -240,17 +234,18 @@ export default function SubtasksOverviewTable(props) {
 						variant="contained"
 						startIcon={<ArrowUpwardIcon />}
 						style={{ backgroundColor: "#29a745", color: "charcoal", margin: "0.5em", }}
+						size="large"
 					>
 						Promote
 					</Button>	
 					{/* Edit Button */}
 					<Button
+						onClick={props.openDetailAction}
 						disabled={selected.length !== 1}
 						variant="contained"
 						startIcon={<EditIcon />}
-						color="white"
 						style={{ backgroundColor: "#066ff9", margin: "0.5em", }}
-						onClick={handleEditAction}
+						size="large"
 					>Edit
 					</Button>
 				</div>
@@ -263,12 +258,7 @@ export default function SubtasksOverviewTable(props) {
 					onChangePage={handleChangePage}
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
-			{/* </Paper> */}
-			{/* For toggling the dense row setting
-			<FormControlLabel
-				control={<Switch checked={dense} onChange={handleChangeDense} />}
-				label="Dense padding"
-			/> */}
+			</Paper>
 		</div>
 	);
 }
@@ -276,5 +266,5 @@ export default function SubtasksOverviewTable(props) {
 SubtasksOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
-	editAction: PropTypes.func.isRequired,
+	openDetailAction: PropTypes.func,
 }

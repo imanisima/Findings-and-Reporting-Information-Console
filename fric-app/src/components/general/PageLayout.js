@@ -18,6 +18,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
 import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 // Sidebar Icons
 import EventIcon from '@material-ui/icons/Event';
@@ -30,12 +35,10 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 import SyncIcon from '@material-ui/icons/Sync'
 // import SyncProblemIcon from '@material-ui/icons/SyncProblem';
 // import SyncDisabledIcon from '@material-ui/icons/SyncDisabled';
-// import HomeIcon from '@material-ui/icons/Home';
-// import VisibilityIcon from '@material-ui/icons/Visibility';
-// import PieChartIcon from '@material-ui/icons/PieChart';
 
 // Navbar Icons
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 // Detail View Icons
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -44,7 +47,7 @@ import SaveIcon from '@material-ui/icons/Save';
 // Test Content
 import SubtasksContentView from '../subtasks/SubtasksContentView';
 import SubtasksDetailView from '../subtasks/SubtaskDetailView';
-import { data, headings, subtaskTestObject, options } from './test/subtaskstestdata'; //TODO: remove test data import when connected to backend
+import { subtaskTestObject, options } from './test/subtaskstestdata'; //TODO: remove test data import when connected to backend
 
 const drawerWidth = 240;
 
@@ -108,10 +111,17 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 		padding: theme.spacing(3),
 	},
-	sectionDesktop: {
-		display: 'none',
-		[theme.breakpoints.up('md')]: {
-			display: 'flex',
+	notification: {
+		margin: '0.5em 0.3em 0.5em 0.3em',
+	},
+	test: {
+		position: 'relative',
+		borderRadius: theme.shape.borderRadius,
+		marginLeft: "auto",
+		width: '100%',
+		[theme.breakpoints.up('sm')]: {
+			marginLeft: theme.spacing(1),
+			width: 'auto',
 		},
 	},
 }));
@@ -127,16 +137,28 @@ export default function PageLayout() {
 	const theme = useTheme();
 	const [menuOpen, setMenuOpen] = React.useState(false);
 	const [detailOpen, setDetailOpen] = React.useState(false);
+	const [anchorPopover, setAnchorPopover] = React.useState(null);
+	const [anchorAuth, setAnchorAuth] = React.useState(null);
+	const [snackbarOpen, setSnackbarOpen] = React.useState(true);
+	const [auth] = React.useState(true);
 
 	const handleMenuDrawerOpen = () => setMenuOpen(true);
-
 	const handleMenuDrawerClose = () => setMenuOpen(false);
 
 	const handleDetailDrawerOpen = () => setDetailOpen(true);
-
 	const handleDetailDrawerClose = () => setDetailOpen(false);
 
+	const handlePopoverOpen = (event) => setAnchorPopover(event.currentTarget);
+	const handlePopoverClose = () => setAnchorPopover(null);
+
+	const handleAuthMenuOpen = (event) => setAnchorAuth(event.currentTarget);
+	const handleAuthMenuClose = () => setAnchorAuth(null);
+
+	// const handleSnackbarOpen = () => setSnackbarOpen(true);
+	const handleSnackbarClose = () => setSnackbarOpen(false);
+
 	return (
+		// Added dark theme provider, remove for normal colors
 		<ThemeProvider theme={darkTheme}>
 			<div className={classes.root}>
 				<CssBaseline />
@@ -164,26 +186,79 @@ export default function PageLayout() {
 							Findings and Reporting Information Console (FRIC)
 						</Typography>
 						<div className={classes.grow} />
-						<div className={classes.sectionDesktop}>
+						<div style={{marginLeft: "auto",}} >
+							{/* Notifications Button */}
 							<IconButton
 								color="inherit"
 								aria-label="notifs"
-								onClick={console.log('open notifs')}
+								onClick={handlePopoverOpen}
 							>
 								<Badge badgeContent={4} color="error"><NotificationsIcon /></Badge>
-								
 							</IconButton>
+							{/* Notifications Popover */}
+							<Popover
+								open={Boolean(anchorPopover)}
+								onClose={handlePopoverClose}
+								anchorEl={anchorPopover}
+								anchorOrigin={{
+									vertical: 'bottom',
+									horizontal: 'right',
+								}}
+								transformOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+							>
+								{/* Notification Popover Content */}
+								<div>
+									<Alert severity="error" className={classes.notification}>Aute consequat id laboris anim culpa proident laborum cillum sit.</Alert>
+									<Alert severity="warning" className={classes.notification}>This is a warning message!</Alert>
+									<Alert severity="info" className={classes.notification}>This is an information message!</Alert>
+									<Alert severity="success" className={classes.notification}>This is a success message!</Alert>
+								</div>	
+							</Popover>
+							{/* Sync Button */}
 							<IconButton
 								color="inherit"
 								aria-label="sync"
-								onClick={console.log('sync')}
 							>
 								<SyncIcon />
 							</IconButton>
+							{auth && (
+								<>
+									<IconButton
+										aria-label="account of current user"
+										aria-controls="menu-appbar"
+										aria-haspopup="true"
+										onClick={handleAuthMenuOpen}
+										color="inherit"
+									>
+										<AccountCircle />
+									</IconButton>
+									<Menu
+										id="menu-appbar"
+										anchorEl={anchorAuth}
+										anchorOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
+										}}
+										keepMounted
+										transformOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
+										}}
+										open={Boolean(anchorAuth)}
+										onClose={handleAuthMenuClose}
+									>
+										<MenuItem onClick={handleAuthMenuClose}>Login</MenuItem>
+										<MenuItem onClick={handleAuthMenuClose}>Logout</MenuItem>
+									</Menu>
+								</>
+							)}
 						</div>
 					</Toolbar>
 				</AppBar>
-
+				
 				{/* Left Menu Sidebar Section */}
 				<Drawer
 					variant="permanent"
@@ -204,6 +279,7 @@ export default function PageLayout() {
 						</IconButton>
 					</div>
 					<Divider />
+					{/* Sidebar Icons, Text, and Links */}
 					<List>
 						<ListItem button key="Overview">
 							<ListItemIcon><DashboardIcon /></ListItemIcon>
@@ -249,7 +325,7 @@ export default function PageLayout() {
 					<React.Fragment key="right">
 						<Drawer anchor="right" open={detailOpen}>
 							<div style={{ width: "60em" }}>
-								<SubtasksDetailView selectedSubtask={subtaskTestObject} options={options} saveAction={handleDetailDrawerClose} cancelAction={handleDetailDrawerClose} />
+								<SubtasksDetailView selectedSubtask={subtaskTestObject} options={options} />
 								<Button
 									onClick={handleDetailDrawerClose}
 									variant="contained"
@@ -268,12 +344,14 @@ export default function PageLayout() {
 						</Drawer>
 					</React.Fragment>
 				</div>
+
+				{/* Bottom Notification Snackbar Component */}
+				<Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={handleSnackbarClose}>
+					<Alert onClose={handleSnackbarClose} severity="success">
+						Notification Popup
+					</Alert>
+				</Snackbar>
 			</div>
 		</ThemeProvider>
 	);
 }
-
-// PageLayout.propTypes = {
-// 	contentViewComponent: PropTypes.object.isRequired,
-// 	detailViewComponent: PropTypes.object.isRequired,
-// }

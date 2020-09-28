@@ -1,7 +1,10 @@
+/**
+ * 
+ */
+
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
 import MainNav from '../../bootstrap/FRIC_gui_navbar';
 import '../../css/event/FRIC_gui_event_overview.css'
 

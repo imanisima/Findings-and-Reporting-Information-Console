@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Form from 'react-bootstrap/Form'
 import { BiHelpCircle } from 'react-icons/bi';
 import '../../css/findings/FRIC_gui_findings_details.css';
-import {Row, Col} from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 class FindingsExtras extends Component {
     render() {

@@ -8,18 +8,17 @@ import PropTypes from 'prop-types';
 import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-// import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
 import Tooltip from 'react-bootstrap/Tooltip'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Form from 'react-bootstrap/Form'
 import Multiselect from '../general/Multiselect.js'
-import Button from '@material-ui/core/Button';
-import CancelIcon from '@material-ui/icons/Cancel';
-import SaveIcon from '@material-ui/icons/Save';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -101,8 +100,8 @@ export default function SubtaskDetailView(props) {
 						onChange={val => {setProgress(val)}}
 						label=""
 					>
-						{props.options.progress.map((el) => {
-							return <MenuItem value={el}>{el}</MenuItem>
+						{props.options.progress.map((el, ind) => {
+							return <MenuItem key={ind} value={el}>{el}</MenuItem>
 						})}
 					</Select>
 				</FormControl>
@@ -111,13 +110,13 @@ export default function SubtaskDetailView(props) {
 			{/* Analysts Multiselect */}
 			<Form.Group style={{display: "inline-block"}}>
 				<Form.Label style={{ display: "block" }}>Select Analyst</Form.Label>
-				<Multiselect options={props.options.analysts} withInitialsAvatar={true} label="Analysts" />
+				<Multiselect options={props.options.analysts} withInitialsAvatar label="Analysts" />
 			</Form.Group>
 
 			{/* Collaborators Multiselect */}
 			<Form.Group style={{display: "inline-block"}}>
 				<Form.Label style={{ display: "block" }}>Select Collaborators</Form.Label>
-				<Multiselect options={props.options.collabs} withInitialsAvatar={true} label="Collabs" />
+				<Multiselect options={props.options.collabs} withInitialsAvatar label="Collabs" />
 			</Form.Group>
 
 			{/* Tasks Multiselect */}
@@ -137,11 +136,29 @@ export default function SubtaskDetailView(props) {
 				<Form.Label>Attachments</Form.Label>
 				<Form.File id="custom-file" label="No File Selected" feedback custom />
 			</Form.Group>
+
+			<Form.Group>
+				<Button
+					onClick={props.closeDetailAction}
+					variant="contained"
+					size="large"
+					startIcon={<SaveIcon />}
+					style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
+				>Save</Button>
+				<Button
+					onClick={props.closeDetailAction}
+					variant="contained"
+					size="large"
+					startIcon={<CancelIcon />}
+					style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}
+				>Cancel</Button>
+			</Form.Group>
 		</Form>
 	);
 }
 
 SubtaskDetailView.propTypes = {
 	selectedSubtask: PropTypes.object.isRequired,
-	options: PropTypes.array.isRequired,
+	options: PropTypes.object.isRequired,
+	closeDetailAction: PropTypes.func,
 }

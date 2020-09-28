@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import MainNav from '../../bootstrap/FRIC_gui_navbar';

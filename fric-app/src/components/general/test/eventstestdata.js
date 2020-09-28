@@ -17,6 +17,7 @@ export const options = {
 	tasks: ['task1', 'task2', 'task3', 'task4'],
 	subtasks: ['subtask1', 'subtask2', 'subtask3', 'subtask4', 'subtask5'],
 	progress: Object.values(Progression),
+	types: ['type1', 'type2', 'type3', 'type4', 'type5',],
 }
 
 export let eventTestObject = {
@@ -46,7 +47,7 @@ export const headings = [
 	{ id: 'id', numeric: true, disablePadding: true, label: '_id' },
 	{ id: 'name', numeric: false, disablePadding: false, label: 'Name' },
 	{ id: 'numSystems', numeric: true, disablePadding: false, label: 'No. of Systems' },
-	{ id: 'numFindings', numeric: false, disablePadding: true, label: 'No. of Findings' },
+	{ id: 'numFindings', numeric: true, disablePadding: true, label: 'No. of Findings' },
 	{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
 ];
 /* End Testing Data */

@@ -1,10 +1,10 @@
+/**
+ * 
+ */
+
 import React, {Component} from 'react';
 import Table from 'react-bootstrap/Table'
 import InputGroup from 'react-bootstrap/InputGroup'
-import Button from 'react-bootstrap/Button'
-
-
-
 
 class ProgressTable extends Component {
   
@@ -52,7 +52,7 @@ class ProgressTable extends Component {
                         </td>
                         <td>Task1</td>
                         <td>Enumeration</td>
-                        <td>Required; Not started, assigned, transferred, in progress, complete, and not applicable}; Editable if the task has no subtask. Derived: If a task has at least one subtask, the system shall calculate the progress of a task from the progresses of all its’ subtasks. </td>
+                        <td>Required; Not started, assigned, transferred, in progress, complete, and not applicable}; Editable if the task has no subtask. Derived: If a task has at least one subtask, the system shall calculate the progress of a task from the progresses of all itsï¿½ subtasks. </td>
                         <td>33%</td>
                     </tr>
                 </tbody>
@@ -67,7 +67,7 @@ class ProgressTable extends Component {
                         </td>
                         <td>Task2</td>
                         <td>Enumeration</td>
-                        <td>Required; Not started, assigned, transferred, in progress, complete, and not applicable}; Editable if the task has no subtask. Derived: If a task has at least one subtask, the system shall calculate the progress of a task from the progresses of all its’ subtasks. </td>
+                        <td>Required; Not started, assigned, transferred, in progress, complete, and not applicable}; Editable if the task has no subtask. Derived: If a task has at least one subtask, the system shall calculate the progress of a task from the progresses of all itsï¿½ subtasks. </td>
                         <td>66%</td>
                     </tr>
                 </tbody>

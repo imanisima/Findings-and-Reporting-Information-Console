@@ -1,8 +1,10 @@
+/**
+ * 
+ */
+
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import MainNav from '../../bootstrap/FRIC_gui_navbar';
-//import SyncAnalyst from './FRIC_gui_sync_analyst'
-//import SyncAnalystTable from './FRIC_gui_analyst_table';
 import FindingsTable from '../findings/FRIC_gui_findings_table';
 import PostureTable from './FRIC_gui_configuration_posture_table'
 import ThreatTable from './FRIC_gui_configuration_threat_table'

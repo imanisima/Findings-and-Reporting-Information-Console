@@ -85,4 +85,4 @@ export default function Multiselect(props) {
 	);
 }
 
-Multiselect.propTypes = { options: PropTypes.object.isRequired }
+Multiselect.propTypes = { options: PropTypes.array.isRequired }
