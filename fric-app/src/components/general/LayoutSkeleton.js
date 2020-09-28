@@ -1,7 +1,16 @@
+/**
+ * 
+ */
+
+// React imports
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Styling imports
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, fade } from '@material-ui/core/styles';
+
+// UI component imports
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -22,15 +31,20 @@ import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import InputBase from '@material-ui/core/InputBase';
 
 // Sidebar Icons
 import EventIcon from '@material-ui/icons/Event';
 import CheckedIcon from '@material-ui/icons/AssignmentTurnedIn';
+import LowPriorityIcon from '@material-ui/icons/AssignmentReturned';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SettingsIcon from '@material-ui/icons/Settings';
+import FindPageIcon from '@material-ui/icons/FindInPage';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import DnsIcon from '@material-ui/icons/Dns';
 import ArchiveIcon from '@material-ui/icons/Archive';
+import HelpIcon from '@material-ui/icons/HelpSharp';
+import BuildIcon from '@material-ui/icons/Build';
 import SyncIcon from '@material-ui/icons/Sync'
 // import SyncProblemIcon from '@material-ui/icons/SyncProblem';
 // import SyncDisabledIcon from '@material-ui/icons/SyncDisabled';
@@ -38,6 +52,7 @@ import SyncIcon from '@material-ui/icons/Sync'
 // Navbar Icons
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import SearchIcon from '@material-ui/icons/Search';
 
 const drawerWidth = 240;
 
@@ -114,6 +129,53 @@ const useStyles = makeStyles((theme) => ({
 			width: 'auto',
 		},
 	},
+	title: {
+		flexGrow: 1,
+		display: 'none',
+		[theme.breakpoints.up('sm')]: {
+			display: 'block',
+		},
+	},
+	search: {
+		display: "inline-block",
+		position: 'relative',
+		borderRadius: theme.shape.borderRadius,
+		backgroundColor: fade(theme.palette.common.white, 0.15),
+		'&:hover': {
+			backgroundColor: fade(theme.palette.common.white, 0.25),
+		},
+		marginLeft: 0,
+		width: '100%',
+		[theme.breakpoints.up('sm')]: {
+			marginLeft: theme.spacing(1),
+			width: 'auto',
+		},
+	},
+	searchIcon: {
+		padding: theme.spacing(0, 2),
+		height: '100%',
+		position: 'absolute',
+		pointerEvents: 'none',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	inputRoot: {
+		color: 'inherit',
+	},
+	inputInput: {
+		padding: theme.spacing(1, 1, 1, 0),
+		// vertical padding + font size from searchIcon
+		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+		transition: theme.transitions.create('width'),
+		width: '100%',
+		[theme.breakpoints.up('sm')]: {
+			width: '12ch',
+			'&:focus': {
+				width: '20ch',
+			},
+		},
+	},
 }));
 
 export default function LayoutSkeleton(props) {
@@ -169,6 +231,19 @@ export default function LayoutSkeleton(props) {
 					</Typography>
 					<div className={classes.grow} />
 					<div style={{ marginLeft: "auto", }} >
+						<div className={classes.search}>
+							<div className={classes.searchIcon}>
+								<SearchIcon />
+							</div>
+							<InputBase
+								placeholder="Search"
+								classes={{
+									root: classes.inputRoot,
+									input: classes.inputInput,
+								}}
+								inputProps={{ 'aria-label': 'search' }}
+							/>
+						</div>
 						{/* Notifications Button */}
 						<IconButton
 							color="inherit"
@@ -193,10 +268,10 @@ export default function LayoutSkeleton(props) {
 						>
 							{/* Notification Popover Content */}
 							<div>
-								<Alert severity="error" className={classes.notification}>Aute consequat id laboris anim culpa proident laborum cillum sit.</Alert>
-								<Alert severity="warning" className={classes.notification}>This is a warning message!</Alert>
-								<Alert severity="info" className={classes.notification}>This is an information message!</Alert>
-								<Alert severity="success" className={classes.notification}>This is a success message!</Alert>
+								<Alert severity="error" onClose={() => {}} className={classes.notification}>Aute consequat id laboris anim culpa proident laborum cillum sit.</Alert>
+								<Alert severity="warning" onClose={() => {}} className={classes.notification}>This is a warning message!</Alert>
+								<Alert severity="info" onClose={() => {}} className={classes.notification}>This is an information message!</Alert>
+								<Alert severity="success" onClose={() => {}} className={classes.notification}>This is a success message!</Alert>
 							</div>
 						</Popover>
 						{/* Sync Button */}
@@ -205,6 +280,12 @@ export default function LayoutSkeleton(props) {
 							aria-label="sync"
 						>
 							<SyncIcon />
+						</IconButton>
+						<IconButton
+							color="inherit"
+							aria-label="help"
+						>
+							<HelpIcon />
 						</IconButton>
 						{auth && (
 							<>
@@ -275,9 +356,17 @@ export default function LayoutSkeleton(props) {
 						<ListItemIcon><CheckedIcon /></ListItemIcon>
 						<ListItemText primary="Tasks" />
 					</ListItem>
+					<ListItem button key="Subtasks">
+						<ListItemIcon><LowPriorityIcon /></ListItemIcon>
+						<ListItemText primary="Subtasks" />
+					</ListItem>
 					<ListItem button key="Event Tree">
 						<ListItemIcon><AccountTreeIcon /></ListItemIcon>
 						<ListItemText primary="Event Tree" />
+					</ListItem>
+					<ListItem button key="Findings">
+						<ListItemIcon><FindPageIcon /></ListItemIcon>
+						<ListItemText primary="Findings" />
 					</ListItem>
 					<ListItem button key="Archive">
 						<ListItemIcon><ArchiveIcon /></ListItemIcon>
@@ -288,8 +377,12 @@ export default function LayoutSkeleton(props) {
 						<ListItemText primary="Systems" />
 					</ListItem>
 					<ListItem button key="Configuration">
-						<ListItemIcon><SettingsIcon /></ListItemIcon>
+						<ListItemIcon><BuildIcon /></ListItemIcon>
 						<ListItemText primary="Configuration" />
+					</ListItem>
+					<ListItem button key="Settings">
+						<ListItemIcon><SettingsIcon /></ListItemIcon>
+						<ListItemText primary="Settings" />
 					</ListItem>
 				</List>
 			</Drawer>
@@ -310,7 +403,7 @@ export default function LayoutSkeleton(props) {
 						<div style={{ width: "60em" }}>
 							{/* Detial Content */}
 							{/* Clone detail view element prop while passing in the universal action to close the detail view */}
-							{ React.cloneElement(props.detailComponent, {closeDetailAction: handleDetailDrawerClose}) }
+							{ props.detailComponent != null && React.cloneElement(props.detailComponent, {closeDetailAction: handleDetailDrawerClose}) }
 						</div>
 					</Drawer>
 				</React.Fragment>
@@ -318,7 +411,7 @@ export default function LayoutSkeleton(props) {
 
 			{/* Bottom Notification Snackbar Component */}
 			<Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={handleSnackbarClose}>
-				<Alert onClose={handleSnackbarClose} severity="success">
+				<Alert onClose={handleSnackbarClose} severity="info" variant="outlined">
 					Notification Popup
 				</Alert>
 			</Snackbar>
@@ -327,6 +420,6 @@ export default function LayoutSkeleton(props) {
 }
 
 LayoutSkeleton.propTypes = {
-	mainContentComponent: PropTypes.object.isRequired,
-	detailComponent: PropTypes.object,
+	mainContentComponent: PropTypes.element.isRequired,
+	detailComponent: PropTypes.element,
 }
