@@ -15,7 +15,7 @@ import EventTypeTable from './FRIC_gui_configuration_EventType_table'
 import FindingImpactTable from './FRIC_gui_configuration_finding_impact_table'
 import SeverityTable from './FRIC_gui_configuration_severity_table'
 import ProgressTable from './FRIC_gui_configuration_progress_table'
-import EventBasicTable from '../event/FRIC_gui_event_basic_information_table'
+import EventBasicTable from '../events/FRIC_gui_event_basic_information_table'
 import ReportTemplateTable from './FRIC_gui_configuration_report_templates'
 import Notification from "./FRIC_gui_configuration_notification"
 import '../../css/event/FRIC_gui_event_overview.css'

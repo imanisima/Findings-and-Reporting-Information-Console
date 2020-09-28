@@ -5,6 +5,7 @@
 // React imports
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link, useLocation } from 'react-router-dom';
 
 // Styling imports
 import clsx from 'clsx';
@@ -176,6 +177,13 @@ const useStyles = makeStyles((theme) => ({
 			},
 		},
 	},
+	links: {
+		color: "inherit",
+		'&:hover': {
+			color: "inherit",
+			textDecoration: "none",
+		}
+	}
 }));
 
 export default function LayoutSkeleton(props) {
@@ -336,54 +344,90 @@ export default function LayoutSkeleton(props) {
 					}),
 				}}
 			>
+				{/* Menut Icon Button */}
 				<div className={classes.toolbar}>
 					<IconButton onClick={handleMenuDrawerClose}>
 						{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
 					</IconButton>
 				</div>
 				<Divider />
+
 				{/* Sidebar Icons, Text, and Links */}
 				<List>
-					<ListItem button key="Overview">
-						<ListItemIcon><DashboardIcon /></ListItemIcon>
-						<ListItemText primary="Overview" />
-					</ListItem>
-					<ListItem button key="Events">
-						<ListItemIcon><EventIcon /></ListItemIcon>
-						<ListItemText primary="Events" />
-					</ListItem>
-					<ListItem button key="Tasks">
-						<ListItemIcon><CheckedIcon /></ListItemIcon>
-						<ListItemText primary="Tasks" />
-					</ListItem>
-					<ListItem button key="Subtasks">
-						<ListItemIcon><LowPriorityIcon /></ListItemIcon>
-						<ListItemText primary="Subtasks" />
-					</ListItem>
-					<ListItem button key="Event Tree">
-						<ListItemIcon><AccountTreeIcon /></ListItemIcon>
-						<ListItemText primary="Event Tree" />
-					</ListItem>
-					<ListItem button key="Findings">
-						<ListItemIcon><FindPageIcon /></ListItemIcon>
-						<ListItemText primary="Findings" />
-					</ListItem>
-					<ListItem button key="Archive">
-						<ListItemIcon><ArchiveIcon /></ListItemIcon>
-						<ListItemText primary="Archive" />
-					</ListItem>
-					<ListItem button key="Systems">
-						<ListItemIcon><DnsIcon /></ListItemIcon>
-						<ListItemText primary="Systems" />
-					</ListItem>
-					<ListItem button key="Configuration">
-						<ListItemIcon><BuildIcon /></ListItemIcon>
-						<ListItemText primary="Configuration" />
-					</ListItem>
-					<ListItem button key="Settings">
-						<ListItemIcon><SettingsIcon /></ListItemIcon>
-						<ListItemText primary="Settings" />
-					</ListItem>
+					<Link to="/" replace={useLocation().pathname === "/"} className={classes.links}>
+						<ListItem button key="Overview">
+							<ListItemIcon><DashboardIcon /></ListItemIcon>
+							<ListItemText primary="Overview" />
+						</ListItem>
+					</Link>
+
+					<Link to="/events" replace={useLocation().pathname === '/events'} className={classes.links}>
+						<ListItem button key="Events">
+							<ListItemIcon><EventIcon /></ListItemIcon>
+							<ListItemText primary="Events" />
+						</ListItem>
+					</Link>
+
+					<Link to="/tasks" replace={useLocation().pathname === '/tasks'} className={classes.links}>
+						<ListItem button key="Tasks">
+							<ListItemIcon><CheckedIcon /></ListItemIcon>
+							<ListItemText primary="Tasks" />
+						</ListItem>
+					</Link>
+
+					<Link to="/subtasks" replace={useLocation().pathname === '/subtasks'} className={classes.links}>
+						<ListItem button key="Subtasks">
+							<ListItemIcon><LowPriorityIcon /></ListItemIcon>
+							<ListItemText primary="Subtasks" />
+						</ListItem>
+					</Link>
+
+					<Link to="/event_tree" replace={useLocation().pathname !== '/findings'} className={classes.links}>
+						<ListItem button key="Event Tree">
+							<ListItemIcon><AccountTreeIcon /></ListItemIcon>
+							<ListItemText primary="Event Tree" />
+						</ListItem>
+					</Link>
+
+					{/*  */}
+					<Link to="/findings" replace={useLocation().pathname === '/'} className={classes.links}>
+						<ListItem button key="Findings">
+							<ListItemIcon><FindPageIcon /></ListItemIcon>
+							<ListItemText primary="Findings" />
+						</ListItem>
+					</Link>
+
+					{/* Archive Link */}
+					<Link to="/archive" replace={useLocation().pathname === '/archive'} className={classes.links}>
+						<ListItem button key="Archive">
+							<ListItemIcon><ArchiveIcon /></ListItemIcon>
+							<ListItemText primary="Archive" />
+						</ListItem>
+					</Link>
+
+					{/* Systems Link */}
+					<Link to="/systems" replace={useLocation().pathname === '/systems'} className={classes.links}>
+						<ListItem button key="Systems">
+							<ListItemIcon><DnsIcon /></ListItemIcon>
+							<ListItemText primary="Systems" />
+						</ListItem>
+					</Link>
+
+					{/* Configuration Link */}
+					<Link to="/configure" replace={useLocation().pathname === '/configure'} className={classes.links}>
+						<ListItem button key="Configuration">
+							<ListItemIcon><BuildIcon /></ListItemIcon>
+							<ListItemText primary="Configuration" />
+						</ListItem>
+					</Link>
+
+					{/* Settings Link */}
+					<Link to="/" replace={useLocation().pathname === '/'} className={classes.links}>
+						<ListItem button key="Settings">
+							<ListItemIcon><SettingsIcon /></ListItemIcon>
+							<ListItemText primary="Settings" />
+						</ListItem>
+					</Link>
 				</List>
 			</Drawer>
 
@@ -396,22 +440,25 @@ export default function LayoutSkeleton(props) {
 				{ React.cloneElement(props.mainContentComponent, {openDetailAction: handleDetailDrawerOpen}) }
 			</main>
 
-			{/* Right Detail Sidebar Section */}
-			<div>
-				<React.Fragment key="right">
-					<Drawer anchor="right" open={detailOpen}>
-						<div style={{ width: "60em" }}>
-							{/* Detial Content */}
-							{/* Clone detail view element prop while passing in the universal action to close the detail view */}
-							{ props.detailComponent != null && React.cloneElement(props.detailComponent, {closeDetailAction: handleDetailDrawerClose}) }
-						</div>
-					</Drawer>
-				</React.Fragment>
-			</div>
-
+			{ 
+				/* Right Detail Sidebar Section, only render if detail component is used */
+				props.detailComponent != null && (
+					<div>
+						<React.Fragment key="right">
+							<Drawer anchor="right" open={detailOpen}>
+								<div style={{ width: "60em" }}>
+									{/* Detial Content, Clone detail view element prop while passing in the universal action to close the detail view */}
+									{ React.cloneElement(props.detailComponent, { closeDetailAction: handleDetailDrawerClose })}
+								</div>
+							</Drawer>
+						</React.Fragment>
+					</div>
+				)
+			}
+			
 			{/* Bottom Notification Snackbar Component */}
 			<Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={handleSnackbarClose}>
-				<Alert onClose={handleSnackbarClose} severity="info" variant="outlined">
+				<Alert onClose={handleSnackbarClose} severity="info" >
 					Notification Popup
 				</Alert>
 			</Snackbar>

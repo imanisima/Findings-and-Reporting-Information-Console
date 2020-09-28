@@ -40,7 +40,7 @@ class MainNav extends Component{
       <div >
 
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-            <Navbar.Brand href="/main">F.R.I.C.</Navbar.Brand>
+            <Navbar.Brand href="/">F.R.I.C.</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">

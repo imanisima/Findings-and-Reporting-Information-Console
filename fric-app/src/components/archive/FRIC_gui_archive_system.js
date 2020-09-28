@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import MainNav from '../../bootstrap/FRIC_gui_navbar';
 import '../../css/archive/FRIC_gui_archive_system.css'
-import SystemTable from '../system/FRIC_gui_system_table'
+import SystemTable from '../systems/FRIC_gui_system_table'
 
 function FRIC_gui_archive_system() {
     return (

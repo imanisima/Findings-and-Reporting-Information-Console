@@ -5,8 +5,8 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import LayoutSkeleton from '../components/general/LayoutSkeleton';
-import EventOverviewTable from '../components/event/EventOverviewTable';
-import EventDetailView from '../components/event/EventDetailView';
+import EventOverviewTable from '../components/events/EventOverviewTable';
+import EventDetailView from '../components/events/EventDetailView';
 import { darkTheme } from '../components/general/ThemeColors';
 import { data, headings, eventTestObject, options } from '../components/general/test/eventstestdata'; //TODO: remove test data import when connected to backend
 
