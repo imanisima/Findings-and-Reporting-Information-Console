@@ -3,9 +3,9 @@
  */
 
 import React from 'react';
-import { ThemeProvider } from '@material-ui/core/styles';
 import LayoutSkeleton from '../components/general/LayoutSkeleton';
 import OverviewCards from '../components/summary/OverviewCards';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { darkTheme } from '../components/general/ThemeColors';
 
 export default function SummaryPage() {

@@ -3,14 +3,18 @@
  */
 
 import React from 'react';
-import MainNav from '../bootstrap/FRIC_gui_navbar.js';
-import TabDisplay from '../bootstrap/FRIC_gui_tabs.js';
+import { ThemeProvider } from '@material-ui/core/styles';
+import LayoutSkeleton from '../components/general/LayoutSkeleton';
+import OverviewCards from '../components/summary/OverviewCards';
+import { darkTheme } from '../components/general/ThemeColors';
 
 export default function Main() {
     return (
-        <>
-            <MainNav />
-            <TabDisplay />
-        </>
+        // Added dark theme provider, remove for normal colors
+        <ThemeProvider theme={darkTheme}>
+            <LayoutSkeleton
+                mainContentComponent={<OverviewCards />}
+            />
+        </ThemeProvider>
     )
 }
