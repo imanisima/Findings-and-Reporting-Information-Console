@@ -16,7 +16,8 @@ class SetupContentView extends Component{
 
 		this.state = {
 			eventName: '',
-			users: []
+			users: [],
+			userInitials: ''
 		}
 
 		this.onChangeEventName = this.onChangeEventName.bind(this);
@@ -33,12 +34,21 @@ class SetupContentView extends Component{
 
 	onAddUserName(e) {
 		this.setState({
-			users: this.state.users.concat(e)
+			userInitials: e.target.value
 		})
 	}
 
 	onSubmit(e) {
 		e.preventDefault();
+		
+		let new_state = Object.assign({}, this.state)
+
+		let new_array = new_state.users;
+		new_array[0] = this.state.userInitials;
+
+		this.setState({
+			users: new_array
+		});
 
 		const newEvent = {
 			name: this.state.eventName,
@@ -52,13 +62,15 @@ class SetupContentView extends Component{
 			declassified: "Default",
 			customer: "Default",
 			archived: "Default",
-			team: []
+			team: this.state.users
 		}
 		
 		console.log(newEvent);
 
 		axios.post('http://localhost:5000/events/add', newEvent)
 			.then(response => console.log(response.data));
+
+		window.location = '/';
 
 	}
 	//const [showingIPForm, showIPForm] = useState(false);
@@ -69,7 +81,7 @@ class SetupContentView extends Component{
 				<Form id="setupContentForm" className={styles.setupContentForm}>
 					<Form.Group controlId="">
 						<Form.Label>There is no existing event in your local system</Form.Label>
-						<Form.Control type="text" placeholder="Enter event" onChange={this.onChangeEventName} />
+						<Form.Control type="text" placeholder="Enter event" onChange={this.onChangeEventName}/>
 					</Form.Group>
 
 					<Form.Group class="setupContentButton" controlId="">
