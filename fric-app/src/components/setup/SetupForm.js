@@ -12,18 +12,27 @@ import axios from 'axios';
 
 export default function SetupContentView(props) {
 
-	const [eventName, setEventName] = useState("event");
+	const [eventName, setEventName] = useState("");
 	const [userName, setUserName] = useState("");
 	
+	function handleEventNameChange(e) {
+		setEventName(e.target.value);
+	}
+
+	function handleUserNameChange(e) {
+		setUserName(e.target.value);
+	}
 
 	const onSubmit = (e) => {
 		e.preventDefault();
 		
-		console.log(eventName[0])
-		console.log(userName[0])
+		console.log(eventName)
+		console.log(userName)
 
+		let users = [userName];
+		
 		const newEvent = {
-			name: this.state.eventName,
+			name: eventName,
 			description: "Default",
 			type: "Default",
 			version: 1,
@@ -34,7 +43,7 @@ export default function SetupContentView(props) {
 			declassified: "Default",
 			customer: "Default",
 			archived: "Default",
-			team: this.state.users
+			team: users
 		}
 		
 		console.log(newEvent);
@@ -42,7 +51,7 @@ export default function SetupContentView(props) {
 		axios.post('http://localhost:5000/events/add', newEvent)
 			.then(response => console.log(response.data));
 
-		//window.location = '/';
+		window.location = '/';
 
 	}
 	//const [showingIPForm, showIPForm] = useState(false);
@@ -52,7 +61,7 @@ export default function SetupContentView(props) {
 			<Form id="setupContentForm" className={styles.setupContentForm}>
 				<Form.Group controlId="">
 					<Form.Label>There is no existing event in your local system</Form.Label>
-					<Form.Control type="text" placeholder="Enter event" onChange={setEventName}/>
+					<Form.Control type="text" placeholder="Enter event" onChange={handleEventNameChange}/>
 				</Form.Group>
 
 				<Form.Group class="setupContentButton" controlId="">
