@@ -2,11 +2,36 @@
   "name": "fric-app",
   "version": "0.1.0",
   "description": "Software II project developed for the Cyber Experimentation & Analysis Division (CEAD).",
-  "homepage": "https://github.com/Imanisima/Findings-and-Reporting-Information-Console",
   "repository": {
     "type": "git",
     "url": "https://github.com/Imanisima/Findings-and-Reporting-Information-Console"
   },
+  "contributors": [
+    {
+      "name": "Erick Nevarez",
+      "email": "ericknaevarez19922@gmail.com"
+    },
+    {
+      "name": "Imani Martin",
+      "email": "imanicaza@gmail.com"
+    },
+    {
+      "name": "Jose Marquez",
+      "email": "ja-marqquezz@hotmail.com"
+    },
+    {
+      "name": "Marco Soto",
+      "email": "msoto9940@gmail.com"
+    },
+    {
+      "name": "Ricardo Aguilar",
+      "email": "raguil12043@gmail.com"
+    },
+    {
+      "name": "Raquel Gonzalez",
+      "email": "raqugonza10@gmail.com"
+    }
+  ],
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
