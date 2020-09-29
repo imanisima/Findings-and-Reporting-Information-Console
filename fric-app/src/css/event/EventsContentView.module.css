@@ -1,0 +1,25 @@
+
+.contentContainer {
+	margin-top: 56px;
+}
+
+.tableView {
+	display: inline-block;
+	height: 60em;
+	min-height: 60em;
+	max-height: 60em;
+	max-width: 70%;
+	width: 60em;
+	vertical-align: top;
+}
+
+.detailView {
+	display: inline-block;
+	/* overflow-y: auto; */
+	min-height: 10em;
+	max-height: 40em;
+	max-width: 80em;
+	width: 80em;
+	height: 60em;
+	vertical-align: top;
+}
