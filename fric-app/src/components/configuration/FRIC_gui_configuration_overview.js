@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
+import MainNav from '../../bootstrap/FRIC_gui_navbar';
 import FindingsTable from '../findings/FRIC_gui_findings_table';
 import PostureTable from './FRIC_gui_configuration_posture_table'
 import ThreatTable from './FRIC_gui_configuration_threat_table'
@@ -15,8 +16,10 @@ import FindingImpactTable from './FRIC_gui_configuration_finding_impact_table'
 import SeverityTable from './FRIC_gui_configuration_severity_table'
 import ProgressTable from './FRIC_gui_configuration_progress_table'
 import EventBasicTable from '../events/FRIC_gui_event_basic_information_table'
+import LevelTable from "./FRIC_gui_configuration_level_table"
 import ReportTemplateTable from './FRIC_gui_configuration_report_templates'
 import Notification from "./FRIC_gui_configuration_notification"
+import '../../css/event/FRIC_gui_event_overview.css'
 
 class ConfigurationOverview extends Component {
 
@@ -28,64 +31,86 @@ class ConfigurationOverview extends Component {
   render() {
     return (
         <div className='configuration_overview_div'>
+            <MainNav> </MainNav>
             <br></br><br></br><br></br><br></br>
             <h1>Configuration</h1>
             <br></br>
             <body>
-                <label>Finding</label>
+                <br></br>
+                <h2>Findings</h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Finding Configuration</Button>
                 <FindingsTable />
                 <br></br>
-                <label>
-                    Posture
-                </label>
+                <h2>
+                    Postures
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Posture Configuration</Button>
                 <PostureTable />
-                <label>
-                    Threat
-                </label>
+                <h2>
+                    Threats
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Threat Configuration</Button>
+                <br></br>
                 <ThreatTable/>
-            <label>
+            <h2>
                 Impact Table
-                </label>
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Impact Configuration</Button>
                 <ImpactTable />
-                <label>
-                    Finding Classification
-                </label>
+                <h2>
+                    Finding Classification Table
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Finding Classification configuration</Button>
                 <FindingClassificationTable />
-                <label>
-                    CounterMeasureTable 
-                </label>
+                <h2>
+                    Countermeasure Table 
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Countermeasure Configuration</Button>
                 <CounterMeasureTable />
-                <label>
-                    EventTypeTable FindingImpactTable
-                </label>
+                <h2>
+                    Event Type Table
+                </h2>
+                <br></br>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Event Type Configuration</Button>
                 <EventTypeTable />
-                <label>
+                <h2>
+                    Levels Table
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Levels Configuration</Button>
+                <LevelTable />
+                <h2>
                     Finding Impact Table
-                </label>
+                </h2>
+                
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Finding Impact Configuration</Button>
                 <FindingImpactTable />
-                
-                <label>
-                    SeverityTable
-                </label>
+                <h2>
+                    Severity Table
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Severity  Configuration</Button>
                 <SeverityTable />
-                
-                <label>
-                    ProgressTable
-                </label>
+                <h2>
+                    Progress Table
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Progress Configuration</Button>
                 <ProgressTable />
-                <label>
+                <h2>
                     Event Table rules
-                </label>
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Event Table Configuration</Button>
                 <EventBasicTable /> 
-                 <label>
+                 <h2>
                     Report Template Table
-                </label>
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Report Template configuration</Button>
                 <ReportTemplateTable />
-                <label>
-                    notification
-                </label>
+                <h2>
+                    Notifications
+                </h2>
+                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Notification Configuration</Button>
                 <Notification/>
                 </body>
+
         <Button type="submit" className="add_btn" onClick ={this.handleClick} variant="primary">Save Changes</Button>
         </div>
     );
