@@ -1,5 +1,6 @@
 /**
  * 
+ * Created by Marco Soto
  */
 
 // React imports
@@ -186,7 +187,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function LayoutSkeleton(props) {
+export default function LayoutTemplate(props) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [menuOpen, setMenuOpen] = React.useState(false);
@@ -437,7 +438,7 @@ export default function LayoutSkeleton(props) {
 				<div className={classes.toolbar} />
 				{/* Main Content */}
 				{/* Clone main content view element prop while passing in the universal action to open the detail view */}
-				{ React.cloneElement(props.mainContentComponent, {openDetailAction: handleDetailDrawerOpen}) }
+				{ React.cloneElement(props.mainContentComponent, { openDetailAction: handleDetailDrawerOpen, } ) }
 			</main>
 
 			{ 
@@ -466,7 +467,7 @@ export default function LayoutSkeleton(props) {
 	);
 }
 
-LayoutSkeleton.propTypes = {
+LayoutTemplate.propTypes = {
 	mainContentComponent: PropTypes.element.isRequired,
 	detailComponent: PropTypes.element,
 }

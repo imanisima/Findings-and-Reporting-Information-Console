@@ -4,7 +4,6 @@
 
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
-import MainNav from '../../bootstrap/FRIC_gui_navbar';
 import FindingsTable from '../findings/FRIC_gui_findings_table';
 import PostureTable from './FRIC_gui_configuration_posture_table'
 import ThreatTable from './FRIC_gui_configuration_threat_table'
@@ -18,7 +17,6 @@ import ProgressTable from './FRIC_gui_configuration_progress_table'
 import EventBasicTable from '../events/FRIC_gui_event_basic_information_table'
 import ReportTemplateTable from './FRIC_gui_configuration_report_templates'
 import Notification from "./FRIC_gui_configuration_notification"
-import '../../css/event/FRIC_gui_event_overview.css'
 
 class ConfigurationOverview extends Component {
 
@@ -30,7 +28,6 @@ class ConfigurationOverview extends Component {
   render() {
     return (
         <div className='configuration_overview_div'>
-            <MainNav> </MainNav>
             <br></br><br></br><br></br><br></br>
             <h1>Configuration</h1>
             <br></br>

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+// import axios from 'axios';
 import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,7 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import CustomTableHead from '../general/CustomTableHead';
 import CustomTableToolbar from '../general/CustomTableToolbar'
-import DeleteIcon from '@material-ui/icons/Delete';
+import ArchiveIcon from '@material-ui/icons/Archive';
 import EditIcon from '@material-ui/icons/Edit';
 
 function descendingComparator(a, b, orderBy) {
@@ -147,6 +148,17 @@ export default function EventOverviewTable(props) {
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
+	function handleEditPress() {
+		if (selected.length === 1) {
+			console.log(props);
+			console.log(selected);
+			console.log(selected);
+			props.setDetailData(selected[0]);
+			props.openDetailAction();
+		}
+		
+	}
+
 	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
 
 	return (
@@ -218,7 +230,7 @@ export default function EventOverviewTable(props) {
 				<div style={{display: "inline-block", marginLeft: "1em",}}>
 					{/* Edit Button */}
 					<Button
-						onClick={props.openDetailAction}
+						onClick={handleEditPress}
 						disabled={selected.length !== 1}
 						variant="contained"
 						startIcon={<EditIcon />}
@@ -229,10 +241,10 @@ export default function EventOverviewTable(props) {
 					<Button
 						disabled={selected.length === 0}
 						variant="contained"
-						startIcon={<DeleteIcon />}
+						startIcon={<ArchiveIcon />}
 						style={{ backgroundColor: "#dc3545", margin: "0.5em", }}
 						size="large"
-					>Delete</Button>
+					>Archive</Button>
 				</div>
 				
 				<TablePagination

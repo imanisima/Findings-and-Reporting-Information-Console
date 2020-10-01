@@ -4,10 +4,8 @@
 
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
-import MainNav from '../../bootstrap/FRIC_gui_navbar';
 import SyncAnalyst from './FRIC_gui_sync_analyst'
 import SyncAnalystTable from './FRIC_gui_analyst_table';
-import '../../css/event/FRIC_gui_event_overview.css'
 
 class SyncOverview extends Component {
 
@@ -19,7 +17,6 @@ class SyncOverview extends Component {
   render() {
     return (
         <div className='sync_overview_div'>
-            <MainNav> </MainNav>
             <br></br><br></br><br></br><br></br>
             <h1>Sync</h1>
             <br></br>

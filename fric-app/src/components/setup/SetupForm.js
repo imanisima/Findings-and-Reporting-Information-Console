@@ -4,86 +4,119 @@
  * Created by Marco Soto
  */
 
-import React, { Component, useState } from 'react'
-import styles from '../../css/setup/SetupContent.module.css'
-import Button from 'react-bootstrap/Button'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import styles from '../../css/setup/SetupForm.module.css';
 import Form from 'react-bootstrap/Form'
 import axios from 'axios';
 
-export default function SetupContentView(props) {
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import DialogContent from '@material-ui/core/DialogContent';
 
-	const [eventName, setEventName] = useState("");
-	const [userName, setUserName] = useState("");
+export default function SetupForm(props) {
+	const [radioVal, setRadioVal] = useState('new');
+	const [showSync, setShowSync] = useState(false);
+	const [user, setUser] = useState(null);
+	const [choiceInput, setChoiceInput] = useState(null);
 	
-	function handleEventNameChange(e) {
-		setEventName(e.target.value);
-	}
+	const handleRadioChange = (event) => {
+		setRadioVal(event.target.value);
+		setShowSync(!showSync)
+	};
 
-	function handleUserNameChange(e) {
-		setUserName(e.target.value);
-	}
+	const handleSubmit = (e) => {
+		console.log(user)
+		console.log(choiceInput)
 
-	const onSubmit = (e) => {
-		e.preventDefault();
-		
-		console.log(eventName)
-		console.log(userName)
+		switch (radioVal) {
+			case "new":
+				const newEvent = {
+					name: choiceInput,
+					description: "Default",
+					type: "Default",
+					version: 1,
+					assessmentDate: new Date().toString(),
+					organization: "Default",
+					securityGuide: "Default",
+					classification: "Default",
+					declassified: "Default",
+					customer: "Default",
+					archived: "Default",
+					team: [user]
+				};
+				// console.log(newEvent);
 
-		let users = [userName];
-		
-		const newEvent = {
-			name: eventName,
-			description: "Default",
-			type: "Default",
-			version: 1,
-			assessmentDate: new Date().toString(),
-			organization: "Default",
-			securityGuide: "Default",
-			classification: "Default",
-			declassified: "Default",
-			customer: "Default",
-			archived: "Default",
-			team: users
+				axios.post('http://localhost:5000/events/add', newEvent)
+					.then(response => {
+						console.log(response.data);
+						props.submitAction();
+						window.location = '/';
+					})
+					.catch(error => console.log(error));
+				break;
+			case "sync":
+				props.submitAction();
+				break;
+			default:
+				throw Error;
 		}
-		
-		console.log(newEvent);
-
-		axios.post('http://localhost:5000/events/add', newEvent)
-			.then(response => console.log(response.data));
-
-		window.location = '/';
-
 	}
-	//const [showingIPForm, showIPForm] = useState(false);
+
 	return (
 		<>
-			<h5 className={styles.title}>Findings and Reportings Information Console (FRIC)</h5>
-			<Form id="setupContentForm" className={styles.setupContentForm}>
-				<Form.Group controlId="">
-					<Form.Label>There is no existing event in your local system</Form.Label>
-					<Form.Control type="text" placeholder="Enter event" onChange={handleEventNameChange}/>
+			
+			<DialogContent id="setupContentForm" className={styles.setupContentForm}>
+				<Typography variant="h6" className={styles.title}>
+					Findings and Reportings Information Console (FRIC)
+				</Typography>
+				<Typography variant="subtitle1" style={{ color: "#ffc108"}} className={styles.subtitle}>No Events Detected in Your Local System</Typography>
+
+				{/* Enter User Initials */}
+				<Form.Group controlId="user">
+					<FormLabel>Pleaser enter your initials:</FormLabel>
+					<Form.Control type="text" placeholder="Enter user initials" onChange={ e => setUser(e.target.value) } />
 				</Form.Group>
 
-				<Form.Group class="setupContentButton" controlId="">
-					<Form.Label>Pleaser enter your initials:</Form.Label>
-					<Form.Control type="text" placeholder="Enter initials" onChange={setUserName} />
-				</Form.Group>
-				{/*
-				<Form.Group controlId="">
-					<Form.Check custom id="eventCheckbox" type="checkbox" label="Create as new event" className={styles.eventCheckbox} />
-					<Form.Check custom onClick={() => showIPForm(!showingIPForm)} id="syncCheckbox" type="checkbox" label="First time sync with lead analyst" />
-				</Form.Group>
+				{/* Radio buttons */}
+				<FormControl component="fieldset">
+					<RadioGroup aria-label="action" name="action" value={radioVal} onChange={handleRadioChange}>
+						<FormControlLabel value="new" control={<Radio color="primary" />} label="Create a New Event" />
+						<FormControlLabel value="sync" control={<Radio color="primary" />} label="Sync with Lead Analyst" />
+					</RadioGroup>
+				</FormControl>
 
-				{showingIPForm && <Form.Group controlId="">
-					<Form.Label>Please enter the lead analysts IP address.</Form.Label>
-					<Form.Control type="text" placeholder="Enter lead analyst IP address." />
-				</Form.Group>}
-				*/}
+				{
+					// Reactive radio section
+					(showSync) ? (
+						// Enter lead analyst ip address
+						<Form.Group controlId="sync">
+							<FormLabel>Enter Lead Analyst IP Address</FormLabel>
+							<Form.Control type="text" placeholder="ex. 1.0.0.1" onChange={ e => setChoiceInput(e.target.value) } />
+						</Form.Group>
+					) : (
+						// Enter event name
+						<Form.Group controlId="event">
+							<FormLabel>Enter Event Name</FormLabel>
+							<Form.Control type="text" placeholder="Enter event" onChange={ e => setChoiceInput(e.target.value) } />
+						</Form.Group>
+					)
+				}
+
+				{/* Submit Button */}
 				<Form.Group className={styles.center}>
-					<Button onClick={onSubmit} className={styles.setupContentButton} variant="primary">Submit</Button>
-					<Button onClick={props.onCancel} className={styles.setupContentButton} variant="danger">Cancel</Button>
+					<Button onClick={handleSubmit} variant="contained" size="large" color="primary">Submit</Button>
 				</Form.Group>
-			</Form>
+			</DialogContent>
 		</>
 	);
+}
+
+SetupForm.propTypes = {
+	submitAction: PropTypes.func.isRequired,
 }

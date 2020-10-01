@@ -28,12 +28,12 @@ class FindingsTable extends Component {
     return (
         <div>
           {
-            this.state.showComponents ? 
+            this.state.showComponents && (
               <>
                 <Button className="edit_btn" variant="secondary" onClick={() => this.props.history.push('findingsID')}>Edit Finding</Button> 
                 <Button className="del_btn" variant="danger">Delete Finding</Button> 
-              </> :
-              console.log("Should not be rendering")
+              </>
+            )
           }
           <Table responsive>
             <thead>
