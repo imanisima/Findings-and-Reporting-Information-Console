@@ -423,7 +423,7 @@ export default function LayoutTemplate(props) {
 					</Link>
 
 					{/* Settings Link */}
-					<Link to="/" replace={useLocation().pathname === '/'} className={classes.links}>
+					<Link to="/settings" replace={useLocation().pathname === '/settings'} className={classes.links}>
 						<ListItem button key="Settings">
 							<ListItemIcon><SettingsIcon /></ListItemIcon>
 							<ListItemText primary="Settings" />
