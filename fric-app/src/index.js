@@ -13,6 +13,7 @@ import SummaryPage from './pages/SummaryPage';
 import EventsPage from './pages/EventsPage';
 import ArchivesPage from './pages/ArchivesPage';
 import ConfigurePage from './pages/ConfigurePage';
+import SyncPage from './pages/SyncPage';
 import FindingsPage from './pages/FindingsPage';
 import SettingsPage from './pages/SettingsPage';
 import SubtasksPage from './pages/SubtasksPage';
@@ -45,13 +46,12 @@ function App() {
 					<Route exact path="/configure" component={ConfigurePage} />
 					<Route exact path="/settings" component={SettingsPage} />
 					<Route exact path="/test" component={TestPage} />
-					<Route exact path="/manual" component={ManualPage} />
 
+					<Route exact path="/sync" component={SyncPage} />
 					<Route exact path="/archive/archive_task_view" component={ArchiveTask} />
 					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
 					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />
 					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
-
 				</Switch>
 			</Router>
 		</>
