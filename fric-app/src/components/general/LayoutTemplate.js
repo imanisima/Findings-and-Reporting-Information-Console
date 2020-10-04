@@ -34,6 +34,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
+import Dialog from '@material-ui/core/Dialog';
 
 // Sidebar Icons
 import EventIcon from '@material-ui/icons/Event';
@@ -55,6 +56,11 @@ import SyncIcon from '@material-ui/icons/Sync'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
+
+// Custom Components
+import SyncForm from '../sync/SyncForm';
+
+import { options } from './test/eventstestdata'; //TODO: Remove line after fetching analyst options and passing to sync dialog
 
 const drawerWidth = 240;
 
@@ -195,6 +201,7 @@ export default function LayoutTemplate(props) {
 	const [anchorPopover, setAnchorPopover] = React.useState(null);
 	const [anchorAuth, setAnchorAuth] = React.useState(null);
 	const [snackbarOpen, setSnackbarOpen] = React.useState(true);
+	const [syncDialogOpen, setSyncDialogOpen] = React.useState(false);
 	const [auth] = React.useState(true);
 
 	const handleMenuDrawerOpen = () => setMenuOpen(true);
@@ -287,6 +294,7 @@ export default function LayoutTemplate(props) {
 						<IconButton
 							color="inherit"
 							aria-label="sync"
+							onClick={() => setSyncDialogOpen(true)}
 						>
 							<SyncIcon />
 						</IconButton>
@@ -463,6 +471,18 @@ export default function LayoutTemplate(props) {
 					Notification Popup
 				</Alert>
 			</Snackbar>
+
+			{/* Sync Dialog Form */}
+			<Dialog
+				open={syncDialogOpen}
+				keepMounted
+				onClose={() => {}}
+				aria-labelledby="sync-dialog-title"
+				aria-describedby="sync-dialog-description"
+				disableBackdropClick
+			>
+				<SyncForm syncAction={() => setSyncDialogOpen(false)} closeAction={() => setSyncDialogOpen(false)} analystOptions={options.analysts} />
+			</Dialog>
 		</div>
 	);
 }

@@ -7,9 +7,9 @@ import axios from 'axios';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
+import { darkTheme } from '../components/general/ThemeColors';
 import LayoutTemplate from '../components/general/LayoutTemplate';
 import OverviewCards from '../components/summary/OverviewCards';
-import { darkTheme } from '../components/general/ThemeColors';
 import SetupForm from '../components/setup/SetupForm';
 import Spinner from '../components/general/Spinner';
 

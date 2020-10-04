@@ -70,7 +70,6 @@ export default function SetupForm(props) {
 
 	return (
 		<>
-			
 			<DialogContent id="setupContentForm" className={styles.setupContentForm}>
 				<Typography variant="h6" className={styles.title}>
 					Findings and Reportings Information Console (FRIC)
@@ -79,7 +78,7 @@ export default function SetupForm(props) {
 
 				{/* Enter User Initials */}
 				<Form.Group controlId="user">
-					<FormLabel>Pleaser enter your initials:</FormLabel>
+					<FormLabel>Please enter your initials:</FormLabel>
 					<Form.Control type="text" placeholder="Enter user initials" onChange={ e => setUser(e.target.value) } />
 				</Form.Group>
 
