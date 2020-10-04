@@ -16,7 +16,6 @@ import ConfigurationPage from './pages/ConfigurationPage';
 import Context from './pages/ContextPage';
 import SyncPage from './pages/SyncPage';
 import FindingsPage from './pages/FindingsPage';
-import SetupPage from './pages/SetupPage';
 import SubtasksPage from './pages/SubtasksPage';
 import SystemsPage from './pages/SystemsPage';
 import TasksPage from './pages/TasksPage';
@@ -52,7 +51,6 @@ function App() {
 					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
 					<Route exact path="/systems" component={SystemsPage} />
 					<Route exact path="/configure" component={ConfigurationPage} />
-					<Route exact path="/setup" component={SetupPage} />
 					<Route exact path="/context" component={Context} />
 					<Route exact path="/sync" component={SyncPage} />
 					<Route exact path="/test" component={TestPage} />
