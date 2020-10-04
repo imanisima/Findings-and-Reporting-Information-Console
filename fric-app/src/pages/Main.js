@@ -8,7 +8,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import LayoutTemplate from '../components/general/LayoutTemplate';
-import OverviewCards from '../components/summary/OverviewCards';
+import SummaryView from '../components/summary/SummaryView';
 import { darkTheme } from '../components/general/ThemeColors';
 import SetupForm from '../components/setup/SetupForm';
 import Spinner from '../components/general/Spinner';
@@ -55,7 +55,7 @@ export default class Main extends Component {
 			<ThemeProvider theme={darkTheme}>
 				<LayoutTemplate mainContentComponent={
 					(this.state.contentIsLoading) ? <Spinner /> : (
-						(this.state.events != null && this.state.events.length > 0) ? <OverviewCards /> : <></>
+						(this.state.events != null && this.state.events.length > 0) ? <SummaryView /> : <></>
 					)
 				} />
 				<Dialog
