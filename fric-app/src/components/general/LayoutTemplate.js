@@ -60,6 +60,8 @@ import SearchIcon from '@material-ui/icons/Search';
 // Custom Components
 import SyncForm from '../sync/SyncForm';
 
+import { options } from './test/eventstestdata'; //TODO: Remove line after fetching analyst options and passing to sync dialog
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -489,7 +491,7 @@ export default function LayoutTemplate(props) {
 				aria-describedby="sync-dialog-description"
 				disableBackdropClick
 			>
-				<SyncForm syncAction={() => setSyncDialogOpen(false)} closeAction={() => setSyncDialogOpen(false)} analystOptions={[]} />
+				<SyncForm syncAction={() => setSyncDialogOpen(false)} closeAction={() => setSyncDialogOpen(false)} analystOptions={options.analysts} />
 			</Dialog>
 		</div>
 	);
