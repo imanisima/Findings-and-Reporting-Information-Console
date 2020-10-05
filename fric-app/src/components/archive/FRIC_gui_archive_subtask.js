@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
-import MainNav from '../../bootstrap/FRIC_gui_navbar';
 import '../../css/archive/FRIC_gui_archive_subtask.css'
 import SubtasksOverviewTable from '../subtasks/SubtasksOverviewTable'
 
@@ -27,7 +26,6 @@ function FRIC_gui_archive_subtask() {
 
     return (
         <div className = "subtask_view">
-          <MainNav> </MainNav>
         <h1>Archived Subtasks</h1>
 
         <SubtasksOverviewTable rows={data} headings={headings} />

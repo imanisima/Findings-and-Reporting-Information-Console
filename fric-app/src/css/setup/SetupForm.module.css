@@ -1,0 +1,26 @@
+
+.setupContentForm {
+	margin-left: 1em;
+	margin-right: 1em;
+	width: 27em;
+}
+
+.title {
+	text-align: center;
+	word-wrap: break-word;
+	padding-bottom: 0.5em;
+}
+
+.subtitle {
+	text-align: center;
+	word-wrap: break-word;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	padding-bottom: 1em;
+}
+
+.center {
+	align-content: center;
+	align-items: center;
+	text-align: center;
+}

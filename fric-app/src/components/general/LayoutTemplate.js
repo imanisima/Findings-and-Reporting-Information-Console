@@ -1,5 +1,6 @@
 /**
  * 
+ * Created by Marco Soto
  */
 
 // React imports
@@ -33,6 +34,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
+import Dialog from '@material-ui/core/Dialog';
 
 // Sidebar Icons
 import EventIcon from '@material-ui/icons/Event';
@@ -54,6 +56,11 @@ import SyncIcon from '@material-ui/icons/Sync'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
+
+// Custom Components
+import SyncForm from '../sync/SyncForm';
+
+import { options } from './test/eventstestdata'; //TODO: Remove line after fetching analyst options and passing to sync dialog
 
 const drawerWidth = 240;
 
@@ -186,7 +193,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function LayoutSkeleton(props) {
+export default function LayoutTemplate(props) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [menuOpen, setMenuOpen] = React.useState(false);
@@ -194,6 +201,7 @@ export default function LayoutSkeleton(props) {
 	const [anchorPopover, setAnchorPopover] = React.useState(null);
 	const [anchorAuth, setAnchorAuth] = React.useState(null);
 	const [snackbarOpen, setSnackbarOpen] = React.useState(true);
+	const [syncDialogOpen, setSyncDialogOpen] = React.useState(false);
 	const [auth] = React.useState(true);
 
 	const handleMenuDrawerOpen = () => setMenuOpen(true);
@@ -286,6 +294,7 @@ export default function LayoutSkeleton(props) {
 						<IconButton
 							color="inherit"
 							aria-label="sync"
+							onClick={() => setSyncDialogOpen(true)}
 						>
 							<SyncIcon />
 						</IconButton>
@@ -422,7 +431,7 @@ export default function LayoutSkeleton(props) {
 					</Link>
 
 					{/* Settings Link */}
-					<Link to="/" replace={useLocation().pathname === '/'} className={classes.links}>
+					<Link to="/settings" replace={useLocation().pathname === '/settings'} className={classes.links}>
 						<ListItem button key="Settings">
 							<ListItemIcon><SettingsIcon /></ListItemIcon>
 							<ListItemText primary="Settings" />
@@ -437,7 +446,7 @@ export default function LayoutSkeleton(props) {
 				<div className={classes.toolbar} />
 				{/* Main Content */}
 				{/* Clone main content view element prop while passing in the universal action to open the detail view */}
-				{ React.cloneElement(props.mainContentComponent, {openDetailAction: handleDetailDrawerOpen}) }
+				{ React.cloneElement(props.mainContentComponent, { openDetailAction: handleDetailDrawerOpen, } ) }
 			</main>
 
 			{ 
@@ -462,11 +471,23 @@ export default function LayoutSkeleton(props) {
 					Notification Popup
 				</Alert>
 			</Snackbar>
+
+			{/* Sync Dialog Form */}
+			<Dialog
+				open={syncDialogOpen}
+				keepMounted
+				onClose={() => {}}
+				aria-labelledby="sync-dialog-title"
+				aria-describedby="sync-dialog-description"
+				disableBackdropClick
+			>
+				<SyncForm syncAction={() => setSyncDialogOpen(false)} closeAction={() => setSyncDialogOpen(false)} analystOptions={options.analysts} />
+			</Dialog>
 		</div>
 	);
 }
 
-LayoutSkeleton.propTypes = {
+LayoutTemplate.propTypes = {
 	mainContentComponent: PropTypes.element.isRequired,
 	detailComponent: PropTypes.element,
 }

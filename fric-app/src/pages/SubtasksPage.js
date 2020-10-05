@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
-import LayoutSkeleton from '../components/general/LayoutSkeleton';
+import LayoutTemplate from '../components/general/LayoutTemplate';
 import SubtasksOverviewTable from '../components/subtasks/SubtasksOverviewTable'
 import SubtasksDetailView from '../components/subtasks/SubtaskDetailView';
 import { darkTheme } from '../components/general/ThemeColors';
@@ -14,7 +14,7 @@ export default function SubtasksPage() {
 	return (
 		// Added dark theme provider, remove for normal colors
 		<ThemeProvider theme={darkTheme}>
-			<LayoutSkeleton
+			<LayoutTemplate
 				mainContentComponent={<SubtasksOverviewTable rows={data} headings={headings} />}
 				detailComponent={<SubtasksDetailView selectedSubtask={subtaskTestObject} options={options} />}
 			/>

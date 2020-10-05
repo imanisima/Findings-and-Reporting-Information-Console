@@ -39,8 +39,8 @@ export default function EventDetailView(props) {
 
 	const classes = useStyles();
 
-	const renderTooltip = (props) => (
-		<Tooltip id="help-tooltip" {...props} >
+	const renderTooltip = () => (
+		<Tooltip id="help-tooltip">
 			Helpful tooltip goes here...
 		</Tooltip>
 	);
