@@ -67,6 +67,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-spring": "latest",
     "react-treeview": "^0.4.7",
     "sass": "^1.26.10",
     "typescript": "^3.9.7"

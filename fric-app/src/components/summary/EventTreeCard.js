@@ -1,10 +1,13 @@
 import React from 'react';
+import { useSpring, animated } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import EventTreeCustom from '../event-tree/EventTreeCustom';
 
 const useStyles = makeStyles({
 	root: {
@@ -27,28 +30,39 @@ const useStyles = makeStyles({
 	iconWrap: {
 		display: 'inline-block',
 		verticalAlign: 'middle',
-		paddingRight: '0.1em',
+		paddingRight: '0.3em',
 	},
-	data: {
-		textAlign: 'center',
+	content: {
+		marginBottom: '1em',
+		marginRight: '1em',
 	},
 });
 
-export default function OverviewCard(props) {
+export default function EventTreeCard(props) {
 	const classes = useStyles();
+	const animation = useSpring({
+		from: {
+			transform: "scale(0)"
+		},
+		to: {
+			transform: `scale(1)`
+		},
+		width: '200px',
+	});
 
 	return (
 		<Card className={classes.root}>
-			<CardContent>
-				<div style={{textAlign: 'center'}}>
-				<div className={classes.iconWrap}>{props.icon}</div>
-				<Typography className={classes.title} color="textSecondary" gutterBottom>
-					{props.for}
-				</Typography>
+			<CardContent className={classes.content} style={animation}>
+				<div style={{ textAlign: 'center' }}>
+					<div className={classes.iconWrap}><AccountTreeIcon color="secondary" /></div>
+					<Typography className={classes.title} color="textSecondary" gutterBottom>
+						Event Tree
+					</Typography>
 				</div>
-				<Typography variant="h5" component="h2" className={classes.data}>
-					{props.amount}
-				</Typography>
+				<animated.div style={animation}>
+					<EventTreeCustom />
+				</animated.div>
+				{/* <EventTreeCustom /> */}
 			</CardContent>
 			{/* <CardActions>
 				<Button size="small" variant="outlined">Show More</Button>
