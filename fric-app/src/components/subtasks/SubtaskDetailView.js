@@ -3,7 +3,7 @@
  */
 
 import 'date-fns';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
 import DateFnsUtils from '@date-io/date-fns';
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SubtaskDetailView(props) {
 	const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
-	const [progress, setProgress] = useState();
+	const [progress, setProgress] = useState('');
 
 	const classes = useStyles();
 
@@ -42,6 +42,17 @@ export default function SubtaskDetailView(props) {
 			Helpful tooltip goes here...
 		</Tooltip>
 	);
+
+	const handleSavePress = () => {
+		//TODO: Handle subtasks input validation before sending request
+		//TODO: Send update subtask request to database
+		props.closeDetailAction(); // Close detail view
+	}
+
+	useEffect(() => { // Similar to componentDidMount
+		console.log(props.selectedSubtask);
+		//TODO: If selected object will stay fetched through prop, delete this function. Else, send get request for selected object
+	});
 
 	return (
 		<Form style={{ padding: "3em 4em 3em 4em" }}>
@@ -97,9 +108,9 @@ export default function SubtaskDetailView(props) {
 						labelId="select-outlined-label"
 						id="select-outlined"
 						value={progress}
-						onChange={val => {setProgress(val)}}
-						label=""
+						onChange={e => setProgress(e.target.value)}
 					>
+						<MenuItem key="null" value="">None</MenuItem>
 						{props.options.progress.map((el, ind) => {
 							return <MenuItem key={ind} value={el}>{el}</MenuItem>
 						})}
@@ -139,7 +150,7 @@ export default function SubtaskDetailView(props) {
 
 			<Form.Group>
 				<Button
-					onClick={props.closeDetailAction}
+					onClick={handleSavePress}
 					variant="contained"
 					size="large"
 					startIcon={<SaveIcon />}
@@ -158,7 +169,7 @@ export default function SubtaskDetailView(props) {
 }
 
 SubtaskDetailView.propTypes = {
-	selectedSubtask: PropTypes.object.isRequired,
+	selectedSubtask: PropTypes.object,
 	options: PropTypes.object.isRequired,
 	closeDetailAction: PropTypes.func,
 }

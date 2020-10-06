@@ -32,7 +32,7 @@ export default class Main extends Component {
 
 	componentDidMount() {
 		// Send request for events
-		axios.get('http://localhost:5000/events/')
+		axios.get('http://localhost:5000/events')
 			.then(response =>  {
 				console.log(response.data);
 				this.setState({ events: response.data, contentIsLoading: false });
