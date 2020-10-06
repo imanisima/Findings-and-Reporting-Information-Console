@@ -103,7 +103,7 @@ export default function CustomTable(props) {
 	const [orderBy, setOrderBy] = React.useState('title');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(20);
+	const [rowsPerPage, setRowsPerPage] = React.useState((props.rowsDisplayed !== null && props.rowsDisplayed >= 5) ? props.rowsDisplayed : 10);
 	const [dense, setDense] = React.useState(true); // For toggling the dense row setting
 
 	const handleRequestSort = (event, property) => {
@@ -114,7 +114,7 @@ export default function CustomTable(props) {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelecteds = props.rows.map((n) => n.id);
+			const newSelecteds = props.rowData.map((n) => n.id);
 			setSelected(newSelecteds);
 			return;
 		}
@@ -152,7 +152,7 @@ export default function CustomTable(props) {
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
-	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
+	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rowData.length - page * rowsPerPage);
 
 	return (
 		<div className={classes.root}>
@@ -174,17 +174,16 @@ export default function CustomTable(props) {
 							orderBy={orderBy}
 							onSelectAllClick={handleSelectAllClick}
 							onRequestSort={handleRequestSort}
-							rowCount={props.rows.length}
+							rowCount={props.rowData.length}
 						/>
 						<TableBody>
-							{stableSort(props.rows, getComparator(order, orderBy))
+							{stableSort(props.rowData, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
 									const isItemSelected = isSelected(row.id);
 									const labelId = `custom-table-checkbox-${index}`;
 
 									return (
-
 										<StyledTableRow
 											hover
 											onClick={(event) => handleClick(event, row.id)}
@@ -229,7 +228,7 @@ export default function CustomTable(props) {
 				<TablePagination
 					rowsPerPageOptions={[10]}
 					component="div"
-					count={props.rows.length}
+					count={props.rowData.length}
 					rowsPerPage={rowsPerPage}
 					page={page}
 					onChangePage={handleChangePage}
@@ -238,14 +237,15 @@ export default function CustomTable(props) {
 			</Paper>
 			{/* For toggling the dense row setting */}
 			{/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
+				control={<Switch checked={dense} onChange={handleChangeDense} />}
+				label="Dense padding"
+			/>  */}
 		</div>
 	);
 }
 
 CustomTable.propTypes = {
-	rows: PropTypes.object.isRequired,
 	headings: PropTypes.object.isRequired,
+	rowData: PropTypes.object.isRequired,
+	rowsDisplayed: PropTypes.number,
 }
