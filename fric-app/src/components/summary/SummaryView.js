@@ -13,10 +13,15 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import DescriptionIcon from '@material-ui/icons/Description';
 import OverviewCard from './OverviewCard';
 import EventTreeCard from './EventTreeCard';
+import ChartCard from './ChartCard';
+
 
 export default function SummaryView() {
 	return (
 		<>
+			<div>
+				<ChartCard />
+			</div>
 			<div>
 				<OverviewCard for="Events" amount="1" icon={<EventIcon color="secondary" />} />
 				<OverviewCard for="Systems" amount="4" icon={<DnsIcon color="secondary" />} />
