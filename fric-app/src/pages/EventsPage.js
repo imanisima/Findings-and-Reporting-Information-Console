@@ -12,6 +12,12 @@ import { data, headings, options } from '../components/general/test/eventstestda
 
 export default function EventsPage() {
 	const [selectedEvent, setSelectedEvent] = useState(null);
+	const headings = [
+		{ id: 'id', numeric: true, disablePadding: true, label: 'System' },
+		{ id: 'name', numeric: false, disablePadding: false, label: 'No. of Tasks' },
+		{ id: 'numSystems', numeric: true, disablePadding: false, label: 'No. of Findings' },
+		{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
+	];
 
 	return (
 		// Added dark theme provider, remove for normal colors

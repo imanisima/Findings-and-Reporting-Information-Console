@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
-import SystemsTable from './FRIC_gui_system_table'
+
 
 import '../../css/systems/FRIC_gui_system_overview.css'
 

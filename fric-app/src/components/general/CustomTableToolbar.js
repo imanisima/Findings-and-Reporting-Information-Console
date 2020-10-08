@@ -62,7 +62,7 @@ export default function CustomTableToolbar(props) {
 					</Typography>
 				) : (
 						<div className={classes.title}>
-							<AddButton variant="contained" size="large" startIcon={<AddIcon />}>
+							<AddButton variant="contained" size="large" onClick= {props.onNewClick} startIcon={<AddIcon />}>
 								New
 							</AddButton>
 						</div>
@@ -79,4 +79,4 @@ export default function CustomTableToolbar(props) {
 	);
 };
 
-CustomTableToolbar.propTypes = { numSelected: PropTypes.number.isRequired, };
+CustomTableToolbar.propTypes = { numSelected: PropTypes.number.isRequired, onNewClick: PropTypes.func.isRequired};

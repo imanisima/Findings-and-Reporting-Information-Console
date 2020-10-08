@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import SystemsInformation from './FRIC_gui_system_information';
+import SystemDetailView from './SystemsInformation';
 
 import '../../css/systems/FRIC_gui_system_details.css'
 
@@ -8,7 +8,7 @@ class SystemDetail extends Component {
         return(
             <div className='systems_detail_div'>
                 <br></br><br></br><br></br><br></br>
-                <SystemsInformation> </SystemsInformation>
+                <SystemDetailView> </SystemDetailView>
             </div>
         )
     }
