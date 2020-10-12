@@ -16,7 +16,7 @@ import CustomTableHead from '../general/CustomTableHead';
 import CustomTableToolbar from '../general/CustomTableToolbar'
 import ArchiveIcon from '@material-ui/icons/Archive';
 import EditIcon from '@material-ui/icons/Edit';
-import SystemsDetailView from '../systems/SystemsInformation'
+import SystemsDetailView from '../systems/SystemsDetailView'
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -117,7 +117,7 @@ export default function SystemOverviewTable(props) {
 
 	const handleSelectAllClick = (system) => {
 		if (system.target.checked) {
-			const newSelecteds = props.rows.map((n) => n.id);
+			const newSelecteds = props.rows.map((n) => n.name);
 			setSelected(newSelecteds);
 			return;
 		}
@@ -154,11 +154,9 @@ export default function SystemOverviewTable(props) {
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	function handleEditPress() {
-		if (selected.length === 1) {
-			console.log(props);
-			console.log(selected);
-			console.log(selected);
-			props.setDetailData(selected[0]);
+		if (selected != null && selected.length === 1) {
+			const found = props.row.find(e => e.name === selected[0])
+			props.setSelectedSystem(found);
 			props.openDetailAction();
 		}
 		
@@ -214,17 +212,17 @@ export default function SystemOverviewTable(props) {
 							{stableSort(props.rows, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
-									const isItemSelected = isSelected(row.id);
+									const isItemSelected = isSelected(row.name);
 									const labelId = `custom-table-checkbox-${index}`;
 
 									return (
 										<StyledTableRow
 											hover
-											onClick={(system) => handleClick(system, row.id)}
+											onClick={(system) => handleClick(system, row.name)}
 											role="checkbox"
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row.id}
+											key={row.name}
 											selected={isItemSelected}
 										>
 											<StyledTableCell padding="checkbox">
@@ -254,7 +252,7 @@ export default function SystemOverviewTable(props) {
 				<div style={{display: "inline-block", marginLeft: "1em",}}>
 					{/* Edit Button */}
 					<Button
-						onClick={handleEditPress}
+						onClick={props.openDetailAction}
 						disabled={selected.length !== 1}
 						variant="contained"
 						startIcon={<EditIcon />}
@@ -289,4 +287,5 @@ SystemOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
 	openDetailAction: PropTypes.func,
+	setSelectedSystem: PropTypes.func.isRequired,
 }

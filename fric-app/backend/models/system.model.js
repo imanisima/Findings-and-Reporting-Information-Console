@@ -9,7 +9,7 @@ const systemSchema = new mongoose.Schema({
 	description: { type: String, required: false, },
 	location: { type: String, required: true, },
 	router: { type: String, required: true, },
-	switche: { type: String, required: true, },
+	switch: { type: String, required: true, },
 	room: { type: String, required: false, },
 	archived: { type: Boolean, required: true, },
 }, {

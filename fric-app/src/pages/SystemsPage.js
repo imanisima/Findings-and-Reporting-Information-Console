@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import LayoutTemplate from '../components/general/LayoutTemplate';
-import SystemsDetail from '../components/systems/FRIC_gui_system_details';
+import SystemsDetailView from '../components/systems/SystemsDetailView';
 import SystemOverviewTable from '../components/systems/SystemOverviewTable'
 import { darkTheme } from '../components/general/ThemeColors';
 import axios from 'axios';
@@ -15,9 +15,9 @@ import { options } from '../components/general/test/eventstestdata'; //TODO: rem
 import Spinner from '../components/general/Spinner';
 
 export default function SystemsPage(props) {
-	const [selectedEvent, setSelectedEvent] = useState(null);
 	const [ isLoading, setIsLoading ] = useState(false)
-    const [ data, setData ] = useState([])
+	const [ data, setData ] = useState([])
+	const [tableArray, setTableArray] = useState([])
 
 	const headings = [
 		{ id: 'name', numeric: false, disablePadding: false, label: 'System' },
@@ -26,9 +26,25 @@ export default function SystemsPage(props) {
 		{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
 	];
 
+	/* dummy data
 	const data2 = [
 		{ name: 'System1', numTasks: 2, numFindings: 3, progress: 'Not Applicable', },
-	]
+		{ name: 'System2', numTasks: 4, numFindings: 3, progress: 'Not Applicable', },
+		{ name: 'System3', numTasks: 32, numFindings: 3, progress: 'Not Applicable', },
+		{ name: 'System4', numTasks: 21, numFindings: 3, progress: 'Not Applicable', },
+	] */
+
+	function mapSystemsToTable(response) {
+		const tableArray = response.map((system, i) => {
+			return { 
+				name: system.SystemName,
+				numTasks: Math.floor(Math.random() * Math.floor(10)),
+				numFindings:  Math.floor(Math.random() * Math.floor(10)),
+				progress: 'In Progress'
+			}
+		})
+		setTableArray(tableArray)
+	}
 
 	useEffect(() => {
 		async function getSystems() {
@@ -36,7 +52,8 @@ export default function SystemsPage(props) {
 			try {
 				const fetch = await axios.get('http://localhost:5000/systems/')
 				const response = await fetch.data
-				setData(response)	
+				setData(response)
+				mapSystemsToTable(response)	
 			}
 			catch (error) {
 				console.log(error)
@@ -47,19 +64,16 @@ export default function SystemsPage(props) {
 		getSystems()
 	}, [])
 
-	if( data.length > 0 ) {
-		console.log(data[0].SystemName)
-	}
 	return (
 		// Added dark theme provider, remove for normal colors
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate
 				mainContentComponent={
 					(isLoading) ? <Spinner /> : (
-						(data != null && data.length > 0) ? <SystemOverviewTable rows={data2} headings={headings} setDetailData={setSelectedEvent} /> : <></>
+						(data != null && data.length > 0) ? <SystemOverviewTable rows={tableArray} headings={headings} setSelectedSystem /> : <></>
 					)
 				}
-				detailComponent={<SystemsDetail />}
+				detailComponent={<SystemsDetailView selectedSystem = {data[0]}/>}
 			/>
 		</ThemeProvider>
 	);
