@@ -11,15 +11,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import ArchiveIcon from '@material-ui/icons/Archive';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-// import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
-// import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
-import CustomTableHead from './CustomTableHead';
-import CustomTableToolbar from './CustomTableToolbar'
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import EditIcon from '@material-ui/icons/Edit';
+import CustomTableToolbar from '../general/CustomTableToolbar';
+import CustomTableHead from '../general/CustomTableHead';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -97,14 +96,13 @@ const StyledTableCell = withStyles((theme) => ({
 	},
 }))(TableCell);
 
-export default function CustomTable(props) {
+export default function TasksOverviewTable(props) {
 	const classes = useStyles();
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('title');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState((props.rowsDisplayed !== null && props.rowsDisplayed >= 5) ? props.rowsDisplayed : 10);
-	const [dense, setDense] = React.useState(true); // For toggling the dense row setting
+	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -148,21 +146,19 @@ export default function CustomTable(props) {
 		setPage(0);
 	};
 
-	// const handleChangeDense = (event) => { setDense(event.target.checked); }; // For toggling the dense row setting
-
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
 
 	return (
-		<div className={classes.root}>
+		<div>
 			<Paper className={classes.paper}>
-				<CustomTableToolbar numSelected={selected.length} />
+				<CustomTableToolbar numSelected={selected.length} newAction={() => {}} />
 				<TableContainer>
 					<Table
 						className={classes.table}
 						aria-labelledby="tableTitle"
-						size={dense ? 'small' : 'medium'}
+						size="small"
 						aria-label="custom table"
 						stickyHeader
 					>
@@ -183,16 +179,6 @@ export default function CustomTable(props) {
 									const isItemSelected = isSelected(row.id);
 									const labelId = `custom-table-checkbox-${index}`;
 
-									const makeRow = () => {
-										props.headings.map((heading, id) => {
-											if (heading.id !== '_id') {
-												return (
-													<StyledTableCell align={(heading.numeric) ? 'right' : 'left'}>row[heading.id]</StyledTableCell>
-												);
-											}
-										});
-									}
-
 									return (
 										<StyledTableRow
 											hover
@@ -200,7 +186,7 @@ export default function CustomTable(props) {
 											role="checkbox"
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row.id}
+											key={row._id}
 											selected={isItemSelected}
 										>
 											<StyledTableCell padding="checkbox">
@@ -210,21 +196,20 @@ export default function CustomTable(props) {
 													style={{ color: "#066ff9" }}
 												/>
 											</StyledTableCell>
-											<StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">
-												{row.id}
-											</StyledTableCell>
-											<StyledTableCell align="left">{row.title}</StyledTableCell>
-											<StyledTableCell align="left">{row.task}</StyledTableCell>
-											<StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
-											<StyledTableCell align="right" padding="none">{row.progress}</StyledTableCell>
-											<StyledTableCell align="left" >{row.findings}</StyledTableCell>
-											{/* <StyledTableCell align="left" padding="left">{row.dueDate.toLocaleString()}</StyledTableCell> */}
-										
+											<StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">{row._id}</StyledTableCell>
+											<StyledTableCell align="left">{row.name}</StyledTableCell>
+											<StyledTableCell align="left">{row.system}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.analysts}</StyledTableCell>
+											<StyledTableCell align="left" padding="default">{row.priority}</StyledTableCell>
+											<StyledTableCell align="left" padding="default">{row.progress}</StyledTableCell>
+											<StyledTableCell align="right" >{row.subtasks}</StyledTableCell>
+											<StyledTableCell align="right" >{row.findings}</StyledTableCell>
+											<StyledTableCell align="right" padding="default">{row.dueDate.toLocaleDateString()}</StyledTableCell>
 										</StyledTableRow>
 									);
 								})}
 							{emptyRows > 0 && (
-								<TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+								<TableRow style={{ height: 33 * emptyRows }}>
 									<TableCell colSpan={6} />
 								</TableRow>
 							)}
@@ -232,8 +217,37 @@ export default function CustomTable(props) {
 					</Table>
 				</TableContainer>
 				<div style={{ display: "inline-block", verticalAlign: "bottom" }}>
-					<Button variant="contained" startIcon={<ArchiveIcon />} style={{ color: "black", margin: "0.5em", }}>Archive</Button>
-					<Button variant="contained" startIcon={<ArrowUpwardIcon />} style={{ backgroundColor: "#29a745", color: "white", margin: "0.5em", }}>Promote</Button>
+					{/* Archive Button */}
+					<Button
+						disabled={selected.length < 1}
+						variant="contained"
+						startIcon={<ArchiveIcon />}
+						style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
+						size="large"
+					>
+						Archive
+					</Button>
+					{/* Promote Button */}
+					<Button
+						disabled={selected.length < 1}
+						variant="contained"
+						startIcon={<ArrowDownwardIcon />}
+						color="secondary"
+						size="large"
+					>
+						Demote
+					</Button>
+					{/* Edit Button */}
+					<Button
+						onClick={props.openDetailAction}
+						disabled={selected.length !== 1}
+						variant="contained"
+						startIcon={<EditIcon />}
+						style={{ backgroundColor: "#066ff9", margin: "0.5em", }}
+						size="large"
+					>
+						Edit
+					</Button>
 				</div>
 				<TablePagination
 					rowsPerPageOptions={[10]}
@@ -245,17 +259,12 @@ export default function CustomTable(props) {
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 			</Paper>
-			{/* For toggling the dense row setting */}
-			{/* <FormControlLabel
-				control={<Switch checked={dense} onChange={handleChangeDense} />}
-				label="Dense padding"
-			/>  */}
 		</div>
 	);
 }
 
-CustomTable.propTypes = {
-	headings: PropTypes.object.isRequired,
-	rows: PropTypes.object.isRequired,
-	rowsDisplayed: PropTypes.number,
+TasksOverviewTable.propTypes = {
+	rows: PropTypes.array.isRequired,
+	headings: PropTypes.array.isRequired,
+	openDetailAction: PropTypes.func,
 }
