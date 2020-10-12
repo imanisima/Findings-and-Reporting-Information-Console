@@ -139,6 +139,13 @@ export default function TasksOverviewTable(props) {
 		setSelected(newSelected);
 	};
 
+	const handleEditClick = () => {
+		if (selected != null && selected.length === 1) {
+			props.setSelectedTask(selected[0]); // Set selected id value, object to be fetched from detail view
+			props.openDetailAction(); // Open detal view on tasks page
+		}
+	};
+
 	const handleChangePage = (event, newPage) => { setPage(newPage); };
 
 	const handleChangeRowsPerPage = (event) => {
@@ -186,7 +193,7 @@ export default function TasksOverviewTable(props) {
 											role="checkbox"
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row._id}
+											key={row.id}
 											selected={isItemSelected}
 										>
 											<StyledTableCell padding="checkbox">
@@ -196,15 +203,15 @@ export default function TasksOverviewTable(props) {
 													style={{ color: "#066ff9" }}
 												/>
 											</StyledTableCell>
-											<StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">{row._id}</StyledTableCell>
+											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">{row.id}</StyledTableCell>
 											<StyledTableCell align="left">{row.name}</StyledTableCell>
 											<StyledTableCell align="left">{row.system}</StyledTableCell>
 											<StyledTableCell align="left" padding="none">{row.analysts}</StyledTableCell>
 											<StyledTableCell align="left" padding="default">{row.priority}</StyledTableCell>
 											<StyledTableCell align="left" padding="default">{row.progress}</StyledTableCell>
-											<StyledTableCell align="right" >{row.subtasks}</StyledTableCell>
-											<StyledTableCell align="right" >{row.findings}</StyledTableCell>
-											<StyledTableCell align="right" padding="default">{row.dueDate.toLocaleDateString()}</StyledTableCell>
+											<StyledTableCell align="right" >{row.noOfSubtasks}</StyledTableCell>
+											<StyledTableCell align="right" >{row.noOfFindings}</StyledTableCell>
+											<StyledTableCell align="right" padding="default">{row.dueDate}</StyledTableCell>
 										</StyledTableRow>
 									);
 								})}
@@ -239,7 +246,7 @@ export default function TasksOverviewTable(props) {
 					</Button>
 					{/* Edit Button */}
 					<Button
-						onClick={props.openDetailAction}
+						onClick={handleEditClick}
 						disabled={selected.length !== 1}
 						variant="contained"
 						startIcon={<EditIcon />}
@@ -266,5 +273,6 @@ export default function TasksOverviewTable(props) {
 TasksOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
+	setSelectedTask: PropTypes.func.isRequired,
 	openDetailAction: PropTypes.func,
 }

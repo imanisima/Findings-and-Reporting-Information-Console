@@ -12,26 +12,23 @@ import TasksOverviewTable from '../components/tasks/TasksOverviewTable';
 import TaskDetailView from '../components/tasks/TaskDetailView';
 import TasksDetail from '../components/tasks/FRIC_gui_tasks_details';
 
+//TODO: fetch options used in detail view. Delete this block once connected
 import {Progress, Priority, Progression } from '../components/general/EnumeratedTypes';
-
-const data = [
-	{_id: '43', name: 'Task 1', system: 'Sys', analysts: 'anal1', priority: 'High', progress: 'Not Started', subtasks: 12, findings: 0, dueDate: new Date()}
-]
 const options = {
 	progress: Object.values(Progression),
 	priority: Object.values(Priority),
-	analysts: ['anal1'],
+	analysts: ['anal1', 'anal2'],
 	tasks: ['task1', 'task2', 'task4'],
 }
 
 export default function TasksPage() {
 	const [tableData, setTableData] = useState([]);
 	const [formOptions, setFormOptions] = useState(null);
-	const [selectedTask, setSelectedTask] = useState(null);
+	const [selected, setSelected] = useState(null);
 	const [contentIsLoading, setContentIsLoading] = useState(true);
 
 	const headings = [
-		{ id: '_id', numeric: true, disablePadding: true, label: '_id' },
+		{ id: 'id', numeric: false, disablePadding: true, label: '_id' },
 		{ id: 'name', numeric: false, disablePadding: false, label: 'Name' },
 		{ id: 'system', numeric: false, disablePadding: false, label: 'System' },
 		{ id: 'analysts', numeric: false, disablePadding: true, label: 'Analysts' },
@@ -42,25 +39,35 @@ export default function TasksPage() {
 		{ id: 'dueDate', numeric: true, disablePadding: false, label: 'Due Date' },
 	];
 
-	useLayoutEffect(() => {
-		setContentIsLoading(false);
-
-		// TODO: fetch table data
-		axios.get('http://localhost:5000/tasks')
+	const reload = () => {
+		// Fetch table data
+		axios.get('http://localhost:5000/tasks', {
+			params: {
+				table: true
+			}
+		})
 			.then(res => {
-				console.log(res.data);
-				// setTableData(res.data);
+				setTableData(res.data);
 				setContentIsLoading(false);
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+				setContentIsLoading(false);
+			});
 
 		//TODO: fetch detail form options
-		axios.get('http://localhost:5000/options?analysts&priority&progress&tasks')
-			.then(res => {
-				console.log(res.data);
-				setFormOptions(res.data);
-			})
-			.catch(err => console.log(err));
+		// axios.get('http://localhost:5000/options?analysts&priority&progress&tasks')
+		// 	.then(res => {
+		// 		console.log(res.data);
+		// 		setFormOptions(res.data);
+		// 	})
+		// 	.catch(err => console.log(err));
+	};
+
+	useLayoutEffect(() => {
+		reload();
+		setContentIsLoading(false); //TODO: should be handled in reload data request, used here for debug purposes
 	}, []);
 
 	return (
@@ -69,10 +76,10 @@ export default function TasksPage() {
 			<LayoutTemplate
 				mainContentComponent={
 					(contentIsLoading) ? <Spinner /> : (
-						<TasksOverviewTable rows={data} headings={headings} setSelectedTask={setSelectedTask} />
+						<TasksOverviewTable rows={tableData} headings={headings} setSelectedTask={setSelected} />
 					)
 				}
-				detailComponent={<TaskDetailView selectedTask={data[0]} options={options} />}
+				detailComponent={<TaskDetailView selectedTask={selected} options={options} />}
 			/>
 		</ThemeProvider>
 	);
