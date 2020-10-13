@@ -57,25 +57,33 @@ export default function TaskDetailView(props) {
 	);
 	
 	const handleSaveClick = () => {
-		const newTask = {
-			name: name,
-			description: description,
-			progress: progress,
-			priority: priority,
-			tasks: relatedTasks,
-			analysts: analysts,
-			collabs: collabs,
-		};
-		console.log(newTask);
-
-		//TODO: send post request to save data
-
-		props.closeDetailAction();
-		setContentIsLoading(true);
+		axios.post("http://localhost:5000/tasks/update", {
+			params: {
+				id: props.selectedTask,
+				name: name,
+				description: description,
+				progress: progress,
+				priority: priority,
+				associations: relatedTasks,
+				analysts: analysts,
+				collaborators: collabs,
+				dueDate: selectedDate,
+				attachment: "",
+				archived: "false",
+			}
+		})
+			.then(res => {
+				setContentIsLoading(true);
+				console.log(res);
+				props.closeDetailAction();
+			})
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+			})
 	};
 
 	useEffect(() => {
-
 		console.log(props.selectedTask);
 
 		if (props.selectedTask != null) {
@@ -107,8 +115,6 @@ export default function TaskDetailView(props) {
 					setContentIsLoading(false);
 				})
 		}
-		
-		//TODO: set state values using fetched object fields
 	}, [props.selectedTask])
 
 	return (

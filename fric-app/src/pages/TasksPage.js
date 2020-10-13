@@ -57,12 +57,6 @@ export default function TasksPage() {
 			});
 
 		//TODO: fetch detail form options
-		// axios.get('http://localhost:5000/options?analysts&priority&progress&tasks')
-		// 	.then(res => {
-		// 		console.log(res.data);
-		// 		setFormOptions(res.data);
-		// 	})
-		// 	.catch(err => console.log(err));
 	};
 
 	useLayoutEffect(() => {
