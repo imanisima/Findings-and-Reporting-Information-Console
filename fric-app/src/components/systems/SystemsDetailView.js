@@ -37,6 +37,7 @@ export default function SystemDetailView(props) {
 		</Tooltip>
     );
     const handleEditClick =  () => {
+        console.log(router)
         axios.post('http://localhost:5000/systems/update', {
             params: {
                 id: props.selectedSystem,
@@ -59,7 +60,7 @@ export default function SystemDetailView(props) {
                 console.log(err);
             })
     };
-    
+
     const handleSaveClick = () => {
 		const newSystem = {
 			name: name,
@@ -108,6 +109,7 @@ export default function SystemDetailView(props) {
                     setContentIsLoading(false);
 				})
         }
+        setContentIsLoading(false)
 	}, [props.selectedSystem])
 
     return (
@@ -145,7 +147,7 @@ export default function SystemDetailView(props) {
                         System Router
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control value={router}  placeholder="Router of System" onChange={ e => setRouter(e.target.value) } />
+                        <Form.Control value={router}  placeholder="Router of System" onChange={ e => { setRouter(e.target.value)} }/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalSwitchSys">
