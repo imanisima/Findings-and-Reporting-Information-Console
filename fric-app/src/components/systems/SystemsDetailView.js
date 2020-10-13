@@ -5,9 +5,12 @@ import Button from 'react-bootstrap/Button'
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from 'react-bootstrap/Tooltip'
+import axios from 'axios';
+import Spinner from '../general/Spinner';
 
 export default function SystemDetailView(props) {
 
+    const [contentIsLoading, setContentIsLoading] = useState(true);
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [location, setLocation] = useState('');
@@ -33,6 +36,29 @@ export default function SystemDetailView(props) {
 			Helpful tooltip goes here...
 		</Tooltip>
     );
+    const handleEditClick =  () => {
+        axios.post('http://localhost:5000/systems/update', {
+            params: {
+                id: props.selectedSystem,
+                name: name,
+                description: description,
+                location: location,
+                router: router,
+                switch: switchName,
+                room: room,
+                testPlan: testPlan,
+                archived: false
+            }
+        })
+            .then(res => {
+                setContentIsLoading(true);
+                console.log(res);
+                props.closeDetailAction();
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    };
     
     const handleSaveClick = () => {
 		const newSystem = {
@@ -40,48 +66,62 @@ export default function SystemDetailView(props) {
 			description: description,
 			location: location,
 			router: router,
-			switchName: switchName,
+			switch: switchName,
 			room: room,
             testPlan: testPlan,
             archived: false
 		};
-		console.log(newSystem);
-
-		//TODO: send post request to save data
-
-		props.closeDetailAction();
+        console.log(newSystem);
+        
+        axios.post('http://localhost:5000/systems/add', newSystem)
+					.then(response => {
+                        console.log(response.data);
+                        window.location = '/systems'
+					})
+					.catch(error => console.log(error)); 
     };
     
     useEffect(() => {
 		//TODO: fetch task object from db using id
-		//TODO: set state values using fetched object fields
+        //TODO: set state values using fetched object fields
 		console.log(props.selectedSystem);
 
 		if (props.selectedSystem != null) {
-            console.log(props.selectedSystem.SystemName);
-            setName(props.selectedSystem.SystemName);
-            console.log(name);
-			setDescription(props.selectedSystem.SystemDescription);
-			setLocation(props.selectedSystem.SystemLocation);
-			setRouter(props.selectedSystem.SystemRouter);
-			setSwitchName(props.selectedSystem.SystemSwitch);
-            setRoom(props.selectedSystem.SystemRoom);
-            setTestPlan(props.selectedSystem.testPlan);
+
+            axios.get('http://localhost:5000/systems', {
+                params: {
+                    id: props.selectedSystem
+                }
+            })
+                .then(res => {
+                    setName(res.data.name);
+                    setDescription(res.data.description);
+                    setLocation(res.data.location);
+                    setRouter(res.data.router);
+                    setSwitchName(res.data.switch);
+                    setRoom(res.data.room);
+                    setTestPlan(res.data.testPlan);
+                    setContentIsLoading(false);
+                })
+                .catch(err => {
+                    console.log(err);
+                    setContentIsLoading(false);
+				})
         }
-        
 	}, [props.selectedSystem])
 
     return (
+        (contentIsLoading) ? <Spinner /> :
         (props.selectedSystem != null) ?
             <div>
                 <h3>System Information</h3>
                 <Form className='sys-info-form'>
                     <Form.Group as={Row} controlId="formHorizontalNameSys">
-                        <Form.Label value={name} column sm={3}>
+                        <Form.Label column sm={3}>
                         System Name
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Name of System" />
+                        <Form.Control value={name} placeholder="Name of System" onChange={ e => setName(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalDescSys">
@@ -89,31 +129,31 @@ export default function SystemDetailView(props) {
                         System Description
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Description of System" />
+                        <Form.Control value={description} placeholder="Description of System" onChange={ e => setDescription(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalLocSys">
-                        <Form.Label defaultValue={location} column sm={3}>
+                        <Form.Label column sm={3}>
                         System Location
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Location of System" />
+                        <Form.Control value={location}  placeholder="Location of System" onChange={ e => setLocation(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalRouterSys">
-                        <Form.Label defaultValue={router} column sm={3}>
+                        <Form.Label column sm={3}>
                         System Router
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Router of System" />
+                        <Form.Control value={router}  placeholder="Router of System" onChange={ e => setRouter(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalSwitchSys">
-                        <Form.Label defaultValue={switchName} column sm={3}>
+                        <Form.Label column sm={3}>
                         System Switch
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Switch of System" />
+                        <Form.Control value={switchName}  placeholder="Switch of System" onChange={ e => setSwitchName(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalRoomSys">
@@ -121,15 +161,15 @@ export default function SystemDetailView(props) {
                         System Room
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Room of System" />
+                        <Form.Control value={room} placeholder="Room of System" onChange={ e => setRoom(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalLongDescription">
-                        <Form.Label defaultValue={testPlan} column sm={3}>
+                        <Form.Label column sm={3}>
                         Test Plan
                         </Form.Label>
                         <Col lg={7}>
-                        <Form.Control as="textarea" rows="4" placeholder="Test Plan for System" />
+                        <Form.Control value={testPlan} as="textarea" rows="4" placeholder="Test Plan for System" onChange={ e => setTestPlan(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Row>
@@ -156,13 +196,13 @@ export default function SystemDetailView(props) {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" onClick={handleEditClick}>
                             Edit
                         </Button>
-                        <Button variant="warning" type="submit">
+                        <Button variant="warning" >
                             Archive
                         </Button>
-                        <Button variant="secondaray" type="submit">
+                        <Button variant="secondaray" onClick={props.closeDetailAction} >
                             Cancel
                         </Button>
                     </Form.Row>
@@ -177,7 +217,7 @@ export default function SystemDetailView(props) {
                         System Name
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Name of System" />
+                        <Form.Control  placeholder="Name of System" onChange={ e => setName(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalDescSys">
@@ -185,7 +225,7 @@ export default function SystemDetailView(props) {
                         System Description
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Description of System" />
+                        <Form.Control  placeholder="Description of System" onChange={ e => setDescription(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalLocSys">
@@ -193,7 +233,7 @@ export default function SystemDetailView(props) {
                         System Location
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Location of System" />
+                        <Form.Control  placeholder="Location of System" onChange={ e => setLocation(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalRouterSys">
@@ -201,7 +241,7 @@ export default function SystemDetailView(props) {
                         System Router
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Router of System" />
+                        <Form.Control  placeholder="Router of System" onChange={ e => setRouter(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalSwitchSys">
@@ -209,7 +249,7 @@ export default function SystemDetailView(props) {
                         System Switch
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Switch of System" />
+                        <Form.Control  placeholder="Switch of System" onChange={ e => setSwitchName(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalRoomSys">
@@ -217,7 +257,7 @@ export default function SystemDetailView(props) {
                         System Room
                         </Form.Label>
                         <Col sm={7}>
-                        <Form.Control  placeholder="Room of System" />
+                        <Form.Control  placeholder="Room of System" onChange={ e => setRoom(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalLongDescription">
@@ -225,7 +265,7 @@ export default function SystemDetailView(props) {
                         Test Plan
                         </Form.Label>
                         <Col lg={7}>
-                        <Form.Control as="textarea" rows="4" placeholder="Test Plan for System" />
+                        <Form.Control as="textarea" rows="4" placeholder="Test Plan for System" onChange={ e => setTestPlan(e.target.value) } />
                         </Col>
                     </Form.Group>
                     <Form.Row>
@@ -252,13 +292,13 @@ export default function SystemDetailView(props) {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" onClick={handleSaveClick} >
                             Save
                         </Button>
-                        <Button variant="warning" type="submit">
+                        <Button variant="warning" >
                             Archive
                         </Button>
-                        <Button variant="secondaray" type="submit">
+                        <Button variant="secondaray" onClick={props.closeDetailAction}>
                             Cancel
                         </Button>
                     </Form.Row>

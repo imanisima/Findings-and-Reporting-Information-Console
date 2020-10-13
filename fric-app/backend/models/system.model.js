@@ -11,6 +11,7 @@ const systemSchema = new mongoose.Schema({
 	router: { type: String, required: true, },
 	switch: { type: String, required: true, },
 	room: { type: String, required: false, },
+	testPlan: { type: String, required: true, },
 	archived: { type: Boolean, required: true, },
 }, {
 	timestamps: true,

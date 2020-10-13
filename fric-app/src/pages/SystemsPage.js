@@ -18,6 +18,7 @@ export default function SystemsPage(props) {
 	const [ isLoading, setIsLoading ] = useState(false)
 	const [ data, setData ] = useState([])
 	const [tableArray, setTableArray] = useState([])
+	const [selected, setSelected] = useState(null)
 
 	const headings = [
 		{ id: 'name', numeric: false, disablePadding: false, label: 'System' },
@@ -26,18 +27,10 @@ export default function SystemsPage(props) {
 		{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
 	];
 
-	/* dummy data
-	const data2 = [
-		{ name: 'System1', numTasks: 2, numFindings: 3, progress: 'Not Applicable', },
-		{ name: 'System2', numTasks: 4, numFindings: 3, progress: 'Not Applicable', },
-		{ name: 'System3', numTasks: 32, numFindings: 3, progress: 'Not Applicable', },
-		{ name: 'System4', numTasks: 21, numFindings: 3, progress: 'Not Applicable', },
-	] */
-
 	function mapSystemsToTable(response) {
 		const tableArray = response.map((system, i) => {
 			return { 
-				name: system.SystemName,
+				name: system.name,
 				numTasks: Math.floor(Math.random() * Math.floor(10)),
 				numFindings:  Math.floor(Math.random() * Math.floor(10)),
 				progress: 'In Progress'
@@ -70,10 +63,10 @@ export default function SystemsPage(props) {
 			<LayoutTemplate
 				mainContentComponent={
 					(isLoading) ? <Spinner /> : (
-						(data != null && data.length > 0) ? <SystemOverviewTable rows={tableArray} headings={headings} setSelectedSystem /> : <></>
+						(data != null) ? <SystemOverviewTable rows={tableArray} headings={headings} setSelectedSystem={setSelected} /> : <></>
 					)
 				}
-				detailComponent={<SystemsDetailView selectedSystem = {data[0]}/>}
+				detailComponent={<SystemsDetailView selectedSystem = {selected}/>}
 			/>
 		</ThemeProvider>
 	);

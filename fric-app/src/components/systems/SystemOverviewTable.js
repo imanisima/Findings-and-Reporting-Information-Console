@@ -153,10 +153,9 @@ export default function SystemOverviewTable(props) {
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
-	function handleEditPress() {
+	const handleEditClick = () => {
 		if (selected != null && selected.length === 1) {
-			const found = props.row.find(e => e.name === selected[0])
-			props.setSelectedSystem(found);
+			props.setSelectedSystem(selected[0]);
 			props.openDetailAction();
 		}
 		
@@ -188,7 +187,7 @@ export default function SystemOverviewTable(props) {
 					aria-describedby="slide-dialog-description"
 					disableBackdropClick
 				>
-					<SystemsDetailView/>
+					<SystemsDetailView closeDetailAction={handleDialogClose}/>
 				</Dialog>
 				<TableContainer>
 					<Table
@@ -252,7 +251,7 @@ export default function SystemOverviewTable(props) {
 				<div style={{display: "inline-block", marginLeft: "1em",}}>
 					{/* Edit Button */}
 					<Button
-						onClick={props.openDetailAction}
+						onClick={handleEditClick}
 						disabled={selected.length !== 1}
 						variant="contained"
 						startIcon={<EditIcon />}
