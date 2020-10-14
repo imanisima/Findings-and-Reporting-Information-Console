@@ -68,7 +68,7 @@ router.route('/new').post(async (req, res) => {
 		await document
 			.save()
 			.then(task => res.status(201).json(task))
-			.catch(err => res.status(400).json('Error: ' + err));
+			.catch(err => {console.log(err);res.status(400).json('Error: ' + err)});
 	}
 });
 
@@ -101,6 +101,7 @@ router.route('/delete').delete(async (req, res) => {
  * 
  */
 router.route('/update').put(async (req, res) => {
+	console.log(req.body.params);
 	if (req.body.params.hasOwnProperty('id')) {
 		const id = req.body.params.id; // '_id' to be requested from tasks collection
 		var document = null; // Stores Document returned by findOne
@@ -116,7 +117,14 @@ router.route('/update').put(async (req, res) => {
 		await document
 			.save() // This method provides validation
 			.then(task => res.status(200).json(task))
-			.catch(err => res.status(400).json('Error: ' + err));
+			.catch(err => {
+				console.log(err);
+				res.status(400).json('Error: ' + err)
+			});
+
+		// await Task.updateOne({ _id: id })
+		// 	.then(task => {})
+		// 	.catch(err => res.status(400).send());
 	}
 	else res.status(400).send();
 });

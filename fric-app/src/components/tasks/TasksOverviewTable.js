@@ -142,6 +142,7 @@ export default function TasksOverviewTable(props) {
 	};
 
 	const handleEditClick = () => {
+		console.log(props)
 		if (selected != null && selected.length === 1) {
 			props.setSelectedTasks(selected); // Set selected id value, object to be fetched from detail view
 			openDetailAction(); // Open detal view on tasks page
