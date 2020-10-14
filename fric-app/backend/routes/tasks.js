@@ -68,7 +68,7 @@ router.route('/new').post(async (req, res) => {
 		await document
 			.save()
 			.then(task => res.status(201).json(task))
-			.catch(err => {console.log(err);res.status(400).json('Error: ' + err)});
+			.catch(err => res.status(400).json('Error: ' + err));
 	}
 });
 
@@ -121,10 +121,6 @@ router.route('/update').put(async (req, res) => {
 				console.log(err);
 				res.status(400).json('Error: ' + err)
 			});
-
-		// await Task.updateOne({ _id: id })
-		// 	.then(task => {})
-		// 	.catch(err => res.status(400).send());
 	}
 	else res.status(400).send();
 });
