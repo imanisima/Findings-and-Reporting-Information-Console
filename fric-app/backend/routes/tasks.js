@@ -11,11 +11,8 @@ router.route('/').get(async (req, res) => {
 		
 		await Task 
 			.findOne({ _id: id})
-			.then(tasks => {
-				// console.log(tasks);
-				res.status(200).json(tasks)
-			})
-			.catch(err => res.status(400).json('Error: ' + err));
+			.then(task => res.status(200).json(task))
+			.catch(err => res.status(404).json('Error: ' + err));
 	}
 	else if (req.query.hasOwnProperty('table') && req.query.table === 'true') { // This block is for fetching all tasks shaped as table data
 		await Task
@@ -50,16 +47,14 @@ router.route('/').get(async (req, res) => {
 });
 
 
-router.route('/add').post(async (req, res) => {
-	console.log(req.body);
+router.route('/new').post(async (req, res) => {
 	if (req.body.params != null) {
-		// console.log(req.body.params);
-		const newTask = req.body.params;
+		const document = new Task(req.body.params);
 
-		await Task
-			.create(newTask)
+		await document
+			.save()
 			.then(task => res.status(201).json(task))
-			.catch(err => res.status(400).json('Error: ' + err));
+			.catch(err => {console.log(err);res.status(400).json('Error: ' + err)});
 	}
 });
 
@@ -76,22 +71,39 @@ router.route('/delete').delete(async (req, res) => {
 				res.status(200).json(tasks)
 			})
 			.catch(err => res.status(404).json('Error: ' + err));
+
+		// await Task.findOneAndDelete()
+		// 	.then(msg => {})
+		// 	.catch(err => res.status(400).send());
 	}
 });
 
 
 router.route('/update').put(async (req, res) => {
+	console.log(req.body.params);
 	if (req.body.params.hasOwnProperty('id')) {
 		const id = req.body.params.id; // '_id' to be requested from tasks collection
-		var doc = null; // Stores Document returned by findOne
+		var document = null; // Stores Document returned by findOne
 
-		await Task.findOne({ _id: id})
-			.then(task => doc = task)
-			.catch(err => res.status(404).json('Error: ' + err));
-
-		await doc.save() // This method provides validation
-			.then(task => res.status(200).json(task))
+		await Task
+			.findOne({ _id: id })
+			.then(task => {
+				document = task;
+				document.set(req.body.params);
+			})
 			.catch(err => res.status(400).json('Error: ' + err));
+
+		await document
+			.save() // This method provides validation
+			.then(task => res.status(200).json(task))
+			.catch(err => {
+				console.log(err);
+				res.status(400).json('Error: ' + err)
+			});
+
+		// await Task.updateOne({ _id: id })
+		// 	.then(task => {})
+		// 	.catch(err => res.status(400).send());
 	}
 	else res.status(400).send();
 });

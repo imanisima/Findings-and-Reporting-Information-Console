@@ -10,6 +10,8 @@ import LayoutTemplate from '../components/general/LayoutTemplate';
 import { darkTheme } from '../components/general/ThemeColors';
 import TasksOverviewTable from '../components/tasks/TasksOverviewTable';
 import TaskDetailView from '../components/tasks/TaskDetailView';
+import NewTaskDialog from '../components/tasks/NewTaskDialog';
+import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
 
 //TODO: fetch options used in detail view. Delete this block once connected
 import {Priority, Progression } from '../shared/EnumeratedTypes';
@@ -24,6 +26,7 @@ export default function TasksPage() {
 	const [tableData, setTableData] = useState([]);
 	const [selected, setSelected] = useState(null);
 	const [contentIsLoading, setContentIsLoading] = useState(true);
+	const [newDialogOpen, setNewDialogOpen] = useState(false);
 
 	const headings = [
 		{ id: 'id', numeric: false, disablePadding: true, label: '_id' },
@@ -38,6 +41,7 @@ export default function TasksPage() {
 	];
 
 	const reload = () => {
+		setContentIsLoading(true);
 		// Fetch table data
 		axios.get('http://localhost:5000/tasks', {
 			params: {
@@ -68,11 +72,14 @@ export default function TasksPage() {
 			<LayoutTemplate
 				mainContentComponent={
 					(contentIsLoading) ? <Spinner /> : (
-						<TasksOverviewTable rows={tableData} headings={headings} setSelectedTask={setSelected} />
+						<ToolbarNewActionContext.Provider value={() => setNewDialogOpen(true)}>
+							<TasksOverviewTable rows={tableData} headings={headings} setSelectedTask={setSelected} />
+						</ToolbarNewActionContext.Provider>
 					)
 				}
 				detailComponent={<TaskDetailView selectedTask={selected} options={options} />}
 			/>
+			<NewTaskDialog isOpen={newDialogOpen} closeDialogAction={() => setNewDialogOpen(false)} reload={reload}/>
 		</ThemeProvider>
 	);
 }

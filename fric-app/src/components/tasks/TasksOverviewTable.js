@@ -19,6 +19,7 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import EditIcon from '@material-ui/icons/Edit';
 import CustomTableToolbar from '../general/CustomTableToolbar';
 import CustomTableHead from '../general/CustomTableHead';
+import { DetailViewActionContext } from '../general/LayoutTemplate';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -103,6 +104,7 @@ export default function TasksOverviewTable(props) {
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
+	const openDetailAction = React.useContext(DetailViewActionContext);
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -140,9 +142,10 @@ export default function TasksOverviewTable(props) {
 	};
 
 	const handleEditClick = () => {
+		console.log(props)
 		if (selected != null && selected.length === 1) {
 			props.setSelectedTask(selected[0]); // Set selected id value, object to be fetched from detail view
-			props.openDetailAction(); // Open detal view on tasks page
+			openDetailAction(); // Open detal view on tasks page
 		}
 	};
 
@@ -180,41 +183,43 @@ export default function TasksOverviewTable(props) {
 							rowCount={props.rows.length}
 						/>
 						<TableBody>
-							{stableSort(props.rows, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.id);
-									const labelId = `custom-table-checkbox-${index}`;
+							{
+								stableSort(props.rows, getComparator(order, orderBy))
+									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+									.map((row, index) => {
+										const isItemSelected = isSelected(row.id);
+										const labelId = `custom-table-checkbox-${index}`;
 
-									return (
-										<StyledTableRow
-											hover
-											onClick={(event) => handleClick(event, row.id)}
-											role="checkbox"
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={row.id}
-											selected={isItemSelected}
-										>
-											<StyledTableCell padding="checkbox">
-												<Checkbox
-													checked={isItemSelected}
-													inputProps={{ 'aria-labelledby': labelId }}
-													style={{ color: "#066ff9" }}
-												/>
-											</StyledTableCell>
-											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">{row.id}</StyledTableCell>
-											<StyledTableCell align="left">{row.name}</StyledTableCell>
-											<StyledTableCell align="left">{row.system}</StyledTableCell>
-											<StyledTableCell align="left" padding="none">{row.analysts}</StyledTableCell>
-											<StyledTableCell align="left" padding="default">{row.priority}</StyledTableCell>
-											<StyledTableCell align="left" padding="default">{row.progress}</StyledTableCell>
-											<StyledTableCell align="right" >{row.noOfSubtasks}</StyledTableCell>
-											<StyledTableCell align="right" >{row.noOfFindings}</StyledTableCell>
-											<StyledTableCell align="right" padding="default">{row.dueDate}</StyledTableCell>
-										</StyledTableRow>
-									);
-								})}
+										return (
+											<StyledTableRow
+												hover
+												onClick={(event) => handleClick(event, row.id)}
+												role="checkbox"
+												aria-checked={isItemSelected}
+												tabIndex={-1}
+												key={row.id}
+												selected={isItemSelected}
+											>
+												<StyledTableCell padding="checkbox">
+													<Checkbox
+														checked={isItemSelected}
+														inputProps={{ 'aria-labelledby': labelId }}
+														style={{ color: "#066ff9" }}
+													/>
+												</StyledTableCell>
+												<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">{row.id}</StyledTableCell>
+												<StyledTableCell align="left">{row.name}</StyledTableCell>
+												<StyledTableCell align="left">{row.system}</StyledTableCell>
+												<StyledTableCell align="left" padding="none">{row.analysts}</StyledTableCell>
+												<StyledTableCell align="left" padding="default">{row.priority}</StyledTableCell>
+												<StyledTableCell align="left" padding="default">{row.progress}</StyledTableCell>
+												<StyledTableCell align="right" >{row.noOfSubtasks}</StyledTableCell>
+												<StyledTableCell align="right" >{row.noOfFindings}</StyledTableCell>
+												<StyledTableCell align="right" padding="default">{new Date(row.dueDate).toLocaleDateString()}</StyledTableCell>
+											</StyledTableRow>
+										);
+									})
+							}
 							{emptyRows > 0 && (
 								<TableRow style={{ height: 33 * emptyRows }}>
 									<TableCell colSpan={6} />
@@ -274,5 +279,4 @@ TasksOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
 	setSelectedTask: PropTypes.func.isRequired,
-	openDetailAction: PropTypes.func,
 }

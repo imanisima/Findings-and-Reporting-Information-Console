@@ -2,22 +2,22 @@
  * 
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
-import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Select from '@material-ui/core/Select';
+// import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Form from 'react-bootstrap/Form'
 
-import Multiselect from '../general/Multiselect.js'
 import { Priority, Progression } from '../../shared/EnumeratedTypes';
+import Multiselect from '../general/Multiselect.js'
+import * as TaskContext from './TaskContext';
 
 const useStyles = makeStyles((theme) => ({
 	formContainer: {
@@ -33,15 +33,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TaskForm(props) {
-	//TODO: extract to contexts
-	const [name, setName] = useState('');
-	const [description, setDescription] = useState('');
-	const [progress, setProgress] = useState('');
-	const [priority, setPriority] = useState('');
-	const [relatedTasks, setRelatedTasks] = useState([]);
-	const [analysts, setAnalysts] = useState([]);
-	const [collabs, setCollabs] = useState([]);
-	const [selectedDate, setSelectedDate] = useState(new Date());
+	const {name, setName} = useContext(TaskContext.TaskNameContext);
+	const {description, setDescription} = useContext(TaskContext.TaskDescriptionContext);
+	const {progress, setProgress} = useContext(TaskContext.TaskProgressContext);
+	const {priority, setPriority} = useContext(TaskContext.TaskPriorityContext);
+	const {relatedTasks, setRelatedTasks} = useContext(TaskContext.TaskRelatedTasksContext);
+	const {analysts, setAnalysts} = useContext(TaskContext.TaskAnalystsContext);
+	const {collabs, setCollabs} = useContext(TaskContext.TaskCollaboratorsContext);
+	const {dueDate, setDueDate} = useContext(TaskContext.TaskDueDateContext);
 	const classes = useStyles();
 
 	return (
@@ -69,8 +68,8 @@ export default function TaskForm(props) {
 						margin="normal"
 						id="date-picker"
 						label=""
-						value={selectedDate}
-						onChange={date => { setSelectedDate(date) }}
+						value={dueDate}
+						onChange={date => setDueDate(date)}
 						KeyboardButtonProps={{ 'aria-label': 'change date', }}
 					/>
 				</MuiPickersUtilsProvider>

@@ -2,7 +2,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
@@ -18,12 +18,11 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Spinner from '../general/Spinner';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
-import Tooltip from 'react-bootstrap/Tooltip'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Form from 'react-bootstrap/Form'
 import 'date-fns';
 
 import Multiselect from '../general/Multiselect.js'
+import { DetailViewActionContext } from '../general/LayoutTemplate';
 import { Priority, Progression } from '../../shared/EnumeratedTypes';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,11 +44,12 @@ export default function TaskDetailView(props) {
 	const [relatedTasks, setRelatedTasks] = useState([]);
 	const [analysts, setAnalysts] = useState([]);
 	const [collabs, setCollabs] = useState([]);
-	const [selectedDate, setSelectedDate] = useState(new Date());
+	const [dueDate, setDueDate] = useState(new Date());
+	const closeDetailAction = useContext(DetailViewActionContext);
 	const classes = useStyles();
 	
 	const handleSaveClick = () => {
-		axios.post("http://localhost:5000/tasks/update", {
+		axios.put("http://localhost:5000/tasks/update", {
 			params: {
 				id: props.selectedTask,
 				name: name,
@@ -59,7 +59,7 @@ export default function TaskDetailView(props) {
 				associations: relatedTasks,
 				analysts: analysts,
 				collaborators: collabs,
-				dueDate: selectedDate,
+				dueDate: dueDate.toUTCString(), // Must be converted to value that can be sent in request body
 				attachment: "",
 				archived: "false",
 			}
@@ -67,7 +67,7 @@ export default function TaskDetailView(props) {
 			.then(res => {
 				setContentIsLoading(true);
 				console.log(res);
-				props.closeDetailAction();
+				closeDetailAction();
 			})
 			.catch(err => {
 				console.log(err);
@@ -93,7 +93,7 @@ export default function TaskDetailView(props) {
 					//TODO: validate request data before setting values
 					setName(res.data.name);
 					setDescription(res.data.description);
-					setSelectedDate(new Date(res.data.dueDate)); //TODO: cast should not be needed, should be casted by mongoose
+					setDueDate(new Date(res.data.dueDate)); //TODO: cast should not be needed, should be casted by mongoose
 					setPriority(res.data.priority);
 					setProgress(res.data.progress);
 					setAnalysts(res.data.analysts);
@@ -144,8 +144,8 @@ export default function TaskDetailView(props) {
 									margin="normal"
 									id="date-picker"
 									label=""
-									value={selectedDate}
-									onChange={date => { setSelectedDate(date) }}
+									value={dueDate}
+									onChange={date => { setDueDate(date) }}
 									KeyboardButtonProps={{ 'aria-label': 'change date', }}
 								/>
 							</MuiPickersUtilsProvider>
@@ -252,7 +252,7 @@ export default function TaskDetailView(props) {
 								style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
 							>Save</Button>
 							<Button
-								onClick={props.closeDetailAction}
+								onClick={closeDetailAction}
 								variant="contained"
 								size="large"
 								startIcon={<CancelIcon />}
@@ -269,5 +269,4 @@ export default function TaskDetailView(props) {
 TaskDetailView.propTypes = {
 	selectedTask: PropTypes.string,
 	options: PropTypes.object.isRequired,
-	closeDetailAction: PropTypes.func,
 }

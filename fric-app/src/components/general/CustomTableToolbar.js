@@ -2,7 +2,7 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, darken, makeStyles, withStyles } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import { ToolbarNewActionContext } from './ToolbarNewActionContext';
 
 const useToolbarStyles = makeStyles((theme) => ({
 	root: {
@@ -47,7 +48,13 @@ const AddButton = withStyles((theme) => ({
 
 export default function CustomTableToolbar(props) {
 	const classes = useToolbarStyles();
-	const { numSelected } = props;
+	const numSelected = props.numSelected;
+	const newActionFromContext = useContext(ToolbarNewActionContext);
+
+	const handleNewClick = () => {
+		//TODO: handle behavior of non existent context or prop function
+		newActionFromContext();
+	};
 
 	return (
 		<Toolbar
@@ -62,7 +69,12 @@ export default function CustomTableToolbar(props) {
 					</Typography>
 				) : (
 						<div className={classes.title}>
-							<AddButton variant="contained" size="large" startIcon={<AddIcon />}>
+							<AddButton
+								variant="contained"
+								size="large"
+								startIcon={<AddIcon />}
+								onClick={handleNewClick}
+							>
 								New
 							</AddButton>
 						</div>
@@ -81,5 +93,5 @@ export default function CustomTableToolbar(props) {
 
 CustomTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
-	newAction: PropTypes.func.isRequired,
+	newAction: PropTypes.func,
 };
