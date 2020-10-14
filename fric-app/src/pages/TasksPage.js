@@ -10,10 +10,9 @@ import LayoutTemplate from '../components/general/LayoutTemplate';
 import { darkTheme } from '../components/general/ThemeColors';
 import TasksOverviewTable from '../components/tasks/TasksOverviewTable';
 import TaskDetailView from '../components/tasks/TaskDetailView';
-import TasksDetail from '../components/tasks/FRIC_gui_tasks_details';
 
 //TODO: fetch options used in detail view. Delete this block once connected
-import {Progress, Priority, Progression } from '../components/general/EnumeratedTypes';
+import {Priority, Progression } from '../components/general/EnumeratedTypes';
 const options = {
 	progress: Object.values(Progression),
 	priority: Object.values(Priority),
@@ -23,7 +22,6 @@ const options = {
 
 export default function TasksPage() {
 	const [tableData, setTableData] = useState([]);
-	const [formOptions, setFormOptions] = useState(null);
 	const [selected, setSelected] = useState(null);
 	const [contentIsLoading, setContentIsLoading] = useState(true);
 

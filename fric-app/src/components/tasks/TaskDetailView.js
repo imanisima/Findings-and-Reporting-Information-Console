@@ -46,15 +46,7 @@ export default function TaskDetailView(props) {
 	const [analysts, setAnalysts] = useState([]);
 	const [collabs, setCollabs] = useState([]);
 	const [selectedDate, setSelectedDate] = useState(new Date());
-
-
 	const classes = useStyles();
-
-	const renderTooltip = (props) => (
-		<Tooltip id="help-tooltip" {...props} >
-			Helpful tooltip goes here...
-		</Tooltip>
-	);
 	
 	const handleSaveClick = () => {
 		axios.post("http://localhost:5000/tasks/update", {
@@ -115,7 +107,7 @@ export default function TaskDetailView(props) {
 					setContentIsLoading(false);
 				})
 		}
-	}, [props.selectedTask])
+	}, [props.selectedTask]);
 
 	return (
 		<>
@@ -124,13 +116,7 @@ export default function TaskDetailView(props) {
 					<Form style={{ padding: "3em 4em 3em 4em" }}>
 						<div style={{ textAlign: "center" }}>
 							<h4 style={{ display: "inline-block", padding: "0.3em" }}>Task Detail View</h4>
-							<OverlayTrigger
-								placement="bottom"
-								delay={{ show: 320, hide: 200 }}
-								overlay={renderTooltip}
-							>
-								<HelpOutlineRoundedIcon size="large" style={{ verticalAlign: "middle" }} />
-							</OverlayTrigger>
+							<HelpOutlineRoundedIcon size="large" style={{ verticalAlign: "middle" }} />
 						</div>
 						{/* <Button variant="light"><HelpOutlineRoundedIcon /></Button> */}
 
