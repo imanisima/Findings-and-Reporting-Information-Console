@@ -179,14 +179,15 @@ export default function SystemOverviewTable(props) {
                 }
             })
                 .then(res => {
-                    console.log(res);
+					console.log(res);
+                    window.location = '/systems'
                 })
                 .catch(err => {
                     console.log(err);
                 })
 
 		}
-		
+
 	}
 
 	function onNewClicked() {

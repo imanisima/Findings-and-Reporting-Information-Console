@@ -57,10 +57,13 @@ export default function SystemDetailView(props) {
                     setContentIsLoading(true);
                     console.log(res);
                     props.closeDetailAction();
+                    window.location = '/systems'
+
                 })
                 .catch(err => {
                     console.log(err);
                 })
+
     }
 
     const handleSaveClick =  () => {
