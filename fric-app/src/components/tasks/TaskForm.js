@@ -37,9 +37,9 @@ export default function TaskForm(props) {
 	const {description, setDescription} = useContext(TaskContext.TaskDescriptionContext);
 	const {progress, setProgress} = useContext(TaskContext.TaskProgressContext);
 	const {priority, setPriority} = useContext(TaskContext.TaskPriorityContext);
-	const {relatedTasks, setRelatedTasks} = useContext(TaskContext.TaskRelatedTasksContext);
-	const {analysts, setAnalysts} = useContext(TaskContext.TaskAnalystsContext);
-	const {collabs, setCollabs} = useContext(TaskContext.TaskCollaboratorsContext);
+	const {relatedTasks, /* setRelatedTasks */} = useContext(TaskContext.TaskRelatedTasksContext);
+	const {analysts, /* setAnalysts */} = useContext(TaskContext.TaskAnalystsContext);
+	const {collabs, /* setCollabs */} = useContext(TaskContext.TaskCollaboratorsContext);
 	const {dueDate, setDueDate} = useContext(TaskContext.TaskDueDateContext);
 	const classes = useStyles();
 
@@ -48,13 +48,13 @@ export default function TaskForm(props) {
 			{/* Title Text Field */}
 			<Form.Group>
 				<FormLabel style={{ display: "block" }}>Name</FormLabel>
-				<Form.Control type="text" placeholder="Title" onChange={e => setName(e.target.value)} value={name} />
+				<Form.Control type="text" placeholder="Task Name" onChange={e => setName(e.target.value)} value={name} />
 			</Form.Group>
 
 			{/* Description Text Field */}
 			<Form.Group>
 				<FormLabel style={{ display: "block" }} >Description</FormLabel>
-				<Form.Control as="textarea" rows="3" placeholder="Description" onChange={e => setDescription(e.target.value)} value={description} />
+				<Form.Control as="textarea" rows="3" placeholder="Task Description" onChange={e => setDescription(e.target.value)} value={description} />
 			</Form.Group>
 
 			{/* Due Date Picker */}

@@ -142,10 +142,16 @@ export default function TasksOverviewTable(props) {
 	};
 
 	const handleEditClick = () => {
-		console.log(props)
 		if (selected != null && selected.length === 1) {
-			props.setSelectedTask(selected[0]); // Set selected id value, object to be fetched from detail view
+			props.getSelectedTasks(selected); // Set selected id value, object to be fetched from detail view
 			openDetailAction(); // Open detal view on tasks page
+		}
+	};
+
+	const handleArchiveClick = () => {
+		if (selected != null) {
+			props.getSelectedTasks(selected);
+			props.archiveAction();
 		}
 	};
 
@@ -236,6 +242,7 @@ export default function TasksOverviewTable(props) {
 						startIcon={<ArchiveIcon />}
 						style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
 						size="large"
+						onClick={handleArchiveClick}
 					>
 						Archive
 					</Button>
@@ -278,5 +285,6 @@ export default function TasksOverviewTable(props) {
 TasksOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
-	setSelectedTask: PropTypes.func.isRequired,
+	getSelectedTasks: PropTypes.func.isRequired,
+	archiveAction: PropTypes.func.isRequired,
 }

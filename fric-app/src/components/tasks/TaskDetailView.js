@@ -9,23 +9,12 @@ import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
-import { makeStyles } from '@material-ui/core/styles';
 import Form from 'react-bootstrap/Form'
 
 import Spinner from '../general/Spinner';
 import TaskForm from './TaskForm';
 import * as TaskContext from './TaskContext';
 import { DetailViewActionContext } from '../general/LayoutTemplate';
-
-const useStyles = makeStyles((theme) => ({
-	formControl: {
-		margin: theme.spacing(1),
-		minWidth: 120,
-	},
-	selectEmpty: {
-		marginTop: theme.spacing(2),
-	},
-}));
 
 export default function TaskDetailView(props) {
 	const [contentIsLoading, setContentIsLoading] = useState(true);
@@ -40,12 +29,11 @@ export default function TaskDetailView(props) {
 	const [attachment, setAttachment] = useState('');
 	const [archived, setArchived] = useState(false);
 	const closeDetailAction = useContext(DetailViewActionContext);
-	const classes = useStyles();
 	
 	const handleSaveClick = () => {
 		axios.put("http://localhost:5000/tasks/update", {
 			params: {
-				id: props.selectedTask,
+				id: (props.selectedTask != null && props.selectedTask.length === 1) ? props.selectedTask[0] : '',
 				name: name,
 				description: description,
 				progress: progress,
@@ -71,12 +59,10 @@ export default function TaskDetailView(props) {
 	};
 
 	useEffect(() => {
-		console.log(props.selectedTask);
-
-		if (props.selectedTask != null) {
+		if (props.selectedTask != null && props.selectedTask.length === 1) {
 			axios.get('http://localhost:5000/tasks', {
 				params: {
-					id: props.selectedTask
+					id: props.selectedTask[0]
 				}
 			})
 				.then(res => {
@@ -160,6 +146,6 @@ export default function TaskDetailView(props) {
 }
 
 TaskDetailView.propTypes = {
-	selectedTask: PropTypes.string,
+	selectedTask: PropTypes.array.isRequired,
 	reload: PropTypes.func.isRequired,
 }
