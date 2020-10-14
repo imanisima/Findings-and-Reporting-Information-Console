@@ -68,7 +68,7 @@ export default function SyncForm(props) {
 				
 				<Form.Group style={{marginLeft: "1em", marginRight: "1em",}}>
 				{/* Radio buttons */}
-				<Typography variant="subtitle1" color="disabled">
+				<Typography variant="subtitle1">
 					Select Sync Method
 				</Typography>
 				<FormControl component="fieldset">
@@ -83,7 +83,7 @@ export default function SyncForm(props) {
 					(showAnalystSelect) ? (				
 						// Enter analyst name
 						<Form.Group controlId="analyst">
-							<Typography variant="subtitle1" color="disabled" className={styles.subtitle}>
+							<Typography variant="subtitle1" className={styles.subtitle}>
 								Select Analyst
 							</Typography>
 							<FormControl className={classes.formControl}>
