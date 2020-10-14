@@ -12,3 +12,5 @@ export const TaskRelatedTasksContext = createContext(null);
 export const TaskAnalystsContext = createContext(null);
 export const TaskCollaboratorsContext = createContext(null);
 export const TaskDueDateContext = createContext(null);
+export const TaskAttachmentContext = createContext(null);
+export const TaskArchivedContext = createContext(null);

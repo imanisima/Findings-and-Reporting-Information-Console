@@ -18,6 +18,11 @@ router.route('/').get(async (req, res) => {
 		await Task
 			.aggregate([
 				{
+					$match: {
+						archived: false
+					}
+				},
+				{
 					$project: {
 						id: "$_id",
 						name: 1,

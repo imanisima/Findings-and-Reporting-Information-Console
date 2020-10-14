@@ -28,6 +28,7 @@ export default function NewTaskDialog(props) {
 	const [relatedTasks, setRelatedTasks] = useState([]);
 	const [analysts, setAnalysts] = useState([]);
 	const [collabs, setCollabs] = useState([]);
+	const [attachment, setAttachment] = useState('');
 	const [dueDate, setDueDate] = useState(new Date());
 	
 	const handleSubmit = () => {
@@ -74,6 +75,7 @@ export default function NewTaskDialog(props) {
 			TransitionComponent={Transition}
 			scroll="body"
 			keepMounted
+			disableBackdropClick
 			onClose={handleClose}
 			aria-labelledby="slide-dialog-title"
 			aria-describedby="slide-dialog-description"
@@ -89,7 +91,9 @@ export default function NewTaskDialog(props) {
 									<TaskContext.TaskAnalystsContext.Provider value={{ analysts, setAnalysts }}>
 										<TaskContext.TaskCollaboratorsContext.Provider value={{ collabs, setCollabs }}>
 											<TaskContext.TaskDueDateContext.Provider value={{ dueDate, setDueDate }}>
-												<TaskForm /> {/* Edit new task fields with this component */}
+												<TaskContext.TaskAttachmentContext.Provider value={{ attachment, setAttachment }}>
+													<TaskForm /> {/* Edit new task fields with this component */}
+												</TaskContext.TaskAttachmentContext.Provider>
 											</TaskContext.TaskDueDateContext.Provider>
 										</TaskContext.TaskCollaboratorsContext.Provider>
 									</TaskContext.TaskAnalystsContext.Provider>
@@ -101,8 +105,8 @@ export default function NewTaskDialog(props) {
 				{/* End Context Passthrough */}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleSubmit} variant="contained" color="primary">Submit</Button>
-				<Button onClick={handleClose} variant="contained" color="secondary">Cancel</Button>
+				<Button onClick={handleSubmit} variant="contained" size="large" color="primary">Submit</Button>
+				<Button onClick={handleClose} variant="contained" size="large" color="secondary">Cancel</Button>
 			</DialogActions>
 		</Dialog>
 	);

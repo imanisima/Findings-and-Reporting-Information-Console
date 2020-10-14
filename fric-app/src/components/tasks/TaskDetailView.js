@@ -5,25 +5,17 @@
 import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-import Spinner from '../general/Spinner';
-// import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
+import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
+import { makeStyles } from '@material-ui/core/styles';
 import Form from 'react-bootstrap/Form'
-import 'date-fns';
 
-import Multiselect from '../general/Multiselect.js'
+import Spinner from '../general/Spinner';
+import TaskForm from './TaskForm';
+import * as TaskContext from './TaskContext';
 import { DetailViewActionContext } from '../general/LayoutTemplate';
-import { Priority, Progression } from '../../shared/EnumeratedTypes';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -45,6 +37,8 @@ export default function TaskDetailView(props) {
 	const [analysts, setAnalysts] = useState([]);
 	const [collabs, setCollabs] = useState([]);
 	const [dueDate, setDueDate] = useState(new Date());
+	const [attachment, setAttachment] = useState('');
+	const [archived, setArchived] = useState(false);
 	const closeDetailAction = useContext(DetailViewActionContext);
 	const classes = useStyles();
 	
@@ -60,14 +54,15 @@ export default function TaskDetailView(props) {
 				analysts: analysts,
 				collaborators: collabs,
 				dueDate: dueDate.toUTCString(), // Must be converted to value that can be sent in request body
-				attachment: "",
-				archived: "false",
+				attachment: attachment,
+				archived: archived, // New elements will never be archived
 			}
 		})
 			.then(res => {
-				setContentIsLoading(true);
 				console.log(res);
-				closeDetailAction();
+				setContentIsLoading(true); // Reset to spinner for next edit request
+				props.reload(); // Reload table content
+				closeDetailAction(); // Close detail view tray
 			})
 			.catch(err => {
 				console.log(err);
@@ -86,14 +81,10 @@ export default function TaskDetailView(props) {
 			})
 				.then(res => {
 					console.log(res.data);
-					console.log(res.data.dueDate);
-					console.log(typeof(res.data.dueDate));
-					console.log(new Date(res.data.dueDate));
-
 					//TODO: validate request data before setting values
 					setName(res.data.name);
 					setDescription(res.data.description);
-					setDueDate(new Date(res.data.dueDate)); //TODO: cast should not be needed, should be casted by mongoose
+					setDueDate(new Date(res.data.dueDate));
 					setPriority(res.data.priority);
 					setProgress(res.data.progress);
 					setAnalysts(res.data.analysts);
@@ -113,134 +104,36 @@ export default function TaskDetailView(props) {
 		<>
 			{
 				(contentIsLoading) ? <Spinner /> : (
-					<Form style={{ padding: "3em 4em 3em 4em" }}>
+					<>
 						<div style={{ textAlign: "center" }}>
 							<h4 style={{ display: "inline-block", padding: "0.3em" }}>Task Detail View</h4>
 							<HelpOutlineRoundedIcon size="large" style={{ verticalAlign: "middle" }} />
 						</div>
 						{/* <Button variant="light"><HelpOutlineRoundedIcon /></Button> */}
 
-
-						{/* Title Text Field */}
-						<Form.Group>
-							<FormLabel style={{ display: "block" }}>Name</FormLabel>
-							<Form.Control type="text" placeholder="Title" onChange={e => setName(e.target.value)} value={name} />
-						</Form.Group>
-
-						{/* Description Text Field */}
-						<Form.Group>
-							<FormLabel style={{ display: "block" }} >Description</FormLabel>
-							<Form.Control as="textarea" rows="3" placeholder="Description" onChange={e => setDescription(e.target.value)} value={description} />
-						</Form.Group>
-
-						{/* Due Date Picker */}
-						<Form.Group>
-							<FormLabel style={{ display: "block" }}>Due Date</FormLabel>
-							<MuiPickersUtilsProvider utils={DateFnsUtils}>
-								<KeyboardDatePicker
-									disableToolbar
-									variant="inline"
-									format="MM/dd/yyyy"
-									margin="normal"
-									id="date-picker"
-									label=""
-									value={dueDate}
-									onChange={date => { setDueDate(date) }}
-									KeyboardButtonProps={{ 'aria-label': 'change date', }}
-								/>
-							</MuiPickersUtilsProvider>
-						</Form.Group>
-
-						<div>
-							{/* Progress Selector */}
-							<Form.Group style={{ display: 'inline-block' }}>
-								<FormLabel style={{ display: "block" }}>Progress</FormLabel>
-								<FormControl className={classes.formControl}>
-									{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
-									<Select
-										labelId="select-outlined-label"
-										id="select-outlined"
-										value={progress}
-										onChange={e => { setProgress(e.target.value) }}
-										label=""
-									>
-										<MenuItem key="null" value="">None</MenuItem>
-										{
-											Object.values(Progression).map((el, ind) => {
-												return <MenuItem key={ind} value={el}>{el}</MenuItem>
-											})
-										}
-									</Select>
-								</FormControl>
-							</Form.Group>
-
-							{/* Priority Selector */}
-							<Form.Group style={{ display: 'inline-block' }}>
-								<FormLabel style={{ display: "block" }}>Priority</FormLabel>
-								<FormControl className={classes.formControl}>
-									{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
-									<Select
-										labelId="select-outlined-label"
-										id="select-outlined"
-										value={priority}
-										onChange={e => { setPriority(e.target.value) }}
-										label=""
-									>
-										<MenuItem key="null" value="">None</MenuItem>
-										{
-											Object.values(Priority).map((el, ind) => {
-												return <MenuItem key={ind} value={el}>{el}</MenuItem>
-											})
-										}
-									</Select>
-								</FormControl>
-							</Form.Group>
-						</div>
-						
-						<div>
-							{/* Analysts Multiselect */}
-							<Form.Group style={{ display: "inline-block" }}>
-								<FormLabel style={{ display: "block" }}>Select Analysts</FormLabel>
-								{
-									(props.options != null && props.options.analysts != null) && (
-										<Multiselect
-											options={props.options.analysts}
-											value={analysts}
-											label="Analysts"
-											withInitialsAvatar
-										/>
-									)
-								}
-							</Form.Group>
-
-							{/* Collaborators Multiselect */}
-							<Form.Group style={{ display: "inline-block" }}>
-								<FormLabel style={{ display: "block" }}>Select Collaborators</FormLabel>
-								{
-									(props.options != null && props.options.analysts != null) && (
-										<Multiselect
-											options={props.options.analysts}
-											value={collabs} withInitialsAvatar
-											label="Collabs"
-										/>
-									)
-								}
-							</Form.Group>
-
-							{/* Related Tasks Multiselect */}
-							<Form.Group style={{ display: "inline-block" }}>
-								<FormLabel style={{ display: "block" }}>Select Related Tasks</FormLabel>
-								{
-									(props.options != null && props.options.tasks != null) && (
-										<Multiselect
-											options={props.options.tasks}
-											value={relatedTasks}
-											label="Tasks"
-										/>
-									)
-								}
-							</Form.Group>
-						</div>
+						{/* Start Context Passthrough */ }
+						<TaskContext.TaskNameContext.Provider value={{ name, setName }}>
+							<TaskContext.TaskDescriptionContext.Provider value={{ description, setDescription }}>
+								<TaskContext.TaskPriorityContext.Provider value={{ priority, setPriority }}>
+									<TaskContext.TaskProgressContext.Provider value={{ progress, setProgress }}>
+										<TaskContext.TaskRelatedTasksContext.Provider value={{ relatedTasks, setRelatedTasks }}>
+											<TaskContext.TaskAnalystsContext.Provider value={{ analysts, setAnalysts }}>
+												<TaskContext.TaskCollaboratorsContext.Provider value={{ collabs, setCollabs }}>
+													<TaskContext.TaskDueDateContext.Provider value={{ dueDate, setDueDate }}>
+														<TaskContext.TaskAttachmentContext.Provider value={{ attachment, setAttachment }}>
+															<TaskContext.TaskArchivedContext.Provider value={{ archived, setArchived }}>
+																<TaskForm /> {/* Edit new task fields with this component */}
+															</TaskContext.TaskArchivedContext.Provider>
+														</TaskContext.TaskAttachmentContext.Provider>
+													</TaskContext.TaskDueDateContext.Provider>
+												</TaskContext.TaskCollaboratorsContext.Provider>
+											</TaskContext.TaskAnalystsContext.Provider>
+										</TaskContext.TaskRelatedTasksContext.Provider>
+									</TaskContext.TaskProgressContext.Provider>
+								</TaskContext.TaskPriorityContext.Provider>
+							</TaskContext.TaskDescriptionContext.Provider>
+						</TaskContext.TaskNameContext.Provider>
+						{/* End Context Passthrough */ }
 
 						{/* Action Buttons */}
 						<Form.Group>
@@ -259,7 +152,7 @@ export default function TaskDetailView(props) {
 								style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}
 							>Cancel</Button>
 						</Form.Group>
-					</Form>
+					</>
 				)
 			}
 		</>
@@ -268,5 +161,5 @@ export default function TaskDetailView(props) {
 
 TaskDetailView.propTypes = {
 	selectedTask: PropTypes.string,
-	options: PropTypes.object.isRequired,
+	reload: PropTypes.func.isRequired,
 }

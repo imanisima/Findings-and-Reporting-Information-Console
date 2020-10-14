@@ -77,7 +77,7 @@ export default function TasksPage() {
 						</ToolbarNewActionContext.Provider>
 					)
 				}
-				detailComponent={<TaskDetailView selectedTask={selected} options={options} />}
+				detailComponent={<TaskDetailView selectedTask={selected} reload={reload} />}
 			/>
 			<NewTaskDialog isOpen={newDialogOpen} closeDialogAction={() => setNewDialogOpen(false)} reload={reload}/>
 		</ThemeProvider>
