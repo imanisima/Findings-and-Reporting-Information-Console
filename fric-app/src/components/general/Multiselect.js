@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -47,6 +47,17 @@ export default function Multiselect(props) {
 
 	const handleChange = (event) => { setSelected(event.target.value); };
 
+	useEffect(() => {
+		if (props.value != null) {
+			try {
+				setSelected(props.value)
+			}
+			catch (err) {
+				console.log(err);
+			}
+		}
+	}, [props.value]);
+
 	return (
 		<div>
 			<FormControl variant="outlined" className={classes.formControl}>
@@ -64,7 +75,7 @@ export default function Multiselect(props) {
 								<Chip
 									key={value}
 									label={value}
-									color={(props.withInitialsAvatar) ? "primary" : ""}
+									color={(props.withInitialsAvatar) ? "primary" : "default"}
 									avatar={props.withInitialsAvatar && <Avatar>{getInitials(value)}</Avatar>}
 									className={classes.chip}
 								/>
@@ -85,4 +96,8 @@ export default function Multiselect(props) {
 	);
 }
 
-Multiselect.propTypes = { options: PropTypes.array.isRequired }
+Multiselect.propTypes = { 
+	value: PropTypes.array,
+	options: PropTypes.array.isRequired,
+	withInitialsAvatar: PropTypes.bool
+}

@@ -4,6 +4,8 @@ const postEvent = function() {
 
 }
 
+
+
 /*export const getEvent = async () => {
     await axios.get('http://localhost:5000/events/')
     .then( (response) =>  {
