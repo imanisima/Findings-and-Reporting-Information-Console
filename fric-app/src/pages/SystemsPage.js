@@ -43,7 +43,11 @@ export default function SystemsPage(props) {
 		async function getSystems() {
 			setIsLoading(true)
 			try {
-				const fetch = await axios.get('http://localhost:5000/systems/')
+				const fetch = await axios.get('http://localhost:5000/systems/', {
+					params: {
+						archived: false
+					}
+				})
 				const response = await fetch.data
 				setData(response)
 				mapSystemsToTable(response)	

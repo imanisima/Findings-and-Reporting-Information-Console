@@ -17,6 +17,7 @@ import CustomTableToolbar from '../general/CustomTableToolbar'
 import ArchiveIcon from '@material-ui/icons/Archive';
 import EditIcon from '@material-ui/icons/Edit';
 import SystemsDetailView from '../systems/SystemsDetailView'
+import axios from 'axios';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -161,6 +162,33 @@ export default function SystemOverviewTable(props) {
 		
 	}
 
+	const handleArchiveClick = () => {
+		if (selected != null && selected.length === 1) {
+			console.log("Archive clicked")
+        	axios.put('http://localhost:5000/systems/update', {
+                params: {
+                    id: selected,
+                    name: selected.name,
+                    description: selected.description,
+                    location: selected.location,
+                    router: selected.router,
+                    switch: selected.switchName,
+                    room: selected.room,
+                    testPlan: selected.testPlan,
+                    archived: true
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+
+		}
+		
+	}
+
 	function onNewClicked() {
 		console.log("New Clicked");
 		handleDialog(true)
@@ -265,6 +293,7 @@ export default function SystemOverviewTable(props) {
 						startIcon={<ArchiveIcon />}
 						style={{ backgroundColor: "#dc3545", margin: "0.5em", }}
 						size="large"
+						onClick={handleArchiveClick}
 					>Archive</Button>
 				</div>
 				
