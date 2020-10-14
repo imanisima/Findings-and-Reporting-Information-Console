@@ -2,41 +2,30 @@
  * 
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
-import LayoutTemplate from '../components/general/LayoutTemplate';
-import TestComponent from '../components/general/SlideDialog';
-import { darkTheme } from '../components/general/ThemeColors';
-
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { darkTheme } from '../components/general/ThemeColors';
+import LayoutTemplate from '../components/general/LayoutTemplate';
+import TestComponent from '../components/tasks/NewTaskDialog';
+
+import TaskForm from '../components/tasks/TaskForm';
 
 export default function TestPage() {
+	const [dialogOpen, setDialogOpen] = useState(false);
+
 	return (
 		<>
 			<ThemeProvider theme={darkTheme}>
-				<LayoutTemplate
+				{/* <LayoutTemplate
 					mainContentComponent={ <></> }
-				/>
+				/> */}
 
-				<TestComponent component= {
-					<>
-						<DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle>
-						<DialogContent>
-							<DialogContentText id="alert-dialog-slide-description">
-								Let Google help apps determine location. This means sending anonymous location data to
-								Google, even when no apps are running.
-							</DialogContentText>
-						</DialogContent>
-						<DialogActions>
-							<Button color="primary">Disagree</Button>
-							<Button color="primary">Agree</Button>
-						</DialogActions>
-					</>
-				} closeAction={() => {}}/>
+				<Button color="primary" variant="contained" onClick={() => setDialogOpen(true)}>Open Dialog</Button>
+
+				<TestComponent isOpen={dialogOpen} closeDialogAction={() => setDialogOpen(false)}>
+					<TaskForm />
+				</TestComponent>
 			</ThemeProvider>
 		</>
 	);

@@ -1,7 +1,7 @@
 
 /* TODO: Testing data, delete when file is connected to production system */
 // Available options for detail view
-import { Progression } from '../EnumeratedTypes';
+import { Progression } from '../../../shared/EnumeratedTypes';
 
 const analysts = ['Marco Soto', 'Ben Dover', 'Don Glover', 'Mike Hunt', 'Harry Beaver', 'P. Huck Hughson'];
 

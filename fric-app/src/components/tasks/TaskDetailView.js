@@ -24,7 +24,7 @@ import Form from 'react-bootstrap/Form'
 import 'date-fns';
 
 import Multiselect from '../general/Multiselect.js'
-import { Priority, Progression } from '../general/EnumeratedTypes';
+import { Priority, Progression } from '../../shared/EnumeratedTypes';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {

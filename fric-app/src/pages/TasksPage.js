@@ -12,7 +12,7 @@ import TasksOverviewTable from '../components/tasks/TasksOverviewTable';
 import TaskDetailView from '../components/tasks/TaskDetailView';
 
 //TODO: fetch options used in detail view. Delete this block once connected
-import {Priority, Progression } from '../components/general/EnumeratedTypes';
+import {Priority, Progression } from '../shared/EnumeratedTypes';
 const options = {
 	progress: Object.values(Progression),
 	priority: Object.values(Priority),
