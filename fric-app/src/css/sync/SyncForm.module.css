@@ -1,0 +1,26 @@
+
+.syncFormContent {
+	margin-left: 1em;
+	margin-right: 1em;
+	min-width: 19em;
+}
+
+.title {
+	text-align: center;
+	word-wrap: break-word;
+	padding-bottom: 0.5em;
+}
+
+.subtitle {
+	text-align: left;
+}
+
+.center {
+	align-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.buttons {
+	width: 6em;
+}

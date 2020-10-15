@@ -5,8 +5,6 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Row, Col } from 'react-bootstrap';
-import MainNav from '../../bootstrap/FRIC_gui_navbar';
-import '../../css/event/FRIC_gui_event_overview.css'
 
 class SyncAnalyst extends Component {
 
@@ -19,7 +17,6 @@ class SyncAnalyst extends Component {
       return (
           <form>
         <div className='sync_overview_div'>
-                  <MainNav> </MainNav>
                   <Form.Group as={Row} controlId="formHorizontalEventName">
                       <Form.Label column sm={2}>
                           From

@@ -1,30 +1,25 @@
 
 /* TODO: Testing data, delete when file is connected to production system */
 // Available options for detail view
-export const Progression = {
-	NOTSTARTED: 'Not Started',
-	ASSIGNED: 'Assigned',
-	TRANSFERRED: 'Transferred',
-	INPROGRESS: 'In Progress',
-	COMPLETE: 'Complete',
-	NOTAPPLICABLE: 'Not Applicable',
-}
-const Priority = { LOW: 'Low', MEDIUM: 'Medium', HIGH: 'High' }
+import { Progression } from '../EnumeratedTypes';
+
+const analysts = ['Marco Soto', 'Ben Dover', 'Don Glover', 'Mike Hunt', 'Harry Beaver', 'P. Huck Hughson'];
 
 export const options = {
-	analysts: ['sarko moto', 'Ben dover', 'Don Glover', 'mike Hunt', 'Harry Beaver', 'P. Huck Hughson'],
-	collabs: ['sarko moto', 'Ben dover', 'Don Glover', 'mike Hunt', 'Harry Beaver', 'P. Huck Hughson'],
+	analysts: analysts,
+	collabs: analysts,
 	tasks: ['task1', 'task2', 'task3', 'task4'],
 	subtasks: ['subtask1', 'subtask2', 'subtask3', 'subtask4', 'subtask5'],
 	progress: Object.values(Progression),
 }
+
 export var subtaskTestObject = {
-	title: 'Task Test Object',
+	name: 'Task Test Object',
 	description: 'Voluptate anim non amet cupidatat ut pariatur amet deserunt do irure incididunt nostrud.',
 	progress: Progression.INPROGRESS,
-	priority: Priority.HIGH,
-	subtask: 'Nulla nisi consectetur ipsum ex proident.',
-	analysts: [options.analysts[2], options.analysts[4]],
+	associations: [12],
+	analysts: [analysts[2], analysts[4]],
+	collabs: [],
 	task: 'Aliquip sit duis veniam qui.',
 	dueDate: new Date(),
 	attachment: null,
@@ -48,4 +43,3 @@ export var headings = [
 	{ id: 'findings', numeric: false, disablePadding: false, label: 'Findings' },
 	{ id: 'dueDate', numeric: false, disablePadding: true, label: 'Due Date' },
 ];
-/* End Testing Data */

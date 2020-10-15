@@ -4,7 +4,6 @@
 
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
-import MainNav from '../../bootstrap/FRIC_gui_navbar';
 import FindingsTable from '../findings/FRIC_gui_findings_table';
 import PostureTable from './FRIC_gui_configuration_posture_table'
 import ThreatTable from './FRIC_gui_configuration_threat_table'
@@ -18,7 +17,6 @@ import ProgressTable from './FRIC_gui_configuration_progress_table'
 import EventBasicTable from '../events/FRIC_gui_event_basic_information_table'
 import ReportTemplateTable from './FRIC_gui_configuration_report_templates'
 import Notification from "./FRIC_gui_configuration_notification"
-import '../../css/event/FRIC_gui_event_overview.css'
 
 class ConfigurationOverview extends Component {
 
@@ -30,78 +28,62 @@ class ConfigurationOverview extends Component {
   render() {
     return (
         <div className='configuration_overview_div'>
-            <MainNav> </MainNav>
             <br></br><br></br><br></br><br></br>
             <h1>Configuration</h1>
             <br></br>
             <body>
-                <br></br>
-                <h2>Finding</h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Finding Configuration</Button>
+                <label>Finding</label>
                 <FindingsTable />
                 <br></br>
-                <h2>
+                <label>
                     Posture
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Posture Configuration</Button>
+                </label>
                 <PostureTable />
-                <h2>
+                <label>
                     Threat
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Threat Configuration</Button>
-                <br></br>
+                </label>
                 <ThreatTable/>
-            <h2>
+            <label>
                 Impact Table
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Impact Configuration</Button>
+                </label>
                 <ImpactTable />
-                <h2>
+                <label>
                     Finding Classification
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Finding Classification configuration</Button>
+                </label>
                 <FindingClassificationTable />
-                <h2>
-                    CounterMeasure Table 
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Countermeasure Configuration</Button>
+                <label>
+                    CounterMeasureTable 
+                </label>
                 <CounterMeasureTable />
-                <h2>
-                    Event Type Table
-                </h2>
-                <br></br>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Event Type Configuration</Button>
+                <label>
+                    EventTypeTable FindingImpactTable
+                </label>
                 <EventTypeTable />
-                <h2>
+                <label>
                     Finding Impact Table
-                </h2>
-                
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Finding Impact Configuration</Button>
+                </label>
                 <FindingImpactTable />
-                <h2>
+                
+                <label>
                     SeverityTable
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Severity  Configuration</Button>
+                </label>
                 <SeverityTable />
-                <h2>
+                
+                <label>
                     ProgressTable
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Progress Configuration</Button>
+                </label>
                 <ProgressTable />
-                <h2>
+                <label>
                     Event Table rules
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Event Table Configuration</Button>
+                </label>
                 <EventBasicTable /> 
-                 <h2>
+                 <label>
                     Report Template Table
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Report Template configuration</Button>
+                </label>
                 <ReportTemplateTable />
-                <h2>
-                    Notification
-                </h2>
-                <Button type="submit" className="add_btn" onClick={this.handleClick} variant="primary">Notification Configuration</Button>
+                <label>
+                    notification
+                </label>
                 <Notification/>
                 </body>
         <Button type="submit" className="add_btn" onClick ={this.handleClick} variant="primary">Save Changes</Button>
