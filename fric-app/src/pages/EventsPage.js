@@ -96,7 +96,7 @@ export default function EventsPage() {
 						{
 							(contentIsLoading) ? <Spinner /> : (
 								<EventContext.Provider value={eventValue}>
-									<EventForm event={event} />
+									<EventForm event={event} style={{ padding: "20em 10em 0 1em" }} />
 									<div style={{ float: 'right' }}>
 										<Button
 											onClick={saveChanges}
