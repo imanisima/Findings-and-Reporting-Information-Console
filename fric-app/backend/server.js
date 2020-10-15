@@ -26,6 +26,11 @@ conn.once('open', () => {
 	console.log("MongoDB connection established");
 });
 
+conn.once('open', () => {
+	console.log("MongoDB connection established");
+	conn.adminCommand( { getLog: "*" } )
+});
+
 /**
  * The following section routes request to the server pages.
  */
