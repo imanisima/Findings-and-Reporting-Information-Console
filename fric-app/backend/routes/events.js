@@ -5,48 +5,52 @@
 const router = require('express').Router();
 const Event = require('../models/event.model');
 
-// Used to edit the response that will be sent to the requester.
-var response = {
-	status: '200',
-	data: null,
-}
 
+/**
+ * 
+ */
 router.route('/').get((req, res) => {
-	Event
-		.find()
-		.then(events => res.json(events))
-		.catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/add').post((req, res) => {
-	var newEvent = {
-		name: req.body.name,
-		description: req.body.description,
-		type: req.body.type,
-		version: Number(req.body.version),
-		assessmentDate: Date.parse(req.body.assessmentDate),
-		organization: req.body.organization,
-		securityGuide: req.body.securityGuide,
-		classification: req.body.classification,
-		declassified: Date.parse(req.body.declassified),
-		customer: req.body.customer,
-		archived: Boolean(req.body.archived),
-		team: Array(req.body.team),
+	if (req.body.params.hasOwnProperty('id')) {
+		Event
+			.findOne({_id: req.body.params.id})
+			.then(event => res.status(200).json(event))
+			.catch(err => res.status(404).json('Error: ' + err));
 	}
-	newEvent = new Event(newEvent);
+	else {
+		Event
+			.find()
+			.then(events => res.status(200).json(events))
+			.catch(err => res.status(404).json('Error: ' + err));
+	}
+});
 
-	newEvent
+
+/**
+ * 
+ */
+router.route('/new').post((req, res) => {
+	const document = new Event(req.body.params);
+
+	document
 		.save()
-		.then(() => res.json('Event Added'))
+		.then(event => res.status(201).json(event))
 		.catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/delete').post((req, res) => {
-	
+
+/**
+ * 
+ */
+router.route('/delete').delete((req, res) => {
+	//TODO: implement delete method
 });
 
-router.route('/update').post((req, res) => {
 
+/**
+ * 
+ */
+router.route('/update').put((req, res) => {
+	//TODO: implement update method
 });
 
 module.exports = router;

@@ -64,7 +64,7 @@ export default function Multiselect(props) {
 								<Chip
 									key={value}
 									label={value}
-									color={(props.withInitialsAvatar) ? "primary" : ""}
+									color={(props.withInitialsAvatar) ? "primary" : "default"}
 									avatar={props.withInitialsAvatar && <Avatar>{getInitials(value)}</Avatar>}
 									className={classes.chip}
 								/>
