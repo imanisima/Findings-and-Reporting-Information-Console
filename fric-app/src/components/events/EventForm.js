@@ -93,8 +93,8 @@ export default function EventForm(props) {
 							margin="normal"
 							id="assess-date-picker"
 							label=""
-							value={(event != null && event.hasOwnProperty('assessed')) ? new Date(event.assessed) : new Date()}
-							onChange={date => setEvent({...event, assessed: date.toLocaleDateString()})}
+							value={(event != null && event.hasOwnProperty('assessed')) ? event.assessed : new Date()}
+							onChange={date => setEvent({...event, assessed: date})}
 							KeyboardButtonProps={{ 'aria-label': 'change date', }}
 						/>
 					</MuiPickersUtilsProvider>
@@ -111,8 +111,8 @@ export default function EventForm(props) {
 							margin="normal"
 							id="declass-date-picker"
 							label=""
-							value={(event != null && event.hasOwnProperty('declassified')) ? new Date(event.declassified) : new Date()}
-							onChange={date => setEvent({...event, declassified: date.toLocaleDateString()})}
+							value={(event != null && event.hasOwnProperty('declassified')) ? event.declassified : new Date()}
+							onChange={date => setEvent({...event, declassified: date})}
 							KeyboardButtonProps={{ 'aria-label': 'change date', }}
 						/>
 					</MuiPickersUtilsProvider>
@@ -143,7 +143,7 @@ export default function EventForm(props) {
 			</div>
 
 			{/* Lead Analyst Dropdown */}
-			<Form.Group style={{ display: 'inline-block'}}>
+			<Form.Group style={{ display: 'inline-block' }}>
 				<FormLabel style={{ display: "block" }}>Lead Analyst</FormLabel>
 				<FormControl className={classes.formControl}>
 					<Select
@@ -162,7 +162,7 @@ export default function EventForm(props) {
 			</Form.Group>
 
 			{/* Collaborators Multiselect */}
-			<Form.Group style={{ display: "inline-block" }}>
+			<Form.Group style={{ display: 'inline-block' }}>
 				<FormLabel style={{ display: "block" }}>Select Collaborators</FormLabel>
 				<Multiselect options={options.analysts} withInitialsAvatar />
 			</Form.Group>

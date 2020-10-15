@@ -2,14 +2,14 @@
  * 
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
-import CancelIcon from '@material-ui/icons/Cancel';
 import LayoutTemplate from '../components/general/LayoutTemplate';
 import EventForm from '../components/events/EventForm';
+import Spinner from '../components/general/Spinner';
 import { EventContext } from '../components/events/EventContext';
 import { darkTheme } from '../components/general/ThemeColors';
 
@@ -28,7 +28,9 @@ const defaultEventState = {
 };
 
 export default function EventsPage() {
+	const [contentIsLoading, setContentIsLoading] = useState(true);
 	const [event, setEvent] = useState(defaultEventState); //TODO: Extract from context
+	const eventValue = useMemo(() => ({event, setEvent}), [event]);
 
 	useEffect(() => {
 		var eventid;
@@ -53,6 +55,7 @@ export default function EventsPage() {
 				.then(res => {
 					console.log(res.data[0]);
 					setEvent(res.data[0]);
+					setContentIsLoading(false);
 				})
 				.catch(err => {
 					console.log(err);
@@ -64,11 +67,14 @@ export default function EventsPage() {
 
 	const saveChanges = () => {
 		if (event != null) {
-			axios.put('http://localhost:5000', {
+			event['id'] = event._id // Standardize id parameter
+			delete(event['_id']);
+
+			axios.put('http://localhost:5000/events/update', {
 				params: {
 					...event,
-					assessed: event.assessed.toLocaleDateString(),
-					declassified: event.declassified.toLocaleDateString(),
+					assessed: event.assessed,
+					declassified: event.declassified,
 				}
 			})
 				.then(res => {
@@ -87,18 +93,22 @@ export default function EventsPage() {
 			<LayoutTemplate
 				mainContentComponent={
 					<>
-						<EventContext.Provider value={{ event, setEvent }}>
-							<EventForm event={event} />
-							<div style={{float: 'right'}}>
-								<Button
-									onClick={saveChanges}
-									variant="contained"
-									size="large"
-									startIcon={<SaveIcon />}
-									color="primary"
-								>Save Changes</Button>
-							</div>
-						</EventContext.Provider>
+						{
+							(contentIsLoading) ? <Spinner /> : (
+								<EventContext.Provider value={eventValue}>
+									<EventForm event={event} />
+									<div style={{ float: 'right' }}>
+										<Button
+											onClick={saveChanges}
+											variant="contained"
+											size="large"
+											startIcon={<SaveIcon />}
+											color="primary"
+										>Save Changes</Button>
+									</div>
+								</EventContext.Provider>
+							)
+						}
 					</>
 				}
 			/>

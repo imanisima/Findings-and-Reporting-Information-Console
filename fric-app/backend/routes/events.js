@@ -9,15 +9,15 @@ const Event = require('../models/event.model');
 /**
  * 
  */
-router.route('/').get((req, res) => {
-	if (req.body.params.hasOwnProperty('id')) {
-		Event
+router.route('/').get(async (req, res) => {
+	if (req.body.params != null && req.body.params.hasOwnProperty('id')) {
+		await Event
 			.findOne({_id: req.body.params.id})
 			.then(event => res.status(200).json(event))
 			.catch(err => res.status(404).json('Error: ' + err));
 	}
 	else {
-		Event
+		await Event
 			.find()
 			.then(events => res.status(200).json(events))
 			.catch(err => res.status(404).json('Error: ' + err));
@@ -28,20 +28,22 @@ router.route('/').get((req, res) => {
 /**
  * 
  */
-router.route('/new').post((req, res) => {
-	const document = new Event(req.body.params);
+router.route('/new').post(async (req, res) => {
+	if (req.body.hasOwnProperty('params')) {
+		const document = new Event(req.body.params);
 
-	document
-		.save()
-		.then(event => res.status(201).json(event))
-		.catch(err => res.status(400).json('Error: ' + err));
+		await document
+			.save()
+			.then(event => res.status(201).json(event))
+			.catch(err => res.status(400).json('Error: ' + err));
+	} else res.status(200).json();
 });
 
 
 /**
  * 
  */
-router.route('/delete').delete((req, res) => {
+router.route('/delete').delete(async (req, res) => {
 	//TODO: implement delete method
 });
 
@@ -49,8 +51,24 @@ router.route('/delete').delete((req, res) => {
 /**
  * 
  */
-router.route('/update').put((req, res) => {
-	//TODO: implement update method
+router.route('/update').put(async (req, res) => {
+	console.log(req.body.params);
+	if (req.body.params.hasOwnProperty('id')) {
+		var document = null; // Stores Document returned by findOne
+
+		await Event
+			.findOne({ _id: req.body.params.id })
+			.then(event => {
+				document = event;
+				document.set(req.body.params);
+			})
+			.catch(err => res.status(404).json('Error: ' + err));
+
+		await document
+			.save() // This method provides validation
+			.then(event => res.status(200).json(event))
+			.catch(err => res.status(400).json('Error: ' + err));
+	} else res.status(400).send();
 });
 
 module.exports = router;
