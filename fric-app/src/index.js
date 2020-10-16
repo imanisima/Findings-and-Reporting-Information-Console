@@ -19,6 +19,7 @@ import SettingsPage from './pages/SettingsPage';
 import SubtasksPage from './pages/SubtasksPage';
 import SystemsPage from './pages/SystemsPage';
 import TasksPage from './pages/TasksPage';
+import ManualPage from './pages/ManualPage';
 import TestPage from './pages/TestPage';
 
 import EventInformation from './components/events/FRIC_gui_event_information';
