@@ -173,6 +173,7 @@ export default function EventForm(props) {
 				{/* TODO: Add link to manual when help icon is clicked */}
 			</div>
 
+			{/* TODO: if possible, add exchange list to manage team fields */}
 			<Grid container direction="row">
 				<Grid item xs={3} />
 				<Grid container item direction="row" justify="center" xs={6}>
