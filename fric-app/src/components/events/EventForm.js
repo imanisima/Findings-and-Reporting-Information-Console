@@ -51,8 +51,10 @@ export default function EventForm(props) {
 	return (
 		<div className={classes.root}>
 			<div style={{ textAlign: "center" }}>
-				<Typography variant="h4" style={{ display: "inline-block", padding: "0 0 1em 0" }}>Event Information</Typography>
-				<HelpOutlineRoundedIcon size="large" style={{ verticalAlign: "top" }} />
+				<Typography variant="h4" style={{ display: "inline-block", padding: "0 0.3em 1em 0" }}>Event Information</Typography>
+				<HelpOutlineRoundedIcon size="large" style={{ verticalAlign: "baseline" }} />
+				{/* TODO: Add popup for help icon */}
+				{/* TODO: Add link to manual when help icon is clicked */}
 			</div>
 			{/* <Button variant="light"><HelpOutlineRoundedIcon /></Button> */}
 
@@ -166,7 +168,9 @@ export default function EventForm(props) {
 
 			<div style={{ padding: "3em 0 2em 0", textAlign: "center" }}>
 				<Typography variant="h4" style={{ display: "inline-block", padding: "0.3em" }}>Team Information</Typography>
-				<HelpOutlineRoundedIcon size="large" style={{ verticalAlign: "middle" }} />
+				<HelpOutlineRoundedIcon size="large" style={{ verticalAlign: "baseline" }} />
+				{/* TODO: Add popup for help icon */}
+				{/* TODO: Add link to manual when help icon is clicked */}
 			</div>
 
 			<Grid container direction="row">
@@ -183,9 +187,9 @@ export default function EventForm(props) {
 								id="select-outlined"
 								value={leadAnalyst}
 								onChange={e => setLeadAnalyst(e.target.value)}
-							// label="Lead Analyst"
 							>
 								<MenuItem key={null} value={''}>None</MenuItem>
+								{/* TODO: fetch options from database */}
 								{options.analysts.map((el, ind) => {
 									return <MenuItem key={ind} value={el}>{el}</MenuItem>
 								})}

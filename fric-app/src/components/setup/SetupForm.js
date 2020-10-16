@@ -30,41 +30,41 @@ export default function SetupForm(props) {
 		setShowSync(!showSync)
 	};
 
-	const handleSubmit = (e) => {
-		console.log(user)
-		console.log(choiceInput)
-
+	const handleSubmitClick = (e) => {
 		switch (radioVal) {
 			case "new":
-				const newEvent = {
+				const defaultEvent = {
 					name: choiceInput,
-					description: "Default",
-					type: "Default",
-					version: 1,
-					assessmentDate: new Date().toString(),
-					organization: "Default",
-					securityGuide: "Default",
-					classification: "Default",
-					declassified: "Default",
-					customer: "Default",
-					archived: "Default",
+					description: "",
+					type: "",
+					version: "1.0",
+					assessmentDate: new Date().toLocaleDateString(),
+					organization: "",
+					securityGuide: "",
+					classification: "",
+					declassified: new Date().toLocaleDateString(),
+					customer: "",
+					archived: false,
 					team: [user]
 				};
-				// console.log(newEvent);
 
-				axios.post('http://localhost:5000/events/add', newEvent)
+				axios.post('http://localhost:5000/events/new', defaultEvent)
 					.then(response => {
 						console.log(response.data);
 						props.submitAction();
 						window.location = '/';
 					})
-					.catch(error => console.log(error));
+					.catch(error => {
+						//TODO: display error message
+						console.log(error)
+					});
 				break;
 			case "sync":
-				props.submitAction();
+				//TODO: Grab database from lead analyst
+				//TODO: Store copy of lead analyst database on this system
+				//TODO: display error message if request fails
 				break;
-			default:
-				throw Error;
+			default: throw Error;
 		}
 	}
 
@@ -109,7 +109,7 @@ export default function SetupForm(props) {
 
 				{/* Submit Button */}
 				<Form.Group className={styles.center}>
-					<Button onClick={handleSubmit} variant="contained" size="large" color="primary">Submit</Button>
+					<Button onClick={handleSubmitClick} variant="contained" size="large" color="primary">Submit</Button>
 				</Form.Group>
 			</DialogContent>
 		</>
