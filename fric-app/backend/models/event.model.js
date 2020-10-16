@@ -10,6 +10,7 @@ const eventSchema = new mongoose.Schema({
 	description: { type: String, required: true },
 	type: { type: String, required: true, enum: EventType },
 	version: { type: String, required: true },
+	derivedFrom: { type: String, required: true },
 	assessed: { type: Date, required: true },
 	organization: { type: String, required: true },
 	securityGuide: { type: String, required: true },

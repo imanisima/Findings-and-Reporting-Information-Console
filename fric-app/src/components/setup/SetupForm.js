@@ -38,6 +38,7 @@ export default function SetupForm(props) {
 					description: "",
 					type: "",
 					version: "1.0",
+					derivedFrom: "",
 					assessmentDate: new Date().toLocaleDateString(),
 					organization: "",
 					securityGuide: "",
