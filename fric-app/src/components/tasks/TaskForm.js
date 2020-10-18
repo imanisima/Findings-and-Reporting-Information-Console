@@ -15,9 +15,9 @@ import Select from '@material-ui/core/Select';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 import Form from 'react-bootstrap/Form'
 
+import { TaskContext } from './TaskContext';
 import { Priority, Progression } from '../../shared/EnumeratedTypes';
-import Multiselect from '../general/Multiselect.js'
-import * as TaskContext from './TaskContext';
+import Multiselect from '../general/Multiselect.js';
 
 const useStyles = makeStyles((theme) => ({
 	formContainer: {
@@ -33,14 +33,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TaskForm(props) {
-	const {name, setName} = useContext(TaskContext.TaskNameContext);
-	const {description, setDescription} = useContext(TaskContext.TaskDescriptionContext);
-	const {progress, setProgress} = useContext(TaskContext.TaskProgressContext);
-	const {priority, setPriority} = useContext(TaskContext.TaskPriorityContext);
-	const {relatedTasks, /* setRelatedTasks */} = useContext(TaskContext.TaskRelatedTasksContext);
-	const {analysts, /* setAnalysts */} = useContext(TaskContext.TaskAnalystsContext);
-	const {collabs, /* setCollabs */} = useContext(TaskContext.TaskCollaboratorsContext);
-	const {dueDate, setDueDate} = useContext(TaskContext.TaskDueDateContext);
+	const {
+		name, setName,
+		description, setDescription,
+		progress, setProgress,
+		priority, setPriority,
+		relatedTasks, setRelatedTasks,
+		analysts, setAnalysts,
+		collabs, setCollabs,
+		/*attachment, setAttachment,*/ //TODO: Add file attachment field to form
+		dueDate, setDueDate,
+		/*archived, setArchived */ //TODO: Add archived checkbox to form
+	} = useContext(TaskContext); //TODO: error handle nonexistent context values
 	const classes = useStyles();
 
 	return (
@@ -85,7 +89,7 @@ export default function TaskForm(props) {
 							labelId="select-outlined-label"
 							id="select-outlined"
 							value={progress}
-							onChange={e => { setProgress(e.target.value) }}
+							onChange={e => setProgress(e.target.value)}
 							label=""
 						>
 							<MenuItem key="null" value="">None</MenuItem>
@@ -107,7 +111,7 @@ export default function TaskForm(props) {
 							labelId="select-outlined-label"
 							id="select-outlined"
 							value={priority}
-							onChange={e => { setPriority(e.target.value) }}
+							onChange={e => setPriority(e.target.value)}
 							label=""
 						>
 							<MenuItem key="null" value="">None</MenuItem>
@@ -130,6 +134,7 @@ export default function TaskForm(props) {
 							value={analysts}
 							label="Analysts"
 							withInitialsAvatar
+							setter={setAnalysts}
 						/>
 				</Form.Group>
 
@@ -141,6 +146,7 @@ export default function TaskForm(props) {
 							value={collabs}
 							label="Collabs"
 							withInitialsAvatar
+							setter={setCollabs}
 						/>
 				</Form.Group>
 
@@ -151,6 +157,7 @@ export default function TaskForm(props) {
 							options={[]} //TODO: request options
 							value={relatedTasks}
 							label="Tasks"
+							setter={setRelatedTasks}
 						/>
 				</Form.Group>
 			</div>

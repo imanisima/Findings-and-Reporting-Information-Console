@@ -2,7 +2,7 @@
  *
  */
 
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
@@ -13,7 +13,7 @@ import Form from 'react-bootstrap/Form'
 
 import Spinner from '../general/Spinner';
 import TaskForm from './TaskForm';
-import * as TaskContext from './TaskContext';
+import { TaskContext } from './TaskContext';
 import { DetailViewActionContext } from '../general/LayoutTemplate';
 
 export default function TaskDetailView(props) {
@@ -28,6 +28,19 @@ export default function TaskDetailView(props) {
 	const [dueDate, setDueDate] = useState(new Date());
 	const [attachment, setAttachment] = useState('');
 	const [archived, setArchived] = useState(false);
+	const taskProviderValue = useMemo(() => ({
+		name, setName,
+		description, setDescription,
+		progress, setProgress,
+		priority, setPriority,
+		relatedTasks, setRelatedTasks,
+		analysts, setAnalysts,
+		collabs, setCollabs,
+		attachment, setAttachment,
+		dueDate, setDueDate,
+		archived, setArchived
+	}), [name, description, progress, priority, relatedTasks,
+		analysts, collabs, attachment, dueDate, archived]);
 	const closeDetailAction = useContext(DetailViewActionContext);
 	
 	const handleSaveClick = () => {
@@ -97,29 +110,9 @@ export default function TaskDetailView(props) {
 						</div>
 						{/* <Button variant="light"><HelpOutlineRoundedIcon /></Button> */}
 
-						{/* Start Context Passthrough */ }
-						<TaskContext.TaskNameContext.Provider value={{ name, setName }}>
-							<TaskContext.TaskDescriptionContext.Provider value={{ description, setDescription }}>
-								<TaskContext.TaskPriorityContext.Provider value={{ priority, setPriority }}>
-									<TaskContext.TaskProgressContext.Provider value={{ progress, setProgress }}>
-										<TaskContext.TaskRelatedTasksContext.Provider value={{ relatedTasks, setRelatedTasks }}>
-											<TaskContext.TaskAnalystsContext.Provider value={{ analysts, setAnalysts }}>
-												<TaskContext.TaskCollaboratorsContext.Provider value={{ collabs, setCollabs }}>
-													<TaskContext.TaskDueDateContext.Provider value={{ dueDate, setDueDate }}>
-														<TaskContext.TaskAttachmentContext.Provider value={{ attachment, setAttachment }}>
-															<TaskContext.TaskArchivedContext.Provider value={{ archived, setArchived }}>
-																<TaskForm /> {/* Edit new task fields with this component */}
-															</TaskContext.TaskArchivedContext.Provider>
-														</TaskContext.TaskAttachmentContext.Provider>
-													</TaskContext.TaskDueDateContext.Provider>
-												</TaskContext.TaskCollaboratorsContext.Provider>
-											</TaskContext.TaskAnalystsContext.Provider>
-										</TaskContext.TaskRelatedTasksContext.Provider>
-									</TaskContext.TaskProgressContext.Provider>
-								</TaskContext.TaskPriorityContext.Provider>
-							</TaskContext.TaskDescriptionContext.Provider>
-						</TaskContext.TaskNameContext.Provider>
-						{/* End Context Passthrough */ }
+						<TaskContext.Provider value={taskProviderValue}>
+							<TaskForm />
+						</TaskContext.Provider>
 
 						{/* Action Buttons */}
 						<Form.Group>
