@@ -17,8 +17,9 @@ import Button from '@material-ui/core/Button';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import EditIcon from '@material-ui/icons/Edit';
-import SubtasksOverviewTableHead from './SubtasksOverviewTableHead'
-import SubtasksOverviewTableToolbar from './SubtasksOverviewTableToolbar'
+import CustomTableHead from '../general/CustomTableHead';
+import CustomTableToolbar from '../general/CustomTableToolbar';
+import { DetailViewActionContext } from '../general/LayoutTemplate';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -103,6 +104,7 @@ export default function SubtasksOverviewTable(props) {
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
+	const openDetailAction = React.useContext(DetailViewActionContext);
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -147,132 +149,123 @@ export default function SubtasksOverviewTable(props) {
 	};
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
-	
-	const handleEditPress = () => { // Executed when 'Edit' button is pressed
-		if (selected != null && selected.length === 1) {
-			// Search for prop object with selected id field
-			const found = props.rows.find(e => e.id === selected[0]);
-			props.setSelectedSubtask(found) // Pass data to selectedSubtask state in SubtasksPage
-			props.openDetailAction(); // Close the detail view
-		}
-	}
 
 	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
 
 	return (
-		<Paper className={classes.paper}>
-			<SubtasksOverviewTableToolbar numSelected={selected.length} />
-			<TableContainer>
-				<Table
-					className={classes.table}
-					aria-labelledby="tableTitle"
-					size="small"
-					aria-label="custom table"
-					stickyHeader
-				>
-					<SubtasksOverviewTableHead
-						headCells={props.headings}
-						classes={classes}
-						numSelected={selected.length}
-						order={order}
-						orderBy={orderBy}
-						onSelectAllClick={handleSelectAllClick}
-						onRequestSort={handleRequestSort}
-						rowCount={props.rows.length}
-					/>
-					<TableBody>
-						{stableSort(props.rows, getComparator(order, orderBy))
-							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-							.map((row, index) => {
-								const isItemSelected = isSelected(row.id);
-								const labelId = `custom-table-checkbox-${index}`;
+		<div className={classes.root}>
+			<Paper className={classes.paper}>
+				<CustomTableToolbar numSelected={selected.length} />
+				<TableContainer>
+					<Table
+						className={classes.table}
+						aria-labelledby="tableTitle"
+						size="small"
+						aria-label="custom table"
+						stickyHeader
+					>
+						<CustomTableHead
+							headCells={props.headings}
+							classes={classes}
+							numSelected={selected.length}
+							order={order}
+							orderBy={orderBy}
+							onSelectAllClick={handleSelectAllClick}
+							onRequestSort={handleRequestSort}
+							rowCount={props.rows.length}
+						/>
+						<TableBody>
+							{stableSort(props.rows, getComparator(order, orderBy))
+								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+								.map((row, index) => {
+									const isItemSelected = isSelected(row.id);
+									const labelId = `custom-table-checkbox-${index}`;
 
-								return (
-									<StyledTableRow
-										hover
-										onClick={(event) => handleClick(event, row.id)}
-										role="checkbox"
-										aria-checked={isItemSelected}
-										tabIndex={-1}
-										key={row.id}
-										selected={isItemSelected}
-									>
-										<StyledTableCell padding="checkbox">
-											<Checkbox
-												checked={isItemSelected}
-												inputProps={{ 'aria-labelledby': labelId }}
-												style={{color: "#066ff9"}}
-											/>
-										</StyledTableCell>
-										<StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">
-											{row.id}
-										</StyledTableCell>
-										<StyledTableCell align="left">{row.title}</StyledTableCell>
-										<StyledTableCell align="left">{row.task}</StyledTableCell>
-										<StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
-										<StyledTableCell align="right" padding="none">{row.progress}</StyledTableCell>
-										<StyledTableCell align="left" >{row.findings}</StyledTableCell>
-										<StyledTableCell align="left" padding="none">{row.dueDate.toLocaleString()}</StyledTableCell>
-									</StyledTableRow>
-								);
-							})}
-						{emptyRows > 0 && (
-							<TableRow style={{ height: 33 * emptyRows }}>
-								<TableCell colSpan={6} />
-							</TableRow>
-						)}
-					</TableBody>
-				</Table>
-			</TableContainer>
-			<div style={{display: "inline-block", verticalAlign: "bottom"}}>
+									return (
+										<StyledTableRow
+											hover
+											onClick={(event) => handleClick(event, row.id)}
+											role="checkbox"
+											aria-checked={isItemSelected}
+											tabIndex={-1}
+											key={row.id}
+											selected={isItemSelected}
+										>
+											<StyledTableCell padding="checkbox">
+												<Checkbox
+													checked={isItemSelected}
+													inputProps={{ 'aria-labelledby': labelId }}
+													style={{color: "#066ff9"}}
+												/>
+											</StyledTableCell>
+											<StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">
+												{row.id}
+											</StyledTableCell>
+											<StyledTableCell align="left">{row.title}</StyledTableCell>
+											<StyledTableCell align="left">{row.task}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
+											<StyledTableCell align="right" padding="none">{row.progress}</StyledTableCell>
+											<StyledTableCell align="left" >{row.findings}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.dueDate.toLocaleString()}</StyledTableCell>
+										</StyledTableRow>
+									);
+								})}
+							{emptyRows > 0 && (
+								<TableRow style={{ height: 33 * emptyRows }}>
+									<TableCell colSpan={6} />
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				<div style={{display: "inline-block", verticalAlign: "bottom"}}>
 
-				{/* Archive Button */}
-				<Button
-					disabled={selected.length < 1}
-					variant="contained"
-					startIcon={<ArchiveIcon />}
-					style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
-					size="large"
-				>
-					Archive
-				</Button>
-				{/* Promote Button */}
-				<Button
-					disabled={selected.length < 1}
-					variant="contained"
-					startIcon={<ArrowUpwardIcon />}
-					style={{ backgroundColor: "#29a745", color: "charcoal", margin: "0.5em", }}
-					size="large"
-				>
-					Promote
-				</Button>
-				{/* Edit Button */}
-				<Button
-					onClick={handleEditPress}
-					disabled={selected.length !== 1}
-					variant="contained"
-					startIcon={<EditIcon />}
-					style={{ backgroundColor: "#066ff9", margin: "0.5em", }}
-					size="large"
-				>Edit
-				</Button>
-			</div>
-			<TablePagination
-				rowsPerPageOptions={[10]}
-				component="div"
-				count={props.rows.length}
-				rowsPerPage={rowsPerPage}
-				page={page}
-				onChangePage={handleChangePage}
-				onChangeRowsPerPage={handleChangeRowsPerPage}
-			/>
-		</Paper>
+					{/* Archive Button */}
+					<Button
+						disabled={selected.length < 1}
+						variant="contained"
+						startIcon={<ArchiveIcon />}
+						style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
+						size="large"
+					>
+						Archive
+					</Button>
+					{/* Promote Button */}
+					<Button
+						disabled={selected.length < 1}
+						variant="contained"
+						startIcon={<ArrowUpwardIcon />}
+						style={{ backgroundColor: "#29a745", color: "charcoal", margin: "0.5em", }}
+						size="large"
+					>
+						Promote
+					</Button>	
+					{/* Edit Button */}
+					<Button
+						onClick={openDetailAction}
+						disabled={selected.length !== 1}
+						variant="contained"
+						startIcon={<EditIcon />}
+						style={{ backgroundColor: "#066ff9", margin: "0.5em", }}
+						size="large"
+					>Edit
+					</Button>
+				</div>
+				<TablePagination
+					rowsPerPageOptions={[10]}
+					component="div"
+					count={props.rows.length}
+					rowsPerPage={rowsPerPage}
+					page={page}
+					onChangePage={handleChangePage}
+					onChangeRowsPerPage={handleChangeRowsPerPage}
+				/>
+			</Paper>
+		</div>
 	);
 }
 
 SubtasksOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
-	openDetailAction: PropTypes.func,
-	setSelectedSubtask: PropTypes.func.isRequired,
 }
