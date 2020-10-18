@@ -169,7 +169,7 @@ export default function TasksOverviewTable(props) {
 	return (
 		<div>
 			<Paper className={classes.paper}>
-				<CustomTableToolbar numSelected={selected.length} newAction={() => {}} />
+				<CustomTableToolbar numSelected={selected.length} />
 				<TableContainer>
 					<Table
 						className={classes.table}
