@@ -41,9 +41,9 @@ export default function TaskForm(props) {
 		relatedTasks, setRelatedTasks,
 		analysts, setAnalysts,
 		collabs, setCollabs,
-		/*attachment, setAttachment,*/ //TODO: Add file attachment field to form
+		/* attachment, setAttachment, */ //TODO: Add file attachment field to form
 		dueDate, setDueDate,
-		/*archived, setArchived */ //TODO: Add archived checkbox to form
+		/* archived, setArchived */ //TODO: Add archived checkbox to form
 	} = useContext(TaskContext); //TODO: error handle nonexistent context values
 	const classes = useStyles();
 

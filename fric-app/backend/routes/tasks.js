@@ -101,7 +101,6 @@ router.route('/delete').delete(async (req, res) => {
  * 
  */
 router.route('/update').put(async (req, res) => {
-	console.log(req.body.params);
 	if (req.body.params.hasOwnProperty('id')) {
 		const id = req.body.params.id; // '_id' to be requested from tasks collection
 		var document = null; // Stores Document returned by findOne
@@ -117,10 +116,7 @@ router.route('/update').put(async (req, res) => {
 		await document
 			.save() // This method provides validation
 			.then(task => res.status(200).json(task))
-			.catch(err => {
-				console.log(err);
-				res.status(400).json('Error: ' + err)
-			});
+			.catch(err => res.status(400).json('Error: ' + err));
 	}
 	else res.status(400).send();
 });
@@ -142,7 +138,7 @@ router.route('/archive').put(async (req, res) => {
 			}
 		)
 			.then(result => res.status(200).json(result))
-			.error(err => res.status(404).json());
+			.catch(err => res.status(404).json());
 	} else res.status(400).json();
 });
 

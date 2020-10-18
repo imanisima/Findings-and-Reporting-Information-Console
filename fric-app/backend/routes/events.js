@@ -52,7 +52,6 @@ router.route('/delete').delete(async (req, res) => {
  * 
  */
 router.route('/update').put(async (req, res) => {
-	console.log(req.body.params);
 	if (req.body.params.hasOwnProperty('id')) {
 		var document = null; // Stores Document returned by findOne
 
