@@ -8,9 +8,7 @@ import clsx from 'clsx';
 import { lighten, darken, makeStyles, withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-// import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-// import EditIcon from '@material-ui/icons/Edit';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
@@ -49,11 +47,11 @@ const AddButton = withStyles((theme) => ({
 export default function CustomTableToolbar(props) {
 	const classes = useToolbarStyles();
 	const numSelected = props.numSelected;
-	const newActionFromContext = useContext(ToolbarNewActionContext);
+	const newClickAction = useContext(ToolbarNewActionContext);
 
 	const handleNewClick = () => {
 		//TODO: handle behavior of non existent context or prop function
-		newActionFromContext();
+		newClickAction();
 	};
 
 	return (
@@ -91,7 +89,4 @@ export default function CustomTableToolbar(props) {
 	);
 };
 
-CustomTableToolbar.propTypes = {
-	numSelected: PropTypes.number.isRequired,
-	newAction: PropTypes.func,
-};
+CustomTableToolbar.propTypes = { numSelected: PropTypes.number.isRequired, };

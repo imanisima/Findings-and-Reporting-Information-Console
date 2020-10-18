@@ -70,6 +70,7 @@ export default function Multiselect(props) {
 					labelId="multiselect-label"
 					id="multiselect"
 					multiple
+					autoWidth={true}
 					value={selected}
 					onChange={handleChange}
 					input={<Input />}
@@ -87,6 +88,7 @@ export default function Multiselect(props) {
 						</div>
 					)}
 					MenuProps={MenuProps}
+					variant={(props.variant != null) ? props.variant : 'standard'}
 				>
 					{props.options.map((el) => (
 					<MenuItem key={el} value={el}>
@@ -100,9 +102,10 @@ export default function Multiselect(props) {
 	);
 }
 
-//TODO: Fix prop to set passed in values
 Multiselect.propTypes = {
 	value: PropTypes.array,
 	options: PropTypes.array.isRequired,
-	withInitialsAvatar: PropTypes.bool,
+	label: PropTypes.string,
+	variant: PropTypes.string,
+	withInitialsAvatar: PropTypes.bool
 }

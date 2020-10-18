@@ -21,6 +21,8 @@ import SaveIcon from '@material-ui/icons/Save';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 import 'date-fns';
 
+import { options } from '../general/test/eventstestdata'; //TODO: remove test data import when connected to backend
+
 const useStyles = makeStyles((theme) => ({
 	formControl: {
 		margin: theme.spacing(1),
@@ -83,7 +85,7 @@ export default function EventDetailView(props) {
 						onChange={val => { setEventType(val) }}
 						label=""
 					>
-						{props.options.types.map((el, ind) => {
+						{options.types.map((el, ind) => {
 							return <MenuItem key={ind} value={el}>{el}</MenuItem>
 						})}
 					</Select>
@@ -172,7 +174,7 @@ export default function EventDetailView(props) {
 						onChange={val => { setLeadAnalyst(val) }}
 						label=""
 					>
-						{props.options.analysts.map((el, ind) => {
+						{options.analysts.map((el, ind) => {
 							return <MenuItem key={ind} value={el}>{el}</MenuItem>
 						})}
 					</Select>
@@ -182,7 +184,7 @@ export default function EventDetailView(props) {
 			{/* Collaborators Multiselect */}
 			<Form.Group style={{ display: "inline-block" }}>
 				<Form.Label style={{ display: "block" }}>Select Collaborators</Form.Label>
-				<Multiselect options={props.options.analysts}  />
+				<Multiselect options={options.analysts}  />
 			</Form.Group>
 
 			<Form.Group>
@@ -207,6 +209,5 @@ export default function EventDetailView(props) {
 
 EventDetailView.propTypes = {
 	selectedEvent: PropTypes.object.isRequired,
-	options: PropTypes.object.isRequired,
 	closeDetailAction: PropTypes.func,
 }

@@ -37,3 +37,11 @@ exports.Priority = [
 	'Medium',
 	'High',
 ]
+
+exports.Classification = [
+	'Top Secret',
+	'Secret',
+	'Confidential',
+	'Classified',
+	'Unclassified',
+]

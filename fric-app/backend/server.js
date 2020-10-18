@@ -41,7 +41,7 @@ const tasksRouter = require('./routes/tasks');
 // const reportsRouter = require('./routes/reports');
 
 app.use('/', indexRouter);
-app.use('systems', systemsRouter);
+app.use('/systems', systemsRouter);
 app.use('/events', eventsRouter);
 app.use('/analysts', analystsRouter);
 app.use('/tasks', tasksRouter);

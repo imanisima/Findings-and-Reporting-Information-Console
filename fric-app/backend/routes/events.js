@@ -5,48 +5,70 @@
 const router = require('express').Router();
 const Event = require('../models/event.model');
 
-// Used to edit the response that will be sent to the requester.
-var response = {
-	status: '200',
-	data: null,
-}
 
-router.route('/').get((req, res) => {
-	Event
-		.find()
-		.then(events => res.json(events))
-		.catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/add').post((req, res) => {
-	var newEvent = {
-		name: req.body.name,
-		description: req.body.description,
-		type: req.body.type,
-		version: Number(req.body.version),
-		assessmentDate: Date.parse(req.body.assessmentDate),
-		organization: req.body.organization,
-		securityGuide: req.body.securityGuide,
-		classification: req.body.classification,
-		declassified: Date.parse(req.body.declassified),
-		customer: req.body.customer,
-		archived: Boolean(req.body.archived),
-		team: Array(req.body.team),
+/**
+ * 
+ */
+router.route('/').get(async (req, res) => {
+	if (req.body.params != null && req.body.params.hasOwnProperty('id')) {
+		await Event
+			.findOne({_id: req.body.params.id})
+			.then(event => res.status(200).json(event))
+			.catch(err => res.status(404).json('Error: ' + err));
 	}
-	newEvent = new Event(newEvent);
-
-	newEvent
-		.save()
-		.then(() => res.json('Event Added'))
-		.catch(err => res.status(400).json('Error: ' + err));
+	else {
+		await Event
+			.find()
+			.then(events => res.status(200).json(events))
+			.catch(err => res.status(404).json('Error: ' + err));
+	}
 });
 
-router.route('/delete').post((req, res) => {
-	
+
+/**
+ * 
+ */
+router.route('/new').post(async (req, res) => {
+	if (req.body.hasOwnProperty('params')) {
+		const document = new Event(req.body.params);
+
+		await document
+			.save()
+			.then(event => res.status(201).json(event))
+			.catch(err => res.status(400).json('Error: ' + err));
+	} else res.status(200).json();
 });
 
-router.route('/update').post((req, res) => {
 
+/**
+ * 
+ */
+router.route('/delete').delete(async (req, res) => {
+	//TODO: implement delete method
+});
+
+
+/**
+ * 
+ */
+router.route('/update').put(async (req, res) => {
+	console.log(req.body.params);
+	if (req.body.params.hasOwnProperty('id')) {
+		var document = null; // Stores Document returned by findOne
+
+		await Event
+			.findOne({ _id: req.body.params.id })
+			.then(event => {
+				document = event;
+				document.set(req.body.params);
+			})
+			.catch(err => res.status(404).json('Error: ' + err));
+
+		await document
+			.save() // This method provides validation
+			.then(event => res.status(200).json(event))
+			.catch(err => res.status(400).json('Error: ' + err));
+	} else res.status(400).send();
 });
 
 module.exports = router;
