@@ -1,10 +1,8 @@
-/**
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,12 +12,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import CustomTableHead from '../general/CustomTableHead';
+import CustomTableToolbar from '../general/CustomTableToolbar'
 import ArchiveIcon from '@material-ui/icons/Archive';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-// import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
-// import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
-import CustomTableHead from './CustomTableHead';
-import CustomTableToolbar from './CustomTableToolbar'
+import EditIcon from '@material-ui/icons/Edit';
+import SystemsDetailView from '../systems/SystemsDetailView'
+import { DetailViewActionContext } from '../general/LayoutTemplate';
+import axios from 'axios';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -97,31 +96,38 @@ const StyledTableCell = withStyles((theme) => ({
 	},
 }))(TableCell);
 
-export default function CustomTable(props) {
+const Transition = React.forwardRef(function Transition(props, ref) {
+	return <Slide direction="up" ref={ref} {...props} />;
+});
+
+
+
+export default function SystemOverviewTable(props) {
 	const classes = useStyles();
+	const [dialogOpen, handleDialog] = React.useState(false)
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('title');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState((props.rowsDisplayed !== null && props.rowsDisplayed >= 5) ? props.rowsDisplayed : 10);
-	const [dense, setDense] = React.useState(true); // For toggling the dense row setting
+	const [rowsPerPage, setRowsPerPage] = React.useState(20);
+	const openDetailAction = React.useContext(DetailViewActionContext);
 
-	const handleRequestSort = (event, property) => {
+	const handleRequestSort = (system, property) => {
 		const isAsc = orderBy === property && order === 'asc';
 		setOrder(isAsc ? 'desc' : 'asc');
 		setOrderBy(property);
 	};
 
-	const handleSelectAllClick = (event) => {
-		if (event.target.checked) {
-			const newSelecteds = props.rows.map((n) => n.id);
+	const handleSelectAllClick = (system) => {
+		if (system.target.checked) {
+			const newSelecteds = props.rows.map((n) => n.name);
 			setSelected(newSelecteds);
 			return;
 		}
 		setSelected([]);
 	};
 
-	const handleClick = (event, name) => {
+	const handleClick = (system, name) => {
 		const selectedIndex = selected.indexOf(name);
 		let newSelected = [];
 
@@ -141,28 +147,81 @@ export default function CustomTable(props) {
 		setSelected(newSelected);
 	};
 
-	const handleChangePage = (event, newPage) => { setPage(newPage); };
+	const handleChangePage = (system, newPage) => { setPage(newPage); };
 
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
+	const handleChangeRowsPerPage = (system) => {
+		setRowsPerPage(parseInt(system.target.value, 10));
 		setPage(0);
 	};
 
-	// const handleChangeDense = (event) => { setDense(event.target.checked); }; // For toggling the dense row setting
-
 	const isSelected = (name) => selected.indexOf(name) !== -1;
+
+	const handleEditClick = () => {
+		if (selected != null && selected.length === 1) {
+			props.setSelectedSystem(selected[0]);
+			openDetailAction();
+		}
+	}
+
+	const handleArchiveClick = () => {
+		if (selected != null && selected.length === 1) {
+			console.log("Archive clicked")
+			axios.put('http://localhost:5000/systems/update', {
+				params: {
+					id: selected,
+					name: selected.name,
+					description: selected.description,
+					location: selected.location,
+					router: selected.router,
+					switch: selected.switchName,
+					room: selected.room,
+					testPlan: selected.testPlan,
+					archived: true
+				}
+			})
+				.then(res => {
+					console.log(res);
+					window.location = '/systems'
+				})
+				.catch(err => {
+					console.log(err);
+				})
+		}
+	}
+
+	function onNewClicked() {
+		console.log("New Clicked");
+		handleDialog(true)
+	}
+	
+	function handleDialogClose() {
+		handleDialog(false)
+	}
 
 	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
 
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.paper}>
-				<CustomTableToolbar numSelected={selected.length} />
+				<CustomTableToolbar numSelected={selected.length} onNewClick={onNewClicked} />
+				<Dialog
+					open={dialogOpen}
+					TransitionComponent={Transition}
+					keepMounted
+					fullWidth={true}
+					maxWidth={'md'}
+					onClose={handleDialogClose}
+					aria-labelledby="slide-dialog-title"
+					aria-describedby="slide-dialog-description"
+					disableBackdropClick
+				>
+					<SystemsDetailView closeDetailAction={handleDialogClose}/>
+				</Dialog>
 				<TableContainer>
 					<Table
 						className={classes.table}
 						aria-labelledby="tableTitle"
-						size={dense ? 'small' : 'medium'}
+						size="small"
 						aria-label="custom table"
 						stickyHeader
 					>
@@ -180,27 +239,17 @@ export default function CustomTable(props) {
 							{stableSort(props.rows, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
-									const isItemSelected = isSelected(row.id);
+									const isItemSelected = isSelected(row.name);
 									const labelId = `custom-table-checkbox-${index}`;
-
-									const makeRow = () => {
-										props.headings.map((heading, id) => {
-											if (heading.id !== '_id') {
-												return (
-													<StyledTableCell align={(heading.numeric) ? 'right' : 'left'}>row[heading.id]</StyledTableCell>
-												);
-											}
-										});
-									}
 
 									return (
 										<StyledTableRow
 											hover
-											onClick={(event) => handleClick(event, row.id)}
+											onClick={(system) => handleClick(system, row.name)}
 											role="checkbox"
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row.id}
+											key={row.name}
 											selected={isItemSelected}
 										>
 											<StyledTableCell padding="checkbox">
@@ -210,31 +259,44 @@ export default function CustomTable(props) {
 													style={{ color: "#066ff9" }}
 												/>
 											</StyledTableCell>
-											<StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">
-												{row.id}
-											</StyledTableCell>
-											<StyledTableCell align="left">{row.title}</StyledTableCell>
-											<StyledTableCell align="left">{row.task}</StyledTableCell>
-											<StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
-											<StyledTableCell align="right" padding="none">{row.progress}</StyledTableCell>
-											<StyledTableCell align="left" >{row.findings}</StyledTableCell>
-											{/* <StyledTableCell align="left" padding="left">{row.dueDate.toLocaleString()}</StyledTableCell> */}
-										
+											<StyledTableCell align="left">{row.name}</StyledTableCell>
+											<StyledTableCell align="right">{row.numTasks}</StyledTableCell>
+											<StyledTableCell align="right" padding="none">{row.numFindings}</StyledTableCell>
+											<StyledTableCell align="left" >{row.progress}</StyledTableCell>
+
 										</StyledTableRow>
 									);
 								})}
 							{emptyRows > 0 && (
-								<TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+								<TableRow style={{ height: 33 * emptyRows }}>
 									<TableCell colSpan={6} />
 								</TableRow>
 							)}
 						</TableBody>
 					</Table>
 				</TableContainer>
-				<div style={{ display: "inline-block", verticalAlign: "bottom" }}>
-					<Button variant="contained" startIcon={<ArchiveIcon />} style={{ color: "black", margin: "0.5em", }}>Archive</Button>
-					<Button variant="contained" startIcon={<ArrowUpwardIcon />} style={{ backgroundColor: "#29a745", color: "white", margin: "0.5em", }}>Promote</Button>
+				
+				<div style={{display: "inline-block", marginLeft: "1em",}}>
+					{/* Edit Button */}
+					<Button
+						onClick={handleEditClick}
+						disabled={selected.length !== 1}
+						variant="contained"
+						startIcon={<EditIcon />}
+						style={{ backgroundColor: "#066ff9", margin: "0.5em", }}
+						size="large"
+					>Edit</Button>
+					{/* Delete Button */}
+					<Button
+						disabled={selected.length === 0}
+						variant="contained"
+						startIcon={<ArchiveIcon />}
+						style={{ backgroundColor: "#dc3545", margin: "0.5em", }}
+						size="large"
+						onClick={handleArchiveClick}
+					>Archive</Button>
 				</div>
+				
 				<TablePagination
 					rowsPerPageOptions={[10]}
 					component="div"
@@ -245,17 +307,12 @@ export default function CustomTable(props) {
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 			</Paper>
-			{/* For toggling the dense row setting */}
-			{/* <FormControlLabel
-				control={<Switch checked={dense} onChange={handleChangeDense} />}
-				label="Dense padding"
-			/>  */}
 		</div>
 	);
 }
 
-CustomTable.propTypes = {
-	headings: PropTypes.object.isRequired,
-	rows: PropTypes.object.isRequired,
-	rowsDisplayed: PropTypes.number,
+SystemOverviewTable.propTypes = {
+	rows: PropTypes.array.isRequired,
+	headings: PropTypes.array.isRequired,
+	setSelectedSystem: PropTypes.func.isRequired,
 }
