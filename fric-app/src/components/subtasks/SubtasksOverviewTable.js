@@ -69,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
 		top: 20,
 		width: 1,
 	},
+	menuButtons: {
+		margin: "0.5em",
+	}
 }));
 
 const StyledTableRow = withStyles((theme) => ({
@@ -141,6 +144,27 @@ export default function SubtasksOverviewTable(props) {
 		setSelected(newSelected);
 	};
 
+	const handleEditClick = () => {
+		if (selected != null && selected.length === 1) {
+			props.setSelectedSubtasks(selected); // Set selected id value, object to be fetched from detail view
+			openDetailAction(); // Open detail view on subtasks page
+		}
+	};
+
+	const handleArchiveClick = () => {
+		if (selected != null) {
+			props.setSelectedSubtasks(selected);
+			props.archiveAction();
+		}
+	};
+
+	const handlePromoteClick = () => {
+		if (selected != null) {
+			props.setSelectedSubtasks(selected);
+			props.promoteAction();
+		}
+	};
+
 	const handleChangePage = (event, newPage) => { setPage(newPage); };
 
 	const handleChangeRowsPerPage = (event) => {
@@ -198,15 +222,15 @@ export default function SubtasksOverviewTable(props) {
 													style={{color: "#066ff9"}}
 												/>
 											</StyledTableCell>
-											<StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">
+											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">
 												{row.id}
 											</StyledTableCell>
-											<StyledTableCell align="left">{row.title}</StyledTableCell>
-											<StyledTableCell align="left">{row.task}</StyledTableCell>
-											<StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
-											<StyledTableCell align="right" padding="none">{row.progress}</StyledTableCell>
-											<StyledTableCell align="left" >{row.findings}</StyledTableCell>
-											<StyledTableCell align="left" padding="none">{row.dueDate.toLocaleString()}</StyledTableCell>
+											<StyledTableCell align="left">{row.name}</StyledTableCell>
+											<StyledTableCell align="left">{row.ownerTask}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.analysts}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.progress}</StyledTableCell>
+											<StyledTableCell align="right" >{row.numFindings}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{new Date(row.dueDate).toLocaleDateString()}</StyledTableCell>
 										</StyledTableRow>
 									);
 								})}
@@ -222,32 +246,37 @@ export default function SubtasksOverviewTable(props) {
 
 					{/* Archive Button */}
 					<Button
+						className={classes.menuButtons}
 						disabled={selected.length < 1}
 						variant="contained"
 						startIcon={<ArchiveIcon />}
-						style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
+						style={{ backgroundColor: "#ffc108", color: "charcoal"}}
 						size="large"
+						onClick={handleArchiveClick}
 					>
 						Archive
 					</Button>
 					{/* Promote Button */}
 					<Button
+						className={classes.menuButtons}
 						disabled={selected.length < 1}
 						variant="contained"
 						startIcon={<ArrowUpwardIcon />}
-						style={{ backgroundColor: "#29a745", color: "charcoal", margin: "0.5em", }}
+						style={{ backgroundColor: "#29a745", color: "charcoal"}}
 						size="large"
+						onClick={handlePromoteClick}
 					>
 						Promote
 					</Button>	
 					{/* Edit Button */}
 					<Button
-						onClick={openDetailAction}
+						className={classes.menuButtons}
 						disabled={selected.length !== 1}
 						variant="contained"
 						startIcon={<EditIcon />}
-						style={{ backgroundColor: "#066ff9", margin: "0.5em", }}
+						color="primary"
 						size="large"
+						onClick={handleEditClick}
 					>Edit
 					</Button>
 				</div>
@@ -268,4 +297,7 @@ export default function SubtasksOverviewTable(props) {
 SubtasksOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
+	setSelectedSubtasks: PropTypes.func.isRequired,
+	archiveAction: PropTypes.func.isRequired,
+	promoteAction: PropTypes.func.isRequired,
 }

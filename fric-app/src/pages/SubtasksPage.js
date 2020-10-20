@@ -6,7 +6,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import axios from 'axios';
 import React, { useLayoutEffect, useState } from 'react';
 import LayoutTemplate from '../components/general/LayoutTemplate';
-import { options } from '../components/general/test/subtaskstestdata'; //TODO: remove test data import when connected to backend requests
 import { darkTheme } from '../components/general/ThemeColors';
 import Spinner from '../components/general/Spinner';
 import NewSubtaskDialog from '../components/subtasks/NewSubtaskDialog';
@@ -23,12 +22,12 @@ export default function SubtasksPage() {
 	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
 
 	const headings = [
-		{ id: 'id', numeric: true, disablePadding: true, label: '_id' },
-		{ id: 'title', numeric: false, disablePadding: false, label: 'Title' },
-		{ id: 'task', numeric: false, disablePadding: false, label: 'Task' },
-		{ id: 'analyst', numeric: false, disablePadding: true, label: 'Analyst' },
-		{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
-		{ id: 'findings', numeric: false, disablePadding: false, label: 'Findings' },
+		{ id: 'id', numeric: false, disablePadding: true, label: '_id' },
+		{ id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+		{ id: 'ownerTask', numeric: false, disablePadding: false, label: 'Owner Task' },
+		{ id: 'analysts', numeric: false, disablePadding: true, label: 'Analysts' },
+		{ id: 'progress', numeric: false, disablePadding: true, label: 'Progress' },
+		{ id: 'findings', numeric: true, disablePadding: false, label: 'No. of Findings' },
 		{ id: 'dueDate', numeric: false, disablePadding: true, label: 'Due Date' },
 	];
 
@@ -37,6 +36,7 @@ export default function SubtasksPage() {
 		axios.get('http://localhost:5000/subtasks/table') // Fetch table data
 			.then(res => {
 				console.log(res);
+				setTableData(res.data);
 				setContentIsLoading(false);
 			})
 			.catch(err => {
@@ -63,6 +63,8 @@ export default function SubtasksPage() {
 			});
 	};
 
+	const promoteSubtasks = () => {}; //TODO: implement promote subtask functionality
+
 	useLayoutEffect(() => reload(), []);
 
 	return (
@@ -72,11 +74,11 @@ export default function SubtasksPage() {
 				mainContentComponent={
 					(contentIsLoading) ? <Spinner /> : (
 						<ToolbarNewActionContext.Provider value={() => setNewDialogOpen(true)}>
-							<SubtasksOverviewTable rows={tableData} headings={headings} setSelectedTasks={setSelected} archiveAction={() => setArchiveDialogOpen(true)} />
+							<SubtasksOverviewTable rows={tableData} headings={headings} setSelectedSubtasks={setSelected} archiveAction={() => setArchiveDialogOpen(true)} promoteAction={promoteSubtasks} />
 						</ToolbarNewActionContext.Provider>
 					)
 				}
-				detailComponent={<SubtaskDetailView selectedSubtask={selected} options={options} />}
+				detailComponent={<SubtaskDetailView selectedSubtask={selected} reload={reload} />}
 			/>
 			<NewSubtaskDialog isOpen={newDialogOpen} closeDialogAction={() => setNewDialogOpen(false)} reload={reload} />
 			<ConfirmArchiveDialog

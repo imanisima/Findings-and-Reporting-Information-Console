@@ -2,24 +2,35 @@
  *
  */
 
-import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import React, { useEffect, useContext } from 'react';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
-import Form from 'react-bootstrap/Form';
 
 import { SubtaskContext } from './SubtaskContext';
-import { Priority, Progression } from '../../shared/EnumeratedTypes';
+import { Progression } from '../../shared/EnumeratedTypes';
 import Multiselect from '../general/Multiselect.js';
+import FileBrowseField from '../general/FileBrowseField';
+
+import { options } from '../general/test/subtaskstestdata'; //TODO: remove once selector options are fetched from database
 
 const useStyles = makeStyles((theme) => ({
 	formContainer: {
 		padding: "0em 1em 0em 1em",
+	},
+	formSection: {
+		padding: "1em 0 1em 0",
+	},
+	formLabel: {
+		display: "block",
 	},
 	formControl: {
 		margin: theme.spacing(1),
@@ -31,37 +42,65 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SubtaskForm(props) {
+	const classes = useStyles();
 	const {
 		name, setName,
 		description, setDescription,
 		progress, setProgress,
-		priority, setPriority,
-		relatedTasks, setRelatedTasks,
+		relatedSubtasks, setRelatedSubtasks,
 		analysts, setAnalysts,
 		collabs, setCollabs,
-		/* attachment, setAttachment, */ //TODO: Add file attachment field to form
+		attachment, setAttachment, //TODO: Add file attachment field to form
 		dueDate, setDueDate,
 		/* archived, setArchived */ //TODO: Add archived checkbox to form
 	} = useContext(SubtaskContext); //TODO: error handle nonexistent context values
-	const classes = useStyles();
+
+	useEffect(() => {
+		//TODO: fetch multiselector options
+		axios.get('http://localhost:5000/options/subtasks')
+			.then(res => {
+				console.log(res);
+			})
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+			});
+	}, []);
 
 	return (
-		<Form className={classes.formContainer}>
-			{/* Title Text Field */}
-			<Form.Group>
-				<Form.Label style={{ display: "block" }}>Title</Form.Label>
-				<Form.Control type="text" placeholder="Title" />
-			</Form.Group>
+		<form className={classes.formContainer}>
+			{/* Name Text Field */}
+			<div className={classes.formSection}>
+				<FormLabel className={classes.formLabel}>Name</FormLabel>
+				<TextField
+					required
+					fullWidth
+					variant="outlined"
+					placeholder="Subtask Name" 
+					value={name}
+					onChange={e => setName(e.target.value)}
+				/>
+			</div>
 
 			{/* Description Text Field */}
-			<Form.Group>
-				<Form.Label style={{ display: "block" }}>Description</Form.Label>
-				<Form.Control as="textarea" rows="3" placeholder="Description" />
-			</Form.Group>
+			<div className={classes.formSection}>
+				<FormLabel className={classes.formLabel}>Description</FormLabel>
+				<TextField
+					required
+					fullWidth
+					variant="outlined"
+					multiline
+					rows="4"
+					rowsMax="4"
+					placeholder="Description of Subtask"
+					value={description}
+					onChange={e => setDescription(e.target.value)}
+				/>
+			</div>
 
 			{/* Due Date Picker */}
-			<Form.Group>
-				<Form.Label style={{ display: "block" }}>Date</Form.Label>
+			<div className={classes.formSection}>
+				<FormLabel className={classes.formLabel}>Due Date</FormLabel>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
 					<KeyboardDatePicker
 						disableToolbar
@@ -71,60 +110,56 @@ export default function SubtaskForm(props) {
 						id="date-picker"
 						label=""
 						value={dueDate}
-						onChange={date => { setDueDate(date) }}
+						onChange={date => setDueDate(date)}
 						KeyboardButtonProps={{ 'aria-label': 'change date', }}
 					/>
 				</MuiPickersUtilsProvider>
-			</Form.Group>
+			</div>
 
 			{/* Progress Selector */}
-			<Form.Group>
-				<Form.Label style={{ display: "block" }}>Progress</Form.Label>
+			<div className={classes.formSection}>
+				<FormLabel className={classes.formLabel}>Progress</FormLabel>
 				<FormControl className={classes.formControl}>
 					{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
 					<Select
-						labelId="select-outlined-label"
-						id="select-outlined"
+						labelId="select-progress"
+						id="select-progress"
 						value={progress}
 						onChange={e => setProgress(e.target.value)}
 					>
 						<MenuItem key="null" value="">None</MenuItem>
-						{props.options.progress.map((el, ind) => {
+						{Object.values(Progression).map((el, ind) => {
 							return <MenuItem key={ind} value={el}>{el}</MenuItem>
 						})}
 					</Select>
 				</FormControl>
-			</Form.Group>
+			</div>
 
-			{/* Analysts Multiselect */}
-			<Form.Group style={{ display: "inline-block" }}>
-				<Form.Label style={{ display: "block" }}>Select Analyst</Form.Label>
-				<Multiselect options={props.options.analysts} withInitialsAvatar label="Analysts" />
-			</Form.Group>
+			<div className={classes.formSection}>
+				{/* Analysts Multiselect */}
+				<div style={{ display: "inline-block" }}>
+					<FormLabel className={classes.formLabel}>Select Analyst</FormLabel>
+					<Multiselect options={options.analysts} withInitialsAvatar label="Analysts" value={analysts} setter={setAnalysts} />
+				</div>
 
-			{/* Collaborators Multiselect */}
-			<Form.Group style={{ display: "inline-block" }}>
-				<Form.Label style={{ display: "block" }}>Select Collaborators</Form.Label>
-				<Multiselect options={props.options.collabs} withInitialsAvatar label="Collabs" />
-			</Form.Group>
+				{/* Collaborators Multiselect */}
+				<div style={{ display: "inline-block" }}>
+					<FormLabel className={classes.formLabel}>Select Collaborators</FormLabel>
+					<Multiselect options={options.collabs} withInitialsAvatar label="Collabs" value={collabs} setter={setCollabs} />
+				</div>
 
-			{/* Tasks Multiselect */}
-			<Form.Group style={{ display: "inline-block" }}>
-				<Form.Label style={{ display: "block" }}>Select Tasks</Form.Label>
-				<Multiselect options={props.options.tasks} label="Tasks" />
-			</Form.Group>
-
-			{/* Subtasks Multiselect */}
-			<Form.Group style={{ display: "inline-block" }}>
-				<Form.Label>Select Subtasks</Form.Label>
-				<Multiselect options={props.options.subtasks} label="Subtasks" />
-			</Form.Group>
+				{/* Subtasks Multiselect */}
+				<div style={{ display: "inline-block" }}>
+					<FormLabel>Select Subtasks</FormLabel>
+					<Multiselect options={options.subtasks} label="Subtasks" value={relatedSubtasks} setter={setRelatedSubtasks} />
+				</div>
+			</div>
 
 			{/* Attachment file selector */}
-			<Form.Group>
-				<Form.Label>Attachments</Form.Label>
-				<Form.File id="custom-file" label="No File Selected" feedback custom />
-			</Form.Group>
-		</Form>
+			<div className={classes.formSection}>
+				<FormLabel>Attachment</FormLabel>
+				<FileBrowseField value={attachment} setter={setAttachment}/>
+			</div>
+		</form>
 	);
 }

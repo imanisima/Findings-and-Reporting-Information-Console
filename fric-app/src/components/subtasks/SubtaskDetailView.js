@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
-import Form from 'react-bootstrap/Form';
 
 import { DetailViewActionContext } from '../general/LayoutTemplate';
 import { SubtaskContext } from './SubtaskContext';
@@ -24,8 +23,8 @@ export default function SubtaskDetailView(props) {
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [progress, setProgress] = useState('');
-	const [priority, setPriority] = useState('');
-	const [relatedTasks, setRelatedTasks] = useState([]);
+	const [ownerTask, setOwnerTask] = useState('');
+	const [relatedSubtasks, setRelatedSubtasks] = useState([]);
 	const [analysts, setAnalysts] = useState([]);
 	const [collabs, setCollabs] = useState([]);
 	const [attachment, setAttachment] = useState('');
@@ -35,14 +34,14 @@ export default function SubtaskDetailView(props) {
 		name, setName,
 		description, setDescription,
 		progress, setProgress,
-		priority, setPriority,
-		relatedTasks, setRelatedTasks,
+		ownerTask, setOwnerTask,
+		relatedSubtasks, setRelatedSubtasks,
 		analysts, setAnalysts,
 		collabs, setCollabs,
 		attachment, setAttachment,
 		dueDate, setDueDate,
 		archived, setArchived
-	}), [name, description, progress, priority, relatedTasks,
+	}), [name, description, progress, ownerTask, relatedSubtasks,
 		analysts, collabs, attachment, dueDate, archived]);
 
 	const handleSaveClick = () => {
@@ -54,8 +53,8 @@ export default function SubtaskDetailView(props) {
 				name: name,
 				description: description,
 				progress: progress,
-				priority: priority,
-				associations: relatedTasks,
+				ownerTask: ownerTask,
+				associations: relatedSubtasks,
 				analysts: analysts,
 				collaborators: collabs,
 				dueDate: dueDate.toUTCString(), // Must be converted to value that can be sent in request body
@@ -73,14 +72,17 @@ export default function SubtaskDetailView(props) {
 				console.log(err);
 				//TODO: display error message
 			})
-		closeDetailAction(); // Close detail view
+		closeDetailAction(); // Close detail view tray
 	}
 
 	useEffect(() => {
+		console.log(props.selectedSubtask);
 		setContentIsLoading(true);
 
 		axios.get('http://localhost:5000/subtasks', {
-			params: {id: (props.selectedSubtask != null && props.selectedSubtask.length === 1) ? props.selectedSubtask[0] : ''}
+			params: {
+				id: (props.selectedSubtask != null && props.selectedSubtask.length === 1) ? props.selectedSubtask[0] : ''
+			}
 		})
 			.then(res => {
 				console.log(res.data);
@@ -88,12 +90,13 @@ export default function SubtaskDetailView(props) {
 				setName(res.data.name);
 				setDescription(res.data.description);
 				setDueDate(new Date(res.data.dueDate));
-				setPriority(res.data.priority);
 				setProgress(res.data.progress);
+				setOwnerTask(res.data.ownerTask);
+				setRelatedSubtasks(res.data.associations);
 				setAnalysts(res.data.analysts);
 				setCollabs(res.data.collaborators);
-				setRelatedTasks(res.data.associations);
-				setContentIsLoading(false);
+				setArchived(false);
+				setContentIsLoading(false); // Show spinner
 			})
 			.catch(err => {
 				console.log(err);
@@ -120,14 +123,14 @@ export default function SubtaskDetailView(props) {
 						variant="contained"
 						size="large"
 						startIcon={<SaveIcon />}
-						style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
+						color="primary"
 					>Save</Button>
 					<Button
 						onClick={closeDetailAction}
 						variant="contained"
 						size="large"
 						startIcon={<CancelIcon />}
-						style={{ backgroundColor: "#dc3545", color: "white", margin: "0.5em", }}
+						color="secondary"
 					>Cancel</Button>
 				</div>
 			</>
@@ -138,5 +141,4 @@ export default function SubtaskDetailView(props) {
 SubtaskDetailView.propTypes = {
 	selectedSubtask: PropTypes.array.isRequired,
 	reload: PropTypes.func.isRequired,
-	options: PropTypes.object.isRequired, //TODO: remove prop from component
 }

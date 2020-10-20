@@ -2,9 +2,9 @@
  * 
  */
 
+import axios from 'axios';
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -24,8 +24,8 @@ export default function NewSubtaskDialog(props) {
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [progress, setProgress] = useState('');
-	const [priority, setPriority] = useState('');
-	const [relatedTasks, setRelatedTasks] = useState([]);
+	const [ownerTask, setOwnerTask] = useState('');
+	const [relatedSubtasks, setRelatedSubtasks] = useState([]);
 	const [analysts, setAnalysts] = useState([]);
 	const [collabs, setCollabs] = useState([]);
 	const [attachment, setAttachment] = useState('');
@@ -35,14 +35,14 @@ export default function NewSubtaskDialog(props) {
 		name, setName,
 		description, setDescription,
 		progress, setProgress,
-		priority, setPriority,
-		relatedTasks, setRelatedTasks,
+		ownerTask, setOwnerTask,
+		relatedSubtasks, setRelatedSubtasks,
 		analysts, setAnalysts,
 		collabs, setCollabs,
 		attachment, setAttachment,
 		dueDate, setDueDate,
 		archived, setArchived
-	}), [name, description, progress, priority, relatedTasks,
+	}), [name, description, progress, ownerTask, relatedSubtasks,
 		analysts, collabs, attachment, dueDate, archived]);
 
 	const handleSubmit = () => {
@@ -51,8 +51,8 @@ export default function NewSubtaskDialog(props) {
 				name: name,
 				description: description,
 				progress: progress,
-				priority: priority,
-				associations: relatedTasks,
+				ownerTask: ownerTask,
+				associations: relatedSubtasks,
 				analysts: analysts,
 				collaborations: collabs,
 				dueDate: dueDate,
@@ -75,8 +75,8 @@ export default function NewSubtaskDialog(props) {
 		setName('');
 		setDescription('');
 		setProgress('');
-		setPriority('');
-		setRelatedTasks([]);
+		setOwnerTask('');
+		setRelatedSubtasks([]);
 		setAnalysts([]);
 		setCollabs([]);
 		setDueDate(new Date());
@@ -95,7 +95,7 @@ export default function NewSubtaskDialog(props) {
 			aria-labelledby="slide-dialog-title"
 			aria-describedby="slide-dialog-description"
 		>
-			<DialogTitle id="scroll-dialog-title" className={styles.title}>Create New Task</DialogTitle>
+			<DialogTitle id="scroll-dialog-title" className={styles.title}>Create New Subtask</DialogTitle>
 			<DialogContent dividers={true}>
 				<SubtaskContext.Provider value={subtaskProviderValue}>
 					<SubtaskForm />
