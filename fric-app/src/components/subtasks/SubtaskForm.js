@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
 	selectEmpty: {
 		marginTop: theme.spacing(2),
 	},
+	inline: {
+		display: "inline-block",
+	},
 }));
 
 export default function SubtaskForm(props) {
@@ -47,6 +50,7 @@ export default function SubtaskForm(props) {
 		name, setName,
 		description, setDescription,
 		progress, setProgress,
+		ownerTask, setOwnerTask,
 		relatedSubtasks, setRelatedSubtasks,
 		analysts, setAnalysts,
 		collabs, setCollabs,
@@ -98,60 +102,80 @@ export default function SubtaskForm(props) {
 				/>
 			</div>
 
-			{/* Due Date Picker */}
 			<div className={classes.formSection}>
-				<FormLabel className={classes.formLabel}>Due Date</FormLabel>
-				<MuiPickersUtilsProvider utils={DateFnsUtils}>
-					<KeyboardDatePicker
-						disableToolbar
-						variant="inline"
-						format="MM/dd/yyyy"
-						margin="normal"
-						id="date-picker"
-						label=""
-						value={dueDate}
-						onChange={date => setDueDate(date)}
-						KeyboardButtonProps={{ 'aria-label': 'change date', }}
-					/>
-				</MuiPickersUtilsProvider>
-			</div>
+				{/* Due Date Picker */}
+				<div className={classes.inline}>
+					<FormLabel className={classes.formLabel}>Due Date</FormLabel>
+					<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<KeyboardDatePicker
+							disableToolbar
+							variant="inline"
+							format="MM/dd/yyyy"
+							margin="normal"
+							id="date-picker"
+							label=""
+							value={dueDate}
+							onChange={date => setDueDate(date)}
+							KeyboardButtonProps={{ 'aria-label': 'change date', }}
+						/>
+					</MuiPickersUtilsProvider>
+				</div>
 
-			{/* Progress Selector */}
-			<div className={classes.formSection}>
-				<FormLabel className={classes.formLabel}>Progress</FormLabel>
-				<FormControl className={classes.formControl}>
-					{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
-					<Select
-						labelId="select-progress"
-						id="select-progress"
-						value={progress}
-						onChange={e => setProgress(e.target.value)}
-					>
-						<MenuItem key="null" value="">None</MenuItem>
-						{Object.values(Progression).map((el, ind) => {
-							return <MenuItem key={ind} value={el}>{el}</MenuItem>
-						})}
-					</Select>
-				</FormControl>
-			</div>
 
+				{/* Owner Task Dropdown */}
+				<div className={classes.inline}>
+					<FormLabel className={classes.formLabel}>Select Owner Task</FormLabel>
+					<FormControl className={classes.formControl}>
+						{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
+						<Select
+							labelId="select-progress"
+							id="select-progress"
+							value={''} //TODO: set value
+							onChange={e => setOwnerTask(e.target.value)}
+						>
+							<MenuItem key="null" value="">None</MenuItem>
+							{/* TODO: create menu items from task options */}
+						</Select>
+					</FormControl>
+				</div>
+
+				{/* Progress Selector */}
+				<div className={classes.inline}>
+					<FormLabel className={classes.formLabel}>Progress</FormLabel>
+					<FormControl className={classes.formControl}>
+						{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
+						<Select
+							labelId="select-progress"
+							id="select-progress"
+							value={progress}
+							onChange={e => setProgress(e.target.value)}
+						>
+							<MenuItem key="null" value="">None</MenuItem>
+							{Object.values(Progression).map((el, ind) => {
+								return <MenuItem key={ind} value={el}>{el}</MenuItem>
+							})}
+						</Select>
+					</FormControl>
+				</div>
+			</div>
+			
 			<div className={classes.formSection}>
+				{/* Related Subtasks Multiselect */}
+				<div className={classes.inline}>
+					<FormLabel>Select Related Subtasks</FormLabel>
+					<Multiselect options={options.subtasks} label="Subtasks" value={relatedSubtasks} setter={setRelatedSubtasks} />
+				</div>
+
 				{/* Analysts Multiselect */}
-				<div style={{ display: "inline-block" }}>
+				<div className={classes.inline}>
 					<FormLabel className={classes.formLabel}>Select Analyst</FormLabel>
 					<Multiselect options={options.analysts} withInitialsAvatar label="Analysts" value={analysts} setter={setAnalysts} />
 				</div>
 
 				{/* Collaborators Multiselect */}
-				<div style={{ display: "inline-block" }}>
+				<div className={classes.inline}>
 					<FormLabel className={classes.formLabel}>Select Collaborators</FormLabel>
 					<Multiselect options={options.collabs} withInitialsAvatar label="Collabs" value={collabs} setter={setCollabs} />
-				</div>
-
-				{/* Subtasks Multiselect */}
-				<div style={{ display: "inline-block" }}>
-					<FormLabel>Select Subtasks</FormLabel>
-					<Multiselect options={options.subtasks} label="Subtasks" value={relatedSubtasks} setter={setRelatedSubtasks} />
 				</div>
 			</div>
 

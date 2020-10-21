@@ -16,6 +16,7 @@ import { DetailViewActionContext } from '../general/LayoutTemplate';
 import { SubtaskContext } from './SubtaskContext';
 import SubtaskForm from './SubtaskForm';
 import Spinner from '../general/Spinner';
+import styles from '../../css/subtasks/SubtaskDetailView.module.css';
 
 export default function SubtaskDetailView(props) {
 	const closeDetailAction = useContext(DetailViewActionContext);
@@ -49,7 +50,7 @@ export default function SubtaskDetailView(props) {
 		//TODO: Send update subtask request to database
 		axios.put('http://localhost:5000/subtasks/update', {
 			params: {
-				id: (props.selectedTask != null && props.selectedTask.length === 1) ? props.selectedTask[0] : '',
+				id: (props.selectedSubtask != null && props.selectedSubtask.length === 1) ? props.selectedSubtask[0] : '',
 				name: name,
 				description: description,
 				progress: progress,
@@ -107,7 +108,7 @@ export default function SubtaskDetailView(props) {
 
 	return (
 		(contentIsLoading) ? <Spinner /> : (
-			<>
+			<div className={styles.container}>
 				<div style={{ textAlign: "center"}}>
 					<h4 style={{ display: "inline-block", padding: "0.3em"}}>Subtask Detail View</h4>
 					<HelpOutlineRoundedIcon size="large" style={{verticalAlign: "baseline"}}/>
@@ -117,8 +118,9 @@ export default function SubtaskDetailView(props) {
 					<SubtaskForm />
 				</SubtaskContext.Provider>
 
-				<div>
+				<div className={styles.actionButtonsContainer}>
 					<Button
+						className={styles.actionButtons}
 						onClick={handleSaveClick}
 						variant="contained"
 						size="large"
@@ -126,6 +128,7 @@ export default function SubtaskDetailView(props) {
 						color="primary"
 					>Save</Button>
 					<Button
+						className={styles.actionButtons}
 						onClick={closeDetailAction}
 						variant="contained"
 						size="large"
@@ -133,7 +136,7 @@ export default function SubtaskDetailView(props) {
 						color="secondary"
 					>Cancel</Button>
 				</div>
-			</>
+			</div>
 		)
 	);
 }
