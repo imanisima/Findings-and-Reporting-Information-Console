@@ -45,3 +45,30 @@ exports.Classification = [
 	'Classified',
 	'Unclassified',
 ]
+
+exports.FindingStatus = [
+	'Open',
+	'Closed'
+]
+
+exports.FindingType = [
+	'Credentials Complexity',
+	'Manufacturer Default Creds',
+	'Lack of Authentication',
+	'Plain Text Protocols',
+	'Plain Text Web Login',
+	'Encryption',
+	'Authentication Bypass',
+	'Port Security',
+	'Access Control',
+	'Least Privilege',
+	'Privilege Escalation',
+	'Missing Patches',
+	'Physical Security',
+	'Information Disclosure'
+]
+
+exports.FindingClassification = [
+	'Vulnerability',
+	'Information'
+]
