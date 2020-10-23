@@ -38,7 +38,7 @@ exports.Priority = [
 	'High',
 ]
 
-exports.Classification = [
+exports.EventClassification = [
 	'Top Secret',
 	'Secret',
 	'Confidential',

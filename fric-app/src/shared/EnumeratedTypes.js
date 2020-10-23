@@ -37,3 +37,38 @@ export const Priority = {
 	MED: 'Medium',
 	HIGH: 'High',
 }
+
+export const EventClassification = {
+	TOPSECRET: 'Top Secret',
+	SECRET: 'Secret',
+	CONFIDENTIAL: 'Confidential',
+	CLASSIFIED: 'Classified',
+	UNCLASSIFIED: 'Unclassified',
+}
+
+export const FindingStatus = {
+	OPEN: 'Open',
+	CLOSED: 'Closed'
+}
+
+export const FindingType = {
+	CC: 'Credentials Complexity',
+	MDC: 'Manufacturer Default Creds',
+	LOA: 'Lack of Authentication',
+	PTP: 'Plain Text Protocols',
+	PTWL: 'Plain Text Web Login',
+	E: 'Encryption',
+	AB: 'Authentication Bypass',
+	PS: 'Port Security',
+	AC: 'Access Control',
+	LP: 'Least Privilege',
+	PE: 'Privilege Escalation',
+	MP: 'Missing Patches',
+	PS: 'Physical Security',
+	ID: 'Information Disclosure'
+}
+
+export const FindingClassification = {
+	VULNERABILITY: 'Vulnerability',
+	INFORMATION: 'Information'
+}

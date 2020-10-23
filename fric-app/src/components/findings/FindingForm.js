@@ -15,12 +15,12 @@ import {Row, Col} from 'react-bootstrap';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 
 import { FindingContext } from './FindingContext';
-import { Progression } from '../../shared/EnumeratedTypes';
+
 import Multiselect from '../general/Multiselect.js';
 import FileBrowseField from '../general/FileBrowseField';
 
 import { options } from '../general/test/subtaskstestdata'; //TODO: remove once selector options are fetched from database
-
+import { FindingClassification, FindingType, FindingStatus } from '../../shared/EnumeratedTypes';
 const useStyles = makeStyles((theme) => ({
 	formContainer: {
 		padding: "0em 1em 0em 1em",
@@ -118,22 +118,25 @@ export default function SubtaskForm(props) {
                     <Form.Group as={Col} controlId="formGridStatus">
                         <Form.Label>Status</Form.Label>
                         <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
+                            {Object.values(FindingStatus).map((el, ind) => {
+                                return <option key={ind} value={el}>{el}</option>
+                            })}
                         </Form.Control>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridType">
                         <Form.Label>Type</Form.Label>
                         <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
+                            {Object.values(FindingType).map((el, ind) => {
+                                return <option key={ind} value={el}>{el}</option>
+                            })}
                         </Form.Control>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridClassification">
                         <Form.Label>Classification</Form.Label>
-                        <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
+                        <Form.Control as="select" >
+                            {Object.values(FindingClassification).map((el, ind) => {
+                                return <option key={ind} value={el}>{el}</option>
+                            })}
                         </Form.Control>
                     </Form.Group>
                 </Form.Row>
