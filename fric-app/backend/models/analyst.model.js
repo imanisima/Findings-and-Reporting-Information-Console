@@ -9,7 +9,6 @@ const analystSchema = new mongoose.Schema({
 	initial: {
 		type: String,
 		required: true,
-		unique: true,
 		minLength: 2,
 		maxLength: 3,
 	},
@@ -17,8 +16,8 @@ const analystSchema = new mongoose.Schema({
 	role: { type: Number, required: true },
 }, {
 	timestamps: true,
-})
+});
 
 const Analyst = mongoose.model('Analyst', analystSchema);
 
-module.exports = Analyst
+module.exports = Analyst;
