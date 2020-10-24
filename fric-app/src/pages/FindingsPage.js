@@ -10,12 +10,15 @@ import NewFindingDialog from '../components/findings/NewFindingDialog'
 import ConfirmArchiveDialog from '../components/general/ConfirmArchiveDialog';
 import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
 
-export default function SubtasksPage() {
+export default function FindingsPage() {
 	const [tableData, setTableData] = useState([]);
 	const [selected, setSelected] = useState([]);
 	const [contentIsLoading, setContentIsLoading] = useState(true);
 	const [newDialogOpen, setNewDialogOpen] = useState(false);
 	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
+	const [systemArray, setSystemArray] = useState([]);
+	const [taskArray, setTaskArray] = useState([]);
+	const [subtaskArray, setSubtaskArray] = useState([]);
 
 	const headings = [
 		{ id: 'id', numeric: false, disablePadding: true, label: '_id' },
@@ -31,19 +34,34 @@ export default function SubtasksPage() {
 	];
 
 	const reload = () => {
-		setContentIsLoading(true);
-		/*axios.get('http://localhost:5000/subtasks/table') // Fetch table data
-			.then(res => {
-				console.log(res);
-				setTableData(res.data);
-				setContentIsLoading(false);
-			})
-			.catch(err => {
-				console.log(err);
-				//TODO: display error message
-				setContentIsLoading(false);
-			});*/
-			setContentIsLoading(false);
+
+		async function getData() {
+			setContentIsLoading(true);
+
+			const requestSystem = axios.get('http://localhost:5000/systems/names');
+			const requestTask = axios.get('http://localhost:5000/tasks/names');
+			const requestSubtask = axios.get('http://localhost:5000/subtasks/names');
+
+			axios
+				.all([requestSystem, requestTask, requestSubtask])
+				.then(
+					axios.spread((...responses) => {
+						const responseSystem = responses[0].data;
+						const responseTask = responses[1].data;
+						const responseSubtask = responses[2].data;
+						setSystemArray(responseSystem);
+						setTaskArray(responseTask);
+						setSubtaskArray(responseSubtask);
+					})
+				)
+				.catch(err => {
+					console.log(err)
+				})
+				.finally(
+					setContentIsLoading(false)
+				)
+		}
+		getData()
 	};
 
 	/*const confirmArchive = () => { // Send update request to set archived field to true
@@ -78,7 +96,14 @@ export default function SubtasksPage() {
 				}
 				detailComponent={<FindingDetailView selectedSubtask={selected} reload={reload} />}
 			/>
-			<NewFindingDialog isOpen={newDialogOpen} closeDialogAction={() => setNewDialogOpen(false)} reload={reload} />
+			<NewFindingDialog 
+				isOpen={newDialogOpen} 
+				closeDialogAction={() => setNewDialogOpen(false)} 
+				reload={reload} 
+				systemArray={systemArray}
+				taskArray={taskArray}
+				subtaskArray={subtaskArray}
+			/>
 			<ConfirmArchiveDialog
 				isOpen={archiveDialogOpen}
 				numSelected={selected.length}

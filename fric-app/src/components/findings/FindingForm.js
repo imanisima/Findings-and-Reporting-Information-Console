@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SubtaskForm(props) {
+export default function FindingForm(props) {
 	const classes = useStyles();
 	const {
 		name, setName,
@@ -60,16 +61,9 @@ export default function SubtaskForm(props) {
 
 	useEffect(() => {
 		//TODO: fetch multiselector options
-		axios.get('http://localhost:5000/options/subtasks')
-			.then(res => {
-				console.log(res);
-			})
-			.catch(err => {
-				console.log(err);
-				//TODO: display error message
-			});
 	}, []);
 
+    console.log(props.systemArray)
 	return (
 		<div>
             <h3><BiHelpCircle size={24} onClick={() => console.log("help clicked")} /> Findings Information </h3>
@@ -148,25 +142,28 @@ export default function SubtaskForm(props) {
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridStatus">
                         <Form.Label>System</Form.Label>
-                        <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
+                        <Form.Control as="select">
+                            {props.systemArray.map(system => (
+                                <option key={system.id} value={system.name}>{system.name}</option>
+                            ))}
                         </Form.Control>
                     </Form.Group>
                     OR
                     <Form.Group as={Col} controlId="formGridType">
                         <Form.Label>Task</Form.Label>
-                        <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
+                        <Form.Control as="select">
+                            {props.taskArray.map(task => (
+                                <option key={task.id} value={task.name}>{task.name}</option>
+                            ))}
                         </Form.Control>
                     </Form.Group>
                     OR
                     <Form.Group as={Col} controlId="formGridClassification">
                         <Form.Label>Subtask</Form.Label>
-                        <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
+                        <Form.Control as="select">
+                            {props.subtaskArray.map(subtask => (
+                                <option key={subtask.id} value={subtask.name}>{subtask.name}</option>
+                            ))}
                         </Form.Control>
                     </Form.Group>
                 </Form.Row>
@@ -312,4 +309,10 @@ export default function SubtaskForm(props) {
           </Form>
         </div>
 	);
+}
+
+FindingForm.propTypes = {
+    taskArray: PropTypes.array,
+	subtaskArray: PropTypes.array,
+	systemArray: PropTypes.array,
 }

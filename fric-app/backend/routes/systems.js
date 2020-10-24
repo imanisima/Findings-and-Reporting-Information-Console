@@ -62,6 +62,24 @@ router.route('/add').post((req, res) => {
 		.catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/names').get(async (req, res) => {
+	await System
+		.aggregate([
+			{
+				$match: {
+					archived: false
+				}
+			},
+			{
+				$project: {
+					name: 1,
+				}
+			}
+		])
+		.then(systems => res.status(200).json(systems))
+		.catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/delete').post((req, res) => {
 
 });
