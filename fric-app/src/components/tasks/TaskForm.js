@@ -10,9 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
-import Form from 'react-bootstrap/Form'
 
 import { TaskContext } from './TaskContext';
 import { Priority, Progression } from '../../shared/EnumeratedTypes';
@@ -21,6 +21,12 @@ import Multiselect from '../general/Multiselect.js';
 const useStyles = makeStyles((theme) => ({
 	formContainer: {
 		padding: "0em 1em 0em 1em",
+	},
+	formSection: {
+		padding: "1em 0 1em 0",
+	},
+	formLabel: {
+		display: "block",
 	},
 	formControl: {
 		margin: theme.spacing(1),
@@ -47,22 +53,38 @@ export default function TaskForm(props) {
 	const classes = useStyles();
 
 	return (
-		<Form className={classes.formContainer}>
+		<form className={classes.formContainer}>
 			{/* Title Text Field */}
-			<Form.Group>
-				<FormLabel style={{ display: "block" }}>Name</FormLabel>
-				<Form.Control type="text" placeholder="Task Name" onChange={e => setName(e.target.value)} value={name} />
-			</Form.Group>
+			<div className={classes.formSection}>
+				<FormLabel className={classes.formLabel}>Name</FormLabel>
+				<TextField
+					required
+					fullWidth
+					variant="outlined"
+					placeholder="Task Name"
+					value={name}
+					onChange={e => setName(e.target.value)}
+				/>
+			</div>
 
 			{/* Description Text Field */}
-			<Form.Group>
-				<FormLabel style={{ display: "block" }} >Description</FormLabel>
-				<Form.Control as="textarea" rows="3" placeholder="Task Description" onChange={e => setDescription(e.target.value)} value={description} />
-			</Form.Group>
+			<div className={classes.formSection}>
+				<FormLabel className={classes.formLabel} >Description</FormLabel>
+				<TextField
+					required
+					fullWidth
+					variant="outlined"
+					multiline rows="4"
+					rowsMax="4"
+					placeholder="Task Description"
+					value={description}
+					onChange={e => setDescription(e.target.value)}
+				/>
+			</div>
 
 			{/* Due Date Picker */}
-			<Form.Group>
-				<FormLabel style={{ display: "block" }}>Due Date</FormLabel>
+			<div>
+				<FormLabel className={classes.formLabel}>Due Date</FormLabel>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
 					<KeyboardDatePicker
 						disableToolbar
@@ -76,12 +98,12 @@ export default function TaskForm(props) {
 						KeyboardButtonProps={{ 'aria-label': 'change date', }}
 					/>
 				</MuiPickersUtilsProvider>
-			</Form.Group>
+			</div>
 
-			<div>
+			<div className={classes.formSection}>
 				{/* Progress Selector */}
-				<Form.Group style={{ display: 'inline-block' }}>
-					<FormLabel style={{ display: "block" }}>Progress</FormLabel>
+				<div style={{ display: 'inline-block' }}>
+					<FormLabel className={classes.formLabel}>Progress</FormLabel>
 					<FormControl className={classes.formControl}>
 						{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
 						<Select
@@ -99,11 +121,11 @@ export default function TaskForm(props) {
 							}
 						</Select>
 					</FormControl>
-				</Form.Group>
+				</div>
 
 				{/* Priority Selector */}
-				<Form.Group style={{ display: 'inline-block' }}>
-					<FormLabel style={{ display: "block" }}>Priority</FormLabel>
+				<div style={{ display: 'inline-block' }}>
+					<FormLabel className={classes.formLabel}>Priority</FormLabel>
 					<FormControl className={classes.formControl}>
 						{/* <InputLabel id=" select-outlined-label"></InputLabel> */}
 						<Select
@@ -121,13 +143,13 @@ export default function TaskForm(props) {
 							}
 						</Select>
 					</FormControl>
-				</Form.Group>
+				</div>
 			</div>
 
-			<div>
+			<div className={classes.formSection}>
 				{/* Analysts Multiselect */}
-				<Form.Group style={{ display: "inline-block" }}>
-					<FormLabel style={{ display: "block" }}>Select Analysts</FormLabel>
+				<div style={{ display: "inline-block" }}>
+					<FormLabel className={classes.formLabel}>Select Analysts</FormLabel>
 						<Multiselect
 							options={[]} //TODO: request options
 							value={analysts}
@@ -135,11 +157,11 @@ export default function TaskForm(props) {
 							withInitialsAvatar
 							setter={setAnalysts}
 						/>
-				</Form.Group>
+				</div>
 
 				{/* Collaborators Multiselect */}
-				<Form.Group style={{ display: "inline-block" }}>
-					<FormLabel style={{ display: "block" }}>Select Collaborators</FormLabel>
+				<div style={{ display: "inline-block" }}>
+					<FormLabel className={classes.formLabel}>Select Collaborators</FormLabel>
 						<Multiselect
 							options={[]} //TODO: request options
 							value={collabs}
@@ -147,19 +169,19 @@ export default function TaskForm(props) {
 							withInitialsAvatar
 							setter={setCollabs}
 						/>
-				</Form.Group>
+				</div>
 
 				{/* Related Tasks Multiselect */}
-				<Form.Group style={{ display: "inline-block" }}>
-					<FormLabel style={{ display: "block" }}>Select Related Tasks</FormLabel>
+				<div style={{ display: "inline-block" }}>
+					<FormLabel className={classes.formLabel}>Select Related Tasks</FormLabel>
 						<Multiselect
 							options={[]} //TODO: request options
 							value={relatedTasks}
 							label="Tasks"
 							setter={setRelatedTasks}
 						/>
-				</Form.Group>
+				</div>
 			</div>
-		</Form>
+		</form>
 	);
 }
