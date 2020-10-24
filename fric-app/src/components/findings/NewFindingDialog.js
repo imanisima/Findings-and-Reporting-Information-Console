@@ -96,7 +96,11 @@ export default function NewFindingDialog(props) {
 			<DialogTitle id="scroll-dialog-title" className={styles.title}>Create New Finding</DialogTitle>
 			<DialogContent dividers={true}>
 				<FindingContext.Provider value={subtaskProviderValue}>
-					<FindingForm />
+					<FindingForm 
+						systemArray={props.systemArray}
+						taskArray={props.taskArray}
+						subtaskArray={props.subtaskArray}
+					/>
 				</FindingContext.Provider>
 			</DialogContent>
 			<DialogActions>
@@ -108,6 +112,10 @@ export default function NewFindingDialog(props) {
 }
 
 NewFindingDialog.propTypes = {
+	findingArray: PropTypes.object,
+	taskArray: PropTypes.array,
+	subtaskArray: PropTypes.array,
+	systemArray: PropTypes.array,
 	isOpen: PropTypes.bool.isRequired,
 	closeDialogAction: PropTypes.func.isRequired,
 	reload: PropTypes.func.isRequired,
