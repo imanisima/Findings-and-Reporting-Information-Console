@@ -2,6 +2,8 @@
 
 '''
 
+import os
+
 # Default Host IP for intializing servers
 HOST = 'localhost' # 127.0.0.1
 
@@ -12,7 +14,6 @@ REACT_PORT = 3000
 
 # Path to mongod configuration file
 MONGO_CONF = 'mongod.conf' # Name of mongod configuration file
-import os
 MONGO_CONF = os.path.join(os.path.dirname(__file__), MONGO_CONF) # Resolve path to config file
 
 # Default database folder path where all bson files are stored
@@ -35,3 +36,4 @@ def getConfigFileSettings():
 			if portMatch: MONGO_PORT = portMatch.group(0)
 
 getConfigFileSettings() # Get constants from mongod.conf
+if not os.path.isdir(DB_PATH): os.makedirs(DB_PATH) # Make required database directory

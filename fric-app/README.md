@@ -2,20 +2,21 @@
 
 ## App setup and dependencies
 
-- All modules listed in both the `package.json` and `package-lock.json` files.
-- The `mongod` binary.
+- MongoDB v4.4.0 and above
+- NodeJS
+- NPM
+- Python3.8 and above
+- All Node modules (with their required versions) listed in both the `package.json` and `package-lock.json` files.
 
 ### Steps to run FRIC
 
 1. Download MongoDB and its binaries (You should have the `mongod` binary in your $PATH variable).
-2. Download NodeJS and NPM.
-3. Clone the repository located at <https://github.com/Imanisima/Findings-and-Reporting-Information-Console>.
-4. Access the `fric-app` directory in the cloned repository.
-5. Run `npm install`.
-6. Run `npm start`.
-7. Start another shell process and run `mongod` in the terminal.
-8. Start another shell process, navigate to the `backend` directory in the cloned repository, and run `nodemon server`.
-9. Navigate to `localhost:3000` (or `127.0.0.1:3000`) in your browser, preferablly Chrome.
+2. Download NodeJS and NPM (You should have the `node` and `npm` binaries in your $PATH variable).
+3. Download the latest version of Python (You should have the `python3` binary in your $PATH variable).
+4. Clone the repository located at <https://github.com/Imanisima/Findings-and-Reporting-Information-Console>.
+5. Access the `fric-app` directory in the cloned repository.
+6. Run the `launch.py` executable.
+7. Navigate to `localhost:3000` (or `127.0.0.1:3000`) in your browser, preferablly Chrome. (Safari is unsupported)
 
 ---
 
