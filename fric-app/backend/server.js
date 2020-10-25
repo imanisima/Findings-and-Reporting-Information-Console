@@ -6,10 +6,12 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+const { MONGO_URI, SERVER_PORT } = require('../config/server_config');
+
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || SERVER_PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -18,9 +20,19 @@ app.use(express.json());
  * The following section links the mongodb atlas database.
  */
 
-const { MONGO_URI } = require('../config/server_config');
+mongoose
+	.connect(MONGO_URI, {
+			useNewUrlParser: true,
+			useCreateIndex: true,
+			useUnifiedTopology: true
+		})
+	.then(res => console.log(res))
+	.catch(err => {
+		console.log(err);
+		console.log("MongoDB connection failed, terminating server")
+		process.exit(); // Terminate program
+	});
 
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 const conn = mongoose.connection;
 conn.once('open', () => {
 	console.log("MongoDB connection established");
@@ -56,5 +68,5 @@ app.use('/analysts', analystsRouter);
  */
 
 app.listen(port, () => {
-	console.log(`Backend server is running on port ${port}.`);
+	console.log(`Backend server is running on port ${port}...`);
 });
