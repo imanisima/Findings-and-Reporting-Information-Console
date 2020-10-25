@@ -69,6 +69,7 @@
     "react-scripts": "^3.4.4",
     "react-treeview": "^0.4.7",
     "sass": "^1.26.10",
+    "serve": "^11.3.2",
     "typescript": "^3.9.7"
   },
   "devDependencies": {

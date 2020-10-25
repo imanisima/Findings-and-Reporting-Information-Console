@@ -3,13 +3,10 @@
 import os, sys, subprocess, signal
 import config.launch_config as config  # Import config.py constants
 
-# Command arguments for installing required system node packages 
-npm_install_cmd = ['npm', 'install']
-
 # Command arguments for starting required system servers
 mongod_cmd = ['mongod', '--config', config.MONGO_CONF]
 backend_cmd   = ['node', './backend/server.js']
-frontend_cmd  = ['npm', 'start']
+frontend_cmd  = ['serve', '-s', 'build']
 
 def kill_required_ports(force=False, terminate=False):
 	"""Used to kill processes int he ports required by the system."""
@@ -58,6 +55,12 @@ def start_servers():
 if __name__ == '__main__':
 	shutoff = '-0' in sys.argv # Flag for terminating program after killing required port PIDs
 	kill_required_ports(True if '-k' in sys.argv else False, shutoff)
-	if '-d' in sys.argv: backend_cmd = ['nodemon', './backend/server.js'] # Set to development server
-	if '-i' in sys.argv or not os.path.isdir('./node_modules'): subprocess.Popen(npm_install_cmd).wait() # Install node packages
+	
+	if '-i' in sys.argv or not os.path.isdir('./node_modules'): subprocess.Popen(['npm', 'install']).wait()  # Install node packages
+	# if '-i' in sys.argv or not os.path.isdir('./build'): subprocess.Popen(['npm', 'run', 'build']).wait() # Compile production build files TODO: use line in production
+	if '-d' in sys.argv: # Developer mode
+		backend_cmd = ['nodemon', './backend/server.js'] # Set to development server
+		frontend_cmd = ['npm', 'start']
+	frontend_cmd = ['npm', 'start'] # TODO: remove this line in production
+	
 	start_servers()
