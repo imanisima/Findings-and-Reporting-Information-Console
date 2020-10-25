@@ -18,12 +18,13 @@ app.use(express.json());
  * The following section links the mongodb atlas database.
  */
 
-const MONGO_URI = require('./mongo_config');
+const { MONGO_URI } = require('../config/server_config');
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 const conn = mongoose.connection;
 conn.once('open', () => {
 	console.log("MongoDB connection established");
+	console.log(MONGO_URI)
 });
 
 /**

@@ -1,7 +1,7 @@
 #! python3.8
 
 import os, sys, subprocess, signal
-import config  # Import config.py constants
+import config.launch_config as config  # Import config.py constants
 
 # Command arguments for starting required system servers
 mongod_cmd = ['mongod', '--config', config.MONGO_CONF]
@@ -26,7 +26,7 @@ def start_servers():
 		To change this behavior, alter the open file modifiers to 'a' instead of 'w'.
 	"""
 	if not os.path.isdir('./logs'): os.mkdir('./logs') # Make log directory
-	with open('logs/mongod.log', 'w') as mlog, open('logs/frontend.log', 'w') as nlog, open('logs/backend.log', 'w') as rlog: # Open log files for writing and truncate
+	with open('logs/mongod.log', 'w') as mlog, open('logs/node.log', 'w') as nlog, open('logs/react.log', 'w') as rlog: # Open log files for writing and truncate
 		subprocess.Popen(mongod_cmd, stdout=mlog) # Start mongodb daemon
 		subprocess.Popen(backend_cmd, stdout=nlog) # Start node backend server
 		subprocess.Popen(frontend_cmd, stdout=rlog) # Start react frontend server

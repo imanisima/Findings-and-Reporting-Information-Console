@@ -11,7 +11,9 @@ NODE_PORT  = 5000
 REACT_PORT = 3000
 
 # Path to mongod configuration file
-MONGO_CONF = './mongod.conf'
+MONGO_CONF = 'mongod.conf' # Name of mongod configuration file
+import os
+MONGO_CONF = os.path.join(os.path.dirname(__file__), MONGO_CONF) # Resolve path to config file
 
 # Default database folder path where all bson files are stored
 DB_PATH = '/data/db'
@@ -21,10 +23,10 @@ DB_NAME = 'fric_db'
 DB_USER = 'fricapp'
 DB_PASS = 'fricitup'
 
-def getConfigFileData():
+def getConfigFileSettings():
 	"""This function parses the default set mongod.conf file for the path to the bson database and for the mongod port configuration."""
 	import re
-	global DB_PATH, MONGO_PORT
+	global DB_PATH, MONGO_PORT, MONGO_CONF
 	with open(MONGO_CONF, 'r') as file:
 		while line := file.readline():
 			pathMatch = re.search('(?<=dbPath: [\"\'])[\w\/]+', line)  # Get dbpath
@@ -32,4 +34,4 @@ def getConfigFileData():
 			if pathMatch: DB_PATH = pathMatch.group(0)
 			if portMatch: MONGO_PORT = portMatch.group(0)
 
-getConfigFileData() # Get constants from mongod.conf
+getConfigFileSettings() # Get constants from mongod.conf
