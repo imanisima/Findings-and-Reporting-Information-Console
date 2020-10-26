@@ -99,7 +99,7 @@ export default function SyncForm(props) {
 									{
 										props.analystOptions.map(el => {
 											return (
-												<MenuItem value={el}>{el}</MenuItem>
+												<MenuItem key={el} value={el}>{el}</MenuItem>
 											)
 										})
 									}
