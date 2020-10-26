@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
+import { lighten, darken, makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -77,10 +77,10 @@ const StyledTableRow = withStyles((theme) => ({
 			backgroundColor: theme.palette.action.hover,
 		},
 		"&$hover:hover": {
-			backgroundColor: lighten("#066ff9", 0.85) //lighten(theme.palette.primary.light,0.85)
+			backgroundColor: darken("#066ff9", 0.50) //lighten(theme.palette.primary.light,0.85)
 		},
 		"&$selected, &$selected:hover": {
-			backgroundColor: lighten("#066ff9", 0.75) //lighten(theme.palette.primary.dark, 0.70)
+			backgroundColor: darken("#066ff9", 0.70) //lighten(theme.palette.primary.dark, 0.70)
 		},
 	},
 	hover: {},
@@ -143,14 +143,14 @@ export default function TasksOverviewTable(props) {
 
 	const handleEditClick = () => {
 		if (selected != null && selected.length === 1) {
-			props.getSelectedTasks(selected); // Set selected id value, object to be fetched from detail view
+			props.setSelectedTasks(selected); // Set selected id value, object to be fetched from detail view
 			openDetailAction(); // Open detal view on tasks page
 		}
 	};
 
 	const handleArchiveClick = () => {
 		if (selected != null) {
-			props.getSelectedTasks(selected);
+			props.setSelectedTasks(selected);
 			props.archiveAction();
 		}
 	};
@@ -285,6 +285,6 @@ export default function TasksOverviewTable(props) {
 TasksOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
-	getSelectedTasks: PropTypes.func.isRequired,
+	setSelectedTasks: PropTypes.func.isRequired,
 	archiveAction: PropTypes.func.isRequired,
 }
