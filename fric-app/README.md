@@ -1,55 +1,58 @@
 # Findings and Reporting Information Console (FRIC)
 
-## App setup and dependencies
-
-- MongoDB v4.4.0 and above
-- NodeJS
-- NPM
-- Python3.8 and above
-- All Node modules (with their required versions) listed in both the `package.json` and `package-lock.json` files.
-
-### Steps to run FRIC
+## Running FRIC out of the box
 
 1. Download MongoDB and its binaries (You should have the `mongod` binary in your $PATH variable).
 2. Download NodeJS and NPM (You should have the `node` and `npm` binaries in your $PATH variable).
 3. Download the latest version of Python (You should have the `python3` binary in your $PATH variable).
 4. Clone the repository located at <https://github.com/Imanisima/Findings-and-Reporting-Information-Console>.
 5. Access the `fric-app` directory in the cloned repository.
-6. Run the `launch.py` executable.
-7. Navigate to `localhost:3000` (or `127.0.0.1:3000`) in your browser, preferablly Chrome. (Safari is unsupported)
+6. Configure the `dbPath` variable in the `mongod.conf` file located in the `config` directory. This path is where MongoDB will store its database files (BSON).
+7. Run the `launch.py` executable.
+8. Navigate to `localhost:3000` (or `127.0.0.1:3000`) in your browser. (Preferablly Chrome; Safari is unsupported)
 
 ---
 
-### `npm start`
+## Using the `launch.py` executable
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Arguments:
+  - `-i`: Installs node_modules dependencies needed to run the FRIC app. Useful when running in development mode.
+  - `-d`: Runs the app in development mode. Any changes to the source code will be reloaded upon saving the edited files.
+  - `-k`: Kills all PIDs that are using the required ports without prompting for their termination.
+  - `-0`: Runs the kill PID command without starting the app servers afterward. (Can be combined with `-k` to skip the termination prompt)
+  - `-t`: Runs the react-scripts unit test watch program.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## Configuration
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Here is a list of the configuration files and settings used in the FRIC app.
 
-### `npm run build`
+- `mongod.conf` - Configuration settings file used when running mongod (mongodb daemon).
+  - `dbPath`: Path where MongoDB stores and uses BSON files required to run the database.
+  - `port`: Port on localhost where MongoDB will run its database. Compass and MongooseJS use this port to access the database.
+- `launch_config.py` - Configuration settings for running the `launch.py` executable.s
+  - `REACT_PORT` - Port on localhost where the production frontend will be run.
+- `server_config.js` - Configuration settings for the backend ExpressJS server.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Default Configuration:
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- MongoDB (Production and Development Mode):
+  - `dpPath` = `/data/db`
+  - `port` = 27017
+- Production Mode:
+  - `node` runs the backend on port 5000.
+  - `serve` runs the frontend on port 3000.
+- Development Mode:
+  - `nodemon` runs the backend on port 5000.
+  - `npm start` runs the frontend on port 3000.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Requirements & Dependencies
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
+- MongoDB v4.4.0 and above
+- NodeJS
+- NPM
+- Python3.8 and above
+- All Node modules (with their required versions) listed in both the `package.json` and `package-lock.json` files.

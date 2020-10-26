@@ -68,6 +68,10 @@ def start_servers(dev_mode):
 
 
 if __name__ == '__main__':
+	if '-t' in sys.argv: # Run unit test watch mode
+		subprocess.Popen(['npm', 'test']).wait()
+		exit()
+
 	# Argument flags
 	shutoff = '-0' in sys.argv # Terminates program after killing required port PIDs
 	force_kill = '-k' in sys.argv # Skips PID kill prompt and force kill all PIDs running on the required ports
