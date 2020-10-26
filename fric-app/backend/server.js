@@ -3,8 +3,8 @@
  */
 
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const { MONGO_URI, SERVER_PORT } = require('../config/server_config');
 
@@ -22,10 +22,10 @@ app.use(express.json());
 
 mongoose
 	.connect(MONGO_URI, {
-			useNewUrlParser: true,
-			useCreateIndex: true,
-			useUnifiedTopology: true
-		})
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useUnifiedTopology: true
+	})
 	.then(res => console.log(res))
 	.catch(err => {
 		console.log(err);
