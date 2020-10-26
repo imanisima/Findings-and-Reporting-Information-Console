@@ -31,6 +31,7 @@ export default class Main extends Component {
 	}
 
 	componentDidMount() {
+		//TODO: get event from user stored browser cookie, otherwise send the following request
 		// Send request for events
 		axios.get('http://localhost:5000/events')
 			.then(response =>  {
@@ -67,7 +68,7 @@ export default class Main extends Component {
 					aria-describedby="slide-dialog-description"
 					disableBackdropClick
 				>
-					<SetupForm submitAction={ this.handleDialogClose } />
+					<SetupForm submitAction={this.handleDialogClose} />
 				</Dialog>
 			</ThemeProvider>
 		);

@@ -5,12 +5,6 @@
 const router = require('express').Router();
 const Analyst = require('../models/analyst.model');
 
-// Used to edit the response that will be sent to the requester.
-var response = {
-	status: '200',
-	data: null,
-}
-
 router.route('/').get((req, res) => {
 	Analyst
 		.find()
