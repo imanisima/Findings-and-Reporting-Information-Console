@@ -2,6 +2,7 @@
  * 
  */
 
+exports.SERVER_HOST = 'localhost';
 exports.SERVER_PORT = 5000;
 
  /* */
