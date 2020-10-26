@@ -60,6 +60,9 @@ import SearchIcon from '@material-ui/icons/Search';
 // Custom Components
 import SyncForm from '../sync/SyncForm';
 
+//Progression bar
+import ProgressBar from 'react-bootstrap/ProgressBar'
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -219,6 +222,9 @@ export default function LayoutTemplate(props) {
 	// const handleSnackbarOpen = () => setSnackbarOpen(true);
 	const handleSnackbarClose = () => setSnackbarOpen(false);
 
+	//const Progression Bar
+	const now = 75;
+
 	return (
 		<div className={classes.root}>
 			<CssBaseline />
@@ -244,6 +250,11 @@ export default function LayoutTemplate(props) {
 					</IconButton>
 					<Typography variant="h5" noWrap>
 						Findings and Reporting Information Console (FRIC)
+
+						<Link to="/progress" replace={useLocation().pathname === '/progress'} className={classes.links}>
+							<ProgressBar now={now} label={`Overall Progress ${now}%` } />
+						</Link>
+
 					</Typography>
 					<div className={classes.grow} />
 					<div style={{ marginLeft: "auto", }} >
