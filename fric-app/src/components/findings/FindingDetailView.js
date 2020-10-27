@@ -29,12 +29,12 @@ export default function FindingDetailView(props) {
     const [system, setSystem] = useState('');
     const [task, setTask] = useState('');
     const [subtask, setSubTask] = useState('');
-    const [relatedFindings, setRelatedFindings] = useState('');
+    const [relatedFindings, setRelatedFindings] = useState([]);
     const [confidentiality, setConfidentiality] = useState('');
     const [integrity, setIntegrity] = useState('');
     const [availability, setAvailability] = useState('');
-    const [analyst, setAnalyst] = useState('');
-    const [collaborators, setCollaborators] = useState('');
+    const [analyst, setAnalyst] = useState([]);
+    const [collaborators, setCollaborators] = useState([]);
     const [posture, setPosture] = useState(''); //Not in classes
     const [briefDescription, setBriefDescription] = useState('');
     const [mitigationLongDescription, setMitigationLongDescription] = useState('');
@@ -115,7 +115,7 @@ export default function FindingDetailView(props) {
 			})
         closeDetailAction(); // Close detail view tray
         */
-	}
+    }
 
 	useEffect(() => {
 		/*console.log(props.selectedFinding);

@@ -89,9 +89,7 @@ export default function FindingForm(props) {
         vulnerabilitySeverity, setVulnerabilitySeverity,
         quantitativeSeverity, setQuantitativeSeverity,
         risk, setRisk,
-        likelihood, setLikelihood
-
-		
+        likelihood, setLikelihood,
 	} = useContext(FindingContext); //TODO: error handle nonexistent context values
 
 	useEffect(() => {
