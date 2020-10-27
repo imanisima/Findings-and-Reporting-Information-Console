@@ -52,7 +52,6 @@ router.route('/add').post((req, res) => {
 		switch: req.body.switch,
 		room: req.body.room,
 		testPlan: req.body.testPlan,
-		archived: req.body.archived
 	}
 	newSystem = new System(newSystem);
 
