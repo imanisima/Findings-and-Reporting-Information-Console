@@ -72,3 +72,76 @@ export const FindingClassification = {
 	VULNERABILITY: 'Vulnerability',
 	INFORMATION: 'Information'
 }
+
+export const FindingImpactConfidentiality = {
+	L: 'Low',
+	M: 'Medium',
+	H: 'High',
+	I: 'Information'
+}
+
+export const FindingImpactIntegrity = {
+	L: 'Low',
+	M: 'Medium',
+	H: 'High',
+	I: 'Information'
+}
+
+export const FindingImpactAvailability = {
+	L: 'Low',
+	M: 'Medium',
+	H: 'High',
+	I: 'Information'
+}
+
+/**
+ * AnalystPosture, might have to move these because they are editable
+ */
+export const AnalystPosture = {
+	I: 'Insider',
+	IN: 'Insider-nearsider',
+	O: 'Outsider',
+	N: 'Nearsider',
+	NO: "Nearsider-outsider"
+}
+
+/**
+ * ThreatRelevance, might have to move these because they are editable
+ */
+export const ThreatRelevance = {
+	C: 'Confirmed',
+	E: 'Expected',
+	A: 'Anticipated',
+	PP: 'Predicted Possible'
+}
+
+/**
+ * EffectivenessRating, might have to move these because they are editable
+ */
+export const EffectivenessRating = {
+	VH: 'Very High (10)',
+	H: 'High (7-9)',
+	M: 'Moderate (4-6)',
+	L: 'Low (1-3)',
+	VL: 'Very low (0)'
+}
+
+/**
+ * ImpactLevel, might have to move these because they are editable
+ */
+export const ImpactLevel = {
+	VH: 'VH',
+	H: 'H',
+	M: 'M',
+	L: 'L',
+	VL: 'VL'
+}
+
+/**
+ * SeverityCategoryCode, might have to move these because they are editable
+ */
+export const SeverityCategoryCode = {
+	I: 'I',
+	II: 'II',
+	III:  'III',
+}
