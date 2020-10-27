@@ -23,7 +23,9 @@ def kill_required_ports(force=False, terminate=False, dev=False):
 		return [int(item) for sublist in pids for item in sublist] # Flatten PID list
 		
 	def killPids(pids):
-		for pid in pids: os.kill(pid, signal.SIGKILL)
+		for pid in pids:
+			try: os.kill(pid, signal.SIGKILL)
+			except ProcessLookupError as err: print(err)
 
 	ports = (config.MONGO_PORT, config.SERVER_PORT, config.REACT_PORT) # Required app ports
 

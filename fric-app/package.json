@@ -44,6 +44,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
+    "cookie": "^0.4.1",
     "cors": "latest",
     "date-fns": "^2.16.1",
     "dotenv": "latest",
