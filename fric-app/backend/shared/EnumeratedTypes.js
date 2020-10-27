@@ -72,3 +72,26 @@ exports.FindingClassification = [
 	'Vulnerability',
 	'Information'
 ]
+
+exports.Confidentiality = [
+	'Low',
+	'Medium',
+	'High',
+	'Information'
+]
+exports.ThreatRelevance = [
+	'Confirmed',
+	'Expected',
+	'Anticipated',
+	'Predicted',
+	'Possible'
+
+]
+exports.Posture = [
+	'Insider',
+	'Insider-nearsider',
+	'Outsider',
+	'Nearsider',
+	'Nearsider-outsider'
+
+]
