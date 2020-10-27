@@ -17,29 +17,73 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function NewFindingDialog(props) {
-	const [name, setName] = useState('');
-	const [description, setDescription] = useState('');
-	const [progress, setProgress] = useState('');
-	const [ownerTask, setOwnerTask] = useState('');
-	const [relatedSubtasks, setRelatedSubtasks] = useState([]);
-	const [analysts, setAnalysts] = useState([]);
-	const [collabs, setCollabs] = useState([]);
-	const [attachment, setAttachment] = useState('');
-	const [dueDate, setDueDate] = useState(new Date());
-	const [archived, setArchived] = useState(false);
-	const subtaskProviderValue = useMemo(() => ({
-		name, setName,
-		description, setDescription,
-		progress, setProgress,
-		ownerTask, setOwnerTask,
-		relatedSubtasks, setRelatedSubtasks,
-		analysts, setAnalysts,
-		collabs, setCollabs,
-		attachment, setAttachment,
-		dueDate, setDueDate,
-		archived, setArchived
-	}), [name, description, progress, ownerTask, relatedSubtasks,
-		analysts, collabs, attachment, dueDate, archived]);
+	const [id, setID] = useState('');
+    const [hostName, setHostName] = useState('');
+    const [ipPort, setIpPort] = useState('');
+    const [findingDescription, setFindingDescription] = useState('');
+    const [longFindingDescription, setLongFindingDescription] = useState('');
+    const [status, setStatus] = useState('');
+    const [type, setType] = useState('');
+    const [classification, setClassification] = useState('');
+    const [evidence, setEvidence] = useState('');
+    const [system, setSystem] = useState('');
+    const [task, setTask] = useState('');
+    const [subtask, setSubTask] = useState('');
+    const [relatedFindings, setRelatedFindings] = useState([]);
+    const [confidentiality, setConfidentiality] = useState('');
+    const [integrity, setIntegrity] = useState('');
+    const [availability, setAvailability] = useState('');
+    const [analyst, setAnalyst] = useState([]);
+    const [collaborators, setCollaborators] = useState([]);
+    const [posture, setPosture] = useState(''); //Not in classes
+    const [briefDescription, setBriefDescription] = useState('');
+    const [mitigationLongDescription, setMitigationLongDescription] = useState('');
+    const [relevance, setRelevance] = useState(''); //Not in classes
+    const [effectiveness, setEffectiveness] = useState(''); //Not in classes
+    const [impactDescription, setImpactDescription] = useState('');
+    const [impactLevel, setImpactLevel] = useState('');
+    const [severityCatScore, setSeverityCatScore] = useState('');
+    const [vulnerabilitySeverity, setVulnerabilitySeverity] = useState('');
+    const [quantitativeSeverity, setQuantitativeSeverity] = useState('');
+    const [risk, setRisk] = useState('');
+    const [likelihood, setLikelihood] = useState('');
+	const findingProviderValue = useMemo(() => ({
+		id, setID,
+		hostName, setHostName,
+		ipPort, setIpPort,
+		findingDescription, setFindingDescription,
+		longFindingDescription, setLongFindingDescription,
+        status, setStatus,
+        type, setType,
+		classification, setClassification,
+		evidence, setEvidence,
+		system, setSystem, 
+        task, setTask,
+        subtask, setSubTask,
+        relatedFindings, setRelatedFindings,
+        confidentiality, setConfidentiality,
+        integrity, setIntegrity,
+        availability, setAvailability,
+        analyst, setAnalyst,
+        collaborators, setCollaborators,
+        posture, setPosture, //Not in classes
+        briefDescription, setBriefDescription,
+        mitigationLongDescription, setMitigationLongDescription,
+        relevance, setRelevance, //Not in classes
+        effectiveness, setEffectiveness, //Not in classes
+        impactDescription, setImpactDescription,
+        impactLevel, setImpactLevel,
+        severityCatScore, setSeverityCatScore,
+        vulnerabilitySeverity, setVulnerabilitySeverity,
+        quantitativeSeverity, setQuantitativeSeverity,
+        risk, setRisk,
+        likelihood, setLikelihood
+    }), [id, hostName, ipPort, findingDescription, longFindingDescription,
+        status, type, classification, evidence, system, 
+        task, subtask, relatedFindings, confidentiality, integrity, 
+        availability, analyst, collaborators, posture, briefDescription,
+        mitigationLongDescription, relevance, effectiveness, impactDescription,impactLevel,
+        severityCatScore, vulnerabilitySeverity, quantitativeSeverity, risk, likelihood]);
 
 	/*const handleSubmit = () => {
 		axios.post('http://localhost:5000/subtasks/new', {
@@ -68,15 +112,6 @@ export default function NewFindingDialog(props) {
     */
 	const handleClose = () => {
 		// Reset values so they aren't displayed when dialog is shown again
-		setName('');
-		setDescription('');
-		setProgress('');
-		setOwnerTask('');
-		setRelatedSubtasks([]);
-		setAnalysts([]);
-		setCollabs([]);
-		setDueDate(new Date());
-		setArchived(false);
 		props.closeDialogAction(); // Close the dialog window
 	}; 
 
@@ -89,13 +124,13 @@ export default function NewFindingDialog(props) {
             fullWidth={true}
 			maxWidth={'md'}
 			disableBackdropClick
-			//onClose={handleClose}
+			onClose={handleClose}
 			aria-labelledby="slide-dialog-title"
 			aria-describedby="slide-dialog-description"
 		>
 			<DialogTitle id="scroll-dialog-title" className={styles.title}>Create New Finding</DialogTitle>
 			<DialogContent dividers={true}>
-				<FindingContext.Provider value={subtaskProviderValue}>
+				<FindingContext.Provider value={findingProviderValue}>
 					<FindingForm 
 						systemArray={props.systemArray}
 						taskArray={props.taskArray}
@@ -105,7 +140,7 @@ export default function NewFindingDialog(props) {
 			</DialogContent>
 			<DialogActions>
 				<Button variant="contained" size="large" color="primary">Submit</Button>
-				<Button variant="contained" size="large" color="secondary">Cancel</Button>
+				<Button onClick={handleClose} variant="contained" size="large" color="secondary">Cancel</Button>
 			</DialogActions>
 		</Dialog>
 	);
