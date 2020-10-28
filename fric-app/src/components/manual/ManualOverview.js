@@ -31,15 +31,34 @@ import TasksManual from './TasksManual';
 
               <body>
                 <ConfigManual />
+                <br></br><br></br>
+
                 <DatabaseManual /> {/* <-- Ask about this */}
+                <br></br><br></br>
+
                 <EventsManual />
-                {/* <FindingsManual /> */}
-                {/* <ProjectStructManual /> */}
-                {/* <RunManual /> */}
-                {/* <SubtasksManual/> */}
+                <br></br><br></br>
+
+                <FindingsManual />
+                <br></br><br></br>
+
+                <ProjectStructManual /> {/* <!-- Ask about this */}
+                <br></br>
+
+                <RunManual />
+                <br></br>
+
+                <SubtasksManual/>
+                <br></br>
+
                 {/* <SyncManual/> */}
+                <br></br>
+
                 {/* <SystemsManual /> */}
+                <br></br>
+
                 {/* <TasksManual /> */}
+                <br></br>
 
               </body>
 

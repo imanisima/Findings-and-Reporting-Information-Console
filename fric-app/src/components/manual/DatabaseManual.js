@@ -18,17 +18,11 @@ class DatabaseManual extends Component {
             <h1> Database </h1>
             <p> Information about the database. </p>
 
-            {/* Create an Event */}
+            {/* Database */}
             <section>
-            {/* <h2> Creating an Event </h2> */}
-            {/* <img src={CreateNewEvent} alt="create a new event" height={250}></img> */}
+            <h2> Database Choice </h2>
+            <p>MongoDB</p>
 
-            <br></br><br></br>
-            {/* <ol>
-              <li>To create a new event, click "New" button at the top of the page. </li>
-              <li>Step 2</li>
-              <li>Step 3 </li>
-            </ol> */}
             </section>
 
 
