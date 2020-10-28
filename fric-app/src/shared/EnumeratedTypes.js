@@ -120,11 +120,17 @@ export const ThreatRelevance = {
  * EffectivenessRating, might have to move these because they are editable
  */
 export const EffectivenessRating = {
-	VH: 'Very High',
-	H: 'High',
-	M: 'Moderate',
-	L: 'Low',
-	VL: 'Very low'
+	0: 0,
+	1: 1,
+	2: 2,
+	3: 3,
+	4: 4,
+	5: 5,
+	6: 6,
+	7: 7,
+	8: 8,
+	9: 9,
+	10: 10,
 }
 
 /**

@@ -97,7 +97,7 @@ exports.Posture = [
 
 ]
 exports.EffectiveRating = [
-	'Very high',
+	'Very High',
 	'High',
 	'Moderate',
 	'Low',

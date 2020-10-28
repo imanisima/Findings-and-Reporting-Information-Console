@@ -26,11 +26,12 @@ export default function FindingsPage() {
 		{ id: 'system', numeric: false, disablePadding: false, label: 'System' },
 		{ id: 'task', numeric: false, disablePadding: true, label: 'Task' },
 		{ id: 'subtask', numeric: false, disablePadding: true, label: 'Subtask' },
-		{ id: 'analyst', numeric: true, disablePadding: false, label: 'Analyst' },
+		{ id: 'analyst', numeric: false, disablePadding: false, label: 'Analyst' },
 		{ id: 'status', numeric: false, disablePadding: true, label: 'Status' },
 		{ id: 'classification', numeric: false, disablePadding: true, label: 'Classification' },
 		{ id: 'type', numeric: true, disablePadding: false, label: 'Type' },
 		{ id: 'risk', numeric: false, disablePadding: true, label: 'Risk' },
+		{ id: 'data', numeric: false, disablePadding: true, label: 'Date'}
 	];
 
 	const reload = () => {
@@ -38,17 +39,20 @@ export default function FindingsPage() {
 		async function getData() {
 			setContentIsLoading(true);
 
+			const tableData = axios.get('http://localhost:5000/findings/table')
 			const requestSystem = axios.get('http://localhost:5000/systems/names');
 			const requestTask = axios.get('http://localhost:5000/tasks/names');
 			const requestSubtask = axios.get('http://localhost:5000/subtasks/names');
 
 			axios
-				.all([requestSystem, requestTask, requestSubtask])
+				.all([tableData, requestSystem, requestTask, requestSubtask])
 				.then(
 					axios.spread((...responses) => {
-						const responseSystem = responses[0].data;
-						const responseTask = responses[1].data;
-						const responseSubtask = responses[2].data;
+						const responseTable = responses[0].data;
+						const responseSystem = responses[1].data;
+						const responseTask = responses[2].data;
+						const responseSubtask = responses[3].data;
+						setTableData(responseTable)
 						setSystemArray(responseSystem);
 						setTaskArray(responseTask);
 						setSubtaskArray(responseSubtask);
@@ -62,6 +66,8 @@ export default function FindingsPage() {
 				)
 		}
 		getData()
+
+
 	};
 
 	/*const confirmArchive = () => { // Send update request to set archived field to true
@@ -94,7 +100,14 @@ export default function FindingsPage() {
 						</ToolbarNewActionContext.Provider>
 					)
 				}
-				detailComponent={<FindingDetailView selectedSubtask={selected} reload={reload} />}
+				detailComponent={
+				<FindingDetailView 
+					selectedFinding={selected} 
+					reload={reload} 
+					systemArray={systemArray}
+					taskArray={taskArray}
+					subtaskArray={subtaskArray}/>
+				}
 			/>
 			<NewFindingDialog 
 				isOpen={newDialogOpen} 

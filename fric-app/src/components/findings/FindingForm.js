@@ -85,8 +85,6 @@ export default function FindingForm(props) {
 	useEffect(() => {
 		//TODO: fetch multiselector options
 	}, []);
-
-    console.log(props.systemArray)
 	return (
 		<div>
             <h3><BiHelpCircle data-tip data-for="infoTip" size={24} onMouseOver onClick={() => console.log("help clicked")} /> Findings Information </h3>
@@ -136,6 +134,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridStatus">
                         <Form.Label>Status</Form.Label>
                         <Form.Control as="select" value={status} onChange={e => setStatus(e.target.value)}>
+                            <option>Choose...</option>
                             {Object.values(FindingStatus).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                             })}
@@ -144,6 +143,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridType">
                         <Form.Label>Type</Form.Label>
                         <Form.Control as="select" value={type} onChange={e => setType(e.target.value)}>
+                            <option>Choose...</option>
                             {Object.values(FindingType).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                             })}
@@ -152,6 +152,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridClassification">
                         <Form.Label>Classification</Form.Label>
                         <Form.Control as="select" value={classification} onChange={e => setClassification(e.target.value)}>
+                            <option>Choose...</option>
                             {Object.values(FindingClassification).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                             })}
@@ -167,6 +168,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridStatus">
                         <Form.Label>System</Form.Label>
                         <Form.Control as="select" value={system} onChange={e => setSystem(e.target.value)}>
+                            <option>Choose...</option>
                             {props.systemArray.map(system => (
                                 <option key={system.id} value={system.name}>{system.name}</option>
                             ))}
@@ -176,6 +178,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridType">
                         <Form.Label>Task</Form.Label>
                         <Form.Control as="select" value={task} onChange={e => setTask(e.target.value)}>
+                            <option>Choose...</option>
                             {props.taskArray.map(task => (
                                 <option key={task.id} value={task.name}>{task.name}</option>
                             ))}
@@ -185,6 +188,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridClassification">
                         <Form.Label>Subtask</Form.Label>
                         <Form.Control as="select" value={subtask} onChange={e => setSubTask(e.target.value)}>
+                            <option>Choose...</option>
                             {props.subtaskArray.map(subtask => (
                                 <option key={subtask.id} value={subtask.name}>{subtask.name}</option>
                             ))}
@@ -194,6 +198,7 @@ export default function FindingForm(props) {
                 <Form.Group controlId="exampleForm.ControlSelect2">
                     <Form.Label>Related Finding(s)</Form.Label>
                     <Form.Control as="select" multiple>
+                    <option>Choose...</option>
                     <option>Finding 1</option>
                     <option>Finding 2</option>
                     <option>Finding 3</option>
@@ -206,6 +211,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridConfidentiality">
                         <Form.Label>Confidentiality</Form.Label>
                         <Form.Control as="select" value={confidentiality} onChange={e => setConfidentiality(e.target.value)}>
+                            <option>Choose...</option>
                             {Object.values(FindingImpactConfidentiality).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                             })}
@@ -214,6 +220,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridIntegrity">
                         <Form.Label>Integrity</Form.Label>
                         <Form.Control as="select" value={integrity} onChange={e => setIntegrity(e.target.value)}>
+                            <option>Choose...</option>
                             {Object.values(FindingImpactIntegrity).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                             })}
@@ -222,6 +229,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridAvailability">
                         <Form.Label>Availability</Form.Label>
                         <Form.Control as="select" value={availability} onChange={e => setAvailability(e.target.value)}>
+                            <option>Choose...</option>
                             {Object.values(FindingImpactAvailability).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                             })}
@@ -233,6 +241,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="exampleForm.AnalystForm">
                         <Form.Label>Analyst</Form.Label>
                         <Form.Control as="select" multiple value={analyst} onChange={e => setAnalyst(e.target.value)}>
+                        <option>Choose...</option>
                         <option>Analyst 1</option>
                         <option>Analyst 2</option>
                         <option>Analyst 3</option>
@@ -243,6 +252,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="exampleForm.CollabForm">
                         <Form.Label>Collaborator(s)</Form.Label>
                         <Form.Control as="select" multiple value={collaborators} onChange={e => setCollaborators(e.target.value)}>
+                        <option>Choose...</option>
                         <option>Collaborator 1</option>
                         <option>Collaborator 2</option>
                         <option>Collaborator 3</option>
@@ -253,6 +263,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridPosture">
                         <Form.Label>Posture</Form.Label>
                         <Form.Control as="select" value={posture} onChange={e => setPosture(e.target.value)}>
+                            <option>Choose...</option>
                             {Object.values(Posture).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                             })}
@@ -280,6 +291,7 @@ export default function FindingForm(props) {
                 <Form.Group as={Col} controlId="formGridRelevance">
                     <Form.Label>Relevance</Form.Label>
                     <Form.Control as="select" value={relevance} onChange={e => setRelevance(e.target.value)}>
+                        <option>Choose...</option>
                         {Object.values(ThreatRelevance).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                         })}
@@ -289,9 +301,10 @@ export default function FindingForm(props) {
                 <Form.Group as={Col} controlId="formGridEffect">
                     <Form.Label>Effectiveness Rating</Form.Label>
                     <Form.Control as="select" value={effectiveRating} onChange={e => setEffectiveRating(e.target.value)}>
+                        <option>Choose...</option>
                         {Object.values(EffectivenessRating).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
-                        })}
+                        })} 
                     </Form.Control>
                 </Form.Group>
                 <h3><BiHelpCircle size={24} onClick={() => console.log("help clicked")} /> Impact </h3>
@@ -305,6 +318,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridImpactLvl">
                         <Form.Label>Impact Level</Form.Label>
                         <Form.Control as="select" value={impactLevel} onChange={e => setImpactLevel(e.target.value)}>
+                            <option>Choose...</option>
                             {Object.values(ImpactLevel).map((el, ind) => {
                                     return <option key={ind} value={el}>{el}</option>
                             })}
@@ -316,6 +330,7 @@ export default function FindingForm(props) {
                     <Form.Group>
                         <Form.Label>Severity Category Code</Form.Label>
                             <Form.Control as="select" value={sevCatCode} onChange={e => setSevCatCode(e.target.value)}>
+                                <option>Choose...</option>
                                 {Object.values(SeverityCategoryCode).map((el, ind) => {
                                         return <option key={ind} value={el}>{el}</option>
                                 })}

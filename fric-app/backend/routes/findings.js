@@ -13,10 +13,9 @@ var response = {
 
 router.route('/').get(async (req, res) => {
 	if (req.query.hasOwnProperty('id')) { // This block is for fetching one task by id
-		const id = req.query.hostName; // '_id' to be requested from tasks collection
 		
 		await Finding
-			.findOne({hostName: id})
+			.findOne({_id: req.query.id })
 			.then(finding => res.status(200).json(finding))
 			.catch(err => res.status(400).json('Error: ' + err));
 	}
@@ -104,6 +103,34 @@ router.route('/names').get(async (req, res) => {
 		.then(finding => res.status(200).json(finding))
 		.catch(err => res.status(400).json('Error: ' + err));
 });
+
+router.route('/table').get(async (req, res) => {
+	await Finding
+		.aggregate([
+			{
+				$match: {
+					archived: false
+				}
+			},
+			{
+				$project: {
+					id: "$_id",
+					hostName: 1,
+					system: 1,
+					task: 1,
+					subtask: 1,
+					analyst: 1,
+					status: 1,
+					classification: 1,
+					type: 1,
+					risk: 1
+				}
+			}
+		])
+		.then(findings => res.status(200).json(findings))
+		.catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/delete').post((req, res) => {
 
 });
@@ -113,7 +140,8 @@ router.route('/update').put(async(req, res) => {
 		const id = req.body.params.id; // '_id' to be requested from tasks collection
 		var doc = null; // Stores Document returned by findOne
 
-		await Finding.findOne({ ipPort: id})
+		await Finding
+			.findOne({ _id: id})
 			.then(finding => {
 				doc = finding;
 				doc.set(req.body.params);
