@@ -44,8 +44,8 @@ class TasksManual extends Component {
             {/* <img src={SubtaskInfo} alt="subtask information" height={400}></img> */}
             <br></br><br></br>
                 <ul>
-                    <li>Title: Name of the subtask.</li>
-                    <li>Description: Purpose of the subtask.</li>
+                    <li>Title: Name of the Task.</li>
+                    <li>Description: Purpose of the Task.</li>
                     <li>Date: Due Date</li>
                     <li>Progress: Current state of the task.</li>
                     <li>Select Analyst: Who will be working on this task?</li>
