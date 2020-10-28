@@ -1,13 +1,15 @@
+  
 /**
  * This component contains the form that is embedded in the SetupModal.
  * 
  * Created by Marco Soto
  */
 
-import React, { useState } from 'react'
-import styles from '../../css/setup/SetupContent.module.css'
-import Button from 'react-bootstrap/Button'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import styles from '../../css/setup/SetupForm.module.css';
 import Form from 'react-bootstrap/Form'
+import axios from 'axios';
 
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -38,18 +40,21 @@ export default function SetupForm(props) {
 					type: "",
 					version: "1.0",
 					derivedFrom: "",
-					assessmentDate: new Date().toLocaleDateString(),
+					assessed: new Date().toUTCString(),
+					declassified: new Date().toUTCString(),
 					organization: "",
 					securityGuide: "",
 					classification: "",
-					declassified: new Date().toLocaleDateString(),
 					customer: "",
 					archived: false,
 					team: [user]
 				};
 
-				axios.post('http://localhost:5000/events/new', defaultEvent)
+				axios.post('http://localhost:5000/events/new', {
+					params: defaultEvent
+				})
 					.then(response => {
+						console.log(response)
 						console.log(response.data);
 						props.submitAction();
 						window.location = '/';
@@ -70,32 +75,52 @@ export default function SetupForm(props) {
 
 	return (
 		<>
-			<h5 className={styles.title}>Findings and Reportings Information Console (FRIC)</h5>
-			<Form id="setupContentForm" className={styles.setupContentForm}>
-				<Form.Group controlId="">
-					<Form.Label>There is no existing event in your local system</Form.Label>
-					<Form.Control type="text" placeholder="Enter event" />
+			<DialogContent id="setupContentForm" className={styles.setupContentForm}>
+				<Typography variant="h6" className={styles.title}>
+					Findings and Reportings Information Console (FRIC)
+				</Typography>
+				<Typography variant="subtitle1" style={{ color: "#ffc108"}} className={styles.subtitle}>No Events Detected in Your Local System</Typography>
+
+				{/* Enter User Initials */}
+				<Form.Group controlId="user">
+					<FormLabel>Please enter your initials:</FormLabel>
+					<Form.Control type="text" placeholder="Enter user initials" onChange={ e => setUser(e.target.value) } />
 				</Form.Group>
 
-				<Form.Group class="setupContentButton" controlId="">
-					<Form.Label>Pleaser enter your initials:</Form.Label>
-					<Form.Control type="text" placeholder="Enter initials" />
-				</Form.Group>
-				
-				<Form.Group controlId="">
-					<Form.Check custom id="eventCheckbox" type="checkbox" label="Create as new event" className={styles.eventCheckbox} />
-					<Form.Check custom onClick={() => showIPForm(!showingIPForm)} id="syncCheckbox" type="checkbox" label="First time sync with lead analyst" />
-				</Form.Group>
+				{/* Radio buttons */}
+				<FormControl component="fieldset">
+					<RadioGroup aria-label="action" name="action" value={radioVal} onChange={handleRadioChange}>
+						<FormControlLabel value="new" control={<Radio color="primary" />} label="Create a New Event" />
+						<FormControlLabel value="sync" control={<Radio color="primary" />} label="Sync with Lead Analyst" />
+					</RadioGroup>
+				</FormControl>
 
-				{showingIPForm && <Form.Group controlId="">
-					<Form.Label>Please enter the lead analysts IP address.</Form.Label>
-					<Form.Control type="text" placeholder="Enter lead analyst IP address." />
-				</Form.Group>}
+				{
+					// Reactive radio section
+					(showSync) ? (
+						// Enter lead analyst ip address
+						<Form.Group controlId="sync">
+							<FormLabel>Enter Lead Analyst IP Address</FormLabel>
+							<Form.Control type="text" placeholder="ex. 1.0.0.1" onChange={ e => setChoiceInput(e.target.value) } />
+						</Form.Group>
+					) : (
+						// Enter event name
+						<Form.Group controlId="event">
+							<FormLabel>Enter Event Name</FormLabel>
+							<Form.Control type="text" placeholder="Enter event" onChange={ e => setChoiceInput(e.target.value) } />
+						</Form.Group>
+					)
+				}
 
+				{/* Submit Button */}
 				<Form.Group className={styles.center}>
 					<Button onClick={handleSubmitClick} variant="contained" size="large" color="primary">Submit</Button>
 				</Form.Group>
-			</Form>
+			</DialogContent>
 		</>
 	);
+}
+
+SetupForm.propTypes = {
+	submitAction: PropTypes.func.isRequired,
 }
