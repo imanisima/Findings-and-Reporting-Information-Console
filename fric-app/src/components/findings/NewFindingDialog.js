@@ -20,8 +20,8 @@ export default function NewFindingDialog(props) {
 	const [id, setID] = useState('');
     const [hostName, setHostName] = useState('');
     const [ipPort, setIpPort] = useState('');
-    const [findingDescription, setFindingDescription] = useState('');
-    const [longFindingDescription, setLongFindingDescription] = useState('');
+    const [description, setDescription] = useState('');
+    const [longDescription, setLongDescription] = useState('');
     const [status, setStatus] = useState('');
     const [type, setType] = useState('');
     const [classification, setClassification] = useState('');
@@ -36,23 +36,24 @@ export default function NewFindingDialog(props) {
     const [analyst, setAnalyst] = useState([]);
     const [collaborators, setCollaborators] = useState([]);
     const [posture, setPosture] = useState(''); //Not in classes
-    const [briefDescription, setBriefDescription] = useState('');
-    const [mitigationLongDescription, setMitigationLongDescription] = useState('');
+    const [mBriefDescription, setMBriefDescription] = useState('');
+    const [mLongDescription, setMLongDescription] = useState('');
     const [relevance, setRelevance] = useState(''); //Not in classes
-    const [effectiveness, setEffectiveness] = useState(''); //Not in classes
+    const [effectiveRating, setEffectiveRating] = useState(''); //Not in classes
     const [impactDescription, setImpactDescription] = useState('');
-    const [impactLevel, setImpactLevel] = useState('');
-    const [severityCatScore, setSeverityCatScore] = useState('');
-    const [vulnerabilitySeverity, setVulnerabilitySeverity] = useState('');
-    const [quantitativeSeverity, setQuantitativeSeverity] = useState('');
+	const [impactLevel, setImpactLevel] = useState('');
+	const [sevCatCode, setSevCatCode] = useState('');
+    const [sevCatScore, setSevCatScore] = useState('');
+    const [vulSeverity, setVulSeverity] = useState('');
+    const [qVs, setQVS] = useState('');
     const [risk, setRisk] = useState('');
     const [likelihood, setLikelihood] = useState('');
 	const findingProviderValue = useMemo(() => ({
 		id, setID,
 		hostName, setHostName,
 		ipPort, setIpPort,
-		findingDescription, setFindingDescription,
-		longFindingDescription, setLongFindingDescription,
+		description, setDescription,
+		longDescription, setLongDescription,
         status, setStatus,
         type, setType,
 		classification, setClassification,
@@ -67,38 +68,62 @@ export default function NewFindingDialog(props) {
         analyst, setAnalyst,
         collaborators, setCollaborators,
         posture, setPosture, //Not in classes
-        briefDescription, setBriefDescription,
-        mitigationLongDescription, setMitigationLongDescription,
+        mBriefDescription, setMBriefDescription,
+        mLongDescription, setMLongDescription,
         relevance, setRelevance, //Not in classes
-        effectiveness, setEffectiveness, //Not in classes
+        effectiveRating, setEffectiveRating, //Not in classes
         impactDescription, setImpactDescription,
-        impactLevel, setImpactLevel,
-        severityCatScore, setSeverityCatScore,
-        vulnerabilitySeverity, setVulnerabilitySeverity,
-        quantitativeSeverity, setQuantitativeSeverity,
+		impactLevel, setImpactLevel,
+		sevCatCode, setSevCatCode,
+        sevCatScore, setSevCatScore,
+        vulSeverity, setVulSeverity,
+       	qVs, setQVS,
         risk, setRisk,
         likelihood, setLikelihood
-    }), [id, hostName, ipPort, findingDescription, longFindingDescription,
+    }), [id, hostName, ipPort, description, longDescription,
         status, type, classification, evidence, system, 
         task, subtask, relatedFindings, confidentiality, integrity, 
-        availability, analyst, collaborators, posture, briefDescription,
-        mitigationLongDescription, relevance, effectiveness, impactDescription,impactLevel,
-        severityCatScore, vulnerabilitySeverity, quantitativeSeverity, risk, likelihood]);
+        availability, analyst, collaborators, posture, mBriefDescription,
+        mLongDescription, relevance, effectiveRating, impactDescription,impactLevel,
+        sevCatCode, sevCatScore, vulSeverity, qVs, risk, likelihood]);
 
-	/*const handleSubmit = () => {
-		axios.post('http://localhost:5000/subtasks/new', {
-			params: {
-				name: name,
-				description: description,
-				progress: progress,
-				ownerTask: ownerTask,
-				associations: relatedSubtasks,
-				analysts: analysts,
-				collaborations: collabs,
-				dueDate: dueDate,
-				archived: false,
-			}
-		})
+	const handleSubmit = () => {
+		console.log("Submit Pressed")
+		const newFinding = {
+			hostName: hostName,
+			ipPort: ipPort,
+			description: description, 
+			longDescription: longDescription,
+			status: status,
+			type: type,
+			classification: classification, 
+			evidence: evidence,
+			system: system,
+			task: task,
+			subtask: subtask,
+			relatedFindings: relatedFindings,
+			confidentiality: confidentiality,
+			integrity: integrity,
+			availability: availability,
+			analyst: analyst,
+			collaborators: collaborators, 
+			posture: posture, 
+			mBriefDescription: mBriefDescription,
+			mLongDescription: mLongDescription,
+			relevance: relevance, 
+			effectiveRating: effectiveRating, 
+			impactDescription: impactDescription,
+			impactLevel: impactLevel,
+			sevCatCode: sevCatCode,
+			sevCatScore: sevCatScore, 
+			vulSeverity: vulSeverity, 
+			qVs: qVs, 
+			risk: risk,
+			likelihood: likelihood,
+			archived: false
+		}
+
+		axios.post('http://localhost:5000/findings/add', newFinding)
 			.then(res => {
 				console.log(res);
 				props.reload();
@@ -109,9 +134,40 @@ export default function NewFindingDialog(props) {
 				console.log(err);
 			});
 	};
-    */
+    
 	const handleClose = () => {
 		// Reset values so they aren't displayed when dialog is shown again
+		setID('');
+		setHostName('');
+		setIpPort('');
+		setDescription('');
+		setLongDescription('');
+        setStatus('');
+        setType('');
+		setClassification('');
+		setEvidence('');
+		setSystem('');
+        setTask('');
+        setSubTask('');
+        setRelatedFindings([]);
+        setConfidentiality('');
+        setIntegrity('');
+        setAvailability('');
+        setAnalyst([]);
+        setCollaborators([]);
+        setPosture(''); //Not in classes
+        setMBriefDescription('');
+        setMLongDescription('');
+        setRelevance(''); //Not in classes
+        setEffectiveRating(''); //Not in classes
+        setImpactDescription('');
+		setImpactLevel('');
+		setSevCatCode('');
+        setSevCatScore('');
+        setVulSeverity('');
+       	setQVS('');
+        setRisk('');
+        setLikelihood('');
 		props.closeDialogAction(); // Close the dialog window
 	}; 
 
@@ -139,7 +195,7 @@ export default function NewFindingDialog(props) {
 				</FindingContext.Provider>
 			</DialogContent>
 			<DialogActions>
-				<Button variant="contained" size="large" color="primary">Submit</Button>
+				<Button onClick={handleSubmit} variant="contained" size="large" color="primary">Submit</Button>
 				<Button onClick={handleClose} variant="contained" size="large" color="secondary">Cancel</Button>
 			</DialogActions>
 		</Dialog>

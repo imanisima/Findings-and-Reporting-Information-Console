@@ -2,14 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
 import Form from 'react-bootstrap/Form';
 import { BiHelpCircle } from 'react-icons/bi';
 import {Row, Col} from 'react-bootstrap';
@@ -18,11 +11,6 @@ import ReactTooltip from 'react-tooltip';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 
 import { FindingContext } from './FindingContext';
-
-import Multiselect from '../general/Multiselect.js';
-import FileBrowseField from '../general/FileBrowseField';
-
-import { options } from '../general/test/subtaskstestdata'; //TODO: remove once selector options are fetched from database
 import { 
     FindingClassification, 
     FindingType, 
@@ -30,10 +18,11 @@ import {
     FindingImpactConfidentiality,
     FindingImpactAvailability,
     FindingImpactIntegrity,
-    AnalystPosture,
+    Posture,
     ThreatRelevance,
     EffectivenessRating,
-    ImpactLevel
+    ImpactLevel,
+    SeverityCategoryCode
   } from '../../shared/EnumeratedTypes';
 const useStyles = makeStyles((theme) => ({
 	formContainer: {
@@ -63,8 +52,8 @@ export default function FindingForm(props) {
         id, setID,
 		hostName, setHostName,
 		ipPort, setIpPort,
-		findingDescription, setFindingDescription,
-		longFindingDescription, setLongFindingDescription,
+		description, setDescription,
+		longDescription, setLongDescription,
         status, setStatus,
         type, setType,
 		classification, setClassification,
@@ -79,17 +68,18 @@ export default function FindingForm(props) {
         analyst, setAnalyst,
         collaborators, setCollaborators,
         posture, setPosture, //Not in classes
-        briefDescription, setBriefDescription,
-        mitigationLongDescription, setMitigationLongDescription,
+        mBriefDescription, setMBriefDescription,
+        mLongDescription, setMLongDescription,
         relevance, setRelevance, //Not in classes
-        effectiveness, setEffectiveness, //Not in classes
+        effectiveRating, setEffectiveRating, //Not in classes
         impactDescription, setImpactDescription,
         impactLevel, setImpactLevel,
-        severityCatScore, setSeverityCatScore,
-        vulnerabilitySeverity, setVulnerabilitySeverity,
-        quantitativeSeverity, setQuantitativeSeverity,
+        sevCatCode, setSevCatCode,
+        sevCatScore, setSevCatScore,
+        vulSeverity, setVulSeverity,
+       	qVs, setQVS,
         risk, setRisk,
-        likelihood, setLikelihood,
+        likelihood, setLikelihood
 	} = useContext(FindingContext); //TODO: error handle nonexistent context values
 
 	useEffect(() => {
@@ -131,7 +121,7 @@ export default function FindingForm(props) {
                     Description
                     </Form.Label>
                     <Col sm={5}>
-                    <Form.Control value={findingDescription} placeholder="Description" onChange={e => setFindingDescription(e.target.value)} />
+                    <Form.Control value={description} placeholder="Description" onChange={e => setDescription(e.target.value)} />
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="formHorizontalLongDescription">
@@ -139,7 +129,7 @@ export default function FindingForm(props) {
                     Long Description
                     </Form.Label>
                     <Col lg={5}>
-                    <Form.Control as="textarea" rows="4" value={longFindingDescription} placeholder="Long Description" onChange={e => setLongFindingDescription(e.target.value)}/>
+                    <Form.Control as="textarea" rows="4" value={longDescription} placeholder="Long Description" onChange={e => setLongDescription(e.target.value)}/>
                     </Col>
                 </Form.Group>
                 <Form.Row>
@@ -263,7 +253,7 @@ export default function FindingForm(props) {
                     <Form.Group as={Col} controlId="formGridPosture">
                         <Form.Label>Posture</Form.Label>
                         <Form.Control as="select" value={posture} onChange={e => setPosture(e.target.value)}>
-                            {Object.values(AnalystPosture).map((el, ind) => {
+                            {Object.values(Posture).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                             })}
                         </Form.Control>
@@ -275,7 +265,7 @@ export default function FindingForm(props) {
                     Brief Description
                     </Form.Label>
                     <Col sm={5}>
-                    <Form.Control placeholder="Description"value={briefDescription} onChange={e => setBriefDescription(e.target.value)} />
+                    <Form.Control placeholder="Description"value={mBriefDescription} onChange={e => setMBriefDescription(e.target.value)} />
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="formHorizontalMitigationLongDescription">
@@ -283,7 +273,7 @@ export default function FindingForm(props) {
                     Long Description
                     </Form.Label>
                     <Col lg={5}>
-                    <Form.Control as="textarea" rows="4" placeholder=" Long Description" value={mitigationLongDescription} onChange={e => setMitigationLongDescription(e.target.value)}/>
+                    <Form.Control as="textarea" rows="4" placeholder=" Long Description" value={mLongDescription} onChange={e => setMLongDescription(e.target.value)}/>
                     </Col>
                 </Form.Group>
                 <h3><BiHelpCircle size={24} onClick={() => console.log("help clicked")} /> Threat Relevance </h3>
@@ -298,7 +288,7 @@ export default function FindingForm(props) {
                 <h3><BiHelpCircle size={24} onClick={() => console.log("help clicked")} /> Counter Measure </h3>
                 <Form.Group as={Col} controlId="formGridEffect">
                     <Form.Label>Effectiveness Rating</Form.Label>
-                    <Form.Control as="select" value={effectiveness} onChange={e => setEffectiveness(e.target.value)}>
+                    <Form.Control as="select" value={effectiveRating} onChange={e => setEffectiveRating(e.target.value)}>
                         {Object.values(EffectivenessRating).map((el, ind) => {
                                 return <option key={ind} value={el}>{el}</option>
                         })}
@@ -323,17 +313,27 @@ export default function FindingForm(props) {
                 </Form.Row>
                 <h3><BiHelpCircle size={24} onClick={() => console.log("help clicked")} /> Severity </h3>
                 <Form.Row>
+                    <Form.Group>
+                        <Form.Label>Severity Category Code</Form.Label>
+                            <Form.Control as="select" value={sevCatCode} onChange={e => setSevCatCode(e.target.value)}>
+                                {Object.values(SeverityCategoryCode).map((el, ind) => {
+                                        return <option key={ind} value={el}>{el}</option>
+                                })}
+                            </Form.Control>
+                    </Form.Group>
+                </Form.Row>
+                <Form.Row>
                     <Form.Group as={Col} controlId="formGridStatus">
                         <Form.Label>Severity Category Score</Form.Label>
-                        <Form.Control readOnly placeholder="Severity Category Score" value={severityCatScore}/>
+                        <Form.Control readOnly placeholder="Severity Category Score" value={sevCatScore}/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridType">
                         <Form.Label>Vulnerability Severity</Form.Label>
-                        <Form.Control readOnly placeholder="Vulnerability Severity" value={vulnerabilitySeverity}/>
+                        <Form.Control readOnly placeholder="Vulnerability Severity" value={vulSeverity}/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridClassification">
-                        <Form.Label>Quantitative Vulnerability Severity.</Form.Label>
-                        <Form.Control readOnly placeholder="Quantitative Vulnerability Severity" value={quantitativeSeverity} />
+                        <Form.Label>Quantitative Vulnerability Severity</Form.Label>
+                        <Form.Control readOnly placeholder="Quantitative Vulnerability Severity" value={qVs} />
                     </Form.Group>
                 </Form.Row>
                 <h3><BiHelpCircle size={24} onClick={() => console.log("help clicked")} /> Risk </h3>

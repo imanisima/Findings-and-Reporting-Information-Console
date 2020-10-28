@@ -97,7 +97,7 @@ export const FindingImpactAvailability = {
 /**
  * AnalystPosture, might have to move these because they are editable
  */
-export const AnalystPosture = {
+export const Posture = {
 	I: 'Insider',
 	IN: 'Insider-nearsider',
 	O: 'Outsider',
@@ -112,18 +112,19 @@ export const ThreatRelevance = {
 	C: 'Confirmed',
 	E: 'Expected',
 	A: 'Anticipated',
-	PP: 'Predicted Possible'
+	P: 'Predicted',
+	PP: 'Possible'
 }
 
 /**
  * EffectivenessRating, might have to move these because they are editable
  */
 export const EffectivenessRating = {
-	VH: 'Very High (10)',
-	H: 'High (7-9)',
-	M: 'Moderate (4-6)',
-	L: 'Low (1-3)',
-	VL: 'Very low (0)'
+	VH: 'Very High',
+	H: 'High',
+	M: 'Moderate',
+	L: 'Low',
+	VL: 'Very low'
 }
 
 /**

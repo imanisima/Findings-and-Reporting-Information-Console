@@ -17,7 +17,11 @@ const findingSchema = new mongoose.Schema({
 	type: { type: String, required: true, enum: FindingType },
 	classification: { type: String, required: true, enum: FindingClassification },
 	associations: { type: Array, required: false, },
-	evidence: { type: String, required: true, },
+	evidence: { type: String, required: false, }, //Change this 
+	system: { type: String, required: true, },
+	task: { type: String, required: true, },
+	subtask: { type: String, required: true, },
+	relatedFindings:  { type: Array, required: false},	
 	archived: { type: Boolean, required: true, },
 	confidentiality: { type: String, required: true, enum: CIA},
 	integrity: { type: String, required: true, enum: CIA},
