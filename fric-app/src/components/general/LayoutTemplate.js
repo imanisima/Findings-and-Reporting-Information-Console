@@ -60,8 +60,6 @@ import SearchIcon from '@material-ui/icons/Search';
 // Custom Components
 import SyncForm from '../sync/SyncForm';
 
-import { options } from './test/eventstestdata'; //TODO: Remove line after fetching analyst options and passing to sync dialog
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -192,6 +190,8 @@ const useStyles = makeStyles((theme) => ({
 		}
 	}
 }));
+
+export const DetailViewActionContext = React.createContext(null);
 
 export default function LayoutTemplate(props) {
 	const classes = useStyles();
@@ -448,8 +448,10 @@ export default function LayoutTemplate(props) {
 				{/* Toolbar Spacer */}
 				<div className={classes.toolbar} />
 				{/* Main Content */}
-				{/* Clone main content view element prop while passing in the universal action to open the detail view */}
-				{ React.cloneElement(props.mainContentComponent, { openDetailAction: handleDetailDrawerOpen, } ) }
+				{/* Pass thru main component with context to handle opening detail view */}
+				<DetailViewActionContext.Provider value={handleDetailDrawerOpen}>
+					{ props.mainContentComponent }
+				</DetailViewActionContext.Provider>
 			</main>
 
 			{ 
@@ -459,8 +461,11 @@ export default function LayoutTemplate(props) {
 						<React.Fragment key="right">
 							<Drawer anchor="right" open={detailOpen}>
 								<div style={{ width: "60em" }}>
-									{/* Detial Content, Clone detail view element prop while passing in the universal action to close the detail view */}
-									{ React.cloneElement(props.detailComponent, { closeDetailAction: handleDetailDrawerClose })}
+
+									{/* Pass thru detail component with context to handle closing detail view */}
+									<DetailViewActionContext.Provider value={handleDetailDrawerClose}>
+										{ props.detailComponent }
+									</DetailViewActionContext.Provider>
 								</div>
 							</Drawer>
 						</React.Fragment>
@@ -484,7 +489,7 @@ export default function LayoutTemplate(props) {
 				aria-describedby="sync-dialog-description"
 				disableBackdropClick
 			>
-				<SyncForm syncAction={() => setSyncDialogOpen(false)} closeAction={() => setSyncDialogOpen(false)} analystOptions={options.analysts} />
+				<SyncForm syncAction={() => setSyncDialogOpen(false)} closeAction={() => setSyncDialogOpen(false)} analystOptions={[]} />
 			</Dialog>
 		</div>
 	);

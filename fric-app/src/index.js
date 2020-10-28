@@ -13,7 +13,6 @@ import SummaryPage from './pages/SummaryPage';
 import EventsPage from './pages/EventsPage';
 import ArchivesPage from './pages/ArchivesPage';
 import ConfigurePage from './pages/ConfigurePage';
-import SyncPage from './pages/SyncPage';
 import FindingsPage from './pages/FindingsPage';
 import SettingsPage from './pages/SettingsPage';
 import SubtasksPage from './pages/SubtasksPage';
@@ -22,8 +21,6 @@ import TasksPage from './pages/TasksPage';
 import ManualPage from './pages/ManualPage';
 import TestPage from './pages/TestPage';
 
-import EventInformation from './components/events/FRIC_gui_event_information';
-import EventAnalystInformation from './components/events/FRIC_gui_event_analyst_information';
 import ArchiveTask from './components/archive/FRIC_gui_archive_task';
 import ArchiveSubtask from './components/archive/FRIC_gui_archive_subtask';
 import ArchiveSystem from './components/archive/FRIC_gui_archive_system';
@@ -39,8 +36,6 @@ function App() {
 					<Route exact path="/" component={Main} />
 					<Route exact path="/summary" component={SummaryPage} />
 					<Route exact path="/events" component={EventsPage} />
-					<Route exact path="/events/new" component={EventInformation} />
-					<Route exact path="/events/newAnalyst" component={EventAnalystInformation} />
 					<Route exact path="/event_tree" component={EventTree} />
 					<Route exact path="/tasks" component={TasksPage} />
 					<Route exact path="/subtasks" component={SubtasksPage} />
@@ -52,7 +47,6 @@ function App() {
 					<Route exact path="/test" component={TestPage} />
 					<Route exact path="/manual" component={ManualPage} />
 
-					<Route exact path="/sync" component={SyncPage} />
 					<Route exact path="/archive/archive_task_view" component={ArchiveTask} />
 					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
 					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />

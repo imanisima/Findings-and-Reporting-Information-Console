@@ -2,29 +2,115 @@
  * 
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import axios from 'axios';
 import { ThemeProvider } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
 import LayoutTemplate from '../components/general/LayoutTemplate';
-import EventOverviewTable from '../components/events/EventOverviewTable';
-import EventDetailView from '../components/events/EventDetailView';
+import EventForm from '../components/events/EventForm';
+import Spinner from '../components/general/Spinner';
+import { EventContext } from '../components/events/EventContext';
 import { darkTheme } from '../components/general/ThemeColors';
-import { data, headings, options } from '../components/general/test/eventstestdata'; //TODO: remove test data import when connected to backend
+
+const defaultEventState = {
+	name: '',
+	description: '',
+	classification: '',
+	customer: '',
+	assessed: new Date(),
+	declassified: new Date(),
+	organization: '',
+	securityGuide: '',
+	type: '',
+	version: '',
+	team: [],
+};
 
 export default function EventsPage() {
-	const [selectedEvent, setSelectedEvent] = useState(null);
-	const headings = [
-		{ id: 'id', numeric: true, disablePadding: true, label: 'System' },
-		{ id: 'name', numeric: false, disablePadding: false, label: 'No. of Tasks' },
-		{ id: 'numSystems', numeric: true, disablePadding: false, label: 'No. of Findings' },
-		{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
-	];
+	const [contentIsLoading, setContentIsLoading] = useState(true);
+	const [event, setEvent] = useState(defaultEventState); //TODO: Extract from context
+	const eventValue = useMemo(() => ({event, setEvent}), [event]);
+
+	useEffect(() => {
+		var eventid;
+
+		async function fetch() {
+			await axios.get('http://localhost:5000/events', {
+				params: {}
+			})
+				.then(res => {
+					// console.log(res.data[0]._id);
+					eventid = res.data[0]._id;
+				})
+				.catch(err => {
+					console.log(err);
+				})
+			
+			await axios.get('http://localhost:5000/events', {
+				params: {
+					id: eventid
+				}
+			})
+				.then(res => {
+					console.log(res.data[0]);
+					setEvent(res.data[0]);
+					setContentIsLoading(false);
+				})
+				.catch(err => {
+					console.log(err);
+					//TODO: display error message
+				});
+		};
+		fetch();
+	}, []);
+
+	const saveChanges = () => {
+		if (event != null) {
+			event['id'] = event._id // Standardize id parameter
+			delete(event['_id']);
+
+			axios.put('http://localhost:5000/events/update', {
+				params: {
+					...event,
+					assessed: event.assessed,
+					declassified: event.declassified,
+				}
+			})
+				.then(res => {
+					console.log('Success!');
+				})
+				.catch(err => {
+					console.log(err);
+					//TODO: display error notification
+				})
+		} else throw Error();
+	};
 
 	return (
 		// Added dark theme provider, remove for normal colors
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate
-				mainContentComponent={<EventOverviewTable rows={data} headings={headings} setDetailData={setSelectedEvent} />}
-				detailComponent={<EventDetailView selectedEvent={selectedEvent} options={options} />}
+				mainContentComponent={
+					<>
+						{
+							(contentIsLoading) ? <Spinner /> : (
+								<EventContext.Provider value={eventValue}>
+									<EventForm event={event} style={{ padding: "20em 10em 0 1em" }} />
+									<div style={{ float: 'right' }}>
+										<Button
+											onClick={saveChanges}
+											variant="contained"
+											size="large"
+											startIcon={<SaveIcon />}
+											color="primary"
+										>Save Changes</Button>
+									</div>
+								</EventContext.Provider>
+							)
+						}
+					</>
+				}
 			/>
 		</ThemeProvider>
 	);

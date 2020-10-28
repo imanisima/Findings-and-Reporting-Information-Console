@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import {Row, Col} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
@@ -8,6 +8,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import axios from 'axios';
 import Spinner from '../general/Spinner';
 import '../../css/systems/SystemDetailView.css'
+import { DetailViewActionContext } from '../general/LayoutTemplate';
 
 export default function SystemDetailView(props) {
 
@@ -18,7 +19,8 @@ export default function SystemDetailView(props) {
 	const [router, setRouter] = useState('');
 	const [switchName, setSwitchName] = useState('');
 	const [room, setRoom] = useState('');
-	const [testPlan, setTestPlan] = useState('');
+    const [testPlan, setTestPlan] = useState('');
+    const closeDetailAction = useContext(DetailViewActionContext);
 
     const useStyles = makeStyles((theme) => ({
         formControl: {
@@ -56,7 +58,7 @@ export default function SystemDetailView(props) {
                 .then(res => {
                     setContentIsLoading(true);
                     console.log(res);
-                    props.closeDetailAction();
+                    closeDetailAction();
                     window.location = '/systems'
 
                 })
@@ -85,7 +87,7 @@ export default function SystemDetailView(props) {
                 .then(res => {
                     setContentIsLoading(true);
                     console.log(res);
-                    props.closeDetailAction();
+                    closeDetailAction();
                 })
                 .catch(err => {
                     console.log(err);
@@ -241,7 +243,7 @@ export default function SystemDetailView(props) {
                         <Button variant="warning" onClick={handleArchiveClick} >
                             Archive
                         </Button>
-                        <Button variant="secondaray" onClick={props.closeDetailAction} >
+                        <Button variant="secondaray" onClick={closeDetailAction} >
                             Cancel
                         </Button>
                     </Form.Row>
@@ -253,5 +255,4 @@ export default function SystemDetailView(props) {
 SystemDetailView.propTypes = {
     selectedSystem: PropTypes.object.isRequired,
     options: PropTypes.object.isRequired,
-    closeDetailAction: PropTypes.func
 }
