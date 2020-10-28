@@ -1,15 +1,10 @@
-.add_btn{
-    margin: 10px;
+.manual_header{
+    text-align: center;
+    font-style: italic;
+    text-decoration: none;
 }
-.erb_btn{
-    background-color: orange;
-    margin: 10px;
-}
-.risk_btn{
-    background-color:orange;
-    margin: 10px;
-}
-.final_btn{
-    background-color: orange;
-    margin: 10px;
+
+h1, h2 {
+    text-align: left;
+    /* font-style: italic; */
 }

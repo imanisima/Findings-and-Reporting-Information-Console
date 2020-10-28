@@ -8,7 +8,7 @@ import LayoutTemplate from '../components/general/LayoutTemplate';
 import { darkTheme } from '../components/general/ThemeColors';
 import ManualOverview from '../components/manual/ManualOverview';
 
-import ManualDetails from '../components/manual/ManualDetails';
+// import ManualDetails from '../components/manual/ManualDetails';
 
 export default function ManualPage() {
 	return (
@@ -16,7 +16,6 @@ export default function ManualPage() {
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate
 				mainContentComponent={<ManualOverview />}
-				detailComponent={<ManualDetails />}
 			/>
 		</ThemeProvider>
 	);
