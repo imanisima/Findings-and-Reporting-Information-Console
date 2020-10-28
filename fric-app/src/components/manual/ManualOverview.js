@@ -51,7 +51,7 @@ import TasksManual from './TasksManual';
                 <SubtasksManual/>
                 <br></br>
 
-                {/* <SyncManual/> */}
+                <SyncManual/>
                 <br></br>
 
                 {/* <SystemsManual /> */}

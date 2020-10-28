@@ -14,7 +14,7 @@ class SubtasksManual extends Component {
       return (
         <Container fixed>
             <h1> Subtasks </h1>
-            <p> Manage subtasks. </p>
+            <p> Create, Edit, and Archive subtasks. </p>
 
             {/* Create */}
             <section>
