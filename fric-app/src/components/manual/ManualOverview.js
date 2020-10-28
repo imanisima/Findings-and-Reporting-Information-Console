@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
-import '../../css/manual/ManualOverview.css'
-import { Link, useLocation } from 'react-router-dom';
+import '../../css/manual/ManualOverview.css';
 
 import ConfigManual from './ConfigManual';
 import DatabaseManual from './DatabaseManual';
 import EventsManual from './EventsManual';
 import FindingsManual from './FindingsManual';
-import ProjectStructManual from './ProjectStructManual';
-import RunManual from './RunManual';
 import SubtasksManual from './SubtasksManual';
 import SyncManual from './SyncManual';
 import SystemsManual from './SystemsManual';
@@ -42,23 +39,17 @@ import TasksManual from './TasksManual';
                 <FindingsManual />
                 <br></br><br></br>
 
-                <ProjectStructManual /> {/* <!-- Ask about this */}
-                <br></br>
-
-                <RunManual />
-                <br></br>
-
                 <SubtasksManual/>
-                <br></br>
+                <br></br><br></br>
 
                 <SyncManual/>
-                <br></br>
+                <br></br><br></br>
 
                 <SystemsManual />
-                <br></br>
+                <br></br><br></br>
 
                 <TasksManual />
-                <br></br>
+                <br></br><br></br>
 
               </body>
 
