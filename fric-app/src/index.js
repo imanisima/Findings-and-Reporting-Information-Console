@@ -18,6 +18,7 @@ import SettingsPage from './pages/SettingsPage';
 import SubtasksPage from './pages/SubtasksPage';
 import SystemsPage from './pages/SystemsPage';
 import TasksPage from './pages/TasksPage';
+import ManualPage from './pages/ManualPage';
 import TestPage from './pages/TestPage';
 
 import ArchiveTask from './components/archive/FRIC_gui_archive_task';
@@ -44,11 +45,13 @@ function App() {
 					<Route exact path="/configure" component={ConfigurePage} />
 					<Route exact path="/settings" component={SettingsPage} />
 					<Route exact path="/test" component={TestPage} />
+					<Route exact path="/manual" component={ManualPage} />
 
 					<Route exact path="/archive/archive_task_view" component={ArchiveTask} />
 					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
 					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />
 					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
+
 				</Switch>
 			</Router>
 		</>
