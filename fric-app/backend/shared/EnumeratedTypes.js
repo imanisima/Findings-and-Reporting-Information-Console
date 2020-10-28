@@ -73,12 +73,13 @@ exports.FindingClassification = [
 	'Information'
 ]
 
-exports.Confidentiality = [
+exports.CIA = [
 	'Low',
 	'Medium',
 	'High',
 	'Information'
 ]
+
 exports.ThreatRelevance = [
 	'Confirmed',
 	'Expected',
@@ -94,4 +95,31 @@ exports.Posture = [
 	'Nearsider',
 	'Nearsider-outsider'
 
+]
+exports.EffectiveRating = [
+	'Very high',
+	'High',
+	'Moderate',
+	'Low',
+	'Very Low'
+]
+exports.ImpactLevel = [
+	'VH',
+	'H',
+	'M',
+	'L',
+	'VL'
+]
+exports.CatCode= [
+	'I',
+	'II',
+	'III'
+]
+exports.FindingCIA = [
+	'Low',
+	'Medium',
+	'High',
+	'X',
+	'Y',
+	'N'
 ]

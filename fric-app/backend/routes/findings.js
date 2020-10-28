@@ -52,13 +52,27 @@ router.route('/add').post((req, res) => {
 		archived: req.body.archived,
 		confidentiality: req.body.confidentiality,
 		integrity: req.body.integrity,
-		availabilty: req.body.availabilty,
+		availability: req.body.availability,
+		analyst: req.body.analyst,
+		collaborator: req.body.collaborator,
 		posture: req.body.posture,
 		mBriefDescription:req.body.mBriefDescription,
 		mLongDescription: req.body.mLongDescription,
 		relevance: req.body.relevance,
-		effectiveRating: req.body.effectiveRating
-		
+		effectiveRating: req.body.effectiveRating,
+		impactDescription: req.body.impactDescription,
+		impactLevel: req.body.impactLevel,
+		sevCatCode: req.body.sevCatCode,
+		sevCatScore: req.body.sevCatScore=score(req.body.sevCatCode),
+		fConfidentiality: req.body.fConfidentiality=getRealVal(req.body.fConfidentiality,req.body.confidentiality ),
+		fIntegrity:req.body.fIntegrity= getRealVal(req.body.fIntegrity,req.body.integrity ),
+		fAvailability: req.body.fAvailability=getRealVal(req.body.fAvailability,req.body.availability),
+		impactScore: req.body.impactScore=impactScore(req.body.fConfidentiality,req.body.fIntegrity, req.body.fAvailability ),
+		vulSeverity:req.body.vulSeverity= Vs(req.body.sevCatScore,req.body.impactScore, req.body.effectiveRating),
+		qVs: req.body.qVs=qVs(req.body.vulSeverity),
+		likelihood: req.body.likelihood=likelihood(req.body.impactScore,req.body.relevance, req.body.qVs),
+		risk: req.body.risk =risk(req.body.impactScore, req.body.likelihood, req.body.impactLevel)
+
 		//systemLevelImpact: obj.b()
 	}
 	newFinding = new Finding(newFinding);
@@ -110,9 +124,176 @@ router.route('/update').put(async(req, res) => {
 	else res.status(400).send();
 });
 
-const obj = {
-	a: 2+3,
-	b() { return this.a }
+function score(id){
+	if(id == "I")return "10";
+	if(id == "II")return "7";
+	return "4";
   };
+  function Vs(catScore, impactScore, cm){
+	var val =(catScore* impactScore * cm)/10;
+	return val;
+  };
+  function qVs(id){
+	if(id <= 100 && id >=95) return "Very High";
+	if(id < 95 && id >=80) return "High";
+	if(id < 80 && id >=20) return "Moderate";
+	if(id < 20 && id >=5) return "Low";
+	if(id < 5 && id >=0) return "Very Low";
+	return "Info";
+  };
+  function risk(iS, l, lev){
+	if(iS ==0) return "Info";
+	switch (l) {
+		case "Very High":
+			if(lev=="VL")
+				return "Very Low";
+			else if(lev=="L")
+				return "Low";
+			else if(lev=="M")
+				return "Moderate";
+			else if(lev=="H")
+				return "High";
+			else if(lev=="VH")
+				return "Very High";
+		case "High":
+			if(lev=="VL")
+				return "Very Low";
+			else if(lev=="L")
+				return "Low";
+			else if(lev=="M")
+				return "Moderate";
+			else if(lev=="H")
+				return "High";
+			else if(lev=="VH")
+				return "Very High";
+		case "Moderate":
+			if(lev=="VL")
+				return "Very Low";
+			else if(lev=="L")
+				return "Low";
+			else if(lev=="M")
+				return "Moderate";
+			else if(lev=="H")
+				return "Moderate";
+			else if(lev=="VH")
+				return "High";
+		case "Low":
+			if(lev=="VL")
+				return "Very Low";
+			else if(lev=="L")
+				return "Low";
+			else if(lev=="M")
+				return "Low";
+			else if(lev=="H")
+				return "Low";
+			else if(lev=="VH")
+				return "Moderate";
+		case "Very Low":
+			if(lev=="VL")
+				return "Very Low";
+			else if(lev=="L")
+				return "Very Low";
+			else if(lev=="M")
+				return "Low";
+			else if(lev=="H")
+				return "Low";
+			else if(lev=="VH")
+				return "Low";
+		default:
+		  return "Info";
+	  }
 
+  };
+  function getRealVal(check, cia){
+	if(check.includes("Y")) return cia;
+	return "X";
+	
+  };
+  function likelihood(iS, r, qVs){
+	if(iS ==0) return "Info";
+	switch (r) {
+		case "Confirmed":
+			if(qVs=="Very Low"){
+				return "Very Low";
+			}else if(qVs=="Low")
+				return "Low";
+			else if(qVs=="Moderate")
+				return "Moderate";
+			else if(qVs=="High")
+				return "High";
+			else if(qVs=="Very High")
+				return "Very High";
+		case "Expected":
+			if(qVs=="Very Low")
+				return "Very Low";
+			else if(qVs=="Low")
+				return "Low";
+			else if(qVs=="Moderate")
+				return "Moderate";
+			else if(qVs=="High")
+				return "High";
+			else if(qVs=="Very High")
+				return "Very High";
+		case "Anticipated":
+			if(qVs=="Very Low")
+				return "Very Low";
+			else if(qVs=="Low")
+				return "Low";
+			else if(qVs=="Moderate")
+				return "Moderate";
+			else if(qVs=="High")
+				return "Moderate";
+			else if(qVs=="Very High")
+				return "High";
+		case "Predicted":
+			if(qVs=="Very Low")
+				return "Very Low";
+			else if(qVs=="Low")
+				return "Low";
+			else if(qVs=="Moderate")
+				return "Low";
+			else if(qVs=="High")
+				return "Low";
+			else if(qVs=="Very High")
+				return "Moderate";
+		case "Possible":
+			if(qVs=="Very Low")
+				return "Very Low";
+			else if(qVs=="Low")
+				return "Very Low";
+			else if(qVs=="Moderate")
+				return "Low";
+			else if(qVs=="High")
+				return "Low";
+			else if(qVs=="Very High")
+				return "Low";
+		default:
+		  return "Info";
+	  }
+
+	
+  };
+  function impactScore(c, i, a){
+	var level = c.charAt(0)+i.charAt(0)+a.charAt(0);
+	var amountH =0;
+	var amountM =0;
+	var amountL =0;
+
+
+	for (i = 0; i < level.length; i++) {
+		if(level.charAt(i)=="H") amountH=amountH+1;
+		if(level.charAt(i)=="M") amountM=amountM+1;
+		if(level.charAt(i)=="L") amountL++;
+	}
+	if(amountH ==3) return 10;
+	if(amountH ==2) return 9;
+	if(amountH ==1 ) return 8;
+	if(amountM == 3) return 7;
+	if(amountM == 2) return 6;
+	if(amountM == 1) return 5;
+	if(amountL == 3) return 4;
+	if(amountL == 2) return 3;
+	if(amountL == 2) return 2;
+	return 0;
+  };
 module.exports = router;

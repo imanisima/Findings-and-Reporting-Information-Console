@@ -3,7 +3,9 @@
  */
 
 const mongoose = require('mongoose');
-const { FindingStatus, FindingClassification, FindingType, Confidentiality, Posture, ThreatRelevance } = require('../shared/EnumeratedTypes');
+const { FindingStatus, FindingClassification, FindingType, 
+	CIA, Posture, ThreatRelevance, 
+	EffectiveRating, ImpactLevel, CatCode, FindingCIA } = require('../shared/EnumeratedTypes');
 
 const findingSchema = new mongoose.Schema({
 	//SRS 66
@@ -17,14 +19,29 @@ const findingSchema = new mongoose.Schema({
 	associations: { type: Array, required: false, },
 	evidence: { type: String, required: true, },
 	archived: { type: Boolean, required: true, },
-	confidentiality: { type: String, required: true, enum: Confidentiality},
-	integrity: { type: String, required: true, enum: Confidentiality},
-	availability: { type: String, required: true, enum: Confidentiality},
+	confidentiality: { type: String, required: true, enum: CIA},
+	integrity: { type: String, required: true, enum: CIA},
+	availability: { type: String, required: true, enum: CIA},
+	analyst:  { type: Array, required: true },
+	collaborator:  { type: Array, required: false},	
 	posture:  { type: String, required: true, enum: Posture},
 	mBriefDescription: { type: String, required: true},
 	mLongDescription: { type: String, required: true},
 	relevance:  { type: String, required: true, enum: ThreatRelevance},
 	effectiveRating:  { type: Number, required: true},
+	impactDescription:  { type: String, required: true},
+	impactLevel:  { type: String, required: true, enum: ImpactLevel },
+	sevCatCode:  { type: String, required: true, enum: CatCode },
+	sevCatScore:  { type: String, required: true },
+	vulSeverity:  { type: String, required: true },
+	qVs:  { type: String, required: true },
+	risk:  { type: String, required: true },
+	likelihood:  { type: String, required: true },
+	fConfidentiality: { type: String, required: true, enum: FindingCIA},
+	fIntegrity: { type: String, required: true, enum: FindingCIA},
+	fAvailability: { type: String, required: true, enum: FindingCIA},
+	impactScore: { type: String, required: true},
+
 
 
 	//SRS 68 Finding Impact
