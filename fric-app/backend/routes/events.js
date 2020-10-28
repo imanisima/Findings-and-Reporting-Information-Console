@@ -10,7 +10,7 @@ const Event = require('../models/event.model');
  * 
  */
 router.route('/').get(async (req, res) => {
-	if (req.body.params != null && req.body.params.hasOwnProperty('id')) {
+	if (req.body.hasOwnProperty('params') && req.body.params.hasOwnProperty('id')) {
 		await Event
 			.findOne({_id: req.body.params.id})
 			.then(event => res.status(200).json(event))
@@ -35,8 +35,8 @@ router.route('/new').post(async (req, res) => {
 		await document
 			.save()
 			.then(event => res.status(201).json(event))
-			.catch(err => res.status(400).json('Error: ' + err));
-	} else res.status(200).json();
+			.catch(err => res.status(400).json('Error: bruh ' + err));
+	} else res.status(400).json();
 });
 
 

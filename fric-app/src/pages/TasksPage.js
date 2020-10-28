@@ -35,12 +35,7 @@ export default function TasksPage() {
 
 	const reload = () => {
 		setContentIsLoading(true);
-		// Fetch table data
-		axios.get('http://localhost:5000/tasks/table', {
-			params: {
-				table: true
-			}
-		})
+		axios.get('http://localhost:5000/tasks/table') // Fetch table data
 			.then(res => {
 				setTableData(res.data);
 				setContentIsLoading(false);
@@ -52,10 +47,7 @@ export default function TasksPage() {
 			});
 	};
 
-	useLayoutEffect(() => {
-		reload();
-		setContentIsLoading(false); //TODO: should be handled in reload data request, used here for debug purposes
-	}, []);
+	useLayoutEffect(() => reload(), []);
 
 	return (
 		// Added dark theme provider, remove for normal colors
@@ -64,7 +56,7 @@ export default function TasksPage() {
 				mainContentComponent={
 					(contentIsLoading) ? <Spinner /> : (
 						<ToolbarNewActionContext.Provider value={() => setNewDialogOpen(true)}>
-							<TasksOverviewTable rows={tableData} headings={headings} getSelectedTasks={setSelected} archiveAction={() => setArchiveDialogOpen(true)} />
+							<TasksOverviewTable rows={tableData} headings={headings} setSelectedTasks={setSelected} archiveAction={() => setArchiveDialogOpen(true)} />
 						</ToolbarNewActionContext.Provider>
 					)
 				}
