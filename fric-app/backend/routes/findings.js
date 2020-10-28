@@ -49,7 +49,11 @@ router.route('/add').post((req, res) => {
 		classification: req.body.classification,
 		associations: req.body.associations,
 		evidence: req.body.evidence,
+		system: req.body.system,
+		task: req.body.task,
+		subtask: req.body.task,
 		archived: req.body.archived,
+		relatedFindings: req.body.relatedFindings,
 		confidentiality: req.body.confidentiality,
 		integrity: req.body.integrity,
 		availability: req.body.availability,
@@ -63,15 +67,15 @@ router.route('/add').post((req, res) => {
 		impactDescription: req.body.impactDescription,
 		impactLevel: req.body.impactLevel,
 		sevCatCode: req.body.sevCatCode,
-		sevCatScore: req.body.sevCatScore=score(req.body.sevCatCode),
-		fConfidentiality: req.body.fConfidentiality=getRealVal(req.body.fConfidentiality,req.body.confidentiality ),
-		fIntegrity:req.body.fIntegrity= getRealVal(req.body.fIntegrity,req.body.integrity ),
-		fAvailability: req.body.fAvailability=getRealVal(req.body.fAvailability,req.body.availability),
-		impactScore: req.body.impactScore=impactScore(req.body.fConfidentiality,req.body.fIntegrity, req.body.fAvailability ),
-		vulSeverity:req.body.vulSeverity= Vs(req.body.sevCatScore,req.body.impactScore, req.body.effectiveRating),
-		qVs: req.body.qVs=qVs(req.body.vulSeverity),
-		likelihood: req.body.likelihood=likelihood(req.body.impactScore,req.body.relevance, req.body.qVs),
-		risk: req.body.risk =risk(req.body.impactScore, req.body.likelihood, req.body.impactLevel)
+		sevCatScore: req.body.sevCatScore=score(req.body.sevCatCode),//I dont grab from form
+		fConfidentiality: req.body.fConfidentiality=getRealVal(req.body.fConfidentiality,req.body.confidentiality ),//I dont grab from form
+		fIntegrity:req.body.fIntegrity= getRealVal(req.body.fIntegrity,req.body.integrity ),//I dont grab from form
+		fAvailability: req.body.fAvailability=getRealVal(req.body.fAvailability,req.body.availability),//I dont grab from form
+		impactScore: req.body.impactScore=impactScore(req.body.fConfidentiality,req.body.fIntegrity, req.body.fAvailability ),//I dont grab from form
+		vulSeverity:req.body.vulSeverity= Vs(req.body.sevCatScore,req.body.impactScore, req.body.effectiveRating),//I dont grab from form
+		qVs: req.body.qVs=qVs(req.body.vulSeverity),//I dont grab from form
+		likelihood: req.body.likelihood=likelihood(req.body.impactScore,req.body.relevance, req.body.qVs),//I dont grab from form
+		risk: req.body.risk =risk(req.body.impactScore, req.body.likelihood, req.body.impactLevel)//I dont grab from form
 
 		//systemLevelImpact: obj.b()
 	}

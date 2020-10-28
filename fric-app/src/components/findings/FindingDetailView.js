@@ -36,15 +36,15 @@ export default function FindingDetailView(props) {
     const [analyst, setAnalyst] = useState([]);
     const [collaborators, setCollaborators] = useState([]);
     const [posture, setPosture] = useState(''); //Not in classes
-    const [briefDescription, setBriefDescription] = useState('');
-    const [mitigationLongDescription, setMitigationLongDescription] = useState('');
+    const [mBriefDescription, setMBriefDescription] = useState('');
+    const [mLongDescription, setMLongDescription] = useState('');
     const [relevance, setRelevance] = useState(''); //Not in classes
-    const [effectiveness, setEffectiveness] = useState(''); //Not in classes
+    const [effectivenessRating, setEffectivenessRating] = useState(''); //Not in classes
     const [impactDescription, setImpactDescription] = useState('');
     const [impactLevel, setImpactLevel] = useState('');
-    const [severityCatScore, setSeverityCatScore] = useState('');
-    const [vulnerabilitySeverity, setVulnerabilitySeverity] = useState('');
-    const [quantitativeSeverity, setQuantitativeSeverity] = useState('');
+	const [sevCatScore, setSevCatScore] = useState('');
+	const [vulSeverity, setVulSeverity] = useState('');
+    const [qVs, setQVS] = useState('');
     const [risk, setRisk] = useState('');
     const [likelihood, setLikelihood] = useState('');
 	const findingProviderValue = useMemo(() => ({
@@ -67,27 +67,25 @@ export default function FindingDetailView(props) {
         analyst, setAnalyst,
         collaborators, setCollaborators,
         posture, setPosture, //Not in classes
-        briefDescription, setBriefDescription,
-        mitigationLongDescription, setMitigationLongDescription,
+        mBriefDescription, setMBriefDescription,
+        mLongDescription, setMLongDescription,
         relevance, setRelevance, //Not in classes
-        effectiveness, setEffectiveness, //Not in classes
+        effectivenessRating, setEffectivenessRating, //Not in classes
         impactDescription, setImpactDescription,
         impactLevel, setImpactLevel,
-        severityCatScore, setSeverityCatScore,
-        vulnerabilitySeverity, setVulnerabilitySeverity,
-        quantitativeSeverity, setQuantitativeSeverity,
+        sevCatScore, setSevCatScore,
+        vulSeverity, setVulSeverity,
+        qVs,  setQVS,
         risk, setRisk,
         likelihood, setLikelihood
     }), [id, hostName, ipPort, findingDescription, longFindingDescription,
         status, type, classification, evidence, system, 
         task, subtask, relatedFindings, confidentiality, integrity, 
-        availability, analyst, collaborators, posture, briefDescription,
-        mitigationLongDescription, relevance, effectiveness, impactDescription,impactLevel,
-        severityCatScore, vulnerabilitySeverity, quantitativeSeverity, risk, likelihood]);
+        availability, analyst, collaborators, posture, mBriefDescription,
+        mLongDescription, relevance, effectivenessRating, impactDescription,impactLevel,
+        sevCatScore, vulSeverity, qVs, risk, likelihood]);
 
 	const handleSaveClick = () => {
-		//TODO: Handle subtasks input validation before sending request
-		//TODO: Send update subtask request to database
 		/*axios.put('http://localhost:5000/subtasks/update', {
 			params: {
 				id: (props.selectedFinding != null && props.selectedFinding.length === 1) ? props.selectedFinding[0] : '',
