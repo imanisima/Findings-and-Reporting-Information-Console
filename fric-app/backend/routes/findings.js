@@ -68,9 +68,9 @@ router.route('/add').post((req, res) => {
 		impactLevel: req.body.impactLevel,
 		sevCatCode: req.body.sevCatCode,
 		sevCatScore: req.body.sevCatScore=score(req.body.sevCatCode),//I dont grab from form
-		fConfidentiality: req.body.fConfidentiality=getRealVal(req.body.fConfidentiality,req.body.confidentiality ),//I dont grab from form
-		fIntegrity:req.body.fIntegrity= getRealVal(req.body.fIntegrity,req.body.integrity ),//I dont grab from form
-		fAvailability: req.body.fAvailability=getRealVal(req.body.fAvailability,req.body.availability),//I dont grab from form
+		fConfidentiality: req.body.fConfidentiality=getRealVal(req.body.confidentiality ),//I dont grab from form
+		fIntegrity:req.body.fIntegrity= getRealVal(req.body.integrity ),//I dont grab from form
+		fAvailability: req.body.fAvailability=getRealVal(req.body.availability),//I dont grab from form
 		impactScore: req.body.impactScore=impactScore(req.body.fConfidentiality,req.body.fIntegrity, req.body.fAvailability ),//I dont grab from form
 		vulSeverity:req.body.vulSeverity= Vs(req.body.sevCatScore,req.body.impactScore, req.body.effectiveRating),//I dont grab from form
 		qVs: req.body.qVs=qVs(req.body.vulSeverity),//I dont grab from form
@@ -208,8 +208,8 @@ function score(id){
 	  }
 
   };
-  function getRealVal(check, cia){
-	if(check.includes("Y")) return cia;
+  function getRealVal(cia){
+	if(cia!='Information') return cia;
 	return "X";
 	
   };
