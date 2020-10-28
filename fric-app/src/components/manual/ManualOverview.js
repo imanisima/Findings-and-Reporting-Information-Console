@@ -54,10 +54,10 @@ import TasksManual from './TasksManual';
                 <SyncManual/>
                 <br></br>
 
-                {/* <SystemsManual /> */}
+                <SystemsManual />
                 <br></br>
 
-                {/* <TasksManual /> */}
+                <TasksManual />
                 <br></br>
 
               </body>

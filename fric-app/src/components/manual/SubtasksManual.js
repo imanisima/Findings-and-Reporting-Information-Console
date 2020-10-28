@@ -76,12 +76,12 @@ class SubtasksManual extends Component {
 
             <section>
             <h2> Archive a Subtask </h2>
-            <p> Elevate a subtask to a task.</p>
+            <p> Archive a subtask to a task.</p>
             <img src={ArchiveSub} alt="archive a subtask" height={50}></img>
 
             <br></br><br></br>
             <ol>
-              <li>To archive a subtask to a task, click the "Archive" button at the bottom of the page. </li>
+              <li>To archive a subtask, click the "Archive" button at the bottom of the page. </li>
 
             </ol>
             </section>
