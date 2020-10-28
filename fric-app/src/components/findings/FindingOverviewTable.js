@@ -146,22 +146,16 @@ export default function FindingsOverviewTable(props) {
 
 	const handleEditClick = () => {
 		if (selected != null && selected.length === 1) {
-			props.setSelectedSubtasks(selected); // Set selected id value, object to be fetched from detail view
+			console.log(selected)
+			props.setSelectedFindings(selected); // Set selected id value, object to be fetched from detail view
 			openDetailAction(); // Open detail view on subtasks page
 		}
 	};
 
 	const handleArchiveClick = () => {
 		if (selected != null) {
-			props.setSelectedSubtasks(selected);
+			props.setSelectedFindings(selected);
 			props.archiveAction();
-		}
-	};
-
-	const handlePromoteClick = () => {
-		if (selected != null) {
-			props.setSelectedSubtasks(selected);
-			props.promoteAction();
 		}
 	};
 
@@ -225,7 +219,7 @@ export default function FindingsOverviewTable(props) {
 											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">
 												{row.id}
 											</StyledTableCell>
-											<StyledTableCell align="left">{row.title}</StyledTableCell>
+											<StyledTableCell align="left">{row.hostName}</StyledTableCell>
 											<StyledTableCell align="left">{row.system}</StyledTableCell>
 											<StyledTableCell align="left" padding="none">{row.task}</StyledTableCell>
 											<StyledTableCell align="left" padding="none">{row.subtask}</StyledTableCell>
@@ -256,7 +250,7 @@ export default function FindingsOverviewTable(props) {
 						startIcon={<ArchiveIcon />}
 						style={{ backgroundColor: "#ffc108", color: "charcoal"}}
 						size="large"
-						//onClick={handleArchiveClick}
+						onClick={handleArchiveClick}
 					>
 						Archive
 					</Button>
@@ -268,7 +262,7 @@ export default function FindingsOverviewTable(props) {
 						startIcon={<EditIcon />}
 						color="primary"
 						size="large"
-						//onClick={handleEditClick}
+						onClick={handleEditClick}
 					>Edit
 					</Button>
 				</div>

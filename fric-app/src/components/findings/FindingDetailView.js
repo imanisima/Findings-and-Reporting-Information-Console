@@ -20,8 +20,8 @@ export default function FindingDetailView(props) {
 	const [id, setID] = useState('');
     const [hostName, setHostName] = useState('');
     const [ipPort, setIpPort] = useState('');
-    const [findingDescription, setFindingDescription] = useState('');
-    const [longFindingDescription, setLongFindingDescription] = useState('');
+    const [description, setDescription] = useState('');
+    const [longDescription, setLongDescription] = useState('');
     const [status, setStatus] = useState('');
     const [type, setType] = useState('');
     const [classification, setClassification] = useState('');
@@ -39,11 +39,12 @@ export default function FindingDetailView(props) {
     const [mBriefDescription, setMBriefDescription] = useState('');
     const [mLongDescription, setMLongDescription] = useState('');
     const [relevance, setRelevance] = useState(''); //Not in classes
-    const [effectivenessRating, setEffectivenessRating] = useState(''); //Not in classes
+    const [effectiveRating, setEffectiveRating] = useState(0); //Not in classes
     const [impactDescription, setImpactDescription] = useState('');
-    const [impactLevel, setImpactLevel] = useState('');
-	const [sevCatScore, setSevCatScore] = useState('');
-	const [vulSeverity, setVulSeverity] = useState('');
+	const [impactLevel, setImpactLevel] = useState('');
+	const [sevCatCode, setSevCatCode] = useState('');
+    const [sevCatScore, setSevCatScore] = useState('');
+    const [vulSeverity, setVulSeverity] = useState('');
     const [qVs, setQVS] = useState('');
     const [risk, setRisk] = useState('');
     const [likelihood, setLikelihood] = useState('');
@@ -51,8 +52,8 @@ export default function FindingDetailView(props) {
 		id, setID,
 		hostName, setHostName,
 		ipPort, setIpPort,
-		findingDescription, setFindingDescription,
-		longFindingDescription, setLongFindingDescription,
+		description, setDescription,
+		longDescription, setLongDescription,
         status, setStatus,
         type, setType,
 		classification, setClassification,
@@ -70,35 +71,51 @@ export default function FindingDetailView(props) {
         mBriefDescription, setMBriefDescription,
         mLongDescription, setMLongDescription,
         relevance, setRelevance, //Not in classes
-        effectivenessRating, setEffectivenessRating, //Not in classes
+		effectiveRating, setEffectiveRating, //Not in classes
         impactDescription, setImpactDescription,
-        impactLevel, setImpactLevel,
+		impactLevel, setImpactLevel,
+		sevCatCode, setSevCatCode,
         sevCatScore, setSevCatScore,
         vulSeverity, setVulSeverity,
         qVs,  setQVS,
         risk, setRisk,
         likelihood, setLikelihood
-    }), [id, hostName, ipPort, findingDescription, longFindingDescription,
+    }), [id, hostName, ipPort, description, longDescription,
         status, type, classification, evidence, system, 
         task, subtask, relatedFindings, confidentiality, integrity, 
         availability, analyst, collaborators, posture, mBriefDescription,
-        mLongDescription, relevance, effectivenessRating, impactDescription,impactLevel,
-        sevCatScore, vulSeverity, qVs, risk, likelihood]);
+        mLongDescription, relevance, effectiveRating, impactDescription,impactLevel,
+        sevCatCode, sevCatScore, vulSeverity, qVs, risk, likelihood]);
 
 	const handleSaveClick = () => {
-		/*axios.put('http://localhost:5000/subtasks/update', {
+		axios.put('http://localhost:5000/findings/update', {
 			params: {
 				id: (props.selectedFinding != null && props.selectedFinding.length === 1) ? props.selectedFinding[0] : '',
-				name: name,
-				description: description,
-				progress: progress,
-				ownerTask: ownerTask,
-				associations: relatedSubtasks,
-				analysts: analysts,
-				collaborators: collabs,
-				dueDate: dueDate.toUTCString(), // Must be converted to value that can be sent in request body
-				attachment: attachment,
-				archived: archived, // New elements will never be archived
+				hostName: hostName,
+				ipPort: ipPort,
+				description: description, 
+				longDescription: longDescription,
+				status: status,
+				type: type,
+				classification: classification, 
+				evidence: evidence,
+				system: system,
+				task: task,
+				subtask: subtask,
+				relatedFindings: relatedFindings,
+				confidentiality: confidentiality,
+				integrity: integrity,
+				availability: availability,
+				analyst: analyst,
+				collaborators: collaborators, 
+				posture: posture, 
+				mBriefDescription: mBriefDescription,
+				mLongDescription: mLongDescription,
+				relevance: relevance, 
+				effectiveRating: effectiveRating, 
+				impactDescription: impactDescription,
+				impactLevel: impactLevel,
+				sevCatCode: sevCatCode,
 			}
 		})
 			.then(res => {
@@ -112,14 +129,14 @@ export default function FindingDetailView(props) {
 				//TODO: display error message
 			})
         closeDetailAction(); // Close detail view tray
-        */
+        
     }
 
 	useEffect(() => {
-		/*console.log(props.selectedFinding);
+		console.log(props.selectedFinding);
 		setContentIsLoading(true);
 
-		axios.get('http://localhost:5000/subtasks', {
+		axios.get('http://localhost:5000/findings', {
 			params: {
 				id: (props.selectedFinding != null && props.selectedFinding.length === 1) ? props.selectedFinding[0] : ''
 			}
@@ -127,34 +144,60 @@ export default function FindingDetailView(props) {
 			.then(res => {
 				console.log(res.data);
 				//TODO: validate request data before setting values
-				setName(res.data.name);
+				setID(res.data._id);
+				setHostName(res.data.hostName);
+				setIpPort(res.data.ipPort);
 				setDescription(res.data.description);
-				setDueDate(new Date(res.data.dueDate));
-				setProgress(res.data.progress);
-				setOwnerTask(res.data.ownerTask);
-				setRelatedSubtasks(res.data.associations);
-				setAnalysts(res.data.analysts);
-				setCollabs(res.data.collaborators);
-				setArchived(false);
+				setLongDescription(res.data.longDescription);
+				setStatus(res.data.status);
+				setType(res.data.type);
+				setClassification(res.data.classification);
+				setEvidence(res.data.evidence);
+				setSystem(res.data.system);
+				setTask(res.data.task);
+				setSubTask(res.data.subtask);
+				setRelatedFindings(res.data.relatedFindings);
+				setConfidentiality(res.data.confidentiality);
+				setIntegrity(res.data.integrity);
+				setAvailability(res.data.availability);
+				setAnalyst(res.data.analyst);
+				setCollaborators(res.data.collaborators);
+				setPosture(res.data.posture);
+				setMBriefDescription(res.data.mBriefDescription);
+				setMLongDescription(res.data.mLongDescription);
+				setRelevance(res.data.relevance); 
+				setEffectiveRating(res.data.effectiveRating); 
+				setImpactDescription(res.data.impactDescription);
+				setImpactLevel(res.data.impactLevel);
+				setSevCatCode(res.data.sevCatCode);
+				setSevCatScore(res.data.sevCatScore);
+				setVulSeverity(res.data.vulSeverity);
+				setQVS(res.data.qVs);
+				setRisk(res.data.risk);
+				setLikelihood(res.data.likelihood)
 				setContentIsLoading(false); // Show spinner
 			})
 			.catch(err => {
 				console.log(err);
 				//TODO: display error message
 				setContentIsLoading(false);
-			})*/
+			})
 	}, [props.selectedFinding]); 
 
 	return (
 		(contentIsLoading) ? <Spinner /> : (
 			<div className={styles.container}>
 				<div style={{ textAlign: "center"}}>
-					<h4 style={{ display: "inline-block", padding: "0.3em"}}>Subtask Detail View</h4>
+					<h4 style={{ display: "inline-block", padding: "0.3em"}}>Finding Detail View</h4>
 					<HelpOutlineRoundedIcon size="large" style={{verticalAlign: "baseline"}}/>
 				</div>
 				
 				<FindingContext.Provider value={findingProviderValue}>
-					<FindingForm />
+					<FindingForm 
+						systemArray={props.systemArray}
+						taskArray={props.taskArray}
+						subtaskArray={props.subtaskArray}
+					/>
 				</FindingContext.Provider>
 
 				<div className={styles.actionButtonsContainer}>
@@ -183,4 +226,7 @@ export default function FindingDetailView(props) {
 FindingDetailView.propTypes = {
 	selectedFinding: PropTypes.array.isRequired,
 	reload: PropTypes.func.isRequired,
+	taskArray: PropTypes.array,
+	subtaskArray: PropTypes.array,
+	systemArray: PropTypes.array,
 }

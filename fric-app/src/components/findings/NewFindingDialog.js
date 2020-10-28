@@ -39,7 +39,7 @@ export default function NewFindingDialog(props) {
     const [mBriefDescription, setMBriefDescription] = useState('');
     const [mLongDescription, setMLongDescription] = useState('');
     const [relevance, setRelevance] = useState(''); //Not in classes
-    const [effectiveRating, setEffectiveRating] = useState(''); //Not in classes
+    const [effectiveRating, setEffectiveRating] = useState(0); //Not in classes
     const [impactDescription, setImpactDescription] = useState('');
 	const [impactLevel, setImpactLevel] = useState('');
 	const [sevCatCode, setSevCatCode] = useState('');
@@ -122,7 +122,7 @@ export default function NewFindingDialog(props) {
 			likelihood: likelihood,
 			archived: false
 		}
-
+			console.log(newFinding)
 		axios.post('http://localhost:5000/findings/add', newFinding)
 			.then(res => {
 				console.log(res);
