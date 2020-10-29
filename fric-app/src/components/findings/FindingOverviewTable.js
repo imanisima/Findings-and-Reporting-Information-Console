@@ -100,7 +100,7 @@ const StyledTableCell = withStyles((theme) => ({
 	},
 }))(TableCell);
 
-export default function SubtasksOverviewTable(props) {
+export default function FindingsOverviewTable(props) {
 	const classes = useStyles();
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('title');
@@ -109,14 +109,14 @@ export default function SubtasksOverviewTable(props) {
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const openDetailAction = React.useContext(DetailViewActionContext);
 
-	const handleRequestSort = (event, property) => {
+	const handleRequestSort = (finding, property) => {
 		const isAsc = orderBy === property && order === 'asc';
 		setOrder(isAsc ? 'desc' : 'asc');
 		setOrderBy(property);
 	};
 
-	const handleSelectAllClick = (event) => {
-		if (event.target.checked) {
+	const handleSelectAllClick = (finding) => {
+		if (finding.target.checked) {
 			const newSelecteds = props.rows.map((n) => n.id);
 			setSelected(newSelecteds);
 			return;
@@ -124,7 +124,7 @@ export default function SubtasksOverviewTable(props) {
 		setSelected([]);
 	};
 
-	const handleClick = (event, name) => {
+	const handleClick = (finding, name) => {
 		const selectedIndex = selected.indexOf(name);
 		let newSelected = [];
 
@@ -146,29 +146,23 @@ export default function SubtasksOverviewTable(props) {
 
 	const handleEditClick = () => {
 		if (selected != null && selected.length === 1) {
-			props.setSelectedSubtasks(selected); // Set selected id value, object to be fetched from detail view
+			console.log(selected)
+			props.setSelectedFindings(selected); // Set selected id value, object to be fetched from detail view
 			openDetailAction(); // Open detail view on subtasks page
 		}
 	};
 
 	const handleArchiveClick = () => {
 		if (selected != null) {
-			props.setSelectedSubtasks(selected);
+			props.setSelectedFindings(selected);
 			props.archiveAction();
 		}
 	};
 
-	const handlePromoteClick = () => {
-		if (selected != null) {
-			props.setSelectedSubtasks(selected);
-			props.promoteAction();
-		}
-	};
+	const handleChangePage = (finding, newPage) => { setPage(newPage); };
 
-	const handleChangePage = (event, newPage) => { setPage(newPage); };
-
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
+	const handleChangeRowsPerPage = (finding) => {
+		setRowsPerPage(parseInt(finding.target.value, 10));
 		setPage(0);
 	};
 
@@ -225,11 +219,15 @@ export default function SubtasksOverviewTable(props) {
 											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">
 												{row.id}
 											</StyledTableCell>
-											<StyledTableCell align="left">{row.name}</StyledTableCell>
-											<StyledTableCell align="left">{row.ownerTask}</StyledTableCell>
-											<StyledTableCell align="left" padding="none">{row.analysts}</StyledTableCell>
-											<StyledTableCell align="left" padding="none">{row.progress}</StyledTableCell>
-											<StyledTableCell align="right" >{row.numFindings}</StyledTableCell>
+											<StyledTableCell align="left">{row.hostName}</StyledTableCell>
+											<StyledTableCell align="left">{row.system}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.task}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.subtask}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.status}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.classification}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.type}</StyledTableCell>
+											<StyledTableCell align="left" padding="none">{row.risk}</StyledTableCell>
 											<StyledTableCell align="left" padding="none">{new Date(row.dueDate).toLocaleDateString()}</StyledTableCell>
 										</StyledTableRow>
 									);
@@ -256,18 +254,6 @@ export default function SubtasksOverviewTable(props) {
 					>
 						Archive
 					</Button>
-					{/* Promote Button */}
-					<Button
-						className={classes.menuButtons}
-						disabled={selected.length < 1}
-						variant="contained"
-						startIcon={<ArrowUpwardIcon />}
-						style={{ backgroundColor: "#29a745", color: "charcoal"}}
-						size="large"
-						onClick={handlePromoteClick}
-					>
-						Promote
-					</Button>	
 					{/* Edit Button */}
 					<Button
 						className={classes.menuButtons}
@@ -294,10 +280,9 @@ export default function SubtasksOverviewTable(props) {
 	);
 }
 
-SubtasksOverviewTable.propTypes = {
+FindingsOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
-	setSelectedSubtasks: PropTypes.func.isRequired,
+	setSelectedFindings: PropTypes.func.isRequired,
 	archiveAction: PropTypes.func.isRequired,
-	promoteAction: PropTypes.func.isRequired,
 }

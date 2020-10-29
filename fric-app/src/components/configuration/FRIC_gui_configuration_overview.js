@@ -4,7 +4,6 @@
 
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
-import FindingsTable from '../findings/FRIC_gui_findings_table';
 import PostureTable from './FRIC_gui_configuration_posture_table'
 import ThreatTable from './FRIC_gui_configuration_threat_table'
 import ImpactTable from './FRIC_gui_configuration_impact_table'
@@ -32,7 +31,6 @@ class ConfigurationOverview extends Component {
             <br></br>
             <body>
                 <label>Finding</label>
-                <FindingsTable />
                 <br></br>
                 <label>
                     Posture

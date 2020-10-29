@@ -51,7 +51,6 @@ function App() {
 					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
 					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />
 					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
-
 				</Switch>
 			</Router>
 		</>

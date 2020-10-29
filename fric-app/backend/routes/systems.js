@@ -52,13 +52,30 @@ router.route('/add').post((req, res) => {
 		switch: req.body.switch,
 		room: req.body.room,
 		testPlan: req.body.testPlan,
-		archived: req.body.archived
 	}
 	newSystem = new System(newSystem);
 
 	newSystem
 		.save()
 		.then(() => res.json('System Added'))
+		.catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/names').get(async (req, res) => {
+	await System
+		.aggregate([
+			{
+				$match: {
+					archived: false
+				}
+			},
+			{
+				$project: {
+					name: 1,
+				}
+			}
+		])
+		.then(systems => res.status(200).json(systems))
 		.catch(err => res.status(400).json('Error: ' + err));
 });
 

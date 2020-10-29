@@ -38,10 +38,88 @@ exports.Priority = [
 	'High',
 ]
 
-exports.Classification = [
+exports.EventClassification = [
 	'Top Secret',
 	'Secret',
 	'Confidential',
 	'Classified',
 	'Unclassified',
+]
+
+exports.FindingStatus = [
+	'Open',
+	'Closed'
+]
+
+exports.FindingType = [
+	'Credentials Complexity',
+	'Manufacturer Default Creds',
+	'Lack of Authentication',
+	'Plain Text Protocols',
+	'Plain Text Web Login',
+	'Encryption',
+	'Authentication Bypass',
+	'Port Security',
+	'Access Control',
+	'Least Privilege',
+	'Privilege Escalation',
+	'Missing Patches',
+	'Physical Security',
+	'Information Disclosure'
+]
+
+exports.FindingClassification = [
+	'Vulnerability',
+	'Information'
+]
+
+exports.CIA = [
+	'Low',
+	'Medium',
+	'High',
+	'Information'
+]
+
+exports.ThreatRelevance = [
+	'Confirmed',
+	'Expected',
+	'Anticipated',
+	'Predicted',
+	'Possible'
+
+]
+exports.Posture = [
+	'Insider',
+	'Insider-nearsider',
+	'Outsider',
+	'Nearsider',
+	'Nearsider-outsider'
+
+]
+exports.EffectiveRating = [
+	'Very High',
+	'High',
+	'Moderate',
+	'Low',
+	'Very Low'
+]
+exports.ImpactLevel = [
+	'VH',
+	'H',
+	'M',
+	'L',
+	'VL'
+]
+exports.CatCode= [
+	'I',
+	'II',
+	'III'
+]
+exports.FindingCIA = [
+	'Low',
+	'Medium',
+	'High',
+	'X',
+	'Y',
+	'N'
 ]
