@@ -302,7 +302,10 @@ export default function LayoutTemplate(props) {
 							color="inherit"
 							aria-label="help"
 						>
-							<HelpIcon />
+
+							<Link to="/manual" replace={useLocation().pathname === '/manual'} className={classes.links}>
+								<HelpIcon />
+							</Link>
 						</IconButton>
 						{auth && (
 							<>
