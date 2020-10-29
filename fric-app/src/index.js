@@ -45,6 +45,7 @@ function App() {
 					<Route exact path="/configure" component={ConfigurePage} />
 					<Route exact path="/settings" component={SettingsPage} />
 					<Route exact path="/test" component={TestPage} />
+					<Route exact path="/manual" component={ManualPage} />
 
 					<Route exact path="/archive/archive_task_view" component={ArchiveTask} />
 					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
