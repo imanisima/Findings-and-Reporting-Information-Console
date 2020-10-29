@@ -43,7 +43,7 @@ const useStyles = makeStyles({
         onNodeSelect={handleSelect}
       >
         
-        
+        <h1>Event Tree</h1>
        
         <TreeItem nodeId="1" label="Event">
           <TreeItem nodeId="2" label="System 1">

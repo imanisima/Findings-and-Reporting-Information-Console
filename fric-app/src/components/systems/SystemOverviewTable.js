@@ -17,6 +17,7 @@ import CustomTableToolbar from '../general/CustomTableToolbar'
 import ArchiveIcon from '@material-ui/icons/Archive';
 import EditIcon from '@material-ui/icons/Edit';
 import SystemsDetailView from '../systems/SystemsDetailView'
+import { DetailViewActionContext } from '../general/LayoutTemplate';
 import axios from 'axios';
 
 function descendingComparator(a, b, orderBy) {
@@ -109,6 +110,7 @@ export default function SystemOverviewTable(props) {
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
+	const openDetailAction = React.useContext(DetailViewActionContext);
 
 	const handleRequestSort = (system, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -157,37 +159,34 @@ export default function SystemOverviewTable(props) {
 	const handleEditClick = () => {
 		if (selected != null && selected.length === 1) {
 			props.setSelectedSystem(selected[0]);
-			props.openDetailAction();
+			openDetailAction();
 		}
-		
 	}
 
 	const handleArchiveClick = () => {
 		if (selected != null && selected.length === 1) {
 			console.log("Archive clicked")
-        	axios.put('http://localhost:5000/systems/update', {
-                params: {
-                    id: selected,
-                    name: selected.name,
-                    description: selected.description,
-                    location: selected.location,
-                    router: selected.router,
-                    switch: selected.switchName,
-                    room: selected.room,
-                    testPlan: selected.testPlan,
-                    archived: true
-                }
-            })
-                .then(res => {
+			axios.put('http://localhost:5000/systems/update', {
+				params: {
+					id: selected,
+					name: selected.name,
+					description: selected.description,
+					location: selected.location,
+					router: selected.router,
+					switch: selected.switchName,
+					room: selected.room,
+					testPlan: selected.testPlan,
+					archived: true
+				}
+			})
+				.then(res => {
 					console.log(res);
-                    window.location = '/systems'
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-
+					window.location = '/systems'
+				})
+				.catch(err => {
+					console.log(err);
+				})
 		}
-
 	}
 
 	function onNewClicked() {
@@ -315,6 +314,5 @@ export default function SystemOverviewTable(props) {
 SystemOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
-	openDetailAction: PropTypes.func,
 	setSelectedSystem: PropTypes.func.isRequired,
 }

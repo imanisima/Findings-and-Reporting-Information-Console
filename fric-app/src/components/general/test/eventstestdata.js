@@ -1,7 +1,7 @@
 /* TODO: Testing data, delete file when connected to backend production system */
 // Available options for detail view
 
-import { EventType } from '../EnumeratedTypes';
+import { EventType } from '../../../shared/EnumeratedTypes';
 
 const analysts = ['Marco Soto', 'Ben Dover', 'Don Glover', 'Mike Hunt', 'Harry Beaver', 'P. Huck Hughson'];
 
