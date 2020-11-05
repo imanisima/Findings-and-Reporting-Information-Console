@@ -4,7 +4,7 @@
 
 import axios from 'axios';
 import cookie from 'cookie';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
@@ -24,53 +24,28 @@ export default function Main() {
 	const [contentIsLoading, setContentIsLoading] = useState(true);
 	const [setupDialogOpen, setSetupDialogOpen] = useState(false);
 
-
-	const fetchCookie = async () => {
-		await axios.get('http://localhost:5000', { withCredentials: true })
-			.then(() => {
-				const c = cookie.parse(document.cookie);
-				if (c == null || !c.event_id) {
-					//TODO: display error message
-					setSetupDialogOpen(true);
-				}
-				else {
-					console.log(c);
-					event_id = c.event_id;
-					fetchSummary();
-				}
+	const reload = () => {
+		setContentIsLoading(true);
+		
+		axios.get('http://localhost:5000/events/summary', {
+			params: {
+				id: event_id
+			},
+		})
+			.then(res => {
+				console.log(res)
+				if (res.status === 404 || res.status === 400) setSetupDialogOpen(true);
+				else if (res.data) setEvent(res.data);
+				setContentIsLoading(false);
 			})
 			.catch(err => {
 				//TODO: display error message
 				setSetupDialogOpen(true);
 				console.log(err);
 			})
-	}
-
-	const fetchSummary = async () => {
-		await axios.get('http://localhost:5000/events/summary', {
-			params: {
-				id: event_id
-			},
-		})
-			.then(res => {
-				console.log('Saved event');
-				console.log(res.data);
-				setEvent(res.data);
-				setContentIsLoading(false);
-			})
-			.catch(err => {
-				//TODO: display error message
-				console.log(err);
-			})
-	}
-
-	const reload = () => {
-		setContentIsLoading(true);
-		if (!event_id) fetchCookie();
-		else fetchSummary();
 	};
 
-	useEffect(() => reload(), []);
+	useLayoutEffect(() => reload(), []);
 
 	const handleSetupAction = () => {
 		console.log('cookie: ' + document.cookie);
@@ -82,10 +57,7 @@ export default function Main() {
 		// Added dark theme provider, remove for normal color
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate mainContentComponent={
-				(contentIsLoading) ? <Spinner /> : (
-					// (events && events.length > 0) ? <OverviewCards /> : <>{/*TODO:Make error message*/}</>
-					(event) ? <OverviewCards /> : <h1>Error{/*TODO:Make error message*/}</h1>
-				)
+				(contentIsLoading) ? <Spinner /> : (event) ? <OverviewCards /> : <h1>Error{/*TODO: Make error message*/}</h1>
 			}/>
 
 			<Dialog

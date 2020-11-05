@@ -59,7 +59,6 @@ import SearchIcon from '@material-ui/icons/Search';
 
 // Custom Components
 import SyncForm from '../sync/SyncForm';
-// import { CookieContext } from './CookieContext';
 
 const drawerWidth = 240;
 
@@ -392,15 +391,8 @@ export default function LayoutTemplate(props) {
 						</ListItem>
 					</Link>
 
-					<Link to="/event_tree" replace={useLocation().pathname !== '/findings'} className={classes.links}>
-						<ListItem button key="Event Tree">
-							<ListItemIcon><AccountTreeIcon /></ListItemIcon>
-							<ListItemText primary="Event Tree" />
-						</ListItem>
-					</Link>
-
 					{/*  */}
-					<Link to="/findings" replace={useLocation().pathname === '/'} className={classes.links}>
+					<Link to="/findings" replace={useLocation().pathname === '/findings'} className={classes.links}>
 						<ListItem button key="Findings">
 							<ListItemIcon><FindPageIcon /></ListItemIcon>
 							<ListItemText primary="Findings" />
@@ -428,14 +420,6 @@ export default function LayoutTemplate(props) {
 						<ListItem button key="Configuration">
 							<ListItemIcon><BuildIcon /></ListItemIcon>
 							<ListItemText primary="Configuration" />
-						</ListItem>
-					</Link>
-
-					{/* Settings Link */}
-					<Link to="/settings" replace={useLocation().pathname === '/settings'} className={classes.links}>
-						<ListItem button key="Settings">
-							<ListItemIcon><SettingsIcon /></ListItemIcon>
-							<ListItemText primary="Settings" />
 						</ListItem>
 					</Link>
 				</List>

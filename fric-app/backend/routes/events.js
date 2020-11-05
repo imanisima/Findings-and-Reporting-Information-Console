@@ -12,10 +12,31 @@ const Event = require('../models/event.model');
 router.route('/').get(async (req, res) => {
 	if (req.query && req.query.id) {
 		await Event
-			.findOne({_id: req.query.id})
-			.then(event => res.status(200).json(event))
-			.catch(err => res.status(404).json('Error: ' + err));
-	} else res.sendStatus(400);
+			.findOne({
+				_id: req.query.id,
+				archived: false
+			})
+			.then(event => {
+				if (event) res.status(200).json(event);
+				else res.status(404).send('No event found.');
+			})
+			.catch(err => {
+				res.status(404).json({ error: err });
+				console.log(err);
+			});
+	}
+	else {
+		await Event
+			.find()
+			.then(events => {
+				if (events) res.status(200).json(events);
+				else res.status(404).send('No events found.');
+			})
+			.catch(err => {
+				res.status(500).json({ error: err });
+				console.log(err);
+			})
+	}
 });
 
 
@@ -23,14 +44,20 @@ router.route('/').get(async (req, res) => {
  * 
  */
 router.route('/new').post(async (req, res) => {
-	if (req.body.hasOwnProperty('params')) {
+	if (req.body && req.body.params) {
 		const document = new Event(req.body.params);
 
 		await document
 			.save()
-			.then(event => res.status(201).json(event))
-			.catch(err => res.status(400).json('Error: bruh ' + err));
-	} else res.status(400).json();
+			.then(event => {
+				if (event) res.status(201).json(event);
+				else res.status(400).send('Create event failed.');
+			})
+			.catch(err => {
+				res.status(500).json({ error: err });
+				console.log(err);
+			});
+	} else res.sendStatus(400);
 });
 
 
@@ -38,7 +65,16 @@ router.route('/new').post(async (req, res) => {
  * 
  */
 router.route('/delete').delete(async (req, res) => {
-	//TODO: implement delete method
+	if (req.body && req.body.params && req.body.params.id) {
+		await Event.deleteOne({_id: req.body.params.id})
+			.then(result => {
+				res.status(200).json(result);
+			})
+			.catch(err => {
+				res.status(500).json({ error: err });
+				console.log(err);
+			})
+	}
 });
 
 
@@ -46,22 +82,36 @@ router.route('/delete').delete(async (req, res) => {
  * 
  */
 router.route('/update').put(async (req, res) => {
-	if (req.body.params.hasOwnProperty('id')) {
+	if (req.body && req.body.params && req.body.params.id) {
 		var document = null; // Stores Document returned by findOne
 
 		await Event
 			.findOne({ _id: req.body.params.id })
 			.then(event => {
-				document = event;
-				document.set(req.body.params);
+				if (event) {
+					document = event;
+					delete req.body.params.id;
+					document.set(req.body.params);
+				}
+				else res.status(404).send('No event found.');
+				
 			})
-			.catch(err => res.status(404).json('Error: ' + err));
+			.catch(err => {
+				res.status(500).json({ error: err });
+				console.log(err);
+			});
 
 		await document
 			.save() // This method provides validation
-			.then(event => res.status(200).json(event))
-			.catch(err => res.status(400).json('Error: ' + err));
-	} else res.status(400).send();
+			.then(event => {
+				if (event) res.status(200).json(event);
+				else res.status(400).send('Event update failed.');
+			})
+			.catch(err => {
+				res.status(500).json({ error: err });
+				console.log(err);
+			});
+	} else res.status(400).json('No event provided.');
 });
 
 
@@ -69,18 +119,23 @@ router.route('/update').put(async (req, res) => {
  * 
  */
 router.route('/summary').get(async (req, res) => {
-	console.log(req.query);
 	if (req.query && req.query.id) {
 		await Event
-			.findOne({ _id: req.query.id })
-			.then(event => res.status(200).json(event))
+			.findOne({
+				_id: req.query.id,
+				archived: false
+			})
+			.then(event => {
+				if (event) res.status(200).json(event);
+				else res.status(404).send('No event found.');
+			})
 			.catch(err => {
+				res.status(500).json({ error: err });
 				console.log(err);
-				res.status(404).json('Error: ' + err);
 			});
 
 		//TODO: Fetch and send aggregated summary data for the given event
-	} else res.status(400).json('No event provided.').send();
+	} else res.status(400).send('No event provided.');
 });
 
 module.exports = router;
