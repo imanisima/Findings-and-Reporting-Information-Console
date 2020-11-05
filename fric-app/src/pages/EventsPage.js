@@ -2,8 +2,9 @@
  * 
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
+import cookie from 'cookie';
+import React, { useState, useLayoutEffect, useMemo } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
@@ -32,37 +33,28 @@ export default function EventsPage() {
 	const [event, setEvent] = useState(defaultEventState); //TODO: Extract from context
 	const eventValue = useMemo(() => ({event, setEvent}), [event]);
 
-	useEffect(() => {
-		var eventid;
-
-		async function fetch() {
-			await axios.get('http://localhost:5000/events', {
-				params: {}
-			})
-				.then(res => {
-					// console.log(res.data[0]._id);
-					eventid = res.data[0]._id;
-				})
-				.catch(err => {
-					console.log(err);
-				})
+	useLayoutEffect(() => {
+		(async () => {
+			let c = cookie.parse(document.cookie);
 			
-			await axios.get('http://localhost:5000/events', {
-				params: {
-					id: eventid
-				}
-			})
-				.then(res => {
-					console.log(res.data[0]);
-					setEvent(res.data[0]);
-					setContentIsLoading(false);
+			if (c && c.event_id) {
+				await axios.get('http://localhost:5000/events', {
+					params: {
+						id: c.event_id
+					}
 				})
-				.catch(err => {
-					console.log(err);
-					//TODO: display error message
-				});
-		};
-		fetch();
+					.then(res => {
+						console.log(res);
+						setEvent(res.data);
+						setContentIsLoading(false);
+					})
+					.catch(err => {
+						console.log(err);
+						//TODO: display error message
+					});
+			}
+			else window.location = '/';
+		})();
 	}, []);
 
 	const saveChanges = () => {

@@ -3,6 +3,8 @@
  * Created by Marco Soto
  */
 
+import axios from 'axios';
+
 // React imports
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -16,7 +18,6 @@ import { makeStyles, useTheme, fade } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -24,9 +25,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
 import Popover from '@material-ui/core/Popover';
 import Alert from '@material-ui/lab/Alert';
@@ -36,28 +34,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import Dialog from '@material-ui/core/Dialog';
 
-// Sidebar Icons
-import EventIcon from '@material-ui/icons/Event';
-import CheckedIcon from '@material-ui/icons/AssignmentTurnedIn';
-import LowPriorityIcon from '@material-ui/icons/AssignmentReturned';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import SettingsIcon from '@material-ui/icons/Settings';
-import FindPageIcon from '@material-ui/icons/FindInPage';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import DnsIcon from '@material-ui/icons/Dns';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import HelpIcon from '@material-ui/icons/HelpSharp';
-import BuildIcon from '@material-ui/icons/Build';
-import SyncIcon from '@material-ui/icons/Sync'
-// import SyncProblemIcon from '@material-ui/icons/SyncProblem';
-// import SyncDisabledIcon from '@material-ui/icons/SyncDisabled';
-
 // Navbar Icons
+import HelpIcon from '@material-ui/icons/HelpSharp';
+import SyncIcon from '@material-ui/icons/Sync'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
+// import SyncProblemIcon from '@material-ui/icons/SyncProblem';
+// import SyncDisabledIcon from '@material-ui/icons/SyncDisabled';
 
 // Custom Components
+import SidebarLinks from './SidebarLinks';
 import SyncForm from '../sync/SyncForm';
 
 const drawerWidth = 240;
@@ -182,13 +169,6 @@ const useStyles = makeStyles((theme) => ({
 			},
 		},
 	},
-	links: {
-		color: "inherit",
-		'&:hover': {
-			color: "inherit",
-			textDecoration: "none",
-		}
-	}
 }));
 
 export const DetailViewActionContext = React.createContext(null);
@@ -202,7 +182,7 @@ export default function LayoutTemplate(props) {
 	const [anchorAuth, setAnchorAuth] = React.useState(null);
 	const [snackbarOpen, setSnackbarOpen] = React.useState(true);
 	const [syncDialogOpen, setSyncDialogOpen] = React.useState(false);
-	const [auth] = React.useState(true);
+	const [authUser, setAuthUser] = React.useState(null);
 
 	const handleMenuDrawerOpen = () => setMenuOpen(true);
 	const handleMenuDrawerClose = () => setMenuOpen(false);
@@ -218,6 +198,25 @@ export default function LayoutTemplate(props) {
 
 	// const handleSnackbarOpen = () => setSnackbarOpen(true);
 	const handleSnackbarClose = () => setSnackbarOpen(false);
+
+	const login = () => {
+		axios.get('http://localhost:5000/login', {
+			params: {
+				user: ""
+			}
+		})
+			.then(res => {
+
+			})
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+			})
+	};
+
+	const logout = () => {
+
+	};
 
 	return (
 		<div className={classes.root}>
@@ -304,37 +303,100 @@ export default function LayoutTemplate(props) {
 						>
 							<HelpIcon />
 						</IconButton>
-						{auth && (
-							<>
-								<IconButton
-									aria-label="account of current user"
-									aria-controls="menu-appbar"
-									aria-haspopup="true"
-									onClick={handleAuthMenuOpen}
-									color="inherit"
-								>
-									<AccountCircle />
-								</IconButton>
-								<Menu
-									id="menu-appbar"
-									anchorEl={anchorAuth}
-									anchorOrigin={{
-										vertical: 'top',
-										horizontal: 'right',
-									}}
-									keepMounted
-									transformOrigin={{
-										vertical: 'top',
-										horizontal: 'right',
-									}}
-									open={Boolean(anchorAuth)}
-									onClose={handleAuthMenuClose}
-								>
-									<MenuItem onClick={handleAuthMenuClose}>Login</MenuItem>
-									<MenuItem onClick={handleAuthMenuClose}>Logout</MenuItem>
-								</Menu>
-							</>
-						)}
+
+						{
+							(authUser) ? (
+								<>
+									<IconButton
+										aria-label="account of current user"
+										aria-controls="menu-appbar"
+										aria-haspopup="true"
+										onClick={handleAuthMenuOpen}
+										color="inherit"
+									>
+										<AccountCircle />
+									</IconButton>
+									<Menu
+										id="menu-appbar"
+										anchorEl={anchorAuth}
+										anchorOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
+										}}
+										keepMounted
+										transformOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
+										}}
+										open={Boolean(anchorAuth)}
+										onClose={handleAuthMenuClose}
+									>
+										<MenuItem onClick={handleAuthMenuClose}>Logout</MenuItem>
+									</Menu>
+								</>
+							) : (
+								<>
+									<IconButton
+											aria-label="account of current user"
+											aria-controls="menu-appbar"
+											aria-haspopup="true"
+											onClick={handleAuthMenuOpen}
+											color="inherit"
+									>
+										<AccountCircle />
+									</IconButton>
+									<Menu
+										id="menu-appbar"
+										anchorEl={anchorAuth}
+										anchorOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
+										}}
+										keepMounted
+										transformOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
+										}}
+										open={Boolean(anchorAuth)}
+										onClose={handleAuthMenuClose}
+									>
+										<MenuItem onClick={handleAuthMenuClose}>Login</MenuItem>
+									</Menu>
+								</>
+							)
+							// !authUser && (
+							// 	<>
+							// 		<IconButton
+							// 			aria-label="account of current user"
+							// 			aria-controls="menu-appbar"
+							// 			aria-haspopup="true"
+							// 			onClick={handleAuthMenuOpen}
+							// 			color="inherit"
+							// 		>
+							// 			<AccountCircle />
+							// 		</IconButton>
+							// 		<Menu
+							// 			id="menu-appbar"
+							// 			anchorEl={anchorAuth}
+							// 			anchorOrigin={{
+							// 				vertical: 'top',
+							// 				horizontal: 'right',
+							// 			}}
+							// 			keepMounted
+							// 			transformOrigin={{
+							// 				vertical: 'top',
+							// 				horizontal: 'right',
+							// 			}}
+							// 			open={Boolean(anchorAuth)}
+							// 			onClose={handleAuthMenuClose}
+							// 		>
+							// 			<MenuItem onClick={handleAuthMenuClose}>Login</MenuItem>
+							// 			<MenuItem onClick={handleAuthMenuClose}>Logout</MenuItem>
+							// 		</Menu>
+							// 	</>
+							// )
+						}
+						
 					</div>
 				</Toolbar>
 			</AppBar>
@@ -361,76 +423,15 @@ export default function LayoutTemplate(props) {
 				</div>
 				<Divider />
 
-				{/* Sidebar Icons, Text, and Links */}
-				<List>
-					<Link to="/" replace={useLocation().pathname === "/"} className={classes.links}>
-						<ListItem button key="Overview">
-							<ListItemIcon><DashboardIcon /></ListItemIcon>
-							<ListItemText primary="Overview" />
-						</ListItem>
-					</Link>
-
-					<Link to="/events" replace={useLocation().pathname === '/events'} className={classes.links}>
-						<ListItem button key="Events">
-							<ListItemIcon><EventIcon /></ListItemIcon>
-							<ListItemText primary="Events" />
-						</ListItem>
-					</Link>
-
-					<Link to="/tasks" replace={useLocation().pathname === '/tasks'} className={classes.links}>
-						<ListItem button key="Tasks">
-							<ListItemIcon><CheckedIcon /></ListItemIcon>
-							<ListItemText primary="Tasks" />
-						</ListItem>
-					</Link>
-
-					<Link to="/subtasks" replace={useLocation().pathname === '/subtasks'} className={classes.links}>
-						<ListItem button key="Subtasks">
-							<ListItemIcon><LowPriorityIcon /></ListItemIcon>
-							<ListItemText primary="Subtasks" />
-						</ListItem>
-					</Link>
-
-					{/*  */}
-					<Link to="/findings" replace={useLocation().pathname === '/findings'} className={classes.links}>
-						<ListItem button key="Findings">
-							<ListItemIcon><FindPageIcon /></ListItemIcon>
-							<ListItemText primary="Findings" />
-						</ListItem>
-					</Link>
-
-					{/* Archive Link */}
-					<Link to="/archive" replace={useLocation().pathname === '/archive'} className={classes.links}>
-						<ListItem button key="Archive">
-							<ListItemIcon><ArchiveIcon /></ListItemIcon>
-							<ListItemText primary="Archive" />
-						</ListItem>
-					</Link>
-
-					{/* Systems Link */}
-					<Link to="/systems" replace={useLocation().pathname === '/systems'} className={classes.links}>
-						<ListItem button key="Systems">
-							<ListItemIcon><DnsIcon /></ListItemIcon>
-							<ListItemText primary="Systems" />
-						</ListItem>
-					</Link>
-
-					{/* Configuration Link */}
-					<Link to="/configure" replace={useLocation().pathname === '/configure'} className={classes.links}>
-						<ListItem button key="Configuration">
-							<ListItemIcon><BuildIcon /></ListItemIcon>
-							<ListItemText primary="Configuration" />
-						</ListItem>
-					</Link>
-				</List>
+				{/* Sidebar Links Component */}
+				<SidebarLinks />
 			</Drawer>
 
 			{/* Main Content Section */}
 			<main className={classes.content}>
 				{/* Toolbar Spacer */}
 				<div className={classes.toolbar} />
-				{/* Main Content */}
-				{/* Pass thru main component with context to handle opening detail view */}
+				{/* Main Content; pass thru main component with context to handle opening detail view */}
 				<DetailViewActionContext.Provider value={handleDetailDrawerOpen}>
 					{ props.mainContentComponent }
 				</DetailViewActionContext.Provider>
@@ -438,7 +439,7 @@ export default function LayoutTemplate(props) {
 
 			{ 
 				/* Right Detail Sidebar Section, only render if detail component is used */
-				props.detailComponent != null && (
+				props.detailComponent && (
 					<div>
 						<React.Fragment key="right">
 							<Drawer anchor="right" open={detailOpen}>
