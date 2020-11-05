@@ -3,9 +3,6 @@
  * Created by Marco Soto
  */
 
-import axios from 'axios';
-import cookie from 'cookie';
-
 // React imports
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -62,7 +59,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 // Custom Components
 import SyncForm from '../sync/SyncForm';
-import { CookieContext } from './CookieContext';
+// import { CookieContext } from './CookieContext';
 
 const drawerWidth = 240;
 
@@ -208,8 +205,6 @@ export default function LayoutTemplate(props) {
 	const [syncDialogOpen, setSyncDialogOpen] = React.useState(false);
 	const [auth] = React.useState(true);
 
-	const {event_id, user} = cookie.parse(document.cookie);
-
 	const handleMenuDrawerOpen = () => setMenuOpen(true);
 	const handleMenuDrawerClose = () => setMenuOpen(false);
 
@@ -224,24 +219,6 @@ export default function LayoutTemplate(props) {
 
 	// const handleSnackbarOpen = () => setSnackbarOpen(true);
 	const handleSnackbarClose = () => setSnackbarOpen(false);
-
-	const fetchCookies = async () => {
-		await axios.get('http://localhost:5000', { withCredentials: true })
-			.then(res => console.log('Fetched event cookie'))
-			.catch(err => console.log(err));
-
-		console.log(cookie.parse(document.cookie));
-	}
-
-	React.useEffect(() => {
-		console.log(`event_id before: ${event_id}`);
-		console.log(`user before: ${user}`)
-		fetchCookies();
-		console.log(`event_id after: ${event_id}`);
-		console.log(`user after: ${user}`)
-
-		// if (!event_id) window.location = '/';
-	}, []);
 
 	return (
 		<div className={classes.root}>

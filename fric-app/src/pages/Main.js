@@ -3,7 +3,8 @@
  */
 
 import axios from 'axios';
-import React, {Component} from 'react';
+import cookie from 'cookie';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
@@ -17,60 +18,87 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default class Main extends Component {
-	constructor (props) {
-		super(props);
-	
-		this.state = {
-			events: null,
-			contentIsLoading: true,
-			dialogOpen: false,
-		};
+export default function Main() {
+	var {event_id} = cookie.parse(document.cookie);
+	const [event, setEvent] = useState(null);
+	const [contentIsLoading, setContentIsLoading] = useState(true);
+	const [setupDialogOpen, setSetupDialogOpen] = useState(false);
 
-		this.handleDialogClose = this.handleDialogClose.bind(this);
-	}
 
-	componentDidMount() {
-		//TODO: get event from user stored browser cookie, otherwise send the following request
-		// Send request for events
-		axios.get('http://localhost:5000/events')
-			.then(response =>  {
-				console.log(response.data);
-				this.setState({ events: response.data, contentIsLoading: false });
-				if (this.state.events == null || this.state.events <= 0)
-					this.setState({ dialogOpen: true });
+	const fetchCookie = async () => {
+		await axios.get('http://localhost:5000', { withCredentials: true })
+			.then(() => {
+				const c = cookie.parse(document.cookie);
+				if (c == null || !c.event_id) {
+					//TODO: display error message
+					setSetupDialogOpen(true);
+				}
+				else {
+					console.log(c);
+					event_id = c.event_id;
+					fetchSummary();
+				}
 			})
-			.catch(error => {
-				console.log(error);
-				this.setState({ contentIsLoading: false, });
-			});
+			.catch(err => {
+				//TODO: display error message
+				setSetupDialogOpen(true);
+				console.log(err);
+			})
 	}
 
-	handleDialogClose() {
-		this.setState({ dialogOpen: false });
+	const fetchSummary = async () => {
+		await axios.get('http://localhost:5000/events/summary', {
+			params: {
+				id: event_id
+			},
+		})
+			.then(res => {
+				console.log('Saved event');
+				console.log(res.data);
+				setEvent(res.data);
+				setContentIsLoading(false);
+			})
+			.catch(err => {
+				//TODO: display error message
+				console.log(err);
+			})
 	}
 
-	render() {
-		return (
-			// Added dark theme provider, remove for normal color
-			<ThemeProvider theme={darkTheme}>
-				<LayoutTemplate mainContentComponent={
-					(this.state.contentIsLoading) ? <Spinner /> : (
-						(this.state.events != null && this.state.events.length > 0) ? <OverviewCards /> : <></>
-					)
-				} />
-				<Dialog
-					open={this.state.dialogOpen}
-					TransitionComponent={Transition}
-					keepMounted
-					onClose={this.handleDialogClose}
-					aria-labelledby="slide-dialog-title"
-					aria-describedby="slide-dialog-description"
-					disableBackdropClick
-				>
-					<SetupForm submitAction={this.handleDialogClose} />
-				</Dialog>
-			</ThemeProvider>
-		);
-	}
+	const reload = () => {
+		setContentIsLoading(true);
+		if (!event_id) fetchCookie();
+		else fetchSummary();
+	};
+
+	useEffect(() => reload(), []);
+
+	const handleSetupAction = () => {
+		console.log('cookie: ' + document.cookie);
+		reload();
+		setSetupDialogOpen(false);
+	};
+
+	return (
+		// Added dark theme provider, remove for normal color
+		<ThemeProvider theme={darkTheme}>
+			<LayoutTemplate mainContentComponent={
+				(contentIsLoading) ? <Spinner /> : (
+					// (events && events.length > 0) ? <OverviewCards /> : <>{/*TODO:Make error message*/}</>
+					(event) ? <OverviewCards /> : <h1>Error{/*TODO:Make error message*/}</h1>
+				)
+			}/>
+
+			<Dialog
+				open={setupDialogOpen}
+				TransitionComponent={Transition}
+				keepMounted
+				onClose={handleSetupAction}
+				aria-labelledby="slide-dialog-title"
+				aria-describedby="slide-dialog-description"
+				disableBackdropClick
+			>
+				<SetupForm submitAction={handleSetupAction} />
+			</Dialog>
+		</ThemeProvider>
+	);
 }

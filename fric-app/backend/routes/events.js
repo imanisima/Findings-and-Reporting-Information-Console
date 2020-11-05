@@ -10,18 +10,12 @@ const Event = require('../models/event.model');
  * 
  */
 router.route('/').get(async (req, res) => {
-	if (req.body.hasOwnProperty('params') && req.body.params.hasOwnProperty('id')) {
+	if (req.query && req.query.id) {
 		await Event
-			.findOne({_id: req.body.params.id})
+			.findOne({_id: req.query.id})
 			.then(event => res.status(200).json(event))
 			.catch(err => res.status(404).json('Error: ' + err));
-	}
-	else {
-		await Event
-			.find()
-			.then(events => res.status(200).json(events))
-			.catch(err => res.status(404).json('Error: ' + err));
-	}
+	} else res.sendStatus(400);
 });
 
 
@@ -68,6 +62,25 @@ router.route('/update').put(async (req, res) => {
 			.then(event => res.status(200).json(event))
 			.catch(err => res.status(400).json('Error: ' + err));
 	} else res.status(400).send();
+});
+
+
+/**
+ * 
+ */
+router.route('/summary').get(async (req, res) => {
+	console.log(req.query);
+	if (req.query && req.query.id) {
+		await Event
+			.findOne({ _id: req.query.id })
+			.then(event => res.status(200).json(event))
+			.catch(err => {
+				console.log(err);
+				res.status(404).json('Error: ' + err);
+			});
+
+		//TODO: Fetch and send aggregated summary data for the given event
+	} else res.status(400).json('No event provided.').send();
 });
 
 module.exports = router;
