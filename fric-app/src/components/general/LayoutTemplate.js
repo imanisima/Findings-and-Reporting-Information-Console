@@ -49,6 +49,7 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 import HelpIcon from '@material-ui/icons/HelpSharp';
 import BuildIcon from '@material-ui/icons/Build';
 import SyncIcon from '@material-ui/icons/Sync'
+import DescriptionIcon from '@material-ui/icons/Description';
 // import SyncProblemIcon from '@material-ui/icons/SyncProblem';
 // import SyncDisabledIcon from '@material-ui/icons/SyncDisabled';
 
@@ -422,6 +423,14 @@ export default function LayoutTemplate(props) {
 						<ListItem button key="Systems">
 							<ListItemIcon><DnsIcon /></ListItemIcon>
 							<ListItemText primary="Systems" />
+						</ListItem>
+					</Link>
+
+					{/* ReportsLink */}
+					<Link to="/reports" replace={useLocation().pathname === '/reports'} className={classes.links}>
+						<ListItem button key="Reports">
+							<ListItemIcon><DescriptionIcon /></ListItemIcon>
+							<ListItemText primary="Reports" />
 						</ListItem>
 					</Link>
 
