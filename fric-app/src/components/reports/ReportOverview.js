@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { useLayoutEffect, useState } from 'react';
+import axios from 'axios';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
@@ -8,9 +9,10 @@ import RiskMatrixForm from './risk-matrix/RiskMatrixForm'
 
 export default function ReportOverview(props) {
 
-    const [FinalDialogOpen, setFinalDialog] = React.useState(false)
-    const [ERBDialogOpen, setERBDialog] = React.useState(false)
-    const [RiskDialogOpen, setRiskDialog] = React.useState(false)
+    const [FinalDialogOpen, setFinalDialog] = useState(false);
+    const [findingReportData, setFindingReportData] = useState([]);
+    const [ERBDialogOpen, setERBDialog] = useState(false);
+    const [RiskDialogOpen, setRiskDialog] = useState(false);
     const Transition = React.forwardRef(function Transition(props, ref) {
         return <Slide direction="up" ref={ref} {...props} />;
     });
@@ -35,14 +37,35 @@ export default function ReportOverview(props) {
                 console.log("Default")
         }
     }
+
+    const reload = () => {
+        async function getData() {
+            const finalRptFindForm = axios.get('http://localhost:5000/findings/findingReport');
+
+            axios
+                .all([finalRptFindForm])
+                .then(
+                    axios.spread((...responses) => {
+                        const finalReportResponse = responses[0].data;
+                        setFindingReportData(finalReportResponse);
+                    })
+                )
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+        getData()
+    }
     
+    useLayoutEffect(() => reload(), []);
+
     return (
         <div>
             <div style={{display: "inline-block", marginLeft: "1em",}}>
 
                 <h1>Exported Reports</h1>
                 <p> Please select which report you would like to export</p>
-                
+
                 {/* Final Button */}
                 <Button
                     onClick={() => onButtonClicked('final')}
@@ -68,6 +91,7 @@ export default function ReportOverview(props) {
             <FinalReportForm
                 isOpen={FinalDialogOpen}
                 closeDialogAction={() => setFinalDialog(false)}
+                findingFormData={findingReportData}
             />
             <ErbForm
                 isOpen={ERBDialogOpen}
