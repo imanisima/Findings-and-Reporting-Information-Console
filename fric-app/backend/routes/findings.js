@@ -131,6 +131,25 @@ router.route('/table').get(async (req, res) => {
 		.catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/findingReport').get(async (req, res) => {
+	await Finding
+		.aggregate([
+			{
+				$match: {
+					archived: false
+				}
+			},
+			{
+				$project: {
+					id: "$_id",
+					hostName: 1,
+				}
+			}
+		])
+		.then(findings => res.status(200).json(findings))
+		.catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/delete').post((req, res) => {
 
 });

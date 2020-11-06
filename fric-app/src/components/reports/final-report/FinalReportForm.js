@@ -90,8 +90,8 @@ export default function FinalReportForm(props){
 						<Form.Group controlId="FindingFormControl">
 							<Form.Label>Finding(s) for the Event</Form.Label>
 							<Form.Control as="select" multiple onChange={e => handleSelect(e.target.selectedOptions)}>
-								{analysts.map(analyst => (
-									<option key={analyst.id} value={analyst.name}>{analyst.name}</option>
+								{props.findingFormData.map(finding => (
+									<option key={finding.id} value={finding.hostName}>{finding.hostName}</option>
 								))}
 							</Form.Control>
 							<Form.Text muted> Hold CTRL or Command for multiple select</Form.Text>
@@ -108,5 +108,6 @@ export default function FinalReportForm(props){
 
 FinalReportForm.propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    closeDialogAction: PropTypes.func.isRequired,
+	closeDialogAction: PropTypes.func.isRequired,
+	findingFormData: PropTypes.array
 }
