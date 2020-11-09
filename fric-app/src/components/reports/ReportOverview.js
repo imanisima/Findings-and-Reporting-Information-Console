@@ -41,7 +41,7 @@ export default function ReportOverview(props) {
     const reload = () => {
         async function getData() {
             const finalRptFindForm = axios.get('http://localhost:5000/findings/findingReport');
-
+            const eventData = axios.get('')
             axios
                 .all([finalRptFindForm])
                 .then(
