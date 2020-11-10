@@ -2,10 +2,9 @@ import { AlignmentType, Document, Header, HeadingLevel, Media, Paragraph, PageBr
 
 export class FinalReportCreator {
 
-    create(analysts, blob) {
+    create(analysts, blob, finding) {
         const document = new Document();
         const image1 = Media.addImage(document, blob, 250, 100);
-        const finding = [1,2,3,4]
 
         document.addSection({
             children: [
@@ -411,7 +410,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding hostName}",
+                                            text: finding.hostName,
                                             size: 24
                                         })
                                     ]
@@ -442,7 +441,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding ipPort}",
+                                            text: finding.ipPort,
                                             size: 24
                                         })
                                     ]
@@ -473,7 +472,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding impactScore}",
+                                            text: finding.impactScore,
                                             size: 24
                                         })
                                     ]
@@ -504,7 +503,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding SevCatCode}",
+                                            text: finding.sevCatCode,
                                             size: 24
                                         })
                                     ]
@@ -535,7 +534,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding SevCatScore}",
+                                            text: finding.sevCatScore,
                                             size: 24
                                         })
                                     ]
@@ -566,7 +565,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding vulSeverity}",
+                                            text: finding.vulSeverity,
                                             size: 24
                                         })
                                     ]
@@ -597,7 +596,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding qVs}",
+                                            text: finding.qVs,
                                             size: 24
                                         })
                                     ]
@@ -628,7 +627,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding status}",
+                                            text: finding.status,
                                             size: 24
                                         })
                                     ]
@@ -659,7 +658,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding posture}",
+                                            text: finding.posture,
                                             size: 24
                                         })
                                     ]
@@ -690,7 +689,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding likelihood}",
+                                            text: finding.likelihood,
                                             size: 24
                                         })
                                     ]
@@ -721,7 +720,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding impactLevel}",
+                                            text: finding.impactLevel,
                                             size: 24
                                         })
                                     ]
@@ -752,7 +751,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding risk}",
+                                            text: finding.risk,
                                             size: 24
                                         })
                                     ]
@@ -783,7 +782,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding effectiveRating}",
+                                            text: finding.effectiveRating,
                                             size: 24
                                         })
                                     ]
@@ -814,7 +813,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding confidentiality}",
+                                            text: finding.confidentiality,
                                             size: 24
                                         })
                                     ]
@@ -845,7 +844,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding integrity}",
+                                            text: finding.integrity,
                                             size: 24
                                         })
                                     ]
@@ -876,7 +875,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding availability}",
+                                            text: finding.availability,
                                             size: 24
                                         })
                                     ]
@@ -907,7 +906,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding type}",
+                                            text: finding.type,
                                             size: 24
                                         })
                                     ]
@@ -938,7 +937,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding Description}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                            text: finding.description,
                                             size: 24
                                         })
                                     ]
@@ -969,7 +968,7 @@ export class FinalReportCreator {
                                     alignment: AlignmentType.CENTER,
                                     children: [
                                         new TextRun({
-                                            text: "{Finding mitigation} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                            text: finding.mLongDescription,
                                             size: 24
                                         })
                                     ]
