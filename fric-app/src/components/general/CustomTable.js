@@ -13,11 +13,11 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-// import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
-// import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
+// import Button from '@material-ui/core/Button';
+// import ArchiveIcon from '@material-ui/icons/Archive';
+// import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
+import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
 import CustomTableHead from './CustomTableHead';
 import CustomTableToolbar from './CustomTableToolbar'
 
@@ -148,7 +148,7 @@ export default function CustomTable(props) {
 		setPage(0);
 	};
 
-	// const handleChangeDense = (event) => { setDense(event.target.checked); }; // For toggling the dense row setting
+	const handleChangeDense = (event) => { setDense(event.target.checked); }; // For toggling the dense row setting
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -157,7 +157,7 @@ export default function CustomTable(props) {
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.paper}>
-				<CustomTableToolbar numSelected={selected.length} />
+				<CustomTableToolbar title={props.tableName} numSelected={selected.length} />
 				<TableContainer>
 					<Table
 						className={classes.table}
@@ -181,26 +181,31 @@ export default function CustomTable(props) {
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
 									const isItemSelected = isSelected(row.id);
-									const labelId = `custom-table-checkbox-${index}`;
-
-									const makeRow = () => {
-										props.headings.map((heading, id) => {
-											if (heading.id !== '_id') {
-												return (
-													<StyledTableCell align={(heading.numeric) ? 'right' : 'left'}>row[heading.id]</StyledTableCell>
-												);
-											}
+									const labelId = `table-checkbox-${index}`;
+									
+									function makeRowCells() {
+										return props.headings.map(heading => {
+											return (
+												<StyledTableCell
+													id={heading.id}
+													key={`${index}-${heading.id}`}
+													align={(heading.numeric) ? 'right' : 'left'}
+													padding="default"
+												>
+													{row[heading.id]}
+												</StyledTableCell>
+											)
 										});
 									}
 
 									return (
 										<StyledTableRow
 											hover
-											onClick={(event) => handleClick(event, row.id)}
+											onClick={(event) => handleClick(event, row[props.trackField])}
 											role="checkbox"
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row.id}
+											key={row[props.trackField]}
 											selected={isItemSelected}
 										>
 											<StyledTableCell padding="checkbox">
@@ -210,19 +215,19 @@ export default function CustomTable(props) {
 													style={{ color: "#066ff9" }}
 												/>
 											</StyledTableCell>
-											<StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">
-												{row.id}
+											{makeRowCells()}
+											{/* <StyledTableCell component="th" id={labelId} align="right" scope="row" padding="none">
+												{row[props.trackField]}
 											</StyledTableCell>
 											<StyledTableCell align="left">{row.title}</StyledTableCell>
 											<StyledTableCell align="left">{row.task}</StyledTableCell>
 											<StyledTableCell align="left" padding="none">{row.analyst}</StyledTableCell>
 											<StyledTableCell align="right" padding="none">{row.progress}</StyledTableCell>
-											<StyledTableCell align="left" >{row.findings}</StyledTableCell>
-											{/* <StyledTableCell align="left" padding="left">{row.dueDate.toLocaleString()}</StyledTableCell> */}
-										
+											<StyledTableCell align="left" >{row.findings}</StyledTableCell> */}
 										</StyledTableRow>
 									);
-								})}
+								})
+							}
 							{emptyRows > 0 && (
 								<TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
 									<TableCell colSpan={6} />
@@ -231,10 +236,13 @@ export default function CustomTable(props) {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				<div style={{ display: "inline-block", verticalAlign: "bottom" }}>
-					<Button variant="contained" startIcon={<ArchiveIcon />} style={{ color: "black", margin: "0.5em", }}>Archive</Button>
-					<Button variant="contained" startIcon={<ArrowUpwardIcon />} style={{ backgroundColor: "#29a745", color: "white", margin: "0.5em", }}>Promote</Button>
-				</div>
+				{ // Render elements in bottom toolbar
+					props.children && (
+						<div style={{ display: "inline-block", verticalAlign: "bottom" }}>
+							{props.children}
+						</div>
+					)
+				}
 				<TablePagination
 					rowsPerPageOptions={[10]}
 					component="div"
@@ -246,16 +254,23 @@ export default function CustomTable(props) {
 				/>
 			</Paper>
 			{/* For toggling the dense row setting */}
-			{/* <FormControlLabel
-				control={<Switch checked={dense} onChange={handleChangeDense} />}
-				label="Dense padding"
-			/>  */}
+			{
+				props.controlDensity && (
+					<FormControlLabel
+						control={<Switch checked={dense} onChange={handleChangeDense} />}
+						label="Dense padding"
+					/> 
+				)
+			}
 		</div>
 	);
 }
 
 CustomTable.propTypes = {
-	headings: PropTypes.object.isRequired,
-	rows: PropTypes.object.isRequired,
-	rowsDisplayed: PropTypes.number,
+	tableName: PropTypes.string.isRequired, // Name that will be displayed in table toolbar
+	trackField: PropTypes.string.isRequired, // Field name to track rows by
+	headings: PropTypes.array.isRequired, // Table headings
+	rows: PropTypes.array.isRequired, // Table row data
+	rowsDisplayed: PropTypes.number, // Default is 10
+	controlDensity: PropTypes.bool, // Default is false
 }
