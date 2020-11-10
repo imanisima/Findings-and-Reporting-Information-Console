@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 /**
  * Test Cases
  */
-	const analysts = [
+	const analystsList = [
 		{ id: 1, name: 'Erick Nevarez', role: 'Lead Analyst' },
 		{ id: 2, name: 'Raquel Gonzales', role: 'Analyst' },
 		{ id: 3, name: 'Imani Martin', role: 'Analyst' },
@@ -37,7 +37,8 @@ export default function FinalReportForm(props){
 	const handleAnalystSelect = function(selectedItems) {
         const analysts = [];
         for (let i=0; i<selectedItems.length; i++) {
-            analysts.push(selectedItems[i].value);
+			let analyst = analystsList.find(a => a.name === selectedItems[i].value)
+            analysts.push(analyst);
 		}
 		console.log(analysts)
 		setSelectedAnalysts(analysts);
@@ -47,7 +48,8 @@ export default function FinalReportForm(props){
 	const handleFindingSelect = function(selectedItems) {
         const findings = [];
         for (let i=0; i<selectedItems.length; i++) {
-            findings.push(selectedItems[i].value);
+			let finding = props.findingFormData.find(a => a.hostName === selectedItems[i].value)
+            findings.push(finding);
 		}
 		console.log(findings)
 		setSelectedFindings(findings);
@@ -61,7 +63,7 @@ export default function FinalReportForm(props){
 			logoUrl
 		  ).then(r => r.blob());
 		
-		const doc = documentCreator.create(analysts, blob)
+		const doc = documentCreator.create(selectedAnalysts, blob, selectedFindings)
 
 		Packer.toBlob(doc).then(blob => {
 			console.log(blob)
@@ -99,7 +101,7 @@ export default function FinalReportForm(props){
 						<Form.Group controlId="AnalystForm">
 							<Form.Label>Analyst(s) in the Event</Form.Label>
 							<Form.Control as="select" multiple onChange={e => handleAnalystSelect(e.target.selectedOptions)}>
-								{analysts.map(analyst => (
+								{analystsList.map(analyst => (
 									<option key={analyst.id} value={analyst.name}>{analyst.name}</option>
 								))}
 							</Form.Control>

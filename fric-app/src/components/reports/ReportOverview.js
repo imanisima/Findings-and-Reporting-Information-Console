@@ -40,7 +40,11 @@ export default function ReportOverview(props) {
 
     const reload = () => {
         async function getData() {
-            const finalRptFindForm = axios.get('http://localhost:5000/findings/findingReport');
+            const finalRptFindForm = axios.get('http://localhost:5000/findings/' , {
+                params: {
+                    archived: false
+                }
+            });
             const eventData = axios.get('')
             axios
                 .all([finalRptFindForm])
