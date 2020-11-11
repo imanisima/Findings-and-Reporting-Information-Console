@@ -48,6 +48,7 @@ export default function TasksPage() {
 	};
 
 	useLayoutEffect(() => reload(), []);
+	
 
 	return (
 		// Added dark theme provider, remove for normal colors
@@ -60,10 +61,12 @@ export default function TasksPage() {
 						</ToolbarNewActionContext.Provider>
 					)
 				}
+				
 				detailComponent={<TaskDetailView selectedTask={selected} reload={reload} />}
 			/>
 			<NewTaskDialog isOpen={newDialogOpen} closeDialogAction={() => setNewDialogOpen(false)} reload={reload} />
 			<ArchiveTaskDialog tasks={selected} isOpen={archiveDialogOpen} closeDialogAction={() => setArchiveDialogOpen(false)} reload={reload} />
 		</ThemeProvider>
+		
 	);
 }
