@@ -523,13 +523,13 @@ export default function LayoutTemplate(props) {
 				)
 			}
 			
-			{/* Bottom Notification Snackbar Component */}
+			{/* Bottom Notification Snackbar Component 
 			<Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={handleSnackbarClose}>
 				<Alert onClose={handleSnackbarClose} severity="info" >
 					Notification Popup
 				</Alert>
 			</Snackbar>
-
+			*/}
 			{/* Sync Dialog Form */}
 			<Dialog
 				open={syncDialogOpen}
