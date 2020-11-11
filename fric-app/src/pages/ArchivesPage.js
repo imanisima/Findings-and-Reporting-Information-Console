@@ -13,7 +13,7 @@ export default function ArchivePage() {
 		// Added dark theme provider, remove for normal colors
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate
-				mainContentComponent={<OverviewCards />}
+				mainContentComponent={<></>}
 			/>
 		</ThemeProvider>
 	);

@@ -21,12 +21,6 @@ import TasksPage from './pages/TasksPage';
 import ManualPage from './pages/ManualPage';
 import TestPage from './pages/TestPage';
 
-import ArchiveTask from './components/archive/FRIC_gui_archive_task';
-import ArchiveSubtask from './components/archive/FRIC_gui_archive_subtask';
-import ArchiveSystem from './components/archive/FRIC_gui_archive_system';
-import ArchiveFinding from './components/archive/FRIC_gui_archive_findings';
-import EventTree from './components/event-tree/FRIC_gui_event_tree';
-
 function App() {
 	return (
 		<>
