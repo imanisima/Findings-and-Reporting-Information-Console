@@ -29,9 +29,18 @@ const useToolbarStyles = makeStyles((theme) => ({
 				color: theme.palette.text.primary,
 				backgroundColor: theme.palette.primary.light,
 			},
-	title: {
+	start: {
 		flex: '1 1 100%',
+		textAlign: 'left',
 	},
+	center: {
+		flex: '1 1 100%',
+		textAlign: 'center',
+	},
+	end: {
+		flex: '1 1 100%',
+		textAlign: 'right',
+	}
 }));
 
 const AddButton = withStyles((theme) => ({
@@ -46,7 +55,6 @@ const AddButton = withStyles((theme) => ({
 
 export default function CustomTableToolbar(props) {
 	const classes = useToolbarStyles();
-	const numSelected = props.numSelected;
 	const newClickAction = useContext(ToolbarNewActionContext);
 
 	const handleNewClick = () => {
@@ -57,16 +65,16 @@ export default function CustomTableToolbar(props) {
 	return (
 		<Toolbar
 			className={clsx(classes.root, {
-				[classes.highlight]: numSelected > 0,
+				[classes.highlight]: props.numSelected > 0,
 			})}
 		>
 			{
-				numSelected > 0 ? (
-					<Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-						{numSelected} selected
+				props.numSelected > 0 ? (
+					<Typography className={classes.start} color="inherit" variant="subtitle1" component="div">
+						{props.numSelected} selected
 					</Typography>
 				) : (
-						<div className={classes.title}>
+						<div className={classes.start}>
 							<AddButton
 								variant="contained"
 								size="large"
@@ -78,18 +86,25 @@ export default function CustomTableToolbar(props) {
 						</div>
 				)
 			}
-			{
-				numSelected === 0 && (
-					<Tooltip title="Filter list">
-						<Button variant="contained" size="large" endIcon={<FilterListIcon />}>Filter</Button>
-					</Tooltip>
-				)
-			}
+			<Typography variant="h5" className={classes.center}>
+				{props.title}
+			</Typography>
+			<div className={classes.end}>
+				{
+					(props.numSelected) === 0 && (
+
+				<Tooltip title="Filter list">
+					<Button variant="contained" size="large" endIcon={<FilterListIcon />}>Filter</Button>
+				</Tooltip>
+					)
+				}
+			</div>
 		</Toolbar>
 	);
 };
 
 CustomTableToolbar.propTypes = {
-	numSelected: PropTypes.number.isRequired,
-	newAction: PropTypes.func,
+	title: PropTypes.string, // Title Displayed in center of toolbar
+	numSelected: PropTypes.number.isRequired, // Number of selected to display at left of toolbar
+	newAction: PropTypes.func, // Action used when 'New' button is clicked
 };

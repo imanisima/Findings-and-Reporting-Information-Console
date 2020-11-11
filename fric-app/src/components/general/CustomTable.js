@@ -236,13 +236,12 @@ export default function CustomTable(props) {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				{ // Render elements in bottom toolbar
-					props.children && (
-						<div style={{ display: "inline-block", verticalAlign: "bottom" }}>
-							{props.children}
-						</div>
-					)
-				}
+
+				{/* Render elements in bottom toolbar */}
+				<div style={{ display: "inline-block", verticalAlign: "bottom" }}>
+					{props.children}
+				</div>
+				
 				<TablePagination
 					rowsPerPageOptions={[10]}
 					component="div"
