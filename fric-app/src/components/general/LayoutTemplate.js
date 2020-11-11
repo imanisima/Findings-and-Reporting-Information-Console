@@ -65,7 +65,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import SyncForm from '../sync/SyncForm';
 
 import NotificationOverviewTasks from '../NotificationOverviewTasks';
-import count from '../NotificationOverviewTasks';
+import getcount from '../NotificationOverviewTasks';
 const drawerWidth = 240;
 
 
@@ -314,11 +314,12 @@ export default function LayoutTemplate(props) {
 							aria-label="notifs"
 							onClick={handlePopoverOpen}
 						>
-						<Badge badgeContent={count} color="error"><NotificationsIcon /></Badge>
+						<Badge badgeContent={getCount(tableData,tableData2)}color="error"><NotificationsIcon /></Badge>
 						</IconButton>
 						{/* Notifications Popover */}
 						<Popover
 							open={Boolean(anchorPopover)}
+							
 							//onClose={handlePopoverClose}
 							anchorEl={anchorPopover}
 							anchorOrigin={{
@@ -553,6 +554,36 @@ export default function LayoutTemplate(props) {
 		
 	);
 	
+}
+function getCount(t1, t2){
+    var count = 0;
+    var today = new Date();
+ 
+    for(let i =0; i < t1.length; i++){
+       var dD = new Date(t1[i].dueDate);
+       //var duedate = dD.getFullYear()+'-'+(dD.getMonth()+1)+'-'+dD.getDate();
+        var range =dD.getDate()- today.getDate() ;
+        
+        if(today.getMonth()+1 == dD.getMonth()+1 && range < 5 && range >=0  ){
+           
+            count++;
+        }else if(today.getMonth()+1 == dD.getMonth()+1 && dD.getDate()< today.getDate() && Math.abs(range) <= 5){
+          count++;
+        }
+    }      
+    for(let i =0; i < t2.length; i++){
+        dD = new Date(t2[i].dueDate);
+        //var duedate = dD.getFullYear()+'-'+(dD.getMonth()+1)+'-'+dD.getDate();
+        range =dD.getDate()- today.getDate() ;
+         
+         if(today.getMonth()+1 == dD.getMonth()+1 && range <= 5 && range >=0  ){
+             count++;
+         }else if(today.getMonth()+1 == dD.getMonth()+1 && dD.getDate()< today.getDate() && Math.abs(range) <= 5){
+             count++;
+         }
+     }      
+    
+    return count;
 }
 
 LayoutTemplate.propTypes = {
