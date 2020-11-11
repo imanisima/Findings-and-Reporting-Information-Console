@@ -5,9 +5,10 @@
 
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
-import LayoutTemplate from '../components/general/LayoutTemplate';
-import ConfigurationOverview from '../components/configuration/FRIC_gui_configuration_overview'
 import { darkTheme } from '../components/general/ThemeColors';
+import LayoutTemplate from '../components/general/LayoutTemplate';
+import ConfigurationOverview from '../components/configuration/ConfigurationOverview';
+import ConfigurationDetailView from '../components/configuration/ConfigurationDetailView';
 
 export default function ConfigurationPage() {
 	return (
@@ -15,6 +16,7 @@ export default function ConfigurationPage() {
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate
 				mainContentComponent={<ConfigurationOverview />}
+				detailComponent={<ConfigurationDetailView />}
 			/>
 		</ThemeProvider>
 	);

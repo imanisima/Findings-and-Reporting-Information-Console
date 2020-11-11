@@ -64,7 +64,7 @@ export const FindingType = {
 	LP: 'Least Privilege',
 	PE: 'Privilege Escalation',
 	MP: 'Missing Patches',
-	PS: 'Physical Security',
+	PHYS: 'Physical Security',
 	ID: 'Information Disclosure'
 }
 
