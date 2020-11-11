@@ -62,6 +62,10 @@ export default function CustomTableToolbar(props) {
 		newClickAction();
 	};
 
+	const handleFilterClick = () => {
+		if (props.enableFilter) props.filterAction();
+	};
+
 	return (
 		<Toolbar
 			className={clsx(classes.root, {
@@ -91,11 +95,10 @@ export default function CustomTableToolbar(props) {
 			</Typography>
 			<div className={classes.end}>
 				{
-					(props.numSelected) === 0 && (
-
-				<Tooltip title="Filter list">
-					<Button variant="contained" size="large" endIcon={<FilterListIcon />}>Filter</Button>
-				</Tooltip>
+					(props.numSelected === 0) && (props.enableFilter) && (
+						<Tooltip title="Filter list">
+							<Button variant="contained" size="large" endIcon={<FilterListIcon />} onClick={handleFilterClick}>Filter</Button>
+						</Tooltip>
 					)
 				}
 			</div>
@@ -107,4 +110,6 @@ CustomTableToolbar.propTypes = {
 	title: PropTypes.string, // Title Displayed in center of toolbar
 	numSelected: PropTypes.number.isRequired, // Number of selected to display at left of toolbar
 	newAction: PropTypes.func, // Action used when 'New' button is clicked
+	enableFilter: PropTypes.bool,
+	filterAction: PropTypes.func,
 };

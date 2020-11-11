@@ -19,7 +19,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
 import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
 import CustomTableHead from './CustomTableHead';
-import CustomTableToolbar from './CustomTableToolbar'
+import CustomTableToolbar from './CustomTableToolbar';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
