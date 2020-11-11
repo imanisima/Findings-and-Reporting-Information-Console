@@ -222,15 +222,15 @@ export default function SubtasksOverviewTable(props) {
 													style={{color: "#066ff9"}}
 												/>
 											</StyledTableCell>
-											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">
-												{row.id}
-											</StyledTableCell>
 											<StyledTableCell align="left">{row.name}</StyledTableCell>
 											<StyledTableCell align="left">{row.ownerTask}</StyledTableCell>
 											<StyledTableCell align="left" padding="none">{row.analysts}</StyledTableCell>
 											<StyledTableCell align="left" padding="none">{row.progress}</StyledTableCell>
 											<StyledTableCell align="right" >{row.numFindings}</StyledTableCell>
 											<StyledTableCell align="left" padding="none">{new Date(row.dueDate).toLocaleDateString()}</StyledTableCell>
+											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">
+												{row.id}
+											</StyledTableCell>
 										</StyledTableRow>
 									);
 								})}

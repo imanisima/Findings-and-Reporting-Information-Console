@@ -213,7 +213,6 @@ export default function TasksOverviewTable(props) {
 														style={{ color: "#066ff9" }}
 													/>
 												</StyledTableCell>
-												<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">{row.id}</StyledTableCell>
 												<StyledTableCell align="left">{row.name}</StyledTableCell>
 												<StyledTableCell align="left">{row.system}</StyledTableCell>
 												<StyledTableCell align="left" padding="none">{row.analysts}</StyledTableCell>
@@ -222,6 +221,7 @@ export default function TasksOverviewTable(props) {
 												<StyledTableCell align="right" >{row.noOfSubtasks}</StyledTableCell>
 												<StyledTableCell align="right" >{row.noOfFindings}</StyledTableCell>
 												<StyledTableCell align="right" padding="default">{new Date(row.dueDate).toLocaleDateString()}</StyledTableCell>
+												<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">{row.id}</StyledTableCell>
 											</StyledTableRow>
 										);
 									})

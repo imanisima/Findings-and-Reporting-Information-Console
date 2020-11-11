@@ -22,7 +22,6 @@ export default function TasksPage() {
 	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
 
 	const headings = [
-		{ id: 'id', numeric: false, disablePadding: true, label: '_id' },
 		{ id: 'name', numeric: false, disablePadding: false, label: 'Name' },
 		{ id: 'system', numeric: false, disablePadding: false, label: 'System' },
 		{ id: 'analysts', numeric: false, disablePadding: true, label: 'Analysts' },
@@ -31,6 +30,7 @@ export default function TasksPage() {
 		{ id: 'subtasks', numeric: true, disablePadding: false, label: 'No. of Subtasks' },
 		{ id: 'findings', numeric: true, disablePadding: false, label: 'No. of Findings' },
 		{ id: 'dueDate', numeric: true, disablePadding: false, label: 'Due Date' },
+		{ id: 'id', numeric: false, disablePadding: true, label: '_id' },
 	];
 
 	const reload = () => {

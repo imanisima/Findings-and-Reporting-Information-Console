@@ -23,13 +23,13 @@ export default function SubtasksPage() {
 	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
 
 	const headings = [
-		{ id: 'id', numeric: false, disablePadding: true, label: '_id' },
 		{ id: 'name', numeric: false, disablePadding: false, label: 'Name' },
 		{ id: 'ownerTask', numeric: false, disablePadding: false, label: 'Owner Task' },
 		{ id: 'analysts', numeric: false, disablePadding: true, label: 'Analysts' },
 		{ id: 'progress', numeric: false, disablePadding: true, label: 'Progress' },
 		{ id: 'findings', numeric: true, disablePadding: false, label: 'No. of Findings' },
 		{ id: 'dueDate', numeric: false, disablePadding: true, label: 'Due Date' },
+		{ id: 'id', numeric: false, disablePadding: true, label: '_id' },
 	];
 
 	const reload = () => {
