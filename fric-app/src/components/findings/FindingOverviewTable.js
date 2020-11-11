@@ -173,7 +173,7 @@ export default function FindingsOverviewTable(props) {
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.paper}>
-				<CustomTableToolbar numSelected={selected.length} />
+				<CustomTableToolbar title="Findings" numSelected={selected.length} />
 				<TableContainer>
 					<Table
 						className={classes.table}

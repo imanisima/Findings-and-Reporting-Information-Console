@@ -203,7 +203,7 @@ export default function SystemOverviewTable(props) {
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.paper}>
-				<CustomTableToolbar numSelected={selected.length} onNewClick={onNewClicked} />
+				<CustomTableToolbar title="Systems" numSelected={selected.length} onNewClick={onNewClicked} />
 				<Dialog
 					open={dialogOpen}
 					TransitionComponent={Transition}

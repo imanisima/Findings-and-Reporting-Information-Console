@@ -95,7 +95,7 @@ export default function EventForm(props) {
 						<Grid item xs>
 							{/* Customer Text Field */}
 							{/* <FormLabel style={{ display: "block" }}>Customer</FormLabel> */}
-							1<TextField required fullWidth variant={fieldVariant} id="customer" label="Customer" value={event.customer} onChange={e => setEvent({...event, customer: e.target.value})} className={classes.textfield} />
+							<TextField required fullWidth variant={fieldVariant} id="customer" label="Customer" value={event.customer} onChange={e => setEvent({...event, customer: e.target.value})} className={classes.textfield} />
 						</Grid>
 					</Grid>
 				</Grid>
