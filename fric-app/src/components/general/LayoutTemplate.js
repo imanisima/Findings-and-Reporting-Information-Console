@@ -4,7 +4,7 @@
  */
 
 // React imports
-import React from 'react';
+import React,  { useState, useLayoutEffect }  from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -13,6 +13,8 @@ import clsx from 'clsx';
 import { makeStyles, useTheme, fade } from '@material-ui/core/styles';
 
 // UI component imports
+
+import axios from 'axios';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -35,6 +37,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import Dialog from '@material-ui/core/Dialog';
+import Button from 'react-bootstrap/Button'
 
 // Sidebar Icons
 import EventIcon from '@material-ui/icons/Event';
@@ -60,7 +63,10 @@ import SearchIcon from '@material-ui/icons/Search';
 // Custom Components
 import SyncForm from '../sync/SyncForm';
 
+import NotificationOverviewTasks from '../NotificationOverviewTasks';
+import count from '../NotificationOverviewTasks';
 const drawerWidth = 240;
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -203,6 +209,12 @@ export default function LayoutTemplate(props) {
 	const [snackbarOpen, setSnackbarOpen] = React.useState(true);
 	const [syncDialogOpen, setSyncDialogOpen] = React.useState(false);
 	const [auth] = React.useState(true);
+	const [tableData, setTableData] = useState([]);
+	const [tableData2, setTableData2] = useState([]);
+	const [contentIsLoading, setContentIsLoading] = useState(true);
+	const [contentIsLoading2, setContentIsLoading2] = useState(true);
+	
+
 
 	const handleMenuDrawerOpen = () => setMenuOpen(true);
 	const handleMenuDrawerClose = () => setMenuOpen(false);
@@ -218,6 +230,41 @@ export default function LayoutTemplate(props) {
 
 	// const handleSnackbarOpen = () => setSnackbarOpen(true);
 	const handleSnackbarClose = () => setSnackbarOpen(false);
+	
+	
+	const reload = () => {
+		setContentIsLoading(true);
+		axios.get('http://localhost:5000/tasks/table') // Fetch table data
+			.then(res => {
+				setTableData(res.data);
+				setContentIsLoading(false);
+			})
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+				setContentIsLoading(false);
+			});
+	};
+	const reload2 = () => {
+		setContentIsLoading2(true);
+		axios.get('http://localhost:5000/subtasks/table') // Fetch table data
+			.then(res => {
+				console.log(res);
+				setTableData2(res.data);
+				setContentIsLoading2(false);
+			})
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+				setContentIsLoading2(false);
+			});
+	};
+
+	useLayoutEffect(() => reload2(), []);
+	useLayoutEffect(() => reload(), []);
+
+	
+	;
 
 	return (
 		<div className={classes.root}>
@@ -266,12 +313,12 @@ export default function LayoutTemplate(props) {
 							aria-label="notifs"
 							onClick={handlePopoverOpen}
 						>
-							<Badge badgeContent={4} color="error"><NotificationsIcon /></Badge>
+						<Badge badgeContent={count} color="error"><NotificationsIcon /></Badge>
 						</IconButton>
 						{/* Notifications Popover */}
 						<Popover
 							open={Boolean(anchorPopover)}
-							onClose={handlePopoverClose}
+							//onClose={handlePopoverClose}
 							anchorEl={anchorPopover}
 							anchorOrigin={{
 								vertical: 'bottom',
@@ -284,11 +331,13 @@ export default function LayoutTemplate(props) {
 						>
 							{/* Notification Popover Content */}
 							<div>
-								<Alert severity="error" onClose={() => {}} className={classes.notification}>Aute consequat id laboris anim culpa proident laborum cillum sit.</Alert>
-								<Alert severity="warning" onClose={() => {}} className={classes.notification}>This is a warning message!</Alert>
-								<Alert severity="info" onClose={() => {}} className={classes.notification}>This is an information message!</Alert>
-								<Alert severity="success" onClose={() => {}} className={classes.notification}>This is a success message!</Alert>
+								<NotificationOverviewTasks rows={tableData} subs={tableData2}/>
+								
 							</div>
+							<Button
+								onClick={() => {handlePopoverClose()}}>
+								OK
+							</Button>
 						</Popover>
 						{/* Sync Button */}
 						<IconButton
@@ -492,7 +541,9 @@ export default function LayoutTemplate(props) {
 				<SyncForm syncAction={() => setSyncDialogOpen(false)} closeAction={() => setSyncDialogOpen(false)} analystOptions={[]} />
 			</Dialog>
 		</div>
+		
 	);
+	
 }
 
 LayoutTemplate.propTypes = {
