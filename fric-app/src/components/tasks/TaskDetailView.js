@@ -59,11 +59,14 @@ export default function TaskDetailView(props) {
 				archived: archived, // New elements will never be archived
 			}
 		})
+		
 			.then(res => {
 				console.log(res);
 				setContentIsLoading(true); // Reset to spinner for next edit request
 				props.reload(); // Reload table content
+				window.location = '/tasks'
 				closeDetailAction(); // Close detail view tray
+				
 			})
 			.catch(err => {
 				console.log(err);

@@ -67,6 +67,7 @@ export default function SubtaskDetailView(props) {
 			.then(res => {
 				console.log(res);
 				props.reload();
+				window.location = '/subtasks'
 				closeDetailAction();
 				setContentIsLoading(true);
 			})
