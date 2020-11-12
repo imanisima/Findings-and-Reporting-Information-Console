@@ -4,7 +4,7 @@
 
 import React from 'react';
 import ConfigurationTable from './ConfigurationTable';
-import styles from '../../css/configuration/ConfigurationOverview.module.css';
+import styles from '../../css/configurations/ConfigurationOverview.module.css';
 
 export default function ConfigurationOverview() {
 	const configurations = [

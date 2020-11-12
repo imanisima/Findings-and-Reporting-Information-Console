@@ -43,30 +43,29 @@ export default function ConfigurationTable(props) {
 			}
 		})
 			.then(res => {
-				console.log(res);
-				if (res.status === 200) {
-					setRowData(res.data);
-				}
+				// console.log(res); //TODO: remove test line in production
+				if (res.status === 200) setRowData(res.data);
 			})
 			.catch(err => {
-				console.log(err);
+				console.log(err.response);
 				//TODO: display error message
-			})
+			});
 	};
 
 	const deleteConfigs = async () => {
 		console.log(selected);
-		await axios.delete('http://localhost:5000/configure/delete', {
+		await axios.put('http://localhost:5000/configure/delete', {
 			params: {
 				type: props.configType,
-				values: selected
+				value: selected
 			}
 		})
 			.then(res => {
-				console.log(res);
+				console.log(res); //TODO: remove test line in production
+				//TODO: display success message
 			})
 			.catch(err => {
-				console.log(err);
+				console.log(err.response);
 				//TODO: display error message
 			})
 	}

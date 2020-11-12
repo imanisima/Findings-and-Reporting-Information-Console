@@ -45,7 +45,7 @@ export default function NewConfigurationDialog(props) {
 			})
 			.catch(err => {
 				//TODO: display error message
-				console.log(err);
+				console.log(err.response);
 			});
 	};
 
