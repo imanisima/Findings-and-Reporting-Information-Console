@@ -25,23 +25,42 @@ export default function ConfigurationDetailView() {
 		description, setDescription,
 	}), [value, description]);
 
+	const fetchConfiguration = () => {
+		axios.get('http://localhost:5000/configure', {
+			params: {
+				type: '', //TODO: pass in bound value
+				value: '', //TODO: pass in bound value
+			}
+		})
+			.then(res => {
+				console.log(res);
+				//TODO: handle request
+			})
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+			})
+	};
+
+	useLayoutEffect(() => fetchConfiguration(), []);
+
 	const handleSaveClick = async () => {
-		//TODO: Save updated configuration values
 		// if (selected.length !== 1) return;
 
-		// await axios.put('http://localhost:5000/configure/update', {
-		// 	params: {
-		// 		type: props.configType,
-		// 		values: selected,
-		// 	}
-		// })
-		// 	.then(res => {
-		// 		console.log(res);
-		// 	})
-		// 	.catch(err => {
-		// 		console.log(err);
-		// 		//TODO: display error message
-		// 	})
+		await axios.put('http://localhost:5000/configure/update', {
+			params: {
+				type: '', //TODO: pass in bound value
+				values: '', //TODO: pass in bound value
+			}
+		})
+			.then(res => {
+				console.log(res);
+				//TODO: handle request
+			})
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+			})
 	};
 
 	const handleCancelClick = () => {

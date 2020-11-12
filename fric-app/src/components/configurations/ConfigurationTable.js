@@ -54,7 +54,7 @@ export default function ConfigurationTable(props) {
 			})
 	};
 
-	const deleteConfig = async () => {
+	const deleteConfigs = async () => {
 		console.log(selected);
 		await axios.delete('http://localhost:5000/configure/delete', {
 			params: {
@@ -134,7 +134,7 @@ export default function ConfigurationTable(props) {
 			<ConfirmDeleteDialog
 				isOpen={deleteDialogOpen}
 				numSelected={0} //TODO: bind numSelected value
-				confirmAction={deleteConfig}
+				confirmAction={deleteConfigs}
 				closeDialogAction={() => setDeleteDialogOpen(false)}
 				objectType={props.configType}
 			/>
