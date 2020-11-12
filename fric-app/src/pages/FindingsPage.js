@@ -8,7 +8,7 @@ import FindingsOverviewTable from '../components/findings/FindingOverviewTable'
 import FindingDetailView from '../components/findings/FindingDetailView'
 import NewFindingDialog from '../components/findings/NewFindingDialog'
 import ConfirmArchiveDialog from '../components/general/ConfirmArchiveDialog';
-import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
+import { ToolbarNewActionContext } from '../components/general/CustomTableToolbar';
 
 export default function FindingsPage() {
 	const [tableData, setTableData] = useState([]);

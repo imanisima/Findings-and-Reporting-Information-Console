@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
+import { darken, makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,9 +13,6 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-// import Button from '@material-ui/core/Button';
-// import ArchiveIcon from '@material-ui/icons/Archive';
-// import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import FormControlLabel from '@material-ui/core/FormControlLabel'; // For toggling the dense row setting
 import Switch from '@material-ui/core/Switch'; // For toggling the dense row setting
 import CustomTableHead from './CustomTableHead';
@@ -77,10 +74,10 @@ const StyledTableRow = withStyles((theme) => ({
 			backgroundColor: theme.palette.action.hover,
 		},
 		"&$hover:hover": {
-			backgroundColor: lighten("#066ff9", 0.85) //lighten(theme.palette.primary.light,0.85)
+			backgroundColor: darken("#066ff9", 0.50) //lighten(theme.palette.primary.light,0.85)
 		},
 		"&$selected, &$selected:hover": {
-			backgroundColor: lighten("#066ff9", 0.75) //lighten(theme.palette.primary.dark, 0.70)
+			backgroundColor: darken("#066ff9", 0.70) //lighten(theme.palette.primary.dark, 0.70)
 		},
 	},
 	hover: {},
@@ -114,11 +111,11 @@ export default function CustomTable(props) {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelecteds = props.rows.map((n) => n.id);
+			const newSelecteds = props.rows.map((n) => n[props.trackField]);
 			setSelected(newSelecteds);
-			return;
+			if (props.setSelected) props.setSelected(newSelecteds);
 		}
-		setSelected([]);
+		else setSelected([]);
 	};
 
 	const handleClick = (event, name) => {
@@ -139,6 +136,7 @@ export default function CustomTable(props) {
 		}
 
 		setSelected(newSelected);
+		if (props.setSelected) props.setSelected(newSelected);
 	};
 
 	const handleChangePage = (event, newPage) => { setPage(newPage); };
@@ -180,7 +178,7 @@ export default function CustomTable(props) {
 							{stableSort(props.rows, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
-									const isItemSelected = isSelected(row.id);
+									const isItemSelected = isSelected(row[props.trackField]);
 									const labelId = `table-checkbox-${index}`;
 									
 									function makeRowCells() {
@@ -272,4 +270,5 @@ CustomTable.propTypes = {
 	rows: PropTypes.array.isRequired, // Table row data
 	rowsDisplayed: PropTypes.number, // Default is 10
 	controlDensity: PropTypes.bool, // Default is false
+	setSelected: PropTypes.func,
 }

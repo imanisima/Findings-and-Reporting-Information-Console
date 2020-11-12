@@ -13,7 +13,7 @@ import NewSubtaskDialog from '../components/subtasks/NewSubtaskDialog';
 import SubtaskDetailView from '../components/subtasks/SubtaskDetailView';
 import SubtasksOverviewTable from '../components/subtasks/SubtasksOverviewTable';
 import ConfirmArchiveDialog from '../components/general/ConfirmArchiveDialog';
-import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
+import { ToolbarNewActionContext } from '../components/general/CustomTableToolbar';
 
 export default function SubtasksPage() {
 	const [tableData, setTableData] = useState([]);

@@ -12,7 +12,7 @@ import TasksOverviewTable from '../components/tasks/TasksOverviewTable';
 import TaskDetailView from '../components/tasks/TaskDetailView';
 import NewTaskDialog from '../components/tasks/NewTaskDialog';
 import ArchiveTaskDialog from '../components/tasks/ArchiveTaskDialog';
-import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
+import { ToolbarNewActionContext } from '../components/general/CustomTableToolbar';
 
 export default function TasksPage() {
 	const [tableData, setTableData] = useState([]);

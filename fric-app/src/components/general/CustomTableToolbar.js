@@ -2,17 +2,18 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, darken, makeStyles, withStyles } from '@material-ui/core/styles';
+import { darken, makeStyles, withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import { ToolbarNewActionContext } from './ToolbarNewActionContext';
+
+export const ToolbarNewActionContext = createContext(null);
 
 const useToolbarStyles = makeStyles((theme) => ({
 	root: {
@@ -23,11 +24,11 @@ const useToolbarStyles = makeStyles((theme) => ({
 		theme.palette.type === 'light'
 			? {
 				color: theme.palette.common.white,
-				backgroundColor: lighten("#066ff9", 0.1) //lighten(theme.palette.primary.dark, 0.20) 
+				backgroundColor: 'lighten("#066ff9", 0.1)' //lighten(theme.palette.primary.dark, 0.20) 
 			}
 			: {
 				color: theme.palette.text.primary,
-				backgroundColor: theme.palette.primary.light,
+				backgroundColor: theme.palette.primary.dark,
 			},
 	start: {
 		flex: '1 1 100%',
