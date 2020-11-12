@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 // Components
 import Main from './pages/Main';
 import SummaryPage from './pages/SummaryPage';
-import EventsPage from './pages/EventsPage';
+import EventsPage from './pages/EventPage';
 import ArchivesPage from './pages/ArchivesPage';
 import ConfigurePage from './pages/ConfigurePage';
 import FindingsPage from './pages/FindingsPage';
@@ -29,8 +29,7 @@ function App() {
 				<Switch>
 					<Route exact path="/" component={Main} />
 					<Route exact path="/summary" component={SummaryPage} />
-					<Route exact path="/events" component={EventsPage} />
-					<Route exact path="/event_tree" component={EventTree} />
+					<Route exact path="/event" component={EventsPage} />
 					<Route exact path="/tasks" component={TasksPage} />
 					<Route exact path="/subtasks" component={SubtasksPage} />
 					<Route exact path="/findings" component={FindingsPage} />
@@ -40,11 +39,6 @@ function App() {
 					<Route exact path="/settings" component={SettingsPage} />
 					<Route exact path="/test" component={TestPage} />
 					<Route exact path="/manual" component={ManualPage} />
-
-					<Route exact path="/archive/archive_task_view" component={ArchiveTask} />
-					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
-					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />
-					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
 				</Switch>
 			</Router>
 		</>

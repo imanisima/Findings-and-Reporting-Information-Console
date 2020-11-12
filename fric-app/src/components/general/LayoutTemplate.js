@@ -373,7 +373,7 @@ export default function LayoutTemplate(props) {
 						</ListItem>
 					</Link>
 
-					<Link to="/events" replace={useLocation().pathname === '/events'} className={classes.links}>
+					<Link to="/event" replace={useLocation().pathname === '/event'} className={classes.links}>
 						<ListItem button key="Events">
 							<ListItemIcon><EventIcon /></ListItemIcon>
 							<ListItemText primary="Events" />

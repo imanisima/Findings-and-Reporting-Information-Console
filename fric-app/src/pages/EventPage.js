@@ -8,9 +8,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import LayoutTemplate from '../components/general/LayoutTemplate';
-import EventForm from '../components/events/EventForm';
+import EventForm from '../components/event/EventForm';
 import Spinner from '../components/general/Spinner';
-import { EventContext } from '../components/events/EventContext';
+import { EventContext } from '../components/event/EventContext';
 import { darkTheme } from '../components/general/ThemeColors';
 
 const defaultEventState = {
