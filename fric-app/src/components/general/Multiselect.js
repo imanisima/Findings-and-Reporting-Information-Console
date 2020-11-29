@@ -103,7 +103,6 @@ export default function Multiselect(props) {
 }
 
 Multiselect.propTypes = {
-	value: PropTypes.array,
 	options: PropTypes.array.isRequired,
 	label: PropTypes.string,
 	variant: PropTypes.string,

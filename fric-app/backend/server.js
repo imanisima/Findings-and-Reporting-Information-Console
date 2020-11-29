@@ -51,8 +51,8 @@ const tasksRouter = require('./routes/tasks');
 const subtasksRouter = require('./routes/subtasks');
 const configRouter = require('./routes/configure');
 // const transactionsRouter = require('./routes/transactions');
-// const findingsRouter = require('./routes/findings');
-// const reportsRouter = require('./routes/reports');
+const findingsRouter = require('./routes/findings');
+const reportsRouter = require('./routes/reports');
 
 app.use('/', indexRouter);
 app.use('/systems', systemsRouter);
@@ -62,8 +62,8 @@ app.use('/tasks', tasksRouter);
 app.use('/subtasks', subtasksRouter);
 app.use('/configure', configRouter);
 // app.use('/transactions', transactionsRouter);
-// app.use('/findings', findingsRouter);
-// app.use('/reports', reportsRouter);
+app.use('/findings', findingsRouter);
+app.use('/reports', reportsRouter);
 
 /**
  * The following section lets the server start and listen to requests on the specified port.

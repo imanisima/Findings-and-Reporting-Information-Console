@@ -18,6 +18,7 @@ import SettingsPage from './pages/SettingsPage';
 import SubtasksPage from './pages/SubtasksPage';
 import SystemsPage from './pages/SystemsPage';
 import TasksPage from './pages/TasksPage';
+import ReportsPage from './pages/ReportsPage';
 import ManualPage from './pages/ManualPage';
 import TestPage from './pages/TestPage';
 
@@ -46,12 +47,12 @@ function App() {
 					<Route exact path="/settings" component={SettingsPage} />
 					<Route exact path="/test" component={TestPage} />
 					<Route exact path="/manual" component={ManualPage} />
+					<Route exact path="/reports" component={ReportsPage} />
 
 					<Route exact path="/archive/archive_task_view" component={ArchiveTask} />
 					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
 					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />
 					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
-
 				</Switch>
 			</Router>
 		</>

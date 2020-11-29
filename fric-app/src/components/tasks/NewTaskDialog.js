@@ -62,7 +62,9 @@ export default function NewTaskDialog(props) {
 			.then(res => {
 				console.log(res);
 				props.reload();
+				window.location = '/tasks'
 				handleClose();
+				
 			})
 			.catch(err => {
 				//TODO: display error message

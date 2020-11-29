@@ -62,6 +62,7 @@ export default function NewSubtaskDialog(props) {
 			.then(res => {
 				console.log(res);
 				props.reload();
+				window.location = '/subtasks'
 				handleClose();
 			})
 			.catch(err => {
