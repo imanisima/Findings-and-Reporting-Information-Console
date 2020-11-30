@@ -17,6 +17,7 @@ import { TaskContext } from './TaskContext';
 import { DetailViewActionContext } from '../general/LayoutTemplate';
 
 export default function TaskDetailView(props) {
+	const closeDetailAction = useContext(DetailViewActionContext);
 	const [contentIsLoading, setContentIsLoading] = useState(true);
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
@@ -41,7 +42,6 @@ export default function TaskDetailView(props) {
 		archived, setArchived
 	}), [name, description, progress, priority, relatedTasks,
 		analysts, collabs, attachment, dueDate, archived]);
-	const closeDetailAction = useContext(DetailViewActionContext);
 	
 	const handleSaveClick = () => {
 		axios.put("http://localhost:5000/tasks/update", {
@@ -59,11 +59,14 @@ export default function TaskDetailView(props) {
 				archived: archived, // New elements will never be archived
 			}
 		})
+		
 			.then(res => {
 				console.log(res);
 				setContentIsLoading(true); // Reset to spinner for next edit request
 				props.reload(); // Reload table content
+				window.location = '/tasks'
 				closeDetailAction(); // Close detail view tray
+				
 			})
 			.catch(err => {
 				console.log(err);
@@ -71,7 +74,14 @@ export default function TaskDetailView(props) {
 			})
 	};
 
+	const handleCancelClick = () => {
+		closeDetailAction();
+		setContentIsLoading(true);
+	}
+
 	useEffect(() => {
+		setContentIsLoading(true);
+
 		if (props.selectedTask != null && props.selectedTask.length === 1) {
 			axios.get('http://localhost:5000/tasks', {
 				params: {
@@ -124,7 +134,7 @@ export default function TaskDetailView(props) {
 								style={{ backgroundColor: "#ffc108", color: "charcoal", margin: "0.5em", }}
 							>Save</Button>
 							<Button
-								onClick={closeDetailAction}
+								onClick={handleCancelClick}
 								variant="contained"
 								size="large"
 								startIcon={<CancelIcon />}

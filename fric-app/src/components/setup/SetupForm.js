@@ -1,3 +1,4 @@
+  
 /**
  * This component contains the form that is embedded in the SetupModal.
  * 
@@ -39,18 +40,21 @@ export default function SetupForm(props) {
 					type: "",
 					version: "1.0",
 					derivedFrom: "",
-					assessmentDate: new Date().toLocaleDateString(),
+					assessed: new Date().toUTCString(),
+					declassified: new Date().toUTCString(),
 					organization: "",
 					securityGuide: "",
 					classification: "",
-					declassified: new Date().toLocaleDateString(),
 					customer: "",
 					archived: false,
 					team: [user]
 				};
 
-				axios.post('http://localhost:5000/events/new', defaultEvent)
+				axios.post('http://localhost:5000/events/new', {
+					params: defaultEvent
+				})
 					.then(response => {
+						console.log(response)
 						console.log(response.data);
 						props.submitAction();
 						window.location = '/';

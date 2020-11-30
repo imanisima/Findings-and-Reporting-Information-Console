@@ -64,20 +64,17 @@ export default function EventForm(props) {
 					<Grid container direction="column" justify="space-between" spacing={2}>
 						<Grid item xs>
 							{/* Event Name Text Field */}
-							{/* <FormLabel >Name</FormLabel>
-							<Form.Control type="text" placeholder="Event Name" value={event.name} onChange={e => setEvent({ ...event, name: e.target.value })} /> */}
+							{/* <FormLabel>Name</FormLabel> */}
 							<TextField required fullWidth variant={fieldVariant} id="name" label="Event Name" value={event.name} onChange={e => setEvent({...event, name: e.target.value})} className={classes.textfield} />
 						</Grid>
 						<Grid item xs>
 							{/* Description Text Field */}
-							{/* <FormLabel >Description</FormLabel>
-							<Form.Control as="textarea" rows="3" placeholder="Event Description" value={event.description} onChange={e => setEvent({ ...event, description: e.target.value })} /> */}
-							<TextField required fullWidth multiline rows="4" rowsMax="6" variant={fieldVariant} id="desc" label="Description" value={event.description} onChange={e => setEvent({...event, description: e.target.value})} className={classes.textfield} />
+							{/* <FormLabel>Description</FormLabel> */}
+							<TextField required fullWidth multiline rows="4" rowsMax="4" variant={fieldVariant} id="desc" label="Description" value={event.description} onChange={e => setEvent({...event, description: e.target.value})} className={classes.textfield} />
 						</Grid>
 						<Grid item xs>
 							{/* Version Text Field */}
-							{/* <FormLabel >Version</FormLabel>
-							<Form.Control type="textarea" placeholder="ex. 1.1.4" value={event.version} onChange={e => setEvent({ ...event, version: e.target.value })} /> */}
+							{/* <FormLabel>Version</FormLabel> */}
 							<TextField required fullWidth variant={fieldVariant} id="version" label="Version" value={event.version} onChange={e => setEvent({...event, version: e.target.value})} className={classes.textfield} />
 						</Grid>
 					</Grid>
@@ -87,21 +84,18 @@ export default function EventForm(props) {
 					<Grid container direction="column" justify="space-between" spacing={5}>
 						<Grid item xs>
 							{/* Organization Text Field */}
-							{/* <FormLabel style={{ display: "block" }}>Organization</FormLabel>
-							<Form.Control type="text" placeholder="Organization" value={event.organization} onChange={e => setEvent({ ...event, organization: e.target.value })} /> */}
+							{/* <FormLabel style={{ display: "block" }}>Organization</FormLabel> */}
 							<TextField required fullWidth variant={fieldVariant} id="org" label="Organization" value={event.organization} onChange={e => setEvent({...event, organization: e.target.value})} className={classes.textfield} />
 						</Grid>
 						<Grid item xs>
 							{/* Security Guide Text Field */}
-							{/* <FormLabel style={{ display: "block" }}>Classification Title Guide</FormLabel>
-							<Form.Control type="text" placeholder="Title Guide" value={event.securityGuide} onChange={e => setEvent({ ...event, securityGuide: e.target.value })} /> */}
+							{/* <FormLabel style={{ display: "block" }}>Classification Title Guide</FormLabel> */}
 							<TextField required fullWidth variant={fieldVariant} id="guide" label="Security Guide" value={event.securityGuide} onChange={e => setEvent({...event, securityGuide: e.target.value})} className={classes.textfield} />
 						</Grid>
 						<Grid item xs>
 							{/* Customer Text Field */}
-							{/* <FormLabel style={{ display: "block" }}>Customer</FormLabel>
-							<Form.Control type="text" placeholder="Customer Name" value={event.customer} onChange={e => setEvent({ ...event, customer: e.target.value })} /> */}
-							<TextField required fullWidth variant={fieldVariant} id="customer" label="Customer" value={event.customer} onChange={e => setEvent({...event, customer: e.target.value})} className={classes.textfield} />
+							{/* <FormLabel style={{ display: "block" }}>Customer</FormLabel> */}
+							1<TextField required fullWidth variant={fieldVariant} id="customer" label="Customer" value={event.customer} onChange={e => setEvent({...event, customer: e.target.value})} className={classes.textfield} />
 						</Grid>
 					</Grid>
 				</Grid>

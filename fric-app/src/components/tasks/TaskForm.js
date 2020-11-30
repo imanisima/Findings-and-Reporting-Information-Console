@@ -12,7 +12,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
-// import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded';
 // import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 
 import { TaskContext } from './TaskContext';

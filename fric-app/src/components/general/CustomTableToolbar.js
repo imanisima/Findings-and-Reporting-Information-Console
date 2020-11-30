@@ -89,4 +89,7 @@ export default function CustomTableToolbar(props) {
 	);
 };
 
-CustomTableToolbar.propTypes = { numSelected: PropTypes.number.isRequired, };
+CustomTableToolbar.propTypes = {
+	numSelected: PropTypes.number.isRequired,
+	newAction: PropTypes.func,
+};
