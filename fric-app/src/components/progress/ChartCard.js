@@ -14,13 +14,23 @@ const useStyles = makeStyles({
 	},
 });
 
-const completeSystem = 4;
-const completeTask = 12;
-const completeSubtask = 35;
+const completeSystem = localStorage.getItem("CompleteSy");
+console.log('Complete Sytask Chart', completeSystem)
 
-const incompleteSystem = 2;
-const incompleteTask = 3;
-const incompleteSubtask = 4;
+const completeTask = localStorage.getItem("CompleteT");
+console.log('Complete task Chart', completeTask)
+
+const completeSubtask = Math.abs(localStorage.getItem("CompleteS"));
+console.log('Complete Subtask Chart', completeSubtask)
+
+const incompleteSystem = Math.abs(localStorage.getItem("IncompleteSy"));
+console.log('Incomplete System Chart', incompleteSystem)
+
+const incompleteTask = localStorage.getItem("IncompleteT");
+console.log('incomplete task Chart', incompleteTask)
+
+const incompleteSubtask = localStorage.getItem("IncompleteS");
+console.log('Incomplete subtask Chart', incompleteSubtask)
 
 
 
