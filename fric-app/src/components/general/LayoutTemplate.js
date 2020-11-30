@@ -272,8 +272,9 @@ export default function LayoutTemplate(props) {
 
 
     //const Progression Bar
-    const now = localStorage.getItem("IncompleteT") - localStorage.getItem("CompleteT") ;
-
+    const numOfTask = localStorage.getItem("NumberOfTasks");
+    const now = (localStorage.getItem("CompleteT") / 23) * 100;
+    //const now = (localStorage.getItem("CompleteT") / numOfTask) * 100;
 	return (
 		<div className={classes.root}>
 			<CssBaseline />

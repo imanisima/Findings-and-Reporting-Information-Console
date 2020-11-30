@@ -29,7 +29,7 @@ export default function SummaryView() {
         })
             .then(res => {
                 const longeur = res.data.length;
-
+                localStorage.setItem("NumberOfTasks", longeur);
                 for (var i = 0; i < res.data.length; i++) {
                     //console.log(i)
                     if (res.data[i].progress === "Complete") {
@@ -42,9 +42,11 @@ export default function SummaryView() {
                     }
                 }
                 localStorage.setItem("CompleteT", completeTask);
+                
                 localStorage.setItem("IncompleteT", longeur - completeTask);
-                console.log('Complete task', completeTask)
-                console.log('Incomplete task', longeur - completeTask)
+                console.log('Complete task', localStorage.getItem("NumberOfTasks"));
+                console.log('Num of task', longeur);
+                console.log('Incomplete task', longeur - completeTask);
             })
         return axios(completeTask);
     }
