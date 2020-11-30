@@ -299,15 +299,16 @@ export default function LayoutTemplate(props) {
 						>
 							<SyncIcon />
 						</IconButton>
-						<IconButton
-							color="inherit"
-							aria-label="help"
-						>
 
-							<Link to="/manual" replace={useLocation().pathname === '/manual'} className={classes.links}>
+						<Link to="/manual" replace={useLocation().pathname === '/manual'} className={classes.links}>
+							<IconButton
+								color="inherit"
+								aria-label="help"
+							>
 								<HelpIcon />
-							</Link>
-						</IconButton>
+							</IconButton>
+						</Link>
+						
 						{auth && (
 							<>
 								<IconButton

@@ -115,7 +115,10 @@ export default function CustomTable(props) {
 			setSelected(newSelecteds);
 			if (props.setSelected) props.setSelected(newSelecteds);
 		}
-		else setSelected([]);
+		else {
+			setSelected([]);
+			if (props.setSelected) props.setSelected([]);
+		}
 	};
 
 	const handleClick = (event, name) => {

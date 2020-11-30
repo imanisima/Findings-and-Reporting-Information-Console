@@ -32,7 +32,6 @@ export default function ConfigurationOverview() {
 							<ConfigurationTable
 								title={config.title}
 								configType={config.type}
-								baseURL={'http://localhost:5000/configure' + config.resource}
 							/>
 							<hr />
 						</div>

@@ -3,6 +3,7 @@
  */
 
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import React, { useLayoutEffect, useState, useContext, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -15,9 +16,10 @@ import { ConfigurationContext } from './ConfigurationContext';
 import Spinner from '../general/Spinner';
 import styles from '../../css/configurations/ConfigurationDetailView.module.css';
 
-export default function ConfigurationDetailView() {
+export default function ConfigurationDetailView(props) {
 	const closeDetailAction = useContext(DetailViewActionContext);
 	const [contentIsLoading, setContentIsLoading] = useState(false);
+	const [configId, setConfigId] = useState('');
 	const [value, setValue] = useState('');
 	const [description, setDescription] = useState('');
 	const configProviderValue = useMemo(() => ({
@@ -26,44 +28,63 @@ export default function ConfigurationDetailView() {
 	}), [value, description]);
 
 	const fetchConfiguration = () => {
+		setContentIsLoading(true);
+
+		if (props.selected == null || props.type == null) throw new Error('No configuration value passed to ConfigurationDetailView component.');
+		else if (props.type == null) throw new Error('No configuration type passed to ConfigurationDetailView component.')
+
 		axios.get('http://localhost:5000/configure', {
 			params: {
-				type: '', //TODO: pass in bound value
-				value: '', //TODO: pass in bound value
+				type: props.type,
+				id: props.selected,
 			}
 		})
 			.then(res => {
-				console.log(res);
-				//TODO: handle request
+				setConfigId(res.data._id);
+				setValue(res.data.value);
+				setDescription(res.data.description);
+				setContentIsLoading(false);
 			})
 			.catch(err => {
 				console.log(err);
 				//TODO: display error message
-			})
+				setContentIsLoading(false);
+			});
 	};
 
 	useLayoutEffect(() => fetchConfiguration(), []);
 
 	const handleSaveClick = async () => {
-		// if (selected.length !== 1) return;
+		if (!configId || configId === '') throw new Error('Invalid configuration _id value.');
+		if (value == null) throw new Error('Null ConfigurationDetailView input value.'); //TODO: change to dynamic input validation
 
-		await axios.put('http://localhost:5000/configure/update', {
+		console.log(configId);
+		await axios.post('http://localhost:5000/configure/update', {
 			params: {
-				type: '', //TODO: pass in bound value
-				values: '', //TODO: pass in bound value
+				id: configId,
+				value: value,
+				description: description,
 			}
 		})
 			.then(res => {
 				console.log(res);
 				//TODO: handle request
+				props.reload();
+				handleCancelClick(); // Close detail view
 			})
 			.catch(err => {
 				console.log(err);
 				//TODO: display error message
-			})
+				// handleCancelClick();
+			});
 	};
 
 	const handleCancelClick = () => {
+		// Reset input values
+		setConfigId('');
+		setValue('');
+		setDescription('');
+
 		closeDetailAction();
 		setContentIsLoading(true);
 	};
@@ -73,7 +94,7 @@ export default function ConfigurationDetailView() {
 			{
 				(contentIsLoading) ? <Spinner /> : (
 					<div className={styles.detailContainer}>
-						<Typography variant="h4" className={styles.title}>Edit Configuration</Typography>
+						<Typography variant="h4" className={styles.title}>Edit {props.type} Configuration</Typography>
 
 						<div>
 							<ConfigurationContext.Provider value={configProviderValue}>
@@ -106,4 +127,10 @@ export default function ConfigurationDetailView() {
 			}
 		</>
 	);
+}
+
+ConfigurationDetailView.propTypes = {
+	selected: PropTypes.string,
+	type: PropTypes.string,
+	reload: PropTypes.func,
 }

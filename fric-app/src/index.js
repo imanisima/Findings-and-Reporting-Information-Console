@@ -33,22 +33,14 @@ function App() {
 					<Route exact path="/event" component={EventsPage} />
 					<Route exact path="/tasks" component={TasksPage} />
 					<Route exact path="/subtasks" component={SubtasksPage} />
-					<Route exact path="/findings" component={FindingsPage} />
 					<Route exact path="/archive" component={ArchivesPage} />
 					<Route exact path="/systems" component={SystemsPage} />
 					<Route exact path="/configure" component={ConfigurePage} />
+					<Route exact path="/findings" component={FindingsPage} />
+					<Route exact path="/reports" component={ReportsPage} />
 					<Route exact path="/settings" component={SettingsPage} />
 					<Route exact path="/test" component={TestPage} />
 					<Route exact path="/manual" component={ManualPage} />
-<<<<<<< HEAD
-=======
-					<Route exact path="/reports" component={ReportsPage} />
-
-					<Route exact path="/archive/archive_task_view" component={ArchiveTask} />
-					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
-					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />
-					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
->>>>>>> 34807b61b9b24a17d7185ee7a5c70afcc71d5e52
 				</Switch>
 			</Router>
 		</>

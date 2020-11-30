@@ -15,6 +15,7 @@ import NewConfigurationDialog from './NewConfigurationDialog';
 import ConfirmDeleteDialog from '../general/ConfirmDeleteDialog';
 import { DetailViewActionContext } from '../general/LayoutTemplate';
 import { ToolbarNewActionContext } from '../general/CustomTableToolbar';
+import { ConfigDetailContext } from '../../pages/ConfigurePage';
 
 // import { data } from '../general/test/configtestdata'; //TODO: delete test data in production
 
@@ -31,12 +32,16 @@ export default function ConfigurationTable(props) {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [rowData, setRowData] = useState([]);
 	const [selected, setSelected] = useState([]);
+	const { setDetailConfig, setConfigType, setConfigReload } = useContext(ConfigDetailContext);
 
 	const headings = [
 		{ id: 'value', numeric: false, disablePadding: false, label: 'Value' },
 	];
 
 	const reload = () => {
+		setRowData([]); // Reset row data
+		setSelected([]); // Reset selected rows
+
 		axios.get('http://localhost:5000/configure/table', {
 			params: {
 				type: props.configType
@@ -53,7 +58,6 @@ export default function ConfigurationTable(props) {
 	};
 
 	const deleteConfigs = async () => {
-		console.log(selected);
 		await axios.put('http://localhost:5000/configure/delete', {
 			params: {
 				type: props.configType,
@@ -63,17 +67,24 @@ export default function ConfigurationTable(props) {
 			.then(res => {
 				console.log(res); //TODO: remove test line in production
 				//TODO: display success message
+				reload();
+				setDeleteDialogOpen(false);
 			})
 			.catch(err => {
 				console.log(err.response);
 				//TODO: display error message
-			})
+			});
 	}
 
 	const handleNewClick = () => setNewDialogOpen(true);
 
 	const handleEditClick = () => {
-		if (selected.length === 1) openDetailAction()
+		if (selected.length === 1) {
+			setDetailConfig(selected[0]);
+			setConfigType(props.configType);
+			setConfigReload(reload);
+			openDetailAction();
+		}
 	};
 
 	const handleDeleteClick = () => setDeleteDialogOpen(true);
@@ -85,7 +96,7 @@ export default function ConfigurationTable(props) {
 			<ToolbarNewActionContext.Provider value={handleNewClick}>
 				<CustomTable
 					tableName={props.title}
-					trackField="value"
+					trackField="_id"
 					headings={headings}
 					rows={rowData}
 					rowsDisplayed={5}
@@ -102,9 +113,8 @@ export default function ConfigurationTable(props) {
 						color="primary"
 						size="medium"
 						onClick={handleEditClick}
-					>
-						Edit
-				</Button>
+					>Edit
+					</Button>
 
 					{/* Delete Button */}
 					<Button
@@ -115,9 +125,8 @@ export default function ConfigurationTable(props) {
 						color="secondary"
 						size="medium"
 						onClick={handleDeleteClick}
-					>
-						Delete
-				</Button>
+					>Delete
+					</Button>
 				</CustomTable>
 			</ToolbarNewActionContext.Provider>
 
@@ -126,10 +135,10 @@ export default function ConfigurationTable(props) {
 				isOpen={newDialogOpen}
 				closeDialogAction={() => setNewDialogOpen(false)}
 				reload={reload}
-				baseURL={props.baseURL}
 				configTitle={props.title}
 				configType={props.configType}
 			/>
+
 			<ConfirmDeleteDialog
 				isOpen={deleteDialogOpen}
 				numSelected={0} //TODO: bind numSelected value
@@ -144,5 +153,4 @@ export default function ConfigurationTable(props) {
 ConfigurationTable.propTypes = {
 	title: PropTypes.string.isRequired,
 	configType: PropTypes.string.isRequired,
-	baseURL: PropTypes.string.isRequired,
 }

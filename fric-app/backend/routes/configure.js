@@ -9,17 +9,40 @@ const Configuration = require('../models/configuration.model');
  * 
  */
 router.route('/').get(async (req, res) => {
-	await Configuration
-		.find()
-		.then(configs => {
-			if (configs) res.status(200).json(configs);
-			else res.status(404).send('No configurations exist');
-		})
-		.catch(err => {
-			res.status(500).json(err);
-			console.log(err);
-		});
+	if (req.query) {
+		if (!req.query.type || !req.query.id) {
+			res.sendStatus(400);
+			return;
+		}
+
+		await Configuration
+			.findOne({
+				type: req.query.type,
+				_id: req.query.id,
+			})
+			.then(config => {
+				if (config) res.status(200).json(config);
+				else res.status(404).send('No configuration found.');
+			})
+			.catch(err => {
+				console.log(err);
+				res.status(500).json(err);
+			});
+	}
+	else {
+		await Configuration
+			.find()
+			.then(configs => {
+				if (configs) res.status(200).json(configs);
+				else res.status(404).send('No configurations found.');
+			})
+			.catch(err => {
+				res.status(500).json(err);
+				console.log(err);
+			});
+	}
 });
+
 
 router.route('/table').get(async (req, res) => {
 	if (req.query && req.query.type) {
@@ -32,7 +55,7 @@ router.route('/table').get(async (req, res) => {
 				},
 				{
 					$project: {
-						_id: 0,
+						_id: 1,
 						value: 1,
 					}
 				},
@@ -48,6 +71,7 @@ router.route('/table').get(async (req, res) => {
 	} else res.sendStatus(400);
 });
 
+
 router.route('/new').post(async (req, res) => {
 	if (req.body.params && req.body.params.type && req.body.params.value && req.body.params.description) {
 		var exists = false;
@@ -58,7 +82,6 @@ router.route('/new').post(async (req, res) => {
 				value: req.body.params.value,
 			})
 			.then(config => {
-				console.log(config);
 				if (config) {
 					res.status(400).send('Insert failed. Configuration already exists.');
 					exists = true;
@@ -85,44 +108,44 @@ router.route('/new').post(async (req, res) => {
 	} else res.sendStatus(400);
 });
 
-router.route('/update').put(async (req, res) => {
-	console.log(req.query); //TODO: remove test line in production
-	console.log(req.params); //TODO: remove test line in production
-	if (req.params && req.params.id) {
-		const id = req.params.id;
+
+router.route('/update').post(async (req, res) => {
+	console.log(req.body.params); //TODO: remove test line in production
+	if (req.body.params && req.body.params.id) {
 		var document = null;
 		var exists = false;
 
 		await Configuration
-			.findOne({ _id: id })
+			.findOne({ _id: req.body.params.id })
 			.then(config => {
 				if (config) {
 					document = config;
-					document.set(req.params);
+					document.set(req.body.params);
 					exists = true;
 				} else res.status(404).send('No configuration found.');
 			})
 			.catch(err => {
 				res.status(500).json(err);
 				console.log(err);
-			})
+			});
 
 		if (!exists) return;
 		
 		await document
 			.save()
 			.then(result => {
+				res.status(200).json(result);
 				console.log(result);
 			})
 			.catch(err => {
 				res.status(500).json(err);
 				console.log(err);
-				return;
 			});
 	} else res.sendStatus(400);
 });
 
-router.route('/delete').put(async (req, res) => {
+
+router.route('/delete').delete(async (req, res) => {
 	if (req.body.params && req.body.params.type && req.body.params.value) {
 		await Configuration
 			.deleteMany({

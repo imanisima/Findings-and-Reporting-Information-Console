@@ -68,7 +68,7 @@ export default function NewConfigurationDialog(props) {
 			aria-describedby="slide-dialog-description"
 		>
 			<DialogTitle id="scroll-dialog-title" className={styles.title}>Create New Configuration{/* TODO: bind to configuration type */}</DialogTitle>
-			<DialogContent dividers={true}>
+			<DialogContent dividers={true} className={styles.dialogContainer}>
 				<ConfigurationContext.Provider value={configProviderValue}>
 					<ConfigurationForm />
 				</ConfigurationContext.Provider>
@@ -85,7 +85,6 @@ NewConfigurationDialog.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	closeDialogAction: PropTypes.func.isRequired,
 	reload: PropTypes.func.isRequired,
-	baseURL: PropTypes.string.isRequired,
 	configTitle: PropTypes.string.isRequired,
 	configType: PropTypes.string.isRequired,
 }
