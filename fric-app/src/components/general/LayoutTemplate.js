@@ -271,8 +271,8 @@ export default function LayoutTemplate(props) {
 	;
 
 
-	//const Progression Bar
-	const now = 75;
+    //const Progression Bar
+    const now = localStorage.getItem("IncompleteT") - localStorage.getItem("CompleteT") ;
 
 	return (
 		<div className={classes.root}>
