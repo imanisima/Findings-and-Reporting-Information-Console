@@ -50,6 +50,8 @@ const analystsRouter = require('./routes/analysts');
 const tasksRouter = require('./routes/tasks');
 const subtasksRouter = require('./routes/subtasks');
 const configRouter = require('./routes/configure');
+const progressRouter = require('./routes/tasks');
+// const subtasksRouter = require('./routes/subtasks');
 // const transactionsRouter = require('./routes/transactions');
 const findingsRouter = require('./routes/findings');
 const reportsRouter = require('./routes/reports');
@@ -59,6 +61,8 @@ app.use('/systems', systemsRouter);
 app.use('/events', eventsRouter);
 app.use('/analysts', analystsRouter);
 app.use('/tasks', tasksRouter);
+app.use('/progress',progressRouter)
+// app.use('/subtasks', subtasksRouter);
 app.use('/subtasks', subtasksRouter);
 app.use('/configure', configRouter);
 // app.use('/transactions', transactionsRouter);
