@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import ReactTooltip from "react-tooltip";
 import '../../css/archive/FRIC_gui_archive_findings.css'
 
 function FRIC_gui_archive_findings() {
@@ -9,7 +10,11 @@ function FRIC_gui_archive_findings() {
 
         
         <div className="button">
-          <Button>Restore</Button>
+          <Button data-tip data-for="restoreArchTip">Restore</Button>
+
+          <ReactTooltip id="restoreArchTip" place="bottom" effect="solid">
+            Restore archived findings.
+          </ReactTooltip>
         </div>
       </div>
     )

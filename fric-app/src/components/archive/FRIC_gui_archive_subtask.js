@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import ReactTooltip from "react-tooltip";
 import '../../css/archive/FRIC_gui_archive_subtask.css'
 import SubtasksOverviewTable from '../subtasks/SubtasksOverviewTable'
 
@@ -31,8 +32,13 @@ function FRIC_gui_archive_subtask() {
         <SubtasksOverviewTable rows={data} headings={headings} />
         
         <div className="button">
-          <Button>Restore</Button>
+          <Button data-tip data-for="restoreArchTip">Restore</Button>
+
+          <ReactTooltip id="restoreArchTip" place="bottom" effect="solid">
+            Restore archived subtasks.
+          </ReactTooltip>
         </div>
+
       </div>
     )
 }
