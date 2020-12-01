@@ -7,9 +7,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import Form from 'react-bootstrap/Form';
-import styles from '../../../css/subtasks/NewSubtaskDialog.module.css'
+import styles from '../../../css/subtasks/NewSubtaskDialog.module.css';
 
-import { FinalReportCreator } from './FinalReportCreator'
+import { FinalReportCreator } from './FinalReportCreator';
 import { saveAs } from "file-saver";
 import { Packer } from "docx";
 

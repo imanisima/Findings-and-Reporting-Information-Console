@@ -18,6 +18,7 @@ import axios from 'axios';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import ReactTooltip from "react-tooltip";
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -419,84 +420,128 @@ export default function LayoutTemplate(props) {
 				<List>
 					<Link to="/" replace={useLocation().pathname === "/"} className={classes.links}>
 						<ListItem button key="Overview">
-							<ListItemIcon><DashboardIcon /></ListItemIcon>
-							<ListItemText primary="Overview" />
+								<ListItemIcon data-tip data-for="overviewTip"><DashboardIcon /></ListItemIcon>
+								<ListItemText primary="Overview" />
+
+								<ReactTooltip id="overviewTip" place="bottom" effect="solid">
+									F.R.I.C. Overview
+								</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					<Link to="/events" replace={useLocation().pathname === '/events'} className={classes.links}>
 						<ListItem button key="Events">
-							<ListItemIcon><EventIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="eventTip"><EventIcon /></ListItemIcon>
 							<ListItemText primary="Events" />
+
+							<ReactTooltip id="eventTip" place="bottom" effect="solid">
+								Events View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					<Link to="/tasks" replace={useLocation().pathname === '/tasks'} className={classes.links}>
 						<ListItem button key="Tasks">
-							<ListItemIcon><CheckedIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="taskTip"><CheckedIcon /></ListItemIcon>
 							<ListItemText primary="Tasks" />
+
+							<ReactTooltip id="taskTip" place="bottom" effect="solid">
+								Tasks View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					<Link to="/subtasks" replace={useLocation().pathname === '/subtasks'} className={classes.links}>
 						<ListItem button key="Subtasks">
-							<ListItemIcon><LowPriorityIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="subtaskTip"><LowPriorityIcon /></ListItemIcon>
 							<ListItemText primary="Subtasks" />
+
+							<ReactTooltip id="subtaskTip" place="bottom" effect="solid">
+								Subtasks View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					<Link to="/event_tree" replace={useLocation().pathname !== '/findings'} className={classes.links}>
 						<ListItem button key="Event Tree">
-							<ListItemIcon><AccountTreeIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="eTreeTip"><AccountTreeIcon /></ListItemIcon>
 							<ListItemText primary="Event Tree" />
+
+							<ReactTooltip id="eTreeTip" place="bottom" effect="solid">
+								Event Tree View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/*  */}
 					<Link to="/findings" replace={useLocation().pathname === '/'} className={classes.links}>
 						<ListItem button key="Findings">
-							<ListItemIcon><FindPageIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="findingsTip"><FindPageIcon /></ListItemIcon>
 							<ListItemText primary="Findings" />
+
+							<ReactTooltip id="findingsTip" place="bottom" effect="solid">
+								Findings View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* Archive Link */}
 					<Link to="/archive" replace={useLocation().pathname === '/archive'} className={classes.links}>
 						<ListItem button key="Archive">
-							<ListItemIcon><ArchiveIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="archiveTip"><ArchiveIcon /></ListItemIcon>
 							<ListItemText primary="Archive" />
+
+							<ReactTooltip id="archiveTip" place="bottom" effect="solid">
+								Archive View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* Systems Link */}
 					<Link to="/systems" replace={useLocation().pathname === '/systems'} className={classes.links}>
 						<ListItem button key="Systems">
-							<ListItemIcon><DnsIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="systemTip"><DnsIcon /></ListItemIcon>
 							<ListItemText primary="Systems" />
+
+							<ReactTooltip id="systemTip" place="bottom" effect="solid">
+								Systems View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* ReportsLink */}
 					<Link to="/reports" replace={useLocation().pathname === '/reports'} className={classes.links}>
 						<ListItem button key="Reports">
-							<ListItemIcon><DescriptionIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="reportsTip"><DescriptionIcon /></ListItemIcon>
 							<ListItemText primary="Reports" />
+
+							<ReactTooltip id="reportsTip" place="bottom" effect="solid">
+								Reports View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* Configuration Link */}
 					<Link to="/configure" replace={useLocation().pathname === '/configure'} className={classes.links}>
 						<ListItem button key="Configuration">
-							<ListItemIcon><BuildIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="configTip"><BuildIcon /></ListItemIcon>
 							<ListItemText primary="Configuration" />
+
+							<ReactTooltip id="configTip" place="bottom" effect="solid">
+								Configuration View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* Settings Link */}
 					<Link to="/settings" replace={useLocation().pathname === '/settings'} className={classes.links}>
 						<ListItem button key="Settings">
-							<ListItemIcon><SettingsIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="settingsTip"><SettingsIcon /></ListItemIcon>
 							<ListItemText primary="Settings" />
+
+							<ReactTooltip id="settingsTip" place="bottom" effect="solid">
+								Settings View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 				</List>

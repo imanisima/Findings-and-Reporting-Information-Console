@@ -46,6 +46,7 @@
     "bootstrap": "^4.5.2",
     "cors": "latest",
     "date-fns": "^2.16.1",
+    "docx": "^5.4.1",
     "dotenv": "latest",
     "express": "latest",
     "fibers": "^4.0.1",
