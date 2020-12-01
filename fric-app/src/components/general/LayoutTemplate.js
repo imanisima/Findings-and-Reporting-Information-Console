@@ -280,7 +280,7 @@ export default function LayoutTemplate(props) {
 				})}
 			>
 				<Toolbar>
-					<IconButton
+					<IconButton data-tip data-for="menuTip"
 						color="inherit"
 						aria-label="open drawer"
 						onClick={handleMenuDrawerOpen}
@@ -291,6 +291,10 @@ export default function LayoutTemplate(props) {
 					>
 						<MenuIcon />
 					</IconButton>
+					<ReactTooltip id="menuTip" place="bottom" effect="solid">
+						Click to Open Menu
+					</ReactTooltip>
+
 					<Typography variant="h5" noWrap>
 						Findings and Reporting Information Console (FRIC)
 					</Typography>
@@ -300,7 +304,7 @@ export default function LayoutTemplate(props) {
 							<div className={classes.searchIcon}>
 								<SearchIcon />
 							</div>
-							<InputBase
+							<InputBase data-tip data-for="searchTip"
 								placeholder="Search"
 								classes={{
 									root: classes.inputRoot,
@@ -309,14 +313,19 @@ export default function LayoutTemplate(props) {
 								inputProps={{ 'aria-label': 'search' }}
 							/>
 						</div>
+
 						{/* Notifications Button */}
-						<IconButton
+						<IconButton data-tip data-for="notifTip"
 							color="inherit"
 							aria-label="notifs"
 							onClick={handlePopoverOpen}
 						>
 						<Badge badgeContent={getCount(tableData,tableData2)}color="error"><NotificationsIcon /></Badge>
 						</IconButton>
+						<ReactTooltip id="notifTip" place="bottom" effect="solid">
+							Notifications
+						</ReactTooltip>
+						
 						{/* Notifications Popover */}
 						<Popover
 							open={Boolean(anchorPopover)}
@@ -342,15 +351,20 @@ export default function LayoutTemplate(props) {
 								OK
 							</Button>
 						</Popover>
+
 						{/* Sync Button */}
-						<IconButton
+						<IconButton data-tip data-for="syncTip"
 							color="inherit"
 							aria-label="sync"
 							onClick={() => setSyncDialogOpen(true)}
 						>
 							<SyncIcon />
 						</IconButton>
-						<IconButton
+						<ReactTooltip id="syncTip" place="bottom" effect="solid">
+							Click here to sync.
+						</ReactTooltip>
+
+						<IconButton data-tip data-for="helpTip"
 							color="inherit"
 							aria-label="help"
 						>
@@ -359,9 +373,13 @@ export default function LayoutTemplate(props) {
 								<HelpIcon />
 							</Link>
 						</IconButton>
+						<ReactTooltip id="helpTip" place="bottom" effect="solid">
+							Click here to view the help manual.
+						</ReactTooltip>
+
 						{auth && (
 							<>
-								<IconButton
+								<IconButton data-tip data-for="userTip"
 									aria-label="account of current user"
 									aria-controls="menu-appbar"
 									aria-haspopup="true"
@@ -370,6 +388,10 @@ export default function LayoutTemplate(props) {
 								>
 									<AccountCircle />
 								</IconButton>
+								<ReactTooltip id="userTip" place="bottom" effect="solid">
+									My Profile
+								</ReactTooltip>
+
 								<Menu
 									id="menu-appbar"
 									anchorEl={anchorAuth}
