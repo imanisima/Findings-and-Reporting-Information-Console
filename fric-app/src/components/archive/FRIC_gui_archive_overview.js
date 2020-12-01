@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import ReactTooltip from "react-tooltip";
-import '../../css/archive/FRIC_gui_archive_overview.css'
+
+import '../../css/archive/FRIC_gui_archive_overview.css';
 
 
 class ArchiveOverview extends Component {
@@ -37,40 +38,40 @@ class ArchiveOverview extends Component {
                 
                 <br></br>
 
-                <h1> 
-                    <br></br> <br></br>
-                    <Button onClick={this.taskHandler} data-tip data-for="archTaskTip">Archived Tasks </Button>  
-                    <ReactTooltip id="archTaskTip" place="bottom" effect="solid">
-                        View Archived Tasks
-                    </ReactTooltip>
-                </h1>
+                        <h1> 
+                            <br></br> <br></br>
+                            <Button onClick={this.taskHandler} data-tip data-for="archTaskTip">Archived Tasks </Button>  
+                            <ReactTooltip id="archTaskTip" place="bottom" effect="solid">
+                                View Archived Tasks
+                            </ReactTooltip>
+                        </h1>
 
-                <h1> 
-                <br></br> <br></br>
-                    <Button onClick ={this.subtaskHandler} data-tip data-for="archSubtaskTip">Archived Subtasks </Button>  
-                    <ReactTooltip id="archSubtaskTip" place="bottom" effect="solid">
-                        View Archived Subtasks
-                    </ReactTooltip>
-                </h1>
+                        <h1> 
+                        <br></br> <br></br>
+                            <Button onClick ={this.subtaskHandler} data-tip data-for="archSubtaskTip">Archived Subtasks </Button>  
+                            <ReactTooltip id="archSubtaskTip" place="bottom" effect="solid">
+                                View Archived Subtasks
+                            </ReactTooltip>
+                        </h1>
 
-                <h1> 
-                <br></br> <br></br>
-                    <Button onClick = {this.findingsHandler} data-tip data-for="archTaskTip">Archived Findings </Button>  
-                    <ReactTooltip id="archTaskTip" place="bottom" effect="solid">
-                        View Archived Findings
-                    </ReactTooltip>
-                    
-                </h1>
+                        <h1> 
+                        <br></br> <br></br>
+                            <Button onClick = {this.findingsHandler} data-tip data-for="archTaskTip">Archived Findings </Button>  
+                            <ReactTooltip id="archTaskTip" place="bottom" effect="solid">
+                                View Archived Findings
+                            </ReactTooltip>
+                            
+                        </h1>
 
-                <h1>
-                <br></br> <br></br>
-                    <Button onClick= {this.systemHandler} data-tip data-for="archSystemTip">Archived Systems </Button>
+                        <h1>
+                        <br></br> <br></br>
+                            <Button onClick= {this.systemHandler} data-tip data-for="archSystemTip">Archived Systems </Button>
 
-                    <ReactTooltip id="archSystemTip" place="bottom" effect="solid">
-                       View Archived Systems
-                    </ReactTooltip>
-                    
-                </h1>
+                            <ReactTooltip id="archSystemTip" place="bottom" effect="solid">
+                            View Archived Systems
+                            </ReactTooltip>
+                            
+                        </h1>
            
             </div>
 

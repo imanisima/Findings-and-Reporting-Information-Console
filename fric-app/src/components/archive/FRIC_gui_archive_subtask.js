@@ -1,12 +1,20 @@
-import React from 'react'
-import { Button } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import ReactTooltip from "react-tooltip";
 import '../../css/archive/FRIC_gui_archive_subtask.css'
-import SubtasksOverviewTable from '../subtasks/SubtasksOverviewTable'
+import ArchiveSubtaskTable from '../archive/FRIC_gui_archive_subtable.js';
 
 
 
-function FRIC_gui_archive_subtask() {
+class FRIC_gui_archive_subtask extends Component {
+
+  archiveMainHandler(){
+    window.location.href = '/archive'
+    window.open(window.location.href)
+}
+
+
+render(){ 
   
   let data = [ 
     { id: 4243, title: 'title1', task: 'task5', analyst: 'DC', progress: 34, findings: 'Occaecat nostrud fugiat ex ad elit deserunt mollit adipisicing occaecat esse dolore occaecat.', dueDate: new Date() },
@@ -27,20 +35,27 @@ function FRIC_gui_archive_subtask() {
 
     return (
         <div className = "subtask_view">
-        <h1>Archived Subtasks</h1>
+          <h1>Archived Subtasks</h1>
 
-        <SubtasksOverviewTable rows={data} headings={headings} />
-        
-        <div className="button">
-          <Button data-tip data-for="restoreArchTip">Restore</Button>
+          <ArchiveSubtaskTable rows={data} headings={headings} />
+          
+          <div style={{ display: "inline-block", verticalAlign: "bottom" }}>
+            <Button data-tip data-for="restoreArchTip">Restore</Button>
+            <Button onClick={this.archiveMainHandler} data-tip data-for="archMainTip">Return to Archive View </Button> 
+          </div>
 
-          <ReactTooltip id="restoreArchTip" place="bottom" effect="solid">
-            Restore archived subtasks.
+            <ReactTooltip id="restoreArchTip" place="bottom" effect="solid">
+              Restore archived subtasks.
+            </ReactTooltip>
+
+            <ReactTooltip id="archMainTip" place="bottom" effect="solid">
+            Return to Archive Main View
           </ReactTooltip>
-        </div>
+          
 
-      </div>
+        </div>
     )
+  }
 }
 
 export default FRIC_gui_archive_subtask
