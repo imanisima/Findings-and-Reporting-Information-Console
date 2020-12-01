@@ -9,7 +9,6 @@ import * as serviceWorker from './serviceWorker';
 
 // Components
 import Main from './pages/Main';
-import SummaryPage from './pages/SummaryPage';
 import EventsPage from './pages/EventsPage';
 import ArchivesPage from './pages/ArchivesPage';
 import ConfigurationPage from './pages/ConfigurationPage';
@@ -36,7 +35,6 @@ function App() {
 			<Router path="/">
 				<Switch>
 					<Route exact path="/" component={Main} />
-					<Route exact path="/summary" component={SummaryPage} />
 					<Route exact path="/events" component={EventsPage} />
 					<Route exact path="/events/new" component={EventInformation} />
 					<Route exact path="/events/newAnalyst" component={EventAnalystInformation} />

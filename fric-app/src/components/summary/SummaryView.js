@@ -15,8 +15,13 @@ import OverviewCard from './OverviewCard';
 import EventTreeCard from './EventTreeCard';
 import ChartCard from './ChartCard';
 
+import { Doughnut } from 'react-chartjs-2';
 
 export default function SummaryView() {
+	const chartData = {
+		
+	}
+
 	return (
 		<>
 			<div>
@@ -31,6 +36,9 @@ export default function SummaryView() {
 				<OverviewCard for="Tasks" amount="12" icon={<CheckedIcon color="secondary" />} />
 				<OverviewCard for="Subtasks" amount="35" icon={<LowPriorityIcon color="secondary" />} />
 				<OverviewCard for="Transactions" amount="69" icon={<ReceiptIcon color="secondary" />} />
+			</div>
+			<div>
+				<Doughnut id="donut" width={30} height={60} data={chartData} />
 			</div>
 			<div>
 				<EventTreeCard />

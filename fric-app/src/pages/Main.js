@@ -31,17 +31,18 @@ export default class Main extends Component {
 	}
 
 	componentDidMount() {
-		// Send request for events
-		axios.get('http://localhost:5000/events/')
-			.then(response =>  {
-				console.log(response.data);
-				this.setState({ events: response.data, contentIsLoading: false });
-				if (this.state.events == null || this.state.events <= 0)
-					this.setState({ dialogOpen: true });
+		axios.get('http://localhost:5000/summary')
+			.then(res => {
+				console.log(res);
+				if (res.status === 200) {
+					this.setState({contentIsLoading: false});
+				}
+				else console.log('failure');
 			})
-			.catch(error => {
-				console.log(error);
-				this.setState({ contentIsLoading: false, });
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+				this.setState({contentIsLoading: false});
 			});
 	}
 
