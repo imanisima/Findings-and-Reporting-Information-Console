@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap'
 import ReactTooltip from "react-tooltip";
 import '../../css/archive/FRIC_gui_archive_findings.css'
+import ArchiveFindingTable from '../archive/FRIC_gui_archive_findingtable.js';
 
 class FRIC_gui_archive_findings extends Component{
 
@@ -16,6 +17,10 @@ render(){
     return (
         <div className = "findings_view">
         <h1>Archived Findings</h1>
+        <br></br>
+
+        {/* <ArchiveFindingTable rows={data} headings={headings} /> */}
+        <h3>Wow, so empty.</h3>
 
         
         <div style={{ display: "inline-block", verticalAlign: "bottom" }}>
