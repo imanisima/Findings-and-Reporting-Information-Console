@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\fric-app",
+    "\\fric-app\\src",
+    "\\fric-app\\src\\components",
+    "\\fric-app\\src\\components\\configuration",
+    "\\fric-app\\src\\components\\events",
+    "\\fric-app\\src\\components\\setup",
+    "\\fric-app\\src\\components\\subtasks",
+    "\\fric-app\\src\\pages"
+  ],
+  "SelectedNode": "\\fric-app\\src\\components\\configuration\\FRIC_gui_configuration_level_table.js",
+  "PreviewInSolutionExplorer": false
+}

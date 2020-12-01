@@ -28,6 +28,8 @@ import ArchiveSystem from './components/archive/FRIC_gui_archive_system';
 import ArchiveFinding from './components/archive/FRIC_gui_archive_findings';
 import EventTree from './components/event-tree/FRIC_gui_event_tree';
 
+import ProgressPage from './pages/ProgressPage';
+
 function App() {
 	return (
 		<>
@@ -53,6 +55,7 @@ function App() {
 					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
 					<Route exact path="/archive/archive_system_view" component={ArchiveSystem} />
 					<Route exact path="/archive/archive_finding_view" component={ArchiveFinding} />
+					<Route exact path="/progress" component={ProgressPage}/>
 				</Switch>
 			</Router>
 		</>

@@ -5,9 +5,9 @@
 import React, {Component} from 'react';
 import Table from 'react-bootstrap/Table'
 import InputGroup from 'react-bootstrap/InputGroup'
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 
-class ReportTemplateTable extends Component {
+class LevelTable extends Component {
 
   render() {
     return (
@@ -22,9 +22,10 @@ class ReportTemplateTable extends Component {
                     </InputGroup.Prepend>
                   </InputGroup>
                 </th>
-                <th>Report Name</th>
-                <th>Values and Constraints</th>
-                <th>Generate report</th>
+                <th>System Name</th>
+                <th>System Confidentiality</th>
+                <th>System Integrity</th>
+                <th>System Availability</th>
               </tr>
             </thead>
                 <tbody>
@@ -36,11 +37,10 @@ class ReportTemplateTable extends Component {
                                 </InputGroup.Prepend>
                             </InputGroup>
                         </td>
-                        <td>ERB</td>
+                        <td>1</td>
                         <td>###########</td>
-                        <td>
-                            <Button type="submit" className="add_btn" onClick={this.handleClick} variant="secondary">Generate</Button>
-                        </td>
+                        <td>###########</td>
+                        <td>###########</td>
                     </tr>
                 </tbody>
                 <tbody>
@@ -52,11 +52,10 @@ class ReportTemplateTable extends Component {
                                 </InputGroup.Prepend>
                             </InputGroup>
                         </td>
-                        <td>risk matrix</td>
+                        <td>2</td>
                         <td>###########</td>
-                        <td>
-                            <Button type="submit" className="add_btn" onClick={this.handleClick} variant="secondary">Generate</Button>
-                        </td>
+                        <td>###########</td>
+                        <td>###########</td>
                     </tr>
                 </tbody>
                 <tbody>
@@ -68,11 +67,10 @@ class ReportTemplateTable extends Component {
                                 </InputGroup.Prepend>
                             </InputGroup>
                         </td>
-                        <td>Final Report</td>
+                        <td>3</td>
                         <td>###########</td>
-                        <td>
-                            <Button type="submit" className="add_btn" onClick={this.handleClick} variant="secondary">Generate</Button>
-                        </td>
+                        <td>###########</td>
+                        <td>###########</td>
                     </tr>
                 </tbody>
           </Table>  
@@ -80,4 +78,4 @@ class ReportTemplateTable extends Component {
     );
   }
 }
-export default ReportTemplateTable
+export default LevelTable
