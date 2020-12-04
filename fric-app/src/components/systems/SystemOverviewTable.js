@@ -218,8 +218,8 @@ export default function SystemOverviewTable(props) {
 											</StyledTableCell>
 											
 											<StyledTableCell align="left">{row.name}</StyledTableCell>
-											<StyledTableCell align="right">{row.numTasks}</StyledTableCell>
-											<StyledTableCell align="right" padding="none">{row.numFindings}</StyledTableCell>
+											<StyledTableCell align="center">{row.numTasks}</StyledTableCell>
+											<StyledTableCell align="center" padding="none">{row.numFindings}</StyledTableCell>
 											<StyledTableCell align="left" >{row.progress}</StyledTableCell>
 
 											</StyledTableRow>

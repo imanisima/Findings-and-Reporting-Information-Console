@@ -13,6 +13,7 @@ import NewSystemDialog from '../components/systems/NewSystemDialog'
 import ConfirmArchiveDialog from '../components/general/ConfirmArchiveDialog';
 import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
 import Spinner from '../components/general/Spinner';
+import ArchiveTaskDialog from '../components/tasks/ArchiveTaskDialog';
 
 export default function SystemsPage() {
 	const [tableData, setTableData] = useState([]);
@@ -95,13 +96,8 @@ export default function SystemsPage() {
 
 				
 			/>
-			<ConfirmArchiveDialog
-				isOpen={archiveDialogOpen}
-				numSelected={selected.length}
-				//confirmAction={confirmArchive}
-				closeDialogAction={() => setArchiveDialogOpen(false)}
-				objectType="System"
-			/>
+			<ArchiveTaskDialog system={selected} isOpen={archiveDialogOpen} closeDialogAction={() => setArchiveDialogOpen(false)} reload={reload} />
+
 		</ThemeProvider>
 	);
 }
