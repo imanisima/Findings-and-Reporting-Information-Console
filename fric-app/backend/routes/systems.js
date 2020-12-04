@@ -115,7 +115,7 @@ router.route('/table').get(async (req, res) => {
 					router: 1,
 					switch: 1,
 					room: 1,
-					testPlan: 1,
+					testPlan: 1
 				}
 			}
 		])

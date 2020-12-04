@@ -20,7 +20,7 @@ export default function SystemsPage() {
 	const [contentIsLoading, setContentIsLoading] = useState(true);
 	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
 	const [selected, setSelected] = useState([]);
-	const [findingArray, setFindingArray] = useState([]);
+	const [tableArray, setTableArray] = useState([])
 
 	const headings = [
 		{ id: 'name', numeric: false, disablePadding: false, label: 'System' },
@@ -28,54 +28,44 @@ export default function SystemsPage() {
 		{ id: 'numFindings', numeric: true, disablePadding: false, label: 'No. of Findings' },
 		{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
 	];
+	
+	function mapSystemsToTable(response) {
+		const tableArray = response.map((system, i) => {
+			return { 
+				name: system.name,
+				numTasks: Math.floor(Math.random() * Math.floor(10)),
+				numFindings:  Math.floor(Math.random() * Math.floor(10)),
+				progress: 'In Progress'
+			}
+		})
+		setTableArray(tableArray)
+	}
 	const reload = () => {
 
 		async function getData() {
 			setContentIsLoading(true);
 
-			const tableData = axios.get('http://localhost:5000/systems/table')
-			const requestFinding = axios.get('http://localhost:5000/findings/table')
-
-
-			axios
-				.all([tableData, requestFinding])
-				.then(
-					axios.spread((...responses) => {
-						const responseTable = responses[0].data;
-						const responseFinding = responses[1].data;
-
-						setTableData(responseTable)
-						setFindingArray(responseFinding);
-					})
-				)
-				.catch(err => {
-					console.log(err)
+			try {
+				const fetch = await axios.get('http://localhost:5000/systems/', {
+					params: {
+						archived: false
+					}
 				})
-				.finally(
-					setContentIsLoading(false)
-				)
+				const response = await fetch.data
+				setTableData(response)
+				mapSystemsToTable(response)	
+			}
+			catch (error) {
+				console.log(error)
+			} finally {
+				setContentIsLoading(false)
+			}
 		}
 		getData()
 
 
 	};
 
-	/*const confirmArchive = () => { // Send update request to set archived field to true
-		axios.put('http://localhost:5000/subtasks/archive', {
-			params: {
-				id: selected
-			}
-		})
-			.then(res => {
-				console.log(res);
-				reload();
-				setArchiveDialogOpen(false);
-			})
-			.catch(err => {
-				//TODO: display error message
-				console.log(err);
-			});
-	};*/
 
 	useLayoutEffect(() => reload(), []);
 
@@ -86,7 +76,7 @@ export default function SystemsPage() {
 				mainContentComponent={
 					(contentIsLoading) ? <Spinner /> : (
 						<ToolbarNewActionContext.Provider value={() => setNewDialogOpen(true)}>
-							<SystemOverviewTable rows={tableData} headings={headings} setSelectedFindings={setSelected} archiveAction={() => setArchiveDialogOpen(true)} />
+							<SystemOverviewTable rows={tableArray} headings={headings} setSelectedSystem={setSelected} archiveAction={() => setArchiveDialogOpen(true)} />
 						</ToolbarNewActionContext.Provider>
 					)
 				}
@@ -94,7 +84,7 @@ export default function SystemsPage() {
 				<SystemDetailView 
 					selectedSystem = {selected}
 					reload={reload} 
-					findingArray={findingArray}
+
 					/>
 				}
 			/>
@@ -102,7 +92,7 @@ export default function SystemsPage() {
 				isOpen={newDialogOpen} 
 				closeDialogAction={() => setNewDialogOpen(false)} 
 				reload={reload} 
-				findingArray={findingArray}
+
 				
 			/>
 			<ConfirmArchiveDialog
