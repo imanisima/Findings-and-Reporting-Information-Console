@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo} from 'react';
 import Form from 'react-bootstrap/Form';
 import {Row, Col} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
@@ -8,6 +8,8 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import axios from 'axios';
 import Spinner from '../general/Spinner';
 import '../../css/systems/SystemDetailView.css'
+import { SystemContext } from '../systems/SystemContext';
+import SystemForm from '../systems/SystemForm';
 import { DetailViewActionContext } from '../general/LayoutTemplate';
 
 export default function SystemDetailView(props) {
@@ -21,6 +23,17 @@ export default function SystemDetailView(props) {
 	const [room, setRoom] = useState('');
     const [testPlan, setTestPlan] = useState('');
     const closeDetailAction = useContext(DetailViewActionContext);
+    const findingProviderValue = useMemo(() => ({
+		name, setName,
+		description, setDescription,
+		location, setLocation,
+		router, setRouter,
+		switchName , setSwitchName,
+        room, setRoom,
+        testPlan, setTestPlan
+    }), [name, description, location, router,
+        switchName, room, testPlan]);
+		
 
     const useStyles = makeStyles((theme) => ({
         formControl: {
@@ -253,6 +266,10 @@ export default function SystemDetailView(props) {
 }
 
 SystemDetailView.propTypes = {
+    
     selectedSystem: PropTypes.object.isRequired,
-    options: PropTypes.object.isRequired,
+    reload: PropTypes.func.isRequired,
+	findingArray: PropTypes.array,
+
+    
 }

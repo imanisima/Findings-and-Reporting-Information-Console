@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
+import { darken, makeStyles, withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Table from '@material-ui/core/Table';
@@ -16,10 +16,10 @@ import CustomTableHead from '../general/CustomTableHead';
 import CustomTableToolbar from '../general/CustomTableToolbar'
 import ArchiveIcon from '@material-ui/icons/Archive';
 import EditIcon from '@material-ui/icons/Edit';
-import SystemsDetailView from '../systems/SystemsDetailView'
 import { DetailViewActionContext } from '../general/LayoutTemplate';
 import axios from 'axios';
-
+import SystemForm from './SystemForm';
+import { SystemContext } from './SystemContext';
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
 		return -1;
@@ -68,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
 		top: 20,
 		width: 1,
 	},
+	menuButtons: {
+		margin: "0.5em",
+	}
 }));
 
 const StyledTableRow = withStyles((theme) => ({
@@ -76,10 +79,10 @@ const StyledTableRow = withStyles((theme) => ({
 			backgroundColor: theme.palette.action.hover,
 		},
 		"&$hover:hover": {
-			backgroundColor: lighten("#066ff9", 0.85) //lighten(theme.palette.primary.light,0.85)
+			backgroundColor: darken("#066ff9",0.50) //lighten(theme.palette.primary.light,0.85)
 		},
 		"&$selected, &$selected:hover": {
-			backgroundColor: lighten("#066ff9", 0.75) //lighten(theme.palette.primary.dark, 0.70)
+			backgroundColor: darken("#066ff9",0.70) //lighten(theme.palette.primary.dark, 0.70)
 		},
 	},
 	hover: {},
@@ -96,9 +99,6 @@ const StyledTableCell = withStyles((theme) => ({
 	},
 }))(TableCell);
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-	return <Slide direction="up" ref={ref} {...props} />;
-});
 
 
 
@@ -147,6 +147,19 @@ export default function SystemOverviewTable(props) {
 		setSelected(newSelected);
 	};
 
+	const handleEditClick = () => {
+		if (selected != null && selected.length === 1) {
+			props.setSelectedSystem(selected[0]);
+			openDetailAction();
+		}
+	}
+	const handleArchiveClick = () => {
+		if (selected != null) {
+			props.setSelectedSystem(selected);
+			props.archiveAction();
+		}
+	};
+
 	const handleChangePage = (system, newPage) => { setPage(newPage); };
 
 	const handleChangeRowsPerPage = (system) => {
@@ -156,67 +169,16 @@ export default function SystemOverviewTable(props) {
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
-	const handleEditClick = () => {
-		if (selected != null && selected.length === 1) {
-			props.setSelectedSystem(selected[0]);
-			openDetailAction();
-		}
-	}
-
-	const handleArchiveClick = () => {
-		if (selected != null && selected.length === 1) {
-			console.log("Archive clicked")
-			axios.put('http://localhost:5000/systems/update', {
-				params: {
-					id: selected,
-					name: selected.name,
-					description: selected.description,
-					location: selected.location,
-					router: selected.router,
-					switch: selected.switchName,
-					room: selected.room,
-					testPlan: selected.testPlan,
-					archived: true
-				}
-			})
-				.then(res => {
-					console.log(res);
-					window.location = '/systems'
-				})
-				.catch(err => {
-					console.log(err);
-				})
-		}
-	}
-
-	function onNewClicked() {
-		console.log("New Clicked");
-		handleDialog(true)
-	}
 	
-	function handleDialogClose() {
-		handleDialog(false)
-	}
+	
+
 
 	const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
 
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.paper}>
-				<CustomTableToolbar numSelected={selected.length} onNewClick={onNewClicked} />
-				<Dialog
-					open={dialogOpen}
-					TransitionComponent={Transition}
-					keepMounted
-					fullWidth={true}
-					maxWidth={'md'}
-					onClose={handleDialogClose}
-					aria-labelledby="slide-dialog-title"
-					aria-describedby="slide-dialog-description"
-					disableBackdropClick
-				>
-					<SystemsDetailView closeDetailAction={handleDialogClose}/>
-				</Dialog>
+				<CustomTableToolbar numSelected={selected.length}  />
 				<TableContainer>
 					<Table
 						className={classes.table}
@@ -239,32 +201,35 @@ export default function SystemOverviewTable(props) {
 							{stableSort(props.rows, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
-									const isItemSelected = isSelected(row.name);
+									const isItemSelected = isSelected(row.id);
 									const labelId = `custom-table-checkbox-${index}`;
 
 									return (
 										<StyledTableRow
 											hover
-											onClick={(system) => handleClick(system, row.name)}
+											onClick={(event) => handleClick(event, row.id)}
 											role="checkbox"
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row.name}
+											key={row.id}
 											selected={isItemSelected}
 										>
 											<StyledTableCell padding="checkbox">
 												<Checkbox
 													checked={isItemSelected}
 													inputProps={{ 'aria-labelledby': labelId }}
-													style={{ color: "#066ff9" }}
+													style={{color: "#066ff9"}}
 												/>
+											</StyledTableCell>
+											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">
+												{row.id}
 											</StyledTableCell>
 											<StyledTableCell align="left">{row.name}</StyledTableCell>
 											<StyledTableCell align="right">{row.numTasks}</StyledTableCell>
 											<StyledTableCell align="right" padding="none">{row.numFindings}</StyledTableCell>
 											<StyledTableCell align="left" >{row.progress}</StyledTableCell>
 
-										</StyledTableRow>
+											</StyledTableRow>
 									);
 								})}
 							{emptyRows > 0 && (
@@ -276,7 +241,20 @@ export default function SystemOverviewTable(props) {
 					</Table>
 				</TableContainer>
 				
+				
 				<div style={{display: "inline-block", marginLeft: "1em",}}>
+					{/* Archive Button */}
+					<Button
+						className={classes.menuButtons}
+						disabled={selected.length < 1}
+						variant="contained"
+						startIcon={<ArchiveIcon />}
+						style={{ backgroundColor: "#ffc108", color: "charcoal"}}
+						size="large"
+						onClick={handleArchiveClick}
+					>
+						Archive
+					</Button>
 					{/* Edit Button */}
 					<Button
 						onClick={handleEditClick}
@@ -286,15 +264,7 @@ export default function SystemOverviewTable(props) {
 						style={{ backgroundColor: "#066ff9", margin: "0.5em", }}
 						size="large"
 					>Edit</Button>
-					{/* Delete Button */}
-					<Button
-						disabled={selected.length === 0}
-						variant="contained"
-						startIcon={<ArchiveIcon />}
-						style={{ backgroundColor: "#dc3545", margin: "0.5em", }}
-						size="large"
-						onClick={handleArchiveClick}
-					>Archive</Button>
+					
 				</div>
 				
 				<TablePagination
@@ -315,4 +285,6 @@ SystemOverviewTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	headings: PropTypes.array.isRequired,
 	setSelectedSystem: PropTypes.func.isRequired,
+	archiveAction: PropTypes.func.isRequired,
+
 }
