@@ -48,9 +48,8 @@ export default function NewSystemDialog(props) {
 			router: router,
 			switch: switchName,
 			room: room, 
-            testPlan: testPlan,
-			archived:false
-		
+			testPlan: testPlan,
+			archived: false
 		}
 			console.log(newSystem)
 		axios.post('http://localhost:5000/systems/add', newSystem)
@@ -95,7 +94,7 @@ export default function NewSystemDialog(props) {
 			<DialogContent dividers={true}>
 				<SystemContext.Provider value={systemProviderValue}>
 					<SystemForm 
-					
+						findingrray={props.findingArray}
 					/>
 				</SystemContext.Provider>
 			</DialogContent>
@@ -109,6 +108,7 @@ export default function NewSystemDialog(props) {
 
 NewSystemDialog.propTypes = {
     systemArray: PropTypes.object,
+    findingArray: PropTypes.array,
 	isOpen: PropTypes.bool.isRequired,
 	closeDialogAction: PropTypes.func.isRequired,
 	reload: PropTypes.func.isRequired,

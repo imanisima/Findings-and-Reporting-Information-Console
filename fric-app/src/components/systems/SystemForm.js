@@ -63,7 +63,7 @@ export default function SystemForm(props) {
                         System Description
                         </Form.Label>
                         <Col sm={5}>
-                        <Form.Control as="textarea" rows="4" value={description} placeholder="Description of System" onChange={e => setDescription(e.target.value)} />
+                        <Form.Control value={description} placeholder="Description of System" onChange={e => setDescription(e.target.value)} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formHorizontalLocSys">
@@ -96,14 +96,6 @@ export default function SystemForm(props) {
                         </Form.Label>
                         <Col sm={5}>
                         <Form.Control value={room}  placeholder="Room of System" onChange={e => setRoom(e.target.value)}/>
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row} controlId="formHorizontalRoomSys">
-                        <Form.Label column sm={2}>
-                        Test Plan
-                        </Form.Label>
-                        <Col sm={5}>
-                        <Form.Control value={testPlan}  placeholder="Test Plan of System" onChange={e => setTestPlan(e.target.value)}/>
                         </Col>
                     </Form.Group>
                     <Form.Row>

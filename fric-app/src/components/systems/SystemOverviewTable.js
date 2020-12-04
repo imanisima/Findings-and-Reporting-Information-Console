@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { darken, makeStyles, withStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -15,7 +17,9 @@ import CustomTableToolbar from '../general/CustomTableToolbar'
 import ArchiveIcon from '@material-ui/icons/Archive';
 import EditIcon from '@material-ui/icons/Edit';
 import { DetailViewActionContext } from '../general/LayoutTemplate';
-
+import axios from 'axios';
+import SystemForm from './SystemForm';
+import { SystemContext } from './SystemContext';
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
 		return -1;
@@ -196,17 +200,17 @@ export default function SystemOverviewTable(props) {
 							{stableSort(props.rows, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
-									const isItemSelected = isSelected(row.name);
+									const isItemSelected = isSelected(row.id);
 									const labelId = `custom-table-checkbox-${index}`;
 
 									return (
 										<StyledTableRow
 											hover
-											onClick={(system) => handleClick(system, row.name)}
+											onClick={(event) => handleClick(event, row.id)}
 											role="checkbox"
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row.name}
+											key={row.id}
 											selected={isItemSelected}
 										>
 											<StyledTableCell padding="checkbox">
@@ -216,7 +220,9 @@ export default function SystemOverviewTable(props) {
 													style={{color: "#066ff9"}}
 												/>
 											</StyledTableCell>
-											
+											<StyledTableCell component="th" id={labelId} align="left" scope="row" padding="none">
+												{row.id}
+											</StyledTableCell>
 											<StyledTableCell align="left">{row.name}</StyledTableCell>
 											<StyledTableCell align="center">{row.numTasks}</StyledTableCell>
 											<StyledTableCell align="center" padding="none">{row.numFindings}</StyledTableCell>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo} from 'react';
-import Button from '@material-ui/core/Button';
+import Form from 'react-bootstrap/Form';
+import {Row, Col} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from 'react-bootstrap/Tooltip'
@@ -8,6 +10,8 @@ import { SystemContext } from './SystemContext';
 import SystemForm from './SystemForm';
 import Spinner from '../general/Spinner';
 import '../../css/systems/SystemDetailView.css'
+import { SystemContext } from '../systems/SystemContext';
+import SystemForm from '../systems/SystemForm';
 import { DetailViewActionContext } from '../general/LayoutTemplate';
 import styles from '../../css/subtasks/SubtaskDetailView.module.css';
 import SaveIcon from '@material-ui/icons/Save';
@@ -26,7 +30,7 @@ export default function SystemDetailView(props) {
     const [testPlan, setTestPlan] = useState('');
     const [archived, setArchived] = useState('');
     const closeDetailAction = useContext(DetailViewActionContext);
-    const systemProviderValue = useMemo(() => ({
+    const findingProviderValue = useMemo(() => ({
 		name, setName,
 		description, setDescription,
 		location, setLocation,
@@ -172,8 +176,9 @@ export default function SystemDetailView(props) {
 
 SystemDetailView.propTypes = {
     
-    selectedSystem: PropTypes.array.isRequired,
+    selectedSystem: PropTypes.object.isRequired,
     reload: PropTypes.func.isRequired,
+	findingArray: PropTypes.array,
 
     
 }
