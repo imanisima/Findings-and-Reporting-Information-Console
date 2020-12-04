@@ -1,4 +1,8 @@
-import React from 'react';
+/**
+ * 
+ */
+
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -10,23 +14,23 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
-import { getInitials } from '../general/stringOps';
+import { getInitials } from '../../shared/stringOps';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
-	margin: theme.spacing(1),
-	minWidth: 120,
-	maxWidth: 300,
+		margin: theme.spacing(1),
+		minWidth: 120,
+		maxWidth: 300,
 	},
 	chips: {
-	display: 'flex',
-	flexWrap: 'wrap',
+		display: 'flex',
+		flexWrap: 'wrap',
 	},
 	chip: {
-	margin: 2,
+		margin: 2,
 	},
 	noLabel: {
-	marginTop: theme.spacing(3),
+		marginTop: theme.spacing(3),
 	},
 }));
 
@@ -34,10 +38,10 @@ const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
 	PaperProps: {
-	style: {
-		maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-		width: 250,
-	},
+		style: {
+			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+			width: 250,
+		},
 	},
 };
 
@@ -47,6 +51,17 @@ export default function Multiselect(props) {
 
 	const handleChange = (event) => { setSelected(event.target.value); };
 
+	useEffect(() => {
+		if (props.value != null) {
+			try {
+				setSelected(props.value)
+			}
+			catch (err) {
+				console.log(err);
+			}
+		}
+	}, [props.value]);
+
 	return (
 		<div>
 			<FormControl variant="outlined" className={classes.formControl}>
@@ -55,6 +70,7 @@ export default function Multiselect(props) {
 					labelId="multiselect-label"
 					id="multiselect"
 					multiple
+					autoWidth={true}
 					value={selected}
 					onChange={handleChange}
 					input={<Input />}
@@ -64,7 +80,7 @@ export default function Multiselect(props) {
 								<Chip
 									key={value}
 									label={value}
-									color={(props.withInitialsAvatar) ? "primary" : ""}
+									color={(props.withInitialsAvatar) ? "primary" : "default"}
 									avatar={props.withInitialsAvatar && <Avatar>{getInitials(value)}</Avatar>}
 									className={classes.chip}
 								/>
@@ -72,6 +88,7 @@ export default function Multiselect(props) {
 						</div>
 					)}
 					MenuProps={MenuProps}
+					variant={(props.variant != null) ? props.variant : 'standard'}
 				>
 					{props.options.map((el) => (
 					<MenuItem key={el} value={el}>
@@ -85,4 +102,9 @@ export default function Multiselect(props) {
 	);
 }
 
-Multiselect.propTypes = { options: PropTypes.array.isRequired }
+Multiselect.propTypes = {
+	options: PropTypes.array.isRequired,
+	label: PropTypes.string,
+	variant: PropTypes.string,
+	withInitialsAvatar: PropTypes.bool
+}

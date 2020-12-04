@@ -34,6 +34,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
+import Dialog from '@material-ui/core/Dialog';
 
 // Sidebar Icons
 import EventIcon from '@material-ui/icons/Event';
@@ -48,6 +49,7 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 import HelpIcon from '@material-ui/icons/HelpSharp';
 import BuildIcon from '@material-ui/icons/Build';
 import SyncIcon from '@material-ui/icons/Sync'
+import DescriptionIcon from '@material-ui/icons/Description';
 // import SyncProblemIcon from '@material-ui/icons/SyncProblem';
 // import SyncDisabledIcon from '@material-ui/icons/SyncDisabled';
 
@@ -55,6 +57,9 @@ import SyncIcon from '@material-ui/icons/Sync'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
+
+// Custom Components
+import SyncForm from '../sync/SyncForm';
 
 const drawerWidth = 240;
 
@@ -187,6 +192,8 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+export const DetailViewActionContext = React.createContext(null);
+
 export default function LayoutTemplate(props) {
 	const classes = useStyles();
 	const theme = useTheme();
@@ -195,6 +202,7 @@ export default function LayoutTemplate(props) {
 	const [anchorPopover, setAnchorPopover] = React.useState(null);
 	const [anchorAuth, setAnchorAuth] = React.useState(null);
 	const [snackbarOpen, setSnackbarOpen] = React.useState(true);
+	const [syncDialogOpen, setSyncDialogOpen] = React.useState(false);
 	const [auth] = React.useState(true);
 
 	const handleMenuDrawerOpen = () => setMenuOpen(true);
@@ -287,15 +295,20 @@ export default function LayoutTemplate(props) {
 						<IconButton
 							color="inherit"
 							aria-label="sync"
+							onClick={() => setSyncDialogOpen(true)}
 						>
 							<SyncIcon />
 						</IconButton>
-						<IconButton
-							color="inherit"
-							aria-label="help"
-						>
-							<HelpIcon />
-						</IconButton>
+
+						<Link to="/manual" replace={useLocation().pathname === '/manual'} className={classes.links}>
+							<IconButton
+								color="inherit"
+								aria-label="help"
+							>
+								<HelpIcon />
+							</IconButton>
+						</Link>
+						
 						{auth && (
 							<>
 								<IconButton
@@ -362,7 +375,7 @@ export default function LayoutTemplate(props) {
 						</ListItem>
 					</Link>
 
-					<Link to="/events" replace={useLocation().pathname === '/events'} className={classes.links}>
+					<Link to="/event" replace={useLocation().pathname === '/event'} className={classes.links}>
 						<ListItem button key="Events">
 							<ListItemIcon><EventIcon /></ListItemIcon>
 							<ListItemText primary="Events" />
@@ -414,6 +427,14 @@ export default function LayoutTemplate(props) {
 						</ListItem>
 					</Link>
 
+					{/* ReportsLink */}
+					<Link to="/reports" replace={useLocation().pathname === '/reports'} className={classes.links}>
+						<ListItem button key="Reports">
+							<ListItemIcon><DescriptionIcon /></ListItemIcon>
+							<ListItemText primary="Reports" />
+						</ListItem>
+					</Link>
+
 					{/* Configuration Link */}
 					<Link to="/configure" replace={useLocation().pathname === '/configure'} className={classes.links}>
 						<ListItem button key="Configuration">
@@ -423,7 +444,7 @@ export default function LayoutTemplate(props) {
 					</Link>
 
 					{/* Settings Link */}
-					<Link to="/" replace={useLocation().pathname === '/'} className={classes.links}>
+					<Link to="/settings" replace={useLocation().pathname === '/settings'} className={classes.links}>
 						<ListItem button key="Settings">
 							<ListItemIcon><SettingsIcon /></ListItemIcon>
 							<ListItemText primary="Settings" />
@@ -437,8 +458,10 @@ export default function LayoutTemplate(props) {
 				{/* Toolbar Spacer */}
 				<div className={classes.toolbar} />
 				{/* Main Content */}
-				{/* Clone main content view element prop while passing in the universal action to open the detail view */}
-				{ React.cloneElement(props.mainContentComponent, { openDetailAction: handleDetailDrawerOpen, } ) }
+				{/* Pass thru main component with context to handle opening detail view */}
+				<DetailViewActionContext.Provider value={handleDetailDrawerOpen}>
+					{ props.mainContentComponent }
+				</DetailViewActionContext.Provider>
 			</main>
 
 			{ 
@@ -448,8 +471,11 @@ export default function LayoutTemplate(props) {
 						<React.Fragment key="right">
 							<Drawer anchor="right" open={detailOpen}>
 								<div style={{ width: "60em" }}>
-									{/* Detial Content, Clone detail view element prop while passing in the universal action to close the detail view */}
-									{ React.cloneElement(props.detailComponent, { closeDetailAction: handleDetailDrawerClose })}
+
+									{/* Pass thru detail component with context to handle closing detail view */}
+									<DetailViewActionContext.Provider value={handleDetailDrawerClose}>
+										{ props.detailComponent }
+									</DetailViewActionContext.Provider>
 								</div>
 							</Drawer>
 						</React.Fragment>
@@ -463,6 +489,18 @@ export default function LayoutTemplate(props) {
 					Notification Popup
 				</Alert>
 			</Snackbar>
+
+			{/* Sync Dialog Form */}
+			<Dialog
+				open={syncDialogOpen}
+				keepMounted
+				onClose={() => {}}
+				aria-labelledby="sync-dialog-title"
+				aria-describedby="sync-dialog-description"
+				disableBackdropClick
+			>
+				<SyncForm syncAction={() => setSyncDialogOpen(false)} closeAction={() => setSyncDialogOpen(false)} analystOptions={[]} />
+			</Dialog>
 		</div>
 	);
 }

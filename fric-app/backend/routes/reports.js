@@ -18,6 +18,11 @@ router.route('/').get((req, res) => {
 		.catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/logo').get, (req, res) => {
+	const buffer = fs.readFileSync("../shared/images/devcom-logo.jpg");
+	res.send(buffer)
+}
+
 router.route('/add').post((req, res) => {
 	var newReport = {
 
