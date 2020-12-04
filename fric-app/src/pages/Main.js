@@ -6,16 +6,10 @@ import React, { Component } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
-<<<<<<< HEAD
 
 import { darkTheme } from '../components/general/ThemeColors';
 import LayoutTemplate from '../components/general/LayoutTemplate';
 import SummaryView from '../components/summary/SummaryView';
-=======
-import { darkTheme } from '../components/general/ThemeColors';
-import LayoutTemplate from '../components/general/LayoutTemplate';
-import OverviewCards from '../components/summary/OverviewCards';
->>>>>>> f49e7ae1f3843f59f3d2403234a74a0d6a9d8efb
 import SetupForm from '../components/setup/SetupForm';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -35,8 +29,6 @@ export default class Main extends Component {
 		this.handleDialogClose = this.handleDialogClose.bind(this);
 	}
 
-<<<<<<< HEAD
-=======
 	componentDidMount() {
 		//TODO: get event from user stored browser cookie, otherwise send the following request
 		// Send request for events
@@ -53,7 +45,6 @@ export default class Main extends Component {
 			});
 	}
 
->>>>>>> f49e7ae1f3843f59f3d2403234a74a0d6a9d8efb
 	handleDialogClose() {
 		this.setState({ dialogOpen: false });
 	}
