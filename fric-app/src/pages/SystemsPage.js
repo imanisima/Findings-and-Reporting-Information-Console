@@ -2,23 +2,25 @@
  * 
  */
 
-import React, { useEffect, useState } from 'react';
+import React, {  useLayoutEffect, useState } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import LayoutTemplate from '../components/general/LayoutTemplate';
-import SystemsDetailView from '../components/systems/SystemsDetailView';
 import SystemOverviewTable from '../components/systems/SystemOverviewTable'
 import { darkTheme } from '../components/general/ThemeColors';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-
-import { options } from '../components/general/test/eventstestdata'; //TODO: remove test data import when connected to backend
+import SystemDetailView from '../components/systems/SystemsDetailView'
+import NewSystemDialog from '../components/systems/NewSystemDialog'
+import ConfirmArchiveDialog from '../components/general/ConfirmArchiveDialog';
+import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
 import Spinner from '../components/general/Spinner';
 
-export default function SystemsPage(props) {
-	const [ isLoading, setIsLoading ] = useState(false)
-	const [ data, setData ] = useState([])
-	const [tableArray, setTableArray] = useState([])
-	const [selected, setSelected] = useState(null)
+export default function SystemsPage() {
+	const [tableData, setTableData] = useState([]);
+	const [newDialogOpen, setNewDialogOpen] = useState(false);
+	const [contentIsLoading, setContentIsLoading] = useState(true);
+	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
+	const [selected, setSelected] = useState([]);
+	const [findingArray, setFindingArray] = useState([]);
 
 	const headings = [
 		{ id: 'name', numeric: false, disablePadding: false, label: 'System' },
@@ -27,54 +29,90 @@ export default function SystemsPage(props) {
 		{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
 	];
 
-	function mapSystemsToTable(response) {
-		const tableArray = response.map((system, i) => {
-			return { 
-				name: system.name,
-				numTasks: Math.floor(Math.random() * Math.floor(10)),
-				numFindings:  Math.floor(Math.random() * Math.floor(10)),
-				progress: 'In Progress'
+	const reload = () => {
+
+		async function getData() {
+			setContentIsLoading(true);
+
+			const tableData = axios.get('http://localhost:5000/systems/table')
+			const requestFinding = axios.get('http://localhost:5000/findings/table')
+
+
+			axios
+				.all([tableData, requestFinding])
+				.then(
+					axios.spread((...responses) => {
+						const responseTable = responses[0].data;
+						const responseFinding = responses[1].data;
+
+						setTableData(responseTable)
+						setFindingArray(responseFinding);
+					})
+				)
+				.catch(err => {
+					console.log(err)
+				})
+				.finally(
+					setContentIsLoading(false)
+				)
+		}
+		getData()
+
+
+	};
+
+	/*const confirmArchive = () => { // Send update request to set archived field to true
+		axios.put('http://localhost:5000/subtasks/archive', {
+			params: {
+				id: selected
 			}
 		})
-		setTableArray(tableArray)
-	}
+			.then(res => {
+				console.log(res);
+				reload();
+				setArchiveDialogOpen(false);
+			})
+			.catch(err => {
+				//TODO: display error message
+				console.log(err);
+			});
+	};*/
 
-	useEffect(() => {
-		async function getSystems() {
-			setIsLoading(true)
-			try {
-				const fetch = await axios.get('http://localhost:5000/systems/', {
-					params: {
-						archived: false
-					}
-				})
-				const response = await fetch.data
-				setData(response)
-				mapSystemsToTable(response)	
-			}
-			catch (error) {
-				console.log(error)
-			} finally {
-				setIsLoading(false)
-			}
-		}
-		getSystems()
-	}, [])
+	useLayoutEffect(() => reload(), []);
 
 	return (
 		// Added dark theme provider, remove for normal colors
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate
 				mainContentComponent={
-					(isLoading) ? <Spinner /> : (
-						(data != null) ? <SystemOverviewTable rows={tableArray} headings={headings} setSelectedSystem={setSelected} /> : <></>
+					(contentIsLoading) ? <Spinner /> : (
+						<ToolbarNewActionContext.Provider value={() => setNewDialogOpen(true)}>
+							<SystemOverviewTable rows={tableData} headings={headings} setSelectedFindings={setSelected} archiveAction={() => setArchiveDialogOpen(true)} />
+						</ToolbarNewActionContext.Provider>
 					)
 				}
-				detailComponent={<SystemsDetailView selectedSystem = {selected}/>}
+				detailComponent={
+				<SystemDetailView 
+					selectedSystem = {selected}
+					reload={reload} 
+					findingArray={findingArray}
+					/>
+				}
+			/>
+			<NewSystemDialog 
+				isOpen={newDialogOpen} 
+				closeDialogAction={() => setNewDialogOpen(false)} 
+				reload={reload} 
+				findingArray={findingArray}
+				
+			/>
+			<ConfirmArchiveDialog
+				isOpen={archiveDialogOpen}
+				numSelected={selected.length}
+				//confirmAction={confirmArchive}
+				closeDialogAction={() => setArchiveDialogOpen(false)}
+				objectType="System"
 			/>
 		</ThemeProvider>
 	);
-}
-SystemsPage.propTypes = {
-	data: PropTypes.array
 }

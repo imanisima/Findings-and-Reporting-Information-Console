@@ -82,6 +82,29 @@ router.route('/names').get(async (req, res) => {
 router.route('/delete').post((req, res) => {
 
 });
+router.route('/table').get(async (req, res) => {
+	await System
+		.aggregate([
+			{
+				$match: {
+					archived: false
+				}
+			},
+			{
+				$project: {
+					name: 1,
+					description:1,
+					location: 1,
+					router: 1,
+					switch: 1,
+					room: 1,
+					testPlan: 1,
+				}
+			}
+		])
+		.then(systems => res.status(200).json(systems))
+		.catch(err => res.status(400).json('Error: ' + err));
+});
 
 router.route('/update').put(async (req, res) => {
 	if (req.body.params.hasOwnProperty('id')) {
