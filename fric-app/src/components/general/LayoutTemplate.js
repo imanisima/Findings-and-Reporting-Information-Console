@@ -16,7 +16,6 @@ import { makeStyles, useTheme, fade } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -24,9 +23,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
 import Popover from '@material-ui/core/Popover';
 import Alert from '@material-ui/lab/Alert';
@@ -37,19 +33,8 @@ import InputBase from '@material-ui/core/InputBase';
 import Dialog from '@material-ui/core/Dialog';
 
 // Sidebar Icons
-import EventIcon from '@material-ui/icons/Event';
-import CheckedIcon from '@material-ui/icons/AssignmentTurnedIn';
-import LowPriorityIcon from '@material-ui/icons/AssignmentReturned';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import SettingsIcon from '@material-ui/icons/Settings';
-import FindPageIcon from '@material-ui/icons/FindInPage';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import DnsIcon from '@material-ui/icons/Dns';
-import ArchiveIcon from '@material-ui/icons/Archive';
 import HelpIcon from '@material-ui/icons/HelpSharp';
-import BuildIcon from '@material-ui/icons/Build';
-import SyncIcon from '@material-ui/icons/Sync'
-import DescriptionIcon from '@material-ui/icons/Description';
+import SyncIcon from '@material-ui/icons/Sync';
 // import SyncProblemIcon from '@material-ui/icons/SyncProblem';
 // import SyncDisabledIcon from '@material-ui/icons/SyncDisabled';
 
@@ -60,6 +45,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 // Custom Components
 import SyncForm from '../sync/SyncForm';
+import SidebarLinks from './SidebarNav';
 
 const drawerWidth = 240;
 
@@ -366,91 +352,7 @@ export default function LayoutTemplate(props) {
 				</div>
 				<Divider />
 
-				{/* Sidebar Icons, Text, and Links */}
-				<List>
-					<Link to="/" replace={useLocation().pathname === "/"} className={classes.links}>
-						<ListItem button key="Overview">
-							<ListItemIcon><DashboardIcon /></ListItemIcon>
-							<ListItemText primary="Overview" />
-						</ListItem>
-					</Link>
-
-					<Link to="/event" replace={useLocation().pathname === '/event'} className={classes.links}>
-						<ListItem button key="Events">
-							<ListItemIcon><EventIcon /></ListItemIcon>
-							<ListItemText primary="Events" />
-						</ListItem>
-					</Link>
-
-					<Link to="/tasks" replace={useLocation().pathname === '/tasks'} className={classes.links}>
-						<ListItem button key="Tasks">
-							<ListItemIcon><CheckedIcon /></ListItemIcon>
-							<ListItemText primary="Tasks" />
-						</ListItem>
-					</Link>
-
-					<Link to="/subtasks" replace={useLocation().pathname === '/subtasks'} className={classes.links}>
-						<ListItem button key="Subtasks">
-							<ListItemIcon><LowPriorityIcon /></ListItemIcon>
-							<ListItemText primary="Subtasks" />
-						</ListItem>
-					</Link>
-
-					<Link to="/event_tree" replace={useLocation().pathname !== '/findings'} className={classes.links}>
-						<ListItem button key="Event Tree">
-							<ListItemIcon><AccountTreeIcon /></ListItemIcon>
-							<ListItemText primary="Event Tree" />
-						</ListItem>
-					</Link>
-
-					{/*  */}
-					<Link to="/findings" replace={useLocation().pathname === '/'} className={classes.links}>
-						<ListItem button key="Findings">
-							<ListItemIcon><FindPageIcon /></ListItemIcon>
-							<ListItemText primary="Findings" />
-						</ListItem>
-					</Link>
-
-					{/* Archive Link */}
-					<Link to="/archive" replace={useLocation().pathname === '/archive'} className={classes.links}>
-						<ListItem button key="Archive">
-							<ListItemIcon><ArchiveIcon /></ListItemIcon>
-							<ListItemText primary="Archive" />
-						</ListItem>
-					</Link>
-
-					{/* Systems Link */}
-					<Link to="/systems" replace={useLocation().pathname === '/systems'} className={classes.links}>
-						<ListItem button key="Systems">
-							<ListItemIcon><DnsIcon /></ListItemIcon>
-							<ListItemText primary="Systems" />
-						</ListItem>
-					</Link>
-
-					{/* ReportsLink */}
-					<Link to="/reports" replace={useLocation().pathname === '/reports'} className={classes.links}>
-						<ListItem button key="Reports">
-							<ListItemIcon><DescriptionIcon /></ListItemIcon>
-							<ListItemText primary="Reports" />
-						</ListItem>
-					</Link>
-
-					{/* Configuration Link */}
-					<Link to="/configure" replace={useLocation().pathname === '/configure'} className={classes.links}>
-						<ListItem button key="Configuration">
-							<ListItemIcon><BuildIcon /></ListItemIcon>
-							<ListItemText primary="Configuration" />
-						</ListItem>
-					</Link>
-
-					{/* Settings Link */}
-					<Link to="/settings" replace={useLocation().pathname === '/settings'} className={classes.links}>
-						<ListItem button key="Settings">
-							<ListItemIcon><SettingsIcon /></ListItemIcon>
-							<ListItemText primary="Settings" />
-						</ListItem>
-					</Link>
-				</List>
+				<SidebarLinks />
 			</Drawer>
 
 			{/* Main Content Section */}
