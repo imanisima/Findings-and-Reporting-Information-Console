@@ -52,6 +52,7 @@ router.route('/add').post((req, res) => {
 		switch: req.body.switch,
 		room: req.body.room,
 		testPlan: req.body.testPlan,
+		archived: req.body.archived
 	}
 	newSystem = new System(newSystem);
 
@@ -98,7 +99,7 @@ router.route('/table').get(async (req, res) => {
 					router: 1,
 					switch: 1,
 					room: 1,
-					testPlan: 1,
+					testPlan: 1
 				}
 			}
 		])
