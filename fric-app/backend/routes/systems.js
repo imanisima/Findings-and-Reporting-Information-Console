@@ -42,6 +42,22 @@ router.route('/').get(async (req, res) => {
 			.catch(err => res.status(400).json('Error: ' + err));
 	}
 });
+router.route('/archive').put(async (req, res) => {
+	if (req.body.params.hasOwnProperty('name') && req.body.params.name instanceof Array) {
+		await System.updateMany(
+			{
+				name: {
+					$in: req.body.params.name
+				}
+			},
+			{
+				archived: true
+			}
+		)
+			.then(result => res.status(200).json(result))
+			.catch(err => res.status(404).json());
+	} else res.status(400).json();
+});
 
 router.route('/add').post((req, res) => {
 	var newSystem = {
