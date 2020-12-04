@@ -4,16 +4,17 @@
 
 import axios from 'axios';
 import React, { useState, useLayoutEffect } from 'react';
+import { Doughnut } from 'react-chartjs-2';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CheckedIcon from '@material-ui/icons/AssignmentTurnedIn';
+import BuildIcon from '@material-ui/icons/Build';
 import LowPriorityIcon from '@material-ui/icons/AssignmentReturned';
 import FindPageIcon from '@material-ui/icons/FindInPage';
 import DnsIcon from '@material-ui/icons/Dns';
 import UsersIcon from '@material-ui/icons/SupervisedUserCircle';
-import ReceiptIcon from '@material-ui/icons/Receipt';
 import DescriptionIcon from '@material-ui/icons/Description';
-import { Doughnut } from 'react-chartjs-2';
+// import ReceiptIcon from '@material-ui/icons/Receipt';
 
 import OverviewCard from './OverviewCard';
 import ChartCard from './ChartCard';
@@ -24,9 +25,10 @@ export default function SummaryView() {
 	const [numAnalysts, setNumAnalysts] = useState(0);
 	const [numSystems, setNumSystems] = useState(0);
 	const [numConfigs, setNumConfigs] = useState(0);
-	const [findingsInfo, setFindingsInfo] = useState(null);
-	const [tasksInfo, setTasksInfo] = useState(null);
-	const [subtasksInfo, setSubtasksInfo] = useState(null);
+	const [numReports, setNumReports] = useState(0);
+	const [findingsInfo, setFindingsInfo] = useState({});
+	const [tasksInfo, setTasksInfo] = useState({});
+	const [subtasksInfo, setSubtasksInfo] = useState({});
 
 	useLayoutEffect(() => {
 		setContentIsLoading(true);
@@ -38,6 +40,7 @@ export default function SummaryView() {
 					if (res.data.numAnalysts) setNumAnalysts(res.data.numAnalysts);
 					if (res.data.numSystems) setNumSystems(res.data.numSystems);
 					if (res.data.numConfigs) setNumConfigs(res.data.numConfigs);
+					if (res.data.numReports) setNumReports(res.data.numReports);
 					if (res.data.finding_stats) setFindingsInfo(res.data.finding_stats);
 					if (res.data.task_stats) setTasksInfo(res.data.task_stats);
 					if (res.data.subtask_stats) setSubtasksInfo(res.data.subtask_stats);
@@ -62,17 +65,19 @@ export default function SummaryView() {
 						</div>
 
 						<div style={{ display: 'inline-block' }}>
-							<Card style={{ margin: '1em 1em 1em 0', maxWidth: 500, display: 'inline-block' }}>
+							<Card style={{ margin: '1em 0 1em 0', maxWidth: 800 }}>
 								<CardContent style={{ textAlign: 'center' }}>
 									<OverviewCard for="Analysts" amount={numAnalysts} icon={<UsersIcon color="primary" />} />
 									<OverviewCard for="Systems" amount={numSystems} icon={<DnsIcon color="primary" />} />
+									<OverviewCard for="Configurations" amount={numConfigs} icon={<BuildIcon color="primary" />} />
 								</CardContent>
 							</Card>
 
-							<Card style={{ margin: '1em 0 1em 1em', maxWidth: 600, display: 'inline-block' }}>
+							<Card style={{ margin: '1em 0 1em 0', maxWidth: 800 }}>
 								<CardContent style={{ textAlign: 'center' }}>
 									<OverviewCard for="Active Findings" amount={findingsInfo.active} icon={<FindPageIcon color="action" />} />
 									<OverviewCard for="Archived Findings" amount={findingsInfo.archived} icon={<FindPageIcon color="error" />} />
+									<OverviewCard for="Reports" amount={numReports} icon={<DescriptionIcon color="action" />} />
 								</CardContent>
 							</Card>
 

@@ -3,8 +3,9 @@
  */
 
 const Analyst = require('../models/analyst.model');
-// const Configuration = require('../models/configuration.model');
+const Configuration = require('../models/configuration.model');
 const Finding = require('../models/finding.model');
+const Report = require('../models/report.model');
 const Subtask = require('../models/subtask.model');
 const System = require('../models/system.model');
 const Task = require('../models/task.model');
@@ -53,9 +54,13 @@ router.route('/summary').get(async (req, res) => {
 		.then(result => { return result; })
 		.catch(handleQueryErr);
 
-	// const configs_count = await Configuration.countDocuments()
-	// 	.then(result => { return result; })
-	// 	.catch(handleQueryErr);
+	const configs_count = await Configuration.countDocuments()
+		.then(result => { return result; })
+		.catch(handleQueryErr);
+
+	const reports_count = await Report.countDocuments()
+		.then(result => { return result; })
+		.catch(handleQueryErr);
 
 	const findings_active_count = await Finding.countDocuments({ archived: false })
 		.then(result => { return result; })
@@ -68,7 +73,8 @@ router.route('/summary').get(async (req, res) => {
 	res.status(200).json({
 		numAnalysts: analysts_count,
 		numSystems: systems_count,
-		// numConfigs: configs_count,
+		numConfigs: configs_count,
+		numReports: reports_count,
 		task_stats: {
 			complete: tasks_complete_count,
 			incomplete: tasks_incomplete_count,
