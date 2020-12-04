@@ -1,4 +1,6 @@
-/* eslint-disable no-dupe-keys */
+/**
+ * 
+ */
 
 const Analyst = require('../models/analyst.model');
 const Finding = require('../models/finding.model');
@@ -13,71 +15,68 @@ router.route('/').get((req, res) => {
 
 router.route('/summary').get(async (req, res) => {
 
-	function handleAggErr(err) {
+	function handleQueryErr(err) {
 		console.log(err);
 		return null;
 	}
 
-	const analystSummary = await Analyst.countDocuments()
+	const tasks_complete_count = await Task.countDocuments({ progress: 'Complete', archived: false })
 		.then(result => { return result; })
-		.catch(handleAggErr);
+		.catch(handleQueryErr);
 
-	const findingSummary = await Finding.countDocuments()
+	const tasks_incomplete_count = await Task.countDocuments({ progress: { $not: { $eq: 'Complete' } }, archived: false })
 		.then(result => { return result; })
-		.catch(handleAggErr);
+		.catch(handleQueryErr);
 
-	const systemSummary = await System.countDocuments()
+	const tasks_archived_count = await Task.countDocuments({ archived: true })
 		.then(result => { return result; })
-		.catch(handleAggErr);
+		.catch(handleQueryErr);
 
-	const taskSummary = await Task.aggregate([
-		{
-			$facet: {
-				progress: [
-					{
-						$group: {
-							_id: '$progress',
-							total: { $sum: 1 }
-						}
-					}
-				],
-				archived: [
-					{ $match: { archived: true } },
-					{ $count: 'total' }
-				]
-			}
-		}
-	])
-		.then(result => { return result[0]; })
-		.catch(handleAggErr);
+	const subtasks_complete_count = await Subtask.countDocuments({ progress: 'Complete', archived: false })
+		.then(result => { return result; })
+		.catch(handleQueryErr);
 
-	const subtaskSummary = await Subtask.aggregate([
-		{
-			$facet: {
-				progress: [
-					{
-						$group: {
-							_id: '$progress',
-							total: { $sum: 1 }
-						}
-					}
-				],
-				archived: [
-					{ $match: { archived: true } },
-					{ $count: 'total' } 
-				]
-			}
-		}
-	])
-		.then(result => { return result[0]; })
-		.catch(handleAggErr);
+	const subtasks_incomplete_count = await Subtask.countDocuments({ progress: { $not: { $eq: 'Complete' } }, archived: false })
+		.then(result => { return result; })
+		.catch(handleQueryErr);
+
+	const subtasks_archived_count = await Subtask.countDocuments({ archived: true })
+		.then(result => { return result; })
+		.catch(handleQueryErr);
+
+	const analysts_count = await Analyst.countDocuments()
+		.then(result => { return result; })
+		.catch(handleQueryErr);
+
+	const systems_count = await System.countDocuments()
+		.then(result => { return result; })
+		.catch(handleQueryErr);
+
+	const findings_active_count = await Finding.countDocuments({ archived: false })
+		.then(result => { return result; })
+		.catch(handleQueryErr);
+
+	const findings_archived_count = await Finding.countDocuments({ archived: true })
+		.then(result => { return result; })
+		.catch(handleQueryErr);
 
 	res.status(200).json({
-		analysts: analystSummary,
-		tasks: taskSummary,
-		subtasks: subtaskSummary,
-		findings: findingSummary,
-		systems: systemSummary,
+		numAnalysts: analysts_count,
+		numSystems: systems_count,
+		task_stats: {
+			complete: tasks_complete_count,
+			incomplete: tasks_incomplete_count,
+			archived: tasks_archived_count,
+		},
+		subtask_stats: {
+			complete: subtasks_complete_count,
+			incomplete: subtasks_incomplete_count,
+			archived: subtasks_archived_count,
+		},
+		finding_stats: {
+			active: findings_active_count,
+			archived: findings_archived_count,
+		},
 	});
 });
 
