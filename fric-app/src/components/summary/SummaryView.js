@@ -2,8 +2,10 @@
  * 
  */
 
-import React from 'react';
-import EventIcon from '@material-ui/icons/Event';
+import axios from 'axios';
+import React, { useState, useLayoutEffect } from 'react';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import CheckedIcon from '@material-ui/icons/AssignmentTurnedIn';
 import LowPriorityIcon from '@material-ui/icons/AssignmentReturned';
 import FindPageIcon from '@material-ui/icons/FindInPage';
@@ -11,38 +13,95 @@ import DnsIcon from '@material-ui/icons/Dns';
 import UsersIcon from '@material-ui/icons/SupervisedUserCircle';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import DescriptionIcon from '@material-ui/icons/Description';
-import OverviewCard from './OverviewCard';
-import EventTreeCard from './EventTreeCard';
-import ChartCard from './ChartCard';
-
 import { Doughnut } from 'react-chartjs-2';
 
+import OverviewCard from './OverviewCard';
+import ChartCard from './ChartCard';
+import Spinner from '../general/Spinner';
+
 export default function SummaryView() {
-	const chartData = {
-		
-	}
+	const [contentIsLoading, setContentIsLoading] = useState(true);
+	const [numAnalysts, setNumAnalysts] = useState(0);
+	const [numSystems, setNumSystems] = useState(0);
+	const [numConfigs, setNumConfigs] = useState(0);
+	const [findingsInfo, setFindingsInfo] = useState(null);
+	const [tasksInfo, setTasksInfo] = useState(null);
+	const [subtasksInfo, setSubtasksInfo] = useState(null);
+
+	useLayoutEffect(() => {
+		setContentIsLoading(true);
+
+		axios.get('http://localhost:5000/summary')
+			.then(res => {
+				console.log(res);
+				if (res.status === 200) {
+					if (res.data.numAnalysts) setNumAnalysts(res.data.numAnalysts);
+					if (res.data.numSystems) setNumSystems(res.data.numSystems);
+					if (res.data.numConfigs) setNumConfigs(res.data.numConfigs);
+					if (res.data.finding_stats) setFindingsInfo(res.data.finding_stats);
+					if (res.data.task_stats) setTasksInfo(res.data.task_stats);
+					if (res.data.subtask_stats) setSubtasksInfo(res.data.subtask_stats);
+
+					setContentIsLoading(false);
+				} else console.log('Fetch progress summary failed.');
+			})
+			.catch(err => {
+				console.log(err);
+				//TODO: display error message
+				setContentIsLoading(false);
+			});
+	}, [])
 
 	return (
 		<>
-			<div>
-				<ChartCard />
-			</div>
-			<div>
-				<OverviewCard for="Events" amount="1" icon={<EventIcon color="secondary" />} />
-				<OverviewCard for="Systems" amount="4" icon={<DnsIcon color="secondary" />} />
-				<OverviewCard for="Analysts" amount="4" icon={<UsersIcon color="secondary" />} />
-				<OverviewCard for="Findings" amount="1" icon={<FindPageIcon color="secondary" />} />
-				<OverviewCard for="Reports" amount="0" icon={<DescriptionIcon color="secondary" />} />
-				<OverviewCard for="Tasks" amount="12" icon={<CheckedIcon color="secondary" />} />
-				<OverviewCard for="Subtasks" amount="35" icon={<LowPriorityIcon color="secondary" />} />
-				<OverviewCard for="Transactions" amount="69" icon={<ReceiptIcon color="secondary" />} />
-			</div>
-			<div>
-				<Doughnut id="donut" width={30} height={60} data={chartData} />
-			</div>
-			<div>
-				<EventTreeCard />
-			</div>
+			{
+				(contentIsLoading) ? <Spinner /> : (
+					<>
+						<div style={{display: 'inline'}}>
+							<ChartCard />
+						</div>
+
+						<div style={{ display: 'inline-block' }}>
+							<Card style={{ margin: '1em 1em 1em 0', maxWidth: 500, display: 'inline-block' }}>
+								<CardContent style={{ textAlign: 'center' }}>
+									<OverviewCard for="Analysts" amount={numAnalysts} icon={<UsersIcon color="primary" />} />
+									<OverviewCard for="Systems" amount={numSystems} icon={<DnsIcon color="primary" />} />
+								</CardContent>
+							</Card>
+
+							<Card style={{ margin: '1em 0 1em 1em', maxWidth: 600, display: 'inline-block' }}>
+								<CardContent style={{ textAlign: 'center' }}>
+									<OverviewCard for="Active Findings" amount={findingsInfo.active} icon={<FindPageIcon color="action" />} />
+									<OverviewCard for="Archived Findings" amount={findingsInfo.archived} icon={<FindPageIcon color="error" />} />
+								</CardContent>
+							</Card>
+
+							<Card style={{ margin: '1em 0 1em 0', maxWidth: 800 }}>
+								<CardContent style={{textAlign: 'center' }}>
+									<OverviewCard for="Completed Tasks" amount={tasksInfo.complete} icon={<CheckedIcon color="action" />} />
+									<OverviewCard for="Incomplete Tasks" amount={tasksInfo.incomplete} icon={<CheckedIcon color="secondary" />} />
+									<OverviewCard for="Archived Tasks" amount={tasksInfo.archived} icon={<CheckedIcon color="error" />} />
+								</CardContent>
+							</Card>
+
+							<Card style={{ margin: '1em 0 1em 0', maxWidth: 800 }}>
+								<CardContent style={{ textAlign: 'center' }}>
+									<OverviewCard for="Completed Subtasks" amount={subtasksInfo.complete} icon={<LowPriorityIcon color="action" />} />
+									<OverviewCard for="Incomplete Subtasks" amount={subtasksInfo.incomplete} icon={<LowPriorityIcon color="secondary" />} />
+									<OverviewCard for="Archived Subtasks" amount={subtasksInfo.archived} icon={<LowPriorityIcon color="error" />} />
+								</CardContent>
+							</Card>
+							
+							{/* <OverviewCard for="Reports" amount="0" icon={<DescriptionIcon color="secondary" />} /> */}
+							{/* <OverviewCard for="Transactions" amount="69" icon={<ReceiptIcon color="secondary" />} /> */}
+						</div>
+						<div>
+							<Doughnut id="donut" width={400} height={80} data={{}} />
+						</div>
+					</>
+				)
+			}
+			
 		</>
 	);
 }

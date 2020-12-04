@@ -8,7 +8,7 @@ const taskSchema = new mongoose.Schema({
 	title: { type: String, required: true, },
 	description: { type: String, required: true, },
 	priority: { type: Number, required: true, },
-	progress: { type: Number, required: true, },
+	progress: { type: String, required: true, },
 	dueDate: { type: Date, required: true, },
 	attachment: { type: String, required: false, },
 	associations: { type: Array, required: true, },

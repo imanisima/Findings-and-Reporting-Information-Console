@@ -3,6 +3,7 @@
  */
 
 const Analyst = require('../models/analyst.model');
+// const Configuration = require('../models/configuration.model');
 const Finding = require('../models/finding.model');
 const Subtask = require('../models/subtask.model');
 const System = require('../models/system.model');
@@ -24,7 +25,7 @@ router.route('/summary').get(async (req, res) => {
 		.then(result => { return result; })
 		.catch(handleQueryErr);
 
-	const tasks_incomplete_count = await Task.countDocuments({ progress: { $not: { $eq: 'Complete' } }, archived: false })
+	const tasks_incomplete_count = await Task.countDocuments({ progress: { $not: { $eq: 'Complete' }}, archived: false })
 		.then(result => { return result; })
 		.catch(handleQueryErr);
 
@@ -36,7 +37,7 @@ router.route('/summary').get(async (req, res) => {
 		.then(result => { return result; })
 		.catch(handleQueryErr);
 
-	const subtasks_incomplete_count = await Subtask.countDocuments({ progress: { $not: { $eq: 'Complete' } }, archived: false })
+	const subtasks_incomplete_count = await Subtask.countDocuments({ progress: { $not: { $eq: 'Complete' }}, archived: false })
 		.then(result => { return result; })
 		.catch(handleQueryErr);
 
@@ -52,6 +53,10 @@ router.route('/summary').get(async (req, res) => {
 		.then(result => { return result; })
 		.catch(handleQueryErr);
 
+	// const configs_count = await Configuration.countDocuments()
+	// 	.then(result => { return result; })
+	// 	.catch(handleQueryErr);
+
 	const findings_active_count = await Finding.countDocuments({ archived: false })
 		.then(result => { return result; })
 		.catch(handleQueryErr);
@@ -63,6 +68,7 @@ router.route('/summary').get(async (req, res) => {
 	res.status(200).json({
 		numAnalysts: analysts_count,
 		numSystems: systems_count,
+		// numConfigs: configs_count,
 		task_stats: {
 			complete: tasks_complete_count,
 			incomplete: tasks_incomplete_count,
