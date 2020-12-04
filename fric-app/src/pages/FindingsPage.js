@@ -70,8 +70,8 @@ export default function FindingsPage() {
 
 	};
 
-	/*const confirmArchive = () => { // Send update request to set archived field to true
-		axios.put('http://localhost:5000/subtasks/archive', {
+	const confirmArchive = () => { // Send update request to set archived field to true
+		axios.put('http://localhost:5000/findings/archive', {
 			params: {
 				id: selected
 			}
@@ -85,7 +85,7 @@ export default function FindingsPage() {
 				//TODO: display error message
 				console.log(err);
 			});
-	};*/
+	};
 
 	useLayoutEffect(() => reload(), []);
 
@@ -120,7 +120,7 @@ export default function FindingsPage() {
 			<ConfirmArchiveDialog
 				isOpen={archiveDialogOpen}
 				numSelected={selected.length}
-				//confirmAction={confirmArchive}
+				confirmAction={confirmArchive}
 				closeDialogAction={() => setArchiveDialogOpen(false)}
 				objectType="Finding"
 			/>
