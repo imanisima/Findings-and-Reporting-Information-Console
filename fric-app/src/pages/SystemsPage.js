@@ -13,7 +13,6 @@ import NewSystemDialog from '../components/systems/NewSystemDialog'
 import ConfirmArchiveDialog from '../components/general/ConfirmArchiveDialog';
 import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
 import Spinner from '../components/general/Spinner';
-import ArchiveTaskDialog from '../components/tasks/ArchiveTaskDialog';
 
 export default function SystemsPage() {
 	const [tableData, setTableData] = useState([]);
@@ -66,6 +65,23 @@ export default function SystemsPage() {
 
 
 	};
+	const confirmArchive = () => { // Send update request to set archived field to true
+		console.log(selected);
+		axios.put('http://localhost:5000/systems/archive', {
+			params: {
+				name: selected
+			}
+		})
+			.then(res => {
+				console.log(res);
+				reload();
+				setArchiveDialogOpen(false);
+			})
+			.catch(err => {
+				//TODO: display error message
+				console.log(err);
+			});
+	};
 
 
 	useLayoutEffect(() => reload(), []);
@@ -96,8 +112,13 @@ export default function SystemsPage() {
 
 				
 			/>
-			<ArchiveTaskDialog system={selected} isOpen={archiveDialogOpen} closeDialogAction={() => setArchiveDialogOpen(false)} reload={reload} />
-
+			<ConfirmArchiveDialog
+				isOpen={archiveDialogOpen}
+				numSelected={selected.length}
+				confirmAction={confirmArchive}
+				closeDialogAction={() => setArchiveDialogOpen(false)}
+				objectType="System"
+			/>		
 		</ThemeProvider>
 	);
 }
