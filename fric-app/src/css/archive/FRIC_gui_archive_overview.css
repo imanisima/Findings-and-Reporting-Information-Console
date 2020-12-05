@@ -28,3 +28,8 @@
     opacity: 1;
     scale: 1.2;
 }
+
+.archive {
+    text-align: center;
+    /* font-style: italic; */
+}

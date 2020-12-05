@@ -30,57 +30,55 @@ class ConfigurationOverview extends Component {
             <h1>Configuration</h1>
             <br></br>
             <body>
-                <label>Finding</label>
+                <h2>Finding</h2>
+                < FindingClassificationTable />
                 <br></br>
-                <label>
+                <h2>
                     Posture
-                </label>
+                </h2>
                 <PostureTable />
-                <label>
+                <h2>
                     Threat
-                </label>
+                </h2>
                 <ThreatTable/>
-            <label>
+            <h2>
                 Impact Table
-                </label>
+                </h2>
                 <ImpactTable />
-                <label>
+                <h2>
                     Finding Classification
-                </label>
+                </h2>
                 <FindingClassificationTable />
-                <label>
+                <h2>
                     CounterMeasureTable 
-                </label>
+                </h2>
                 <CounterMeasureTable />
-                <label>
-                    EventTypeTable FindingImpactTable
-                </label>
+                <h2>
+                    EventTypeTable
+                </h2>
                 <EventTypeTable />
-                <label>
+                <h2>
                     Finding Impact Table
-                </label>
+                </h2>
                 <FindingImpactTable />
                 
-                <label>
+                <h2>
                     SeverityTable
-                </label>
+                </h2>
                 <SeverityTable />
                 
-                <label>
+                <h2>
                     ProgressTable
-                </label>
+                </h2>
                 <ProgressTable />
-                <label>
-                    Event Table rules
-                </label>
                 <></>
-                 <label>
+                 <h2>
                     Report Template Table
-                </label>
+                </h2>
                 <ReportTemplateTable />
-                <label>
-                    notification
-                </label>
+                <h2>
+                    Notification
+                </h2>
                 <Notification/>
                 </body>
         <Button type="submit" className="add_btn" onClick ={this.handleClick} variant="primary">Save Changes</Button>

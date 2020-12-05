@@ -5,16 +5,15 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import LayoutTemplate from '../components/general/LayoutTemplate';
-import ArchiveOverview from '../components/archive/FRIC_gui_archive_overview.js';
 import { darkTheme } from '../components/general/ThemeColors';
+import ProgressView from '../components/progress/ProgressView'
 
-export default function ArchivePage() {
-	
+export default function ProgressPage() {
 	return (
 		// Added dark theme provider, remove for normal colors
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate
-				mainContentComponent={<ArchiveOverview />}
+				mainContentComponent={<ProgressView/>}
 			/>
 		</ThemeProvider>
 	);

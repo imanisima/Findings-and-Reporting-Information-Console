@@ -18,6 +18,7 @@ import axios from 'axios';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import ReactTooltip from "react-tooltip";
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -66,6 +67,9 @@ import SyncForm from '../sync/SyncForm';
 
 import NotificationOverviewTasks from '../NotificationOverviewTasks';
 import getcount from '../NotificationOverviewTasks';
+//Progression bar
+import ProgressBar from 'react-bootstrap/ProgressBar'
+
 const drawerWidth = 240;
 
 
@@ -267,6 +271,11 @@ export default function LayoutTemplate(props) {
 	
 	;
 
+
+    //const Progression Bar
+    const numOfTask = localStorage.getItem("NumberOfTasks");
+    const now = (localStorage.getItem("CompleteT") / 23) * 100;
+    //const now = (localStorage.getItem("CompleteT") / numOfTask) * 100;
 	return (
 		<div className={classes.root}>
 			<CssBaseline />
@@ -279,7 +288,7 @@ export default function LayoutTemplate(props) {
 				})}
 			>
 				<Toolbar>
-					<IconButton
+					<IconButton data-tip data-for="menuTip"
 						color="inherit"
 						aria-label="open drawer"
 						onClick={handleMenuDrawerOpen}
@@ -290,8 +299,17 @@ export default function LayoutTemplate(props) {
 					>
 						<MenuIcon />
 					</IconButton>
+					<ReactTooltip id="menuTip" place="bottom" effect="solid">
+						Click to Open Menu
+					</ReactTooltip>
+
 					<Typography variant="h5" noWrap>
 						Findings and Reporting Information Console (FRIC)
+
+						<Link to="/progress" replace={useLocation().pathname === '/progress'} className={classes.links}>
+							<ProgressBar now={now} label={`Overall Progress ${now}%` } />
+						</Link>
+
 					</Typography>
 					<div className={classes.grow} />
 					<div style={{ marginLeft: "auto", }} >
@@ -299,7 +317,7 @@ export default function LayoutTemplate(props) {
 							<div className={classes.searchIcon}>
 								<SearchIcon />
 							</div>
-							<InputBase
+							<InputBase data-tip data-for="searchTip"
 								placeholder="Search"
 								classes={{
 									root: classes.inputRoot,
@@ -308,14 +326,19 @@ export default function LayoutTemplate(props) {
 								inputProps={{ 'aria-label': 'search' }}
 							/>
 						</div>
+
 						{/* Notifications Button */}
-						<IconButton
+						<IconButton data-tip data-for="notifTip"
 							color="inherit"
 							aria-label="notifs"
 							onClick={handlePopoverOpen}
 						>
 						<Badge badgeContent={getCount(tableData,tableData2)}color="error"><NotificationsIcon /></Badge>
 						</IconButton>
+						<ReactTooltip id="notifTip" place="bottom" effect="solid">
+							Notifications
+						</ReactTooltip>
+						
 						{/* Notifications Popover */}
 						<Popover
 							open={Boolean(anchorPopover)}
@@ -341,15 +364,20 @@ export default function LayoutTemplate(props) {
 								OK
 							</Button>
 						</Popover>
+
 						{/* Sync Button */}
-						<IconButton
+						<IconButton data-tip data-for="syncTip"
 							color="inherit"
 							aria-label="sync"
 							onClick={() => setSyncDialogOpen(true)}
 						>
 							<SyncIcon />
 						</IconButton>
-						<IconButton
+						<ReactTooltip id="syncTip" place="bottom" effect="solid">
+							Click here to sync.
+						</ReactTooltip>
+
+						<IconButton data-tip data-for="helpTip"
 							color="inherit"
 							aria-label="help"
 						>
@@ -358,9 +386,13 @@ export default function LayoutTemplate(props) {
 								<HelpIcon />
 							</Link>
 						</IconButton>
+						<ReactTooltip id="helpTip" place="bottom" effect="solid">
+							Click here to view the help manual.
+						</ReactTooltip>
+
 						{auth && (
 							<>
-								<IconButton
+								<IconButton data-tip data-for="userTip"
 									aria-label="account of current user"
 									aria-controls="menu-appbar"
 									aria-haspopup="true"
@@ -369,6 +401,10 @@ export default function LayoutTemplate(props) {
 								>
 									<AccountCircle />
 								</IconButton>
+								<ReactTooltip id="userTip" place="bottom" effect="solid">
+									My Profile
+								</ReactTooltip>
+
 								<Menu
 									id="menu-appbar"
 									anchorEl={anchorAuth}
@@ -419,84 +455,128 @@ export default function LayoutTemplate(props) {
 				<List>
 					<Link to="/" replace={useLocation().pathname === "/"} className={classes.links}>
 						<ListItem button key="Overview">
-							<ListItemIcon><DashboardIcon /></ListItemIcon>
-							<ListItemText primary="Overview" />
+								<ListItemIcon data-tip data-for="overviewTip"><DashboardIcon /></ListItemIcon>
+								<ListItemText primary="Overview" />
+
+								<ReactTooltip id="overviewTip" place="bottom" effect="solid">
+									F.R.I.C. Overview
+								</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					<Link to="/events" replace={useLocation().pathname === '/events'} className={classes.links}>
 						<ListItem button key="Events">
-							<ListItemIcon><EventIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="eventTip"><EventIcon /></ListItemIcon>
 							<ListItemText primary="Events" />
+
+							<ReactTooltip id="eventTip" place="bottom" effect="solid">
+								Events View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					<Link to="/tasks" replace={useLocation().pathname === '/tasks'} className={classes.links}>
 						<ListItem button key="Tasks">
-							<ListItemIcon><CheckedIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="taskTip"><CheckedIcon /></ListItemIcon>
 							<ListItemText primary="Tasks" />
+
+							<ReactTooltip id="taskTip" place="bottom" effect="solid">
+								Tasks View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					<Link to="/subtasks" replace={useLocation().pathname === '/subtasks'} className={classes.links}>
 						<ListItem button key="Subtasks">
-							<ListItemIcon><LowPriorityIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="subtaskTip"><LowPriorityIcon /></ListItemIcon>
 							<ListItemText primary="Subtasks" />
+
+							<ReactTooltip id="subtaskTip" place="bottom" effect="solid">
+								Subtasks View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					<Link to="/event_tree" replace={useLocation().pathname !== '/findings'} className={classes.links}>
 						<ListItem button key="Event Tree">
-							<ListItemIcon><AccountTreeIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="eTreeTip"><AccountTreeIcon /></ListItemIcon>
 							<ListItemText primary="Event Tree" />
+
+							<ReactTooltip id="eTreeTip" place="bottom" effect="solid">
+								Event Tree View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/*  */}
 					<Link to="/findings" replace={useLocation().pathname === '/'} className={classes.links}>
 						<ListItem button key="Findings">
-							<ListItemIcon><FindPageIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="findingsTip"><FindPageIcon /></ListItemIcon>
 							<ListItemText primary="Findings" />
+
+							<ReactTooltip id="findingsTip" place="bottom" effect="solid">
+								Findings View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* Archive Link */}
 					<Link to="/archive" replace={useLocation().pathname === '/archive'} className={classes.links}>
 						<ListItem button key="Archive">
-							<ListItemIcon><ArchiveIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="archiveTip"><ArchiveIcon /></ListItemIcon>
 							<ListItemText primary="Archive" />
+
+							<ReactTooltip id="archiveTip" place="bottom" effect="solid">
+								Archive View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* Systems Link */}
 					<Link to="/systems" replace={useLocation().pathname === '/systems'} className={classes.links}>
 						<ListItem button key="Systems">
-							<ListItemIcon><DnsIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="systemTip"><DnsIcon /></ListItemIcon>
 							<ListItemText primary="Systems" />
+
+							<ReactTooltip id="systemTip" place="bottom" effect="solid">
+								Systems View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* ReportsLink */}
 					<Link to="/reports" replace={useLocation().pathname === '/reports'} className={classes.links}>
 						<ListItem button key="Reports">
-							<ListItemIcon><DescriptionIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="reportsTip"><DescriptionIcon /></ListItemIcon>
 							<ListItemText primary="Reports" />
+
+							<ReactTooltip id="reportsTip" place="bottom" effect="solid">
+								Reports View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* Configuration Link */}
 					<Link to="/configure" replace={useLocation().pathname === '/configure'} className={classes.links}>
 						<ListItem button key="Configuration">
-							<ListItemIcon><BuildIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="configTip"><BuildIcon /></ListItemIcon>
 							<ListItemText primary="Configuration" />
+
+							<ReactTooltip id="configTip" place="bottom" effect="solid">
+								Configuration View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 
 					{/* Settings Link */}
 					<Link to="/settings" replace={useLocation().pathname === '/settings'} className={classes.links}>
 						<ListItem button key="Settings">
-							<ListItemIcon><SettingsIcon /></ListItemIcon>
+							<ListItemIcon data-tip data-for="settingsTip"><SettingsIcon /></ListItemIcon>
 							<ListItemText primary="Settings" />
+
+							<ReactTooltip id="settingsTip" place="bottom" effect="solid">
+								Settings View
+							</ReactTooltip>
 						</ListItem>
 					</Link>
 				</List>
