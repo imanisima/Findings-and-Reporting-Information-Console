@@ -86,16 +86,16 @@ exports.ThreatRelevance = [
 	'Anticipated',
 	'Predicted',
 	'Possible'
-
 ]
+
 exports.Posture = [
 	'Insider',
 	'Insider-nearsider',
 	'Outsider',
 	'Nearsider',
 	'Nearsider-outsider'
-
 ]
+
 exports.EffectiveRating = [
 	'Very High',
 	'High',

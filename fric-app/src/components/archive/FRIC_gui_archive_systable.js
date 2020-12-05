@@ -168,7 +168,7 @@ export default function ArchiveSystemTable(props) {
 			console.log("Archive clicked")
 			axios.put('http://localhost:5000/systems/update', {
 				params: {
-					id: selected,
+					_id: selected,
 					name: selected.name,
 					description: selected.description,
 					location: selected.location,

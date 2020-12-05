@@ -23,7 +23,7 @@ export default function ArchiveTaskDialog(props) {
 	const handleSubmit = () => { // Send update request to set archived field to true
 		axios.put('http://localhost:5000/tasks/archive', {
 			params: {
-				id: props.tasks
+				_id: props.tasks
 			}
 		})
 			.then(res => {

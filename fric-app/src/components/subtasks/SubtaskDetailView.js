@@ -48,10 +48,9 @@ export default function SubtaskDetailView(props) {
 
 	const handleSaveClick = () => {
 		//TODO: Handle subtasks input validation before sending request
-		//TODO: Send update subtask request to database
 		axios.put('http://localhost:5000/subtasks/update', {
 			params: {
-				id: (props.selectedSubtask != null && props.selectedSubtask.length === 1) ? props.selectedSubtask[0] : '',
+				_id: (props.selectedSubtask != null && props.selectedSubtask.length === 1) ? props.selectedSubtask[0] : '',
 				name: name,
 				description: description,
 				progress: progress,
@@ -84,20 +83,22 @@ export default function SubtaskDetailView(props) {
 
 		axios.get('http://localhost:5000/subtasks', {
 			params: {
-				id: (props.selectedSubtask != null && props.selectedSubtask.length === 1) ? props.selectedSubtask[0] : ''
+				_id: (props.selectedSubtask != null && props.selectedSubtask.length === 1) ? props.selectedSubtask[0] : ''
 			}
 		})
 			.then(res => {
 				console.log(res.data);
+				if (res.data.length !== 1) throw new Error('No subtask found.')
+				const subtask = res.data[0];
 				//TODO: validate request data before setting values
-				setName(res.data.name);
-				setDescription(res.data.description);
-				setDueDate(new Date(res.data.dueDate));
-				setProgress(res.data.progress);
-				setOwnerTask(res.data.ownerTask);
-				setRelatedSubtasks(res.data.associations);
-				setAnalysts(res.data.analysts);
-				setCollabs(res.data.collaborators);
+				setName(subtask.name);
+				setDescription(subtask.description);
+				setDueDate(new Date(subtask.dueDate));
+				setProgress(subtask.progress);
+				setOwnerTask(subtask.ownerTask);
+				setRelatedSubtasks(subtask.associations);
+				setAnalysts(subtask.analysts);
+				setCollabs(subtask.collaborators);
 				setArchived(false);
 				setContentIsLoading(false); // Show spinner
 			})

@@ -9,9 +9,9 @@ const Subtask = require('../models/subtask.model'); // Mongoose model created fr
  * 
  */
 router.route('/').get(async (req, res) => {
-	if (req.query.hasOwnProperty('id')) { // This block is for fetching one subtask by id
+	if (req.query) { // This block is for fetching one subtask by id
 		await Subtask
-			.findOne({ _id: req.query.id })
+			.find(req.query)
 			.then(subtask => res.status(200).json(subtask))
 			.catch(err => res.status(404).json('Error: ' + err));
 	}
@@ -30,11 +30,7 @@ router.route('/').get(async (req, res) => {
 router.route('/table').get(async (req, res) => {
 	await Subtask
 		.aggregate([
-			{
-				$match: {
-					archived: false
-				}
-			},
+			{ $match: { archived: false }},
 			{
 				$project: {
 					id: "$_id",
@@ -91,22 +87,11 @@ router.route('/new').post(async (req, res) => {
  * 
  */
 router.route('/delete').delete(async (req, res) => {
-	//TODO: implement delete request
-	console.log(req.body);
-	if (req.body.params.hasOwnProperty('id')) {
-		const id = req.body.params.id; // '_id' to be requested from tasks collection
-
+	if (req.body.params && req.body.params.hasOwnProperty('_id')) {
 		await Subtask
-			.deleteMany()
-			.then(tasks => {
-				console.log(tasks);
-				res.status(200).json(tasks)
-			})
+			.deleteMany({ _id: { $in: req.body.params._id}})
+			.then(result => res.status(200).json(result))
 			.catch(err => res.status(404).json('Error: ' + err));
-
-		// await Subtask.findOneAndDelete()
-		// 	.then(msg => {})
-		// 	.catch(err => res.status(400).send());
 	}
 });
 
@@ -115,12 +100,11 @@ router.route('/delete').delete(async (req, res) => {
  * 
  */
 router.route('/update').put(async (req, res) => {
-	if (req.body.params.hasOwnProperty('id')) {
-		const id = req.body.params.id; // '_id' to be requested from tasks collection
+	if (req.body.params) {
 		var document = null; // Stores Document returned by findOne
 
 		await Subtask
-			.findOne({ _id: id })
+			.findOne({ _id: req.body.params._id })
 			.then(subtask => {
 				document = subtask;
 				document.set(req.body.params);
@@ -140,16 +124,10 @@ router.route('/update').put(async (req, res) => {
  * 
  */
 router.route('/archive').put(async (req, res) => {
-	if (req.body.params.hasOwnProperty('id') && req.body.params.id instanceof Array) {
+	if (req.body.params && req.body.params.hasOwnProperty('_id') && req.body.params._id instanceof Array) {
 		await Subtask.updateMany(
-			{
-				_id: {
-					$in: req.body.params.id
-				}
-			},
-			{
-				archived: true
-			}
+			{ _id: { $in: req.body.params._id }},
+			{ archived: true }
 		)
 			.then(result => res.status(200).json(result))
 			.catch(err => res.status(404).json());

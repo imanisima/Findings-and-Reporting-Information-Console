@@ -46,7 +46,7 @@ export default function TaskDetailView(props) {
 	const handleSaveClick = () => {
 		axios.put("http://localhost:5000/tasks/update", {
 			params: {
-				id: (props.selectedTask != null && props.selectedTask.length === 1) ? props.selectedTask[0] : '',
+				_id: (props.selectedTask != null && props.selectedTask.length === 1) ? props.selectedTask[0] : '',
 				name: name,
 				description: description,
 				progress: progress,
@@ -85,20 +85,22 @@ export default function TaskDetailView(props) {
 		if (props.selectedTask != null && props.selectedTask.length === 1) {
 			axios.get('http://localhost:5000/tasks', {
 				params: {
-					id: props.selectedTask[0]
+					_id: props.selectedTask[0]
 				}
 			})
 				.then(res => {
 					console.log(res.data);
 					//TODO: validate request data before setting values
-					setName(res.data.name);
-					setDescription(res.data.description);
-					setDueDate(new Date(res.data.dueDate));
-					setPriority(res.data.priority);
-					setProgress(res.data.progress);
-					setAnalysts(res.data.analysts);
-					setCollabs(res.data.collaborators);
-					setRelatedTasks(res.data.associations);
+					if (res.data.length !== 1) throw new Error('Invalid number of tasks found.');
+					const task = res.data[0];
+					setName(task.name);
+					setDescription(task.description);
+					setDueDate(new Date(task.dueDate));
+					setPriority(task.priority);
+					setProgress(task.progress);
+					setAnalysts(task.analysts);
+					setCollabs(task.collaborators);
+					setRelatedTasks(task.associations);
 					setContentIsLoading(false);
 				})
 				.catch(err => {

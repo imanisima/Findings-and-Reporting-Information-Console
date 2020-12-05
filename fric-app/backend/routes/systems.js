@@ -12,29 +12,12 @@ var response = {
 }
 
 router.route('/').get(async (req, res) => {
-	if (req.query.hasOwnProperty('id')) { // This block is for fetching one task by id
-		const id = req.query.id; // '_id' to be requested from tasks collection
-		
+	if (req.query) { // This block is for fetching one task by id
 		await System
-			.findOne({ name: id})
-			.then(system => {
-				// console.log(tasks);
-				res.status(200).json(system)
-			})
+			.find(req.query)
+			.then(system => res.status(200).json(system))
 			.catch(err => res.status(400).json('Error: ' + err));
 	}
-	else if (req.query.hasOwnProperty('archived')) { // This block is for fetching one task by id
-		const id = req.query.archived; // '_id' to be requested from tasks collection
-		
-		await System
-			.find({ archived: id})
-			.then(system => {
-				// console.log(tasks);
-				res.status(200).json(system)
-			})
-			.catch(err => res.status(400).json('Error: ' + err));
-	}
-	
 	else { 
 		await System
 			.find()
@@ -84,11 +67,10 @@ router.route('/delete').post((req, res) => {
 });
 
 router.route('/update').put(async (req, res) => {
-	if (req.body.params.hasOwnProperty('id')) {
-		const id = req.body.params.id; // '_id' to be requested from tasks collection
+	if (req.body.params) {
 		var doc = null; // Stores Document returned by findOne
 
-		await System.findOne({ name: id})
+		await System.findOne({ _id: req.body.params._id})
 			.then(system => {
 				doc = system;
 				doc.set(req.body.params);

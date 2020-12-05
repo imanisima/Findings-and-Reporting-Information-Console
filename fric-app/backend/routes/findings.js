@@ -12,26 +12,16 @@ var response = {
 }
 
 router.route('/').get(async (req, res) => {
-	if (req.query.hasOwnProperty('id')) { // This block is for fetching one task by id
-		
+	if (req.query) { // This block is for fetching one task by id
 		await Finding
-			.findOne({_id: req.query.id })
-			.then(finding => res.status(200).json(finding))
+			.find(req.query)
+			.then(findings => res.status(200).json(findings))
 			.catch(err => res.status(400).json('Error: ' + err));
 	}
-	else if (req.query.hasOwnProperty('archived')) { // This block is for fetching one task by id
-		const id = req.query.archived; // '_id' to be requested from tasks collection
-		
-		await Finding
-			.find({ archived: id})
-			.then(finding => res.status(200).json(finding))
-			.catch(err => res.status(400).json('Error: ' + err));
-	}
-	
 	else { 
 		await Finding
 			.find()
-			.then(finding => res.json(finding))
+			.then(findings => res.json(findings))
 			.catch(err => res.status(400).json('Error: ' + err));
 	}
 });

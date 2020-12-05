@@ -13,6 +13,7 @@ import { DetailViewActionContext } from '../general/LayoutTemplate';
 export default function SystemDetailView(props) {
 
     const [contentIsLoading, setContentIsLoading] = useState(true);
+    const [id, setId] = useState('');
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [location, setLocation] = useState('');
@@ -44,7 +45,7 @@ export default function SystemDetailView(props) {
         console.log("Archive clicked")
         axios.put('http://localhost:5000/systems/update', {
                 params: {
-                    id: props.selectedSystem,
+                    _id: id,
                     name: name,
                     description: description,
                     location: location,
@@ -70,10 +71,10 @@ export default function SystemDetailView(props) {
 
     const handleSaveClick =  () => {
         if (props.selectedSystem != null) {
-            console.log(router)
+            console.log(id);
             axios.put('http://localhost:5000/systems/update', {
                 params: {
-                    id: props.selectedSystem,
+                    _id: id,
                     name: name,
                     description: description,
                     location: location,
@@ -117,25 +118,24 @@ export default function SystemDetailView(props) {
 
     
     useEffect(() => {
-		//TODO: fetch task object from db using id
-        //TODO: set state values using fetched object fields
-		console.log(props.selectedSystem);
-
 		if (props.selectedSystem != null) {
-
             axios.get('http://localhost:5000/systems', {
                 params: {
-                    id: props.selectedSystem
+                    name: props.selectedSystem
                 }
             })
                 .then(res => {
-                    setName(res.data.name);
-                    setDescription(res.data.description);
-                    setLocation(res.data.location);
-                    setRouter(res.data.router);
-                    setSwitchName(res.data.switch);
-                    setRoom(res.data.room);
-                    setTestPlan(res.data.testPlan);
+                    console.log(res);
+                    if (res.data.length !== 1) throw new Error('Invalid number of systems.')
+                    const system = res.data[0];
+                    setId(system._id);
+                    setName(system.name);
+                    setDescription(system.description);
+                    setLocation(system.location);
+                    setRouter(system.router);
+                    setSwitchName(system.switch);
+                    setRoom(system.room);
+                    setTestPlan(system.testPlan);
                     setContentIsLoading(false);
                 })
                 .catch(err => {

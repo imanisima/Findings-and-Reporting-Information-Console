@@ -138,43 +138,45 @@ export default function FindingDetailView(props) {
 
 		axios.get('http://localhost:5000/findings', {
 			params: {
-				id: (props.selectedFinding != null && props.selectedFinding.length === 1) ? props.selectedFinding[0] : ''
+				_id: (props.selectedFinding != null && props.selectedFinding.length === 1) ? props.selectedFinding[0] : ''
 			}
 		})
 			.then(res => {
 				console.log(res.data);
 				//TODO: validate request data before setting values
-				setID(res.data._id);
-				setHostName(res.data.hostName);
-				setIpPort(res.data.ipPort);
-				setDescription(res.data.description);
-				setLongDescription(res.data.longDescription);
-				setStatus(res.data.status);
-				setType(res.data.type);
-				setClassification(res.data.classification);
-				setEvidence(res.data.evidence);
-				setSystem(res.data.system);
-				setTask(res.data.task);
-				setSubTask(res.data.subtask);
-				setRelatedFindings(res.data.relatedFindings);
-				setConfidentiality(res.data.confidentiality);
-				setIntegrity(res.data.integrity);
-				setAvailability(res.data.availability);
-				setAnalyst(res.data.analyst);
-				setCollaborators(res.data.collaborators);
-				setPosture(res.data.posture);
-				setMBriefDescription(res.data.mBriefDescription);
-				setMLongDescription(res.data.mLongDescription);
-				setRelevance(res.data.relevance); 
-				setEffectiveRating(res.data.effectiveRating); 
-				setImpactDescription(res.data.impactDescription);
-				setImpactLevel(res.data.impactLevel);
-				setSevCatCode(res.data.sevCatCode);
-				setSevCatScore(res.data.sevCatScore);
-				setVulSeverity(res.data.vulSeverity);
-				setQVS(res.data.qVs);
-				setRisk(res.data.risk);
-				setLikelihood(res.data.likelihood)
+				if (res.data.length !== 1) throw new Error('Invalid number of findings.');
+				const finding = res.data[0];
+				setID(finding._id);
+				setHostName(finding.hostName);
+				setIpPort(finding.ipPort);
+				setDescription(finding.description);
+				setLongDescription(finding.longDescription);
+				setStatus(finding.status);
+				setType(finding.type);
+				setClassification(finding.classification);
+				setEvidence(finding.evidence);
+				setSystem(finding.system);
+				setTask(finding.task);
+				setSubTask(finding.subtask);
+				setRelatedFindings(finding.relatedFindings);
+				setConfidentiality(finding.confidentiality);
+				setIntegrity(finding.integrity);
+				setAvailability(finding.availability);
+				setAnalyst(finding.analyst);
+				setCollaborators(finding.collaborators);
+				setPosture(finding.posture);
+				setMBriefDescription(finding.mBriefDescription);
+				setMLongDescription(finding.mLongDescription);
+				setRelevance(finding.relevance); 
+				setEffectiveRating(finding.effectiveRating); 
+				setImpactDescription(finding.impactDescription);
+				setImpactLevel(finding.impactLevel);
+				setSevCatCode(finding.sevCatCode);
+				setSevCatScore(finding.sevCatScore);
+				setVulSeverity(finding.vulSeverity);
+				setQVS(finding.qVs);
+				setRisk(finding.risk);
+				setLikelihood(finding.likelihood)
 				setContentIsLoading(false); // Show spinner
 			})
 			.catch(err => {
