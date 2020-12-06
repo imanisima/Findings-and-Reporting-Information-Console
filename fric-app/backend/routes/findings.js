@@ -36,6 +36,23 @@ router.route('/').get(async (req, res) => {
 	}
 });
 
+router.route('/archive').put(async (req, res) => {
+	if (req.body.params.hasOwnProperty('id') && req.body.params.id instanceof Array) {
+		await Finding.updateMany(
+			{
+				_id: {
+					$in: req.body.params.id
+				}
+			},
+			{
+				archived: true
+			}
+		)
+			.then(result => res.status(200).json(result))
+			.catch(err => res.status(404).json());
+	} else res.status(400).json();
+});
+
 router.route('/add').post((req, res) => {
 	
 	var newFinding = {

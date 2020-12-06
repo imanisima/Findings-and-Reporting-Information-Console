@@ -2,23 +2,25 @@
  * 
  */
 
-import React, { useEffect, useState } from 'react';
+import React, {  useLayoutEffect, useState } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import LayoutTemplate from '../components/general/LayoutTemplate';
-import SystemsDetailView from '../components/systems/SystemsDetailView';
 import SystemOverviewTable from '../components/systems/SystemOverviewTable'
 import { darkTheme } from '../components/general/ThemeColors';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-
-import { options } from '../components/general/test/eventstestdata'; //TODO: remove test data import when connected to backend
+import SystemDetailView from '../components/systems/SystemsDetailView'
+import NewSystemDialog from '../components/systems/NewSystemDialog'
+import ConfirmArchiveDialog from '../components/general/ConfirmArchiveDialog';
+import { ToolbarNewActionContext } from '../components/general/ToolbarNewActionContext';
 import Spinner from '../components/general/Spinner';
 
-export default function SystemsPage(props) {
-	const [ isLoading, setIsLoading ] = useState(false)
-	const [ data, setData ] = useState([])
+export default function SystemsPage() {
+	const [tableData, setTableData] = useState([]);
+	const [newDialogOpen, setNewDialogOpen] = useState(false);
+	const [contentIsLoading, setContentIsLoading] = useState(true);
+	const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
+	const [selected, setSelected] = useState([]);
 	const [tableArray, setTableArray] = useState([])
-	const [selected, setSelected] = useState(null)
 
 	const headings = [
 		{ id: 'name', numeric: false, disablePadding: false, label: 'System' },
@@ -26,7 +28,7 @@ export default function SystemsPage(props) {
 		{ id: 'numFindings', numeric: true, disablePadding: false, label: 'No. of Findings' },
 		{ id: 'progress', numeric: false, disablePadding: false, label: 'Progress' },
 	];
-
+	
 	function mapSystemsToTable(response) {
 		const tableArray = response.map((system, i) => {
 			return { 
@@ -38,10 +40,11 @@ export default function SystemsPage(props) {
 		})
 		setTableArray(tableArray)
 	}
+	const reload = () => {
 
-	useEffect(() => {
-		async function getSystems() {
-			setIsLoading(true)
+		async function getData() {
+			setContentIsLoading(true);
+
 			try {
 				const fetch = await axios.get('http://localhost:5000/systems/', {
 					params: {
@@ -49,32 +52,73 @@ export default function SystemsPage(props) {
 					}
 				})
 				const response = await fetch.data
-				setData(response)
+				setTableData(response)
 				mapSystemsToTable(response)	
 			}
 			catch (error) {
 				console.log(error)
 			} finally {
-				setIsLoading(false)
+				setContentIsLoading(false)
 			}
 		}
-		getSystems()
-	}, [])
+		getData()
+
+
+	};
+	const confirmArchive = () => { // Send update request to set archived field to true
+		console.log(selected);
+		axios.put('http://localhost:5000/systems/archive', {
+			params: {
+				name: selected
+			}
+		})
+			.then(res => {
+				console.log(res);
+				reload();
+				setArchiveDialogOpen(false);
+			})
+			.catch(err => {
+				//TODO: display error message
+				console.log(err);
+			});
+	};
+
+
+	useLayoutEffect(() => reload(), []);
 
 	return (
 		// Added dark theme provider, remove for normal colors
 		<ThemeProvider theme={darkTheme}>
 			<LayoutTemplate
 				mainContentComponent={
-					(isLoading) ? <Spinner /> : (
-						(data != null) ? <SystemOverviewTable rows={tableArray} headings={headings} setSelectedSystem={setSelected} /> : <></>
+					(contentIsLoading) ? <Spinner /> : (
+						<ToolbarNewActionContext.Provider value={() => setNewDialogOpen(true)}>
+							<SystemOverviewTable rows={tableArray} headings={headings} setSelectedSystem={setSelected} archiveAction={() => setArchiveDialogOpen(true)} />
+						</ToolbarNewActionContext.Provider>
 					)
 				}
-				detailComponent={<SystemsDetailView selectedSystem = {selected}/>}
+				detailComponent={
+				<SystemDetailView 
+					selectedSystem = {selected}
+					reload={reload} 
+
+					/>
+				}
 			/>
+			<NewSystemDialog 
+				isOpen={newDialogOpen} 
+				closeDialogAction={() => setNewDialogOpen(false)} 
+				reload={reload} 
+
+				
+			/>
+			<ConfirmArchiveDialog
+				isOpen={archiveDialogOpen}
+				numSelected={selected.length}
+				confirmAction={confirmArchive}
+				closeDialogAction={() => setArchiveDialogOpen(false)}
+				objectType="System"
+			/>		
 		</ThemeProvider>
 	);
-}
-SystemsPage.propTypes = {
-	data: PropTypes.array
 }
