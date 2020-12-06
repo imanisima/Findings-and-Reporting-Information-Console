@@ -11,7 +11,6 @@ export default function ReportOverview(props) {
 
     const [FinalDialogOpen, setFinalDialog] = useState(false);
     const [findingReportData, setFindingReportData] = useState([]);
-    const [systemReportData, setSystemReportData] = useState([]);
     const [ERBDialogOpen, setERBDialog] = useState(false);
     const [RiskDialogOpen, setRiskDialog] = useState(false);
     const Transition = React.forwardRef(function Transition(props, ref) {
@@ -41,8 +40,7 @@ export default function ReportOverview(props) {
 
     const reload = () => {
         async function getData() {
-            const finalRptFindForm = axios.get('http://localhost:5000/findings/',
-                {
+            const finalRptFindForm = axios.get('http://localhost:5000/findings/' , {
                 params: {
                     archived: false
                 }
@@ -62,32 +60,8 @@ export default function ReportOverview(props) {
         }
         getData()
     }
-    const reload2 = () => {
-        async function getData2() {
-            const finalERBFindForm = axios.get('http://localhost:5000/systems/',
-                {
-                    params: {
-                        archived: false
-                    }
-                });
-            const eventData = axios.get('')
-            axios
-                .all([finalERBFindForm])
-                .then(
-                    axios.spread((...responses) => {
-                        const ERBResponse = responses[0].data;
-                        setSystemReportData(ERBResponse);
-                    })
-                )
-                .catch(err => {
-                    console.log(err)
-                })
-        }
-        getData2()
-    }
-
+    
     useLayoutEffect(() => reload(), []);
-    useLayoutEffect(() => reload2(), []);
 
     return (
         <div>
@@ -126,8 +100,6 @@ export default function ReportOverview(props) {
             <ErbForm
                 isOpen={ERBDialogOpen}
                 closeDialogAction={() => setERBDialog(false)}
-                findingFormData={findingReportData}
-                erbFormData={systemReportData}
             />
             <RiskMatrixForm
                 isOpen={RiskDialogOpen}

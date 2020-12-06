@@ -26,6 +26,9 @@ export default function ErbForm(props){
     //Build your functions here
     const [selectedAnalysts, setSelectedAnalysts] = useState([]);
     const [selectedRankTitle, setRankTitle] = useState([]);
+    //const [selectedSystems, setSystems] = useState([]);
+    const systemz = [];
+    const findingz = [];
 
     const handleAnalystSelect = function (selectedItems) {
         const analysts = [];
@@ -37,6 +40,24 @@ export default function ErbForm(props){
         setSelectedAnalysts(analysts);
         console.log(selectedAnalysts)
     }
+    const system = function () {
+        //const systems = [];
+        let systems = props.erbFormData;
+        systemz.push(systems);
+        //console.log(systemz);
+    }
+
+    const findings = function () {
+        let finding = props.findingFormData;
+        findingz.push(finding);
+
+        //console.log(finding)
+        //setSelectedFindings(findings);
+        //console.log(findingz);
+        //console.log(findingz[0]);
+        //console.log(findingz[0][1]);
+        }
+        
     const handleRankTitle = function (selectedItems) {
         var rankTitle = "";
         rankTitle = document.getElementById("titleRank").value;
@@ -44,20 +65,26 @@ export default function ErbForm(props){
         console.log(rankTitle)
         setRankTitle(rankTitle);
         console.log(selectedRankTitle)
+        //system();
     }
         
     const generatePPT = async () => {
+        //system();
         const PptCreator = new ERBCreator();
-        const presentation = PptCreator.create(selectedAnalysts,selectedRankTitle)
+        const presentation = PptCreator.create(selectedAnalysts,selectedRankTitle,systemz,findingz)
         };
   
 
     const handleSubmit = () => {
+        system();
+        findings();
         generatePPT();
         props.closeDialogAction();
     }
 
     const handleClose = () => {
+        system();
+        findings();
         props.closeDialogAction();
     }
     
@@ -108,4 +135,5 @@ export default function ErbForm(props){
 ErbForm.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     closeDialogAction: PropTypes.func.isRequired,
+    SystemData: PropTypes.array
 }
