@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Component } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -8,17 +8,19 @@ import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import styles from '../../../css/subtasks/NewSubtaskDialog.module.css'
 
+
+
+
+import FinalRiskMatrixCreator from './FinalRiskMatrixCreator';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });
 
+
 export default function RiskMatrixForm(props){
     //Build your functions here
-
-    const handleSubmit = () => {
-        props.closeDialogAction();
-    }
-
+	
     const handleClose = () => {
         props.closeDialogAction();
     }
@@ -39,15 +41,16 @@ export default function RiskMatrixForm(props){
 			<DialogTitle id="scroll-dialog-title" className={styles.title}>Risk Matrix Form</DialogTitle>
 			<DialogContent dividers={true}>
                     {/*Build your UI form in here*/}
-                    <h2>Risk Matrix Form</h2>
+                    <h2>Risk Matrix Form Preview</h2>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleSubmit} variant="contained" size="large" color="primary">Submit</Button>
+				<Button href="final_risk_matrix_creator" variant="contained" size="large" color="primary">Go to</Button>
 				<Button onClick={handleClose} variant="contained" size="large" color="secondary">Cancel</Button>
 			</DialogActions>
 		</Dialog>
     )
 }
+
 
 RiskMatrixForm.propTypes = {
     isOpen: PropTypes.bool.isRequired,

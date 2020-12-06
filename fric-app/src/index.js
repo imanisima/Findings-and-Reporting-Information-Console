@@ -29,6 +29,8 @@ import ArchiveFinding from './components/archive/FRIC_gui_archive_findings';
 import EventTree from './components/event-tree/FRIC_gui_event_tree';
 
 import ProgressPage from './pages/ProgressPage';
+import RiskMatrixCreator from "./components/reports/risk-matrix/FinalRiskMatrixCreator"
+import FinalRiskMatrixCreator from "./components/reports/risk-matrix/FinalRiskMatrixCreator";
 
 function App() {
 	return (
@@ -50,6 +52,8 @@ function App() {
 					<Route exact path="/test" component={TestPage} />
 					<Route exact path="/manual" component={ManualPage} />
 					<Route exact path="/reports" component={ReportsPage} />
+
+					<Route exact path="/final_risk_matrix_creator" component={FinalRiskMatrixCreator} />
 
 					<Route exact path="/archive/archive_task_view" component={ArchiveTask} />
 					<Route exact path="/archive/archive_subtask_view" component={ArchiveSubtask} />
